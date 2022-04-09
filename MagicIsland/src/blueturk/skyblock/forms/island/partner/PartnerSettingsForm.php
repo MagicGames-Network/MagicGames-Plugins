@@ -1,21 +1,21 @@
 <?php
+
 namespace blueturk\skyblock\forms\island\partner;
 
-use blueturk\skyblock\managers\IslandManager;
+use pocketmine\player\Player;
 use blueturk\skyblock\SkyBlock;
 use dktapps\pmforms\CustomForm;
-use dktapps\pmforms\CustomFormResponse;
 use dktapps\pmforms\element\Toggle;
-use pocketmine\player\Player;
-use dktapps\pmforms\FormIcon;
+use dktapps\pmforms\CustomFormResponse;
+use blueturk\skyblock\managers\IslandManager;
 
 class PartnerSettingsForm extends CustomForm
 {
-
     public function __construct(Player $player)
     {
         $data = SkyBlock::getInstance()->getConfig()->getNested($player->getName() . ".island" . ".settings");
-        parent::__construct(SkyBlock::BT_TITLE . "Partner Settings",
+        parent::__construct(
+            SkyBlock::BT_TITLE . "Partner Settings",
             [
                 new Toggle("interact", "§d§l»§r §bInteract", $data["interact"]),
                 new Toggle("place", "§d§l»§r §bPlace", $data["place"]),

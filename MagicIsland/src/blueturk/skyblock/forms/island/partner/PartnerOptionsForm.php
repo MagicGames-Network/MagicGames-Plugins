@@ -2,18 +2,19 @@
 
 namespace blueturk\skyblock\forms\island\partner;
 
-use blueturk\skyblock\SkyBlock;
-use dktapps\pmforms\MenuForm;
-use dktapps\pmforms\MenuOption;
 use dktapps\pmforms\FormIcon;
+use dktapps\pmforms\MenuForm;
 use pocketmine\player\Player;
+use blueturk\skyblock\SkyBlock;
+use dktapps\pmforms\MenuOption;
 
 class PartnerOptionsForm extends MenuForm
 {
-
     public function __construct()
     {
-        parent::__construct(SkyBlock::BT_TITLE . "Partner Options", "\n",
+        parent::__construct(
+            SkyBlock::BT_TITLE . "Partner Options",
+            "\n",
             [
                 new MenuOption("Partner Settings\n§d§l»§r §7Tap to select", new FormIcon('https://cdn-icons-png.flaticon.com/128/675/675729.png', FormIcon::IMAGE_TYPE_URL)),
                 new MenuOption("Add Partner\n§d§l»§r §7Tap to select", new FormIcon('https://cdn-icons-png.flaticon.com/128/929/929409.png', FormIcon::IMAGE_TYPE_URL)),

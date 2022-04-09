@@ -2,15 +2,14 @@
 
 namespace blueturk\skyblock\forms\island;
 
-use blueturk\skyblock\SkyBlock;
-use dktapps\pmforms\MenuForm;
-use dktapps\pmforms\MenuOption;
-use pocketmine\player\Player;
 use pocketmine\Server;
+use dktapps\pmforms\MenuForm;
+use pocketmine\player\Player;
+use blueturk\skyblock\SkyBlock;
+use dktapps\pmforms\MenuOption;
 
 class IslandPlayersForm extends MenuForm
 {
-
     public function __construct(Player $player)
     {
         $options = [];

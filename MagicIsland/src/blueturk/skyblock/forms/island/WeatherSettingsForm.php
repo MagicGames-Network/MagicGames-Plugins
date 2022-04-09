@@ -2,25 +2,27 @@
 
 namespace blueturk\skyblock\forms\island;
 
-use blueturk\skyblock\SkyBlock;
 use dktapps\pmforms\MenuForm;
+use pocketmine\player\Player;
+use blueturk\skyblock\SkyBlock;
 use dktapps\pmforms\MenuOption;
 use pocketmine\network\mcpe\protocol\LevelEventPacket;
 use pocketmine\network\mcpe\protocol\types\LevelEvent;
-use pocketmine\player\Player;
 
 class WeatherSettingsForm extends MenuForm
 {
-
     public function __construct()
     {
-        parent::__construct(SkyBlock::BT_TITLE . "Weather forecast", "",
+        parent::__construct(
+            SkyBlock::BT_TITLE . "Weather forecast",
+            "",
             [
                 new MenuOption("Rainy"),
                 new MenuOption("Thunder"),
                 new MenuOption("Night"),
                 new MenuOption("Day")
-            ], function (Player $player, int $option): void {
+            ],
+            function (Player $player, int $option): void {
                 if ($player->getWorld()->getFolderName() === $player->getName()) {
                     switch ($option) {
                         case 0:
@@ -30,9 +32,9 @@ class WeatherSettingsForm extends MenuForm
                             }
                             SkyBlock::$weathers[$player->getName()] = "rain";
                             $packet = new LevelEventPacket();
-                            $packet->evid = LevelEvent::START_RAIN;
+                            $packet->eventId = LevelEvent::START_RAIN;
                             $packet->position = null;
-                            $packet->data = 10000;
+                            $packet->eventData = 10000;
                             $player->getNetworkSession()->sendDataPacket($packet);
                             $player->sendMessage(SkyBlock::BT_MARK . "bWeather set to rainy!");
                             break;
@@ -43,9 +45,9 @@ class WeatherSettingsForm extends MenuForm
                             }
                             SkyBlock::$weathers[$player->getName()] = "thunder";
                             $packet = new LevelEventPacket();
-                            $packet->evid = LevelEvent::START_THUNDER;
+                            $packet->eventId = LevelEvent::START_THUNDER;
                             $packet->position = null;
-                            $packet->data = 10000;
+                            $packet->eventData = 10000;
                             $player->getNetworkSession()->sendDataPacket($packet);
                             $player->sendMessage(SkyBlock::BT_MARK . "bWeather set to lightning!");
                             break;

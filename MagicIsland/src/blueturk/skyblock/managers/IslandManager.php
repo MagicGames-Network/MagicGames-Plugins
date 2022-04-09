@@ -2,15 +2,13 @@
 
 namespace blueturk\skyblock\managers;
 
-
-use blueturk\skyblock\forms\island\partner\PartnerRequestForm;
-use blueturk\skyblock\SkyBlock;
-use pocketmine\player\Player;
 use pocketmine\Server;
+use pocketmine\player\Player;
+use blueturk\skyblock\SkyBlock;
+use blueturk\skyblock\forms\island\partner\PartnerRequestForm;
 
 class IslandManager
 {
-
     /**
      * @param Player $player
      * @param string $selectedPlayer
@@ -33,7 +31,7 @@ class IslandManager
      * @param Player $player
      * @param string $selectedPlayer
      */
-    public static function partnerRemove(Player $player, string $selectedPlayer)
+    public static function partnerRemove(Player $player, string $selectedPlayer): void
     {
         $array = SkyBlock::getInstance()->getConfig()->getNested($player->getName() . ".island" . ".this-partners");
         $array2 = SkyBlock::getInstance()->getConfig()->getNested($selectedPlayer . ".island" . ".other-partners");
@@ -52,7 +50,7 @@ class IslandManager
      * @param Player $player
      * @param string $requestPlayer
      */
-    public static function partnerRequestConfirm(Player $player, string $requestPlayer)
+    public static function partnerRequestConfirm(Player $player, string $requestPlayer): void
     {
         $requestPlayer = Server::getInstance()->getPlayerExact($requestPlayer);
         if ($requestPlayer instanceof Player) {
@@ -71,12 +69,12 @@ class IslandManager
                 }
                 $player->sendMessage(SkyBlock::BT_MARK . "bYou accepted the partnership offer!");
                 $requestPlayer->sendMessage(SkyBlock::BT_MARK . "bPartnership accepted your offer!");
-            } else {
-                $requestPlayer->sendMessage(SkyBlock::BT_MARK . "cThis player is already your partner!");
+                return;
             }
-        } else {
-            $player->sendMessage(SkyBlock::BT_MARK . "cThe player is not active!");
+            $requestPlayer->sendMessage(SkyBlock::BT_MARK . "cThis player is already your partner!");
+            return;
         }
+        $player->sendMessage(SkyBlock::BT_MARK . "cThe player is not active!");
     }
 
     /**
@@ -98,16 +96,16 @@ class IslandManager
             }
             $selectedPlayer->sendForm(new PartnerRequestForm($player));
             $player->sendMessage(SkyBlock::BT_MARK . "b" . $selectedPlayer->getName() . " Partnership request has been sent to player!");
-        } else {
-            $player->sendMessage(SkyBlock::BT_MARK . "cThe player is not active!");
+            return;
         }
+        $player->sendMessage(SkyBlock::BT_MARK . "cThe player is not active!");
     }
 
     /**
      * @param Player $player
      * @param string $selectedPlayer
      */
-    public static function islandUnBanPlayer(Player $player, string $selectedPlayer)
+    public static function islandUnBanPlayer(Player $player, string $selectedPlayer): void
     {
         $array = SkyBlock::getInstance()->getConfig()->getNested($player->getName() . ".island" . ".banneds");
         unset($array[array_search($selectedPlayer, $array)]);
@@ -119,7 +117,7 @@ class IslandManager
      * @param Player $player
      * @param string $selectedPlayer
      */
-    public static function islandBanPlayer(Player $player, string $selectedPlayer)
+    public static function islandBanPlayer(Player $player, string $selectedPlayer): void
     {
         $selectedPlayer = Server::getInstance()->getPlayerExact($selectedPlayer);
         if ($selectedPlayer instanceof Player) {
@@ -129,9 +127,9 @@ class IslandManager
             $selectedPlayer->teleport(Server::getInstance()->getWorldManager()->getDefaultWorld()->getSpawnLocation());
             $selectedPlayer->sendMessage(SkyBlock::BT_MARK . "cYou are banned from the island!");
             $player->sendMessage(SkyBlock::BT_MARK . "bYou banned the player!");
-        } else {
-            $player->sendMessage(SkyBlock::BT_MARK . "cThe player is not active!");
+            return;
         }
+        $player->sendMessage(SkyBlock::BT_MARK . "cThe player is not active!");
     }
 
     /**
@@ -158,7 +156,7 @@ class IslandManager
      * @param Player $player
      * @param string $selectedPlayer
      */
-    public static function teleportPartnerIsland(Player $player, string $selectedPlayer)
+    public static function teleportPartnerIsland(Player $player, string $selectedPlayer): void
     {
         $selectedPlayers = Server::getInstance()->getPlayerExact($selectedPlayer);
         if ($selectedPlayers instanceof Player) {
@@ -166,18 +164,22 @@ class IslandManager
             $level = Server::getInstance()->getWorldManager()->getWorldByName($selectedPlayers->getName());
             $player->teleport($level->getSpawnLocation());
             $player->sendMessage(SkyBlock::BT_MARK . "bTeleported to partner island!");
-        } else {
-            $status = SkyBlock::getInstance()->getConfig()->getNested($selectedPlayer . ".island" . ".settings" . ".de-active-teleport");
-            if ($status === true) {
+            return;
+        }
+        $status = SkyBlock::getInstance()->getConfig()->getNested($selectedPlayer . ".island" . ".settings" . ".de-active-teleport");
+        switch ($status) {
+            case true:
                 if (!Server::getInstance()->getWorldManager()->isWorldLoaded($selectedPlayer)) Server::getInstance()->getWorldManager()->loadWorld($selectedPlayer);
                 $level = Server::getInstance()->getWorldManager()->getWorldByName($selectedPlayer);
                 $player->teleport($level->getSpawnLocation());
                 $player->sendMessage(SkyBlock::BT_MARK . "bTeleported to partner island!");
-            } elseif ($status === false) {
+                break;
+            case false:
                 $player->sendMessage(SkyBlock::BT_MARK . "cYou cannot teleport to your island while your partner is inactive!");
-            } else {
+                break;
+            default:
                 $player->sendMessage(SkyBlock::BT_MARK . "cYour partner has deleted their island!");
-            }
+                break;
         }
     }
 
@@ -218,9 +220,9 @@ class IslandManager
         if ($player->getWorld()->getFolderName() === $player->getName()) {
             $player->getWorld()->setSpawnLocation($player->getPosition()->asVector3());
             $player->sendMessage(SkyBlock::BT_MARK . "bIsland center set!!");
-        } else {
-            $player->sendMessage(SkyBlock::BT_MARK . "cYou can only do this on your island!");
+            return;
         }
+        $player->sendMessage(SkyBlock::BT_MARK . "cYou can only do this on your island!");
     }
 
     /**
@@ -229,14 +231,18 @@ class IslandManager
      */
     public static function changeIslandVisit(Player $player, bool $status)
     {
-        if ($status === true) {
-            SkyBlock::getInstance()->getConfig()->setNested("Visits." . $player->getName(), false);
-            $player->sendMessage(SkyBlock::BT_MARK . "bVisit set to closed!");
-        } elseif ($status === false) {
-            SkyBlock::getInstance()->getConfig()->setNested("Visits." . $player->getName(), true);
-            $player->sendMessage(SkyBlock::BT_MARK . "bVisit is set to open!");
-        } else {
-            $player->sendMessage(SkyBlock::BT_MARK . "cAn unknown error has occurred, report it to the authorized team!");
+        switch ($status) {
+            case true:
+                SkyBlock::getInstance()->getConfig()->setNested("Visits." . $player->getName(), false);
+                $player->sendMessage(SkyBlock::BT_MARK . "bVisit set to closed!");
+                break;
+            case false:
+                SkyBlock::getInstance()->getConfig()->setNested("Visits." . $player->getName(), true);
+                $player->sendMessage(SkyBlock::BT_MARK . "bVisit is set to open!");
+                break;
+            default:
+                $player->sendMessage(SkyBlock::BT_MARK . "cAn unknown error has occurred, report it to the authorized team!");
+                break;
         }
     }
 
@@ -246,42 +252,45 @@ class IslandManager
      */
     public static function islandCreate(Player $player, string $islandType)
     {
-        #Copy Island Word
+        //Copy Island Word
         $dataPath = SkyBlock::getInstance()->getServer()->getDataPath();
-        @mkdir($dataPath . "worlds/" . $player->getName() . "/");
-        @mkdir($dataPath . "worlds/" . $player->getName() . "/db/");
-        $world = opendir(SkyBlock::getInstance()->getServer()->getDataPath() . $islandType . "/db/");
-        while ($file = readdir($world)) {
-            if ($file != "." and $file != "..") {
-                copy($dataPath . $islandType . "/db/" . $file, $dataPath . "worlds/" . $player->getName() . "/db/" . $file);
+        if (is_dir($dataPath . $islandType)) {
+            @mkdir($dataPath . "worlds/" . $player->getName() . "/db/");
+            $world = opendir(SkyBlock::getInstance()->getServer()->getDataPath() . $islandType . "/db/");
+            while ($file = readdir($world)) {
+                if ($file != "." && $file != "..") {
+                    copy($dataPath . $islandType . "/db/" . $file, $dataPath . "worlds/" . $player->getName() . "/db/" . $file);
+                }
             }
+            copy($dataPath . $islandType . "/level.dat", $dataPath . "worlds/" . $player->getName() . "/level.dat");
+            
+            //Create YAML Data
+            $data = SkyBlock::getInstance()->getConfig();
+            $deleteTime = $data->getNested($player->getName() . ".delete-time");
+            $partners = $data->getNested($player->getName() . ".partners");
+            if ($partners === null) $partners = [];
+            if ($deleteTime === null) $deleteTime = null;
+            $data->setNested($player->getName() . ".island", [
+                "settings" => [
+                    "interact" => false,
+                    "place" => false,
+                    "break" => false,
+                    "picking-up" => false,
+                    "de-active-teleport" => false,
+                    "delete-time" => $deleteTime
+                ],
+                "banneds" => [],
+                "this-partners" => [],
+                "other-partners" => $partners
+            ]);
+            $data->setNested("Visits." . $player->getName(), false);
+
+            //Teleporting
+            Server::getInstance()->getWorldManager()->loadWorld($player->getName());
+            $player->teleport(Server::getInstance()->getWorldManager()->getWorldByName($player->getName())->getSpawnLocation());
+            $player->getWorld()->requestChunkPopulation($player->getPosition()->getFloorX() >> 4, $player->getPosition()->getFloorZ() >> 4, null);
+            $player->sendMessage(SkyBlock::BT_MARK . "bYour island has been created, you are being teleported!");
         }
-        copy($dataPath . $islandType . "/level.dat", $dataPath . "worlds/" . $player->getName() . "/level.dat");
-        #Create YAML Data
-        $data = SkyBlock::getInstance()->getConfig();
-        $deleteTime = $data->getNested($player->getName() . ".delete-time");
-        $partners = $data->getNested($player->getName() . ".partners");
-        if ($partners === null) $partners = [];
-        if ($deleteTime === null) $deleteTime = null;
-        $data->setNested($player->getName() . ".island", [
-            "settings" => [
-                "interact" => false,
-                "place" => false,
-                "break" => false,
-                "picking-up" => false,
-                "de-active-teleport" => false,
-                "delete-time" => $deleteTime
-            ],
-            "banneds" => [],
-            "this-partners" => [],
-            "other-partners" => $partners
-        ]);
-        $data->setNested("Visits." . $player->getName(), false);
-        #Teleporting
-        Server::getInstance()->getWorldManager()->loadWorld($player->getName());
-        $player->teleport(Server::getInstance()->getWorldManager()->getWorldByName($player->getName())->getSpawnLocation());
-        $player->getWorld()->requestChunkPopulation($player->getPosition()->getFloorX() >> 4, $player->getPosition()->getFloorZ() >> 4,null);
-        $player->sendMessage(SkyBlock::BT_MARK . "bYour island has been created, you are being teleporting!");
     }
 
     /**
@@ -289,31 +298,27 @@ class IslandManager
      */
     public static function islandRemove(Player $player): void
     {
-        if (SkyBlock::getInstance()->getConfig()->getNested($player->getName() . ".delete-time") === null){
+        if (SkyBlock::getInstance()->getConfig()->getNested($player->getName() . ".delete-time") === null) {
             $deleteTime = null;
-        }else{
+        } else {
             $deleteTime = SkyBlock::getInstance()->getConfig()->getNested($player->getName())["delete-time"];
         }
-        var_dump($deleteTime);
-        if ($deleteTime === null) {
-            var_dump($deleteTime);
+
+        if ($deleteTime === null || time() > (int)$deleteTime) {
             self::islandDataDelete($player);
-        } else {
-            if (time() > (int)$deleteTime) {
-                self::islandDataDelete($player);
-            } else {
-                $deleteTime = $deleteTime - time();
-                $day = floor($deleteTime / 86400);
-                $hourSecond = $deleteTime % 86400;
-                $hour = floor($hourSecond / 3600);
-                $minuteHour = $hourSecond % 3600;
-                $minute = floor($minuteHour / 60);
-                $player->sendMessage(SkyBlock::BT_MARK . "fYou have to wait §6". $day . " §fday, §6" . $hour . " §fhour, §6" . $minute . " §fTo be able to delete your island!");
-            }
+            return;
         }
+        $deleteTime = $deleteTime - time();
+        $day = floor($deleteTime / 86400);
+        $hourSecond = $deleteTime % 86400;
+        $hour = floor($hourSecond / 3600);
+        $minuteHour = $hourSecond % 3600;
+        $minute = floor($minuteHour / 60);
+        $player->sendMessage(SkyBlock::BT_MARK . "fYou have to wait §6" . $day . " §fday, §6" . $hour . " §fhour, §6" . $minute . " §fTo be able to delete your island!");
     }
 
-    public static function islandDataDelete(Player $player){
+    public static function islandDataDelete(Player $player)
+    {
         $level = Server::getInstance()->getWorldManager()->getWorldByName($player->getName());
         if ($level->getPlayers() != null) {
             foreach ($level->getPlayers() as $islandPlayer) {

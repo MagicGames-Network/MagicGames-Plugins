@@ -3,13 +3,12 @@
 
 namespace blueturk\skyblock\managers;
 
+use pocketmine\Server;
 use blueturk\skyblock\commands\island\IslandCommand;
 use blueturk\skyblock\commands\player\WeatherCommand;
-use pocketmine\Server;
 
 class CommandManager
 {
-
     public static function loadCommands(): void
     {
         foreach (self::getCommands() as $index => $command) {

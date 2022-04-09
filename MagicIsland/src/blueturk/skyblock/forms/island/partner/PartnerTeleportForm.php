@@ -2,15 +2,14 @@
 
 namespace blueturk\skyblock\forms\island\partner;
 
-use blueturk\skyblock\managers\IslandManager;
-use blueturk\skyblock\SkyBlock;
 use dktapps\pmforms\MenuForm;
-use dktapps\pmforms\MenuOption;
 use pocketmine\player\Player;
+use blueturk\skyblock\SkyBlock;
+use dktapps\pmforms\MenuOption;
+use blueturk\skyblock\managers\IslandManager;
 
 class PartnerTeleportForm extends MenuForm
 {
-
     public function __construct(Player $player)
     {
         $options = [];
@@ -29,8 +28,11 @@ class PartnerTeleportForm extends MenuForm
                 }
             }
         }
-        parent::__construct(SkyBlock::BT_TITLE . "Teleport to Partner Island", "§7Choose the partner you want to teleport to!",
-            $options, function (Player $player, int $option): void {
+        parent::__construct(
+            SkyBlock::BT_TITLE . "Teleport to Partner Island",
+            "§7Choose the partner you want to teleport to!",
+            $options,
+            function (Player $player, int $option): void {
                 $selectedPlayer = $this->getOption($option)->getText();
                 IslandManager::teleportPartnerIsland($player, $selectedPlayer);
             }

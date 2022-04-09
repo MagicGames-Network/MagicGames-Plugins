@@ -1,17 +1,14 @@
 <?php
 
-
 namespace blueturk\skyblock\commands\player;
 
-
-use blueturk\skyblock\forms\island\WeatherSettingsForm;
+use pocketmine\player\Player;
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
-use pocketmine\player\Player;
+use blueturk\skyblock\forms\island\WeatherSettingsForm;
 
 class WeatherCommand extends Command
 {
-
     public function __construct()
     {
         parent::__construct("weather", "§bChange the weather of the island!", "/weather", ["weather forecast"]);
@@ -21,12 +18,12 @@ class WeatherCommand extends Command
 
     public function execute(CommandSender $sender, string $commandLabel, array $args)
     {
-        if ($sender instanceof Player){
-            if ($sender->hasPermission("weather.command.bt")){
+        if ($sender instanceof Player) {
+            if ($sender->hasPermission("weather.command.bt")) {
                 $sender->sendForm(new WeatherSettingsForm());
-            }else{
-                $sender->sendMessage($this->getPermissionMessage());
+                return;
             }
+            $sender->sendMessage($this->getPermissionMessage());
         }
     }
 }

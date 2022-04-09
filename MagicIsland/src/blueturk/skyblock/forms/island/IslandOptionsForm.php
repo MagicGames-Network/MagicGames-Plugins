@@ -2,15 +2,15 @@
 
 namespace blueturk\skyblock\forms\island;
 
+use Exception;
+use dktapps\pmforms\FormIcon;
+use dktapps\pmforms\MenuForm;
+use pocketmine\player\Player;
+use blueturk\skyblock\SkyBlock;
+use dktapps\pmforms\MenuOption;
+use blueturk\skyblock\managers\IslandManager;
 use blueturk\skyblock\forms\island\partner\PartnerOptionsForm;
 use blueturk\skyblock\forms\island\partner\PartnerTeleportForm;
-use blueturk\skyblock\managers\IslandManager;
-use blueturk\skyblock\SkyBlock;
-use dktapps\pmforms\MenuForm;
-use dktapps\pmforms\MenuOption;
-use dktapps\pmforms\FormIcon;
-use Exception;
-use pocketmine\player\Player;
 
 class IslandOptionsForm extends MenuForm
 {
@@ -18,7 +18,9 @@ class IslandOptionsForm extends MenuForm
     public function __construct(Player $player)
     {
         $visitStatus = SkyBlock::getInstance()->getConfig()->getNested("Visits." . $player->getName());
-        parent::__construct(SkyBlock::BT_TITLE . "Island", "",
+        parent::__construct(
+            SkyBlock::BT_TITLE . "Island",
+            "",
             [
                 new MenuOption("Teleport To Island\n§d§l»§r §7Tap to select!", new FormIcon('https://cdn-icons-png.flaticon.com/128/619/619005.png', FormIcon::IMAGE_TYPE_URL)),
                 new MenuOption("Teleport to Partner Island\n§d§l»§r §7Tap to select!", new FormIcon('https://cdn-icons-png.flaticon.com/128/2010/2010261.png', FormIcon::IMAGE_TYPE_URL)),
@@ -31,7 +33,8 @@ class IslandOptionsForm extends MenuForm
                 new MenuOption("Ban Players From Your Island\n§d§l»§r §7Tap to select!", new FormIcon('https://cdn-icons-png.flaticon.com/128/1595/1595649.png', FormIcon::IMAGE_TYPE_URL)),
                 new MenuOption("Unban Banned Player\n§d§l»§r §7Tap to select!", new FormIcon('https://cdn-icons-png.flaticon.com/128/3699/3699516.png', FormIcon::IMAGE_TYPE_URL)),
                 new MenuOption("Delete Your Island\n§d§l»§r §7Tap to select!", new FormIcon('https://cdn-icons-png.flaticon.com/128/3496/3496416.png', FormIcon::IMAGE_TYPE_URL))
-            ], function (Player $player, int $option) use ($visitStatus): void {
+            ],
+            function (Player $player, int $option) use ($visitStatus): void {
                 switch ($option) {
                     case 0:
                         IslandManager::teleportToIsland($player);

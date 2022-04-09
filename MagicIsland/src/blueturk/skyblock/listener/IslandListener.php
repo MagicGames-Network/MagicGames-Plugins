@@ -3,104 +3,101 @@
 
 namespace blueturk\skyblock\listener;
 
+use pocketmine\Server;
+use pocketmine\player\Player;
+use pocketmine\event\Listener;
 use blueturk\skyblock\SkyBlock;
-use pocketmine\block\Block;
-use pocketmine\block\BlockIds;
 use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\event\block\BlockPlaceEvent;
-use pocketmine\event\entity\EntityDamageEvent;
-use pocketmine\event\entity\EntityItemPickupEvent;
-use pocketmine\event\inventory\InventoryPickupItemEvent;
-use pocketmine\event\world\ChunkLoadEvent;
-use pocketmine\event\Listener;
-use pocketmine\event\player\PlayerInteractEvent;
 use pocketmine\event\player\PlayerMoveEvent;
-use pocketmine\item\Item;
-use pocketmine\item\Tool;
-use pocketmine\world\biome\Biome;
-use pocketmine\math\Vector3;
-use pocketmine\player\Player;
-use pocketmine\Server;
+use pocketmine\event\entity\EntityDamageEvent;
+use pocketmine\event\player\PlayerInteractEvent;
+use pocketmine\event\entity\EntityItemPickupEvent;
 
 class IslandListener implements Listener
 {
-
-
-    public function onInteract(PlayerInteractEvent $event)
+    public function onInteract(PlayerInteractEvent $event): void
     {
         $player = $event->getPlayer();
-        $block = $event->getBlock();
         $level = $player->getWorld()->getFolderName();
         $data = SkyBlock::getInstance()->getConfig();
         if ($data->getNested($level . ".island") != null) {
             if ($level === $player->getName()) {
                 $event->uncancel();
-            } elseif (Server::getInstance()->isOp($player->getName())) {
+                return;
+            }
+            if (Server::getInstance()->isOp($player->getName())) {
                 $event->uncancel();
-            } elseif (in_array($player->getName(), $data->getNested($level . ".island" . ".this-partners"))) {
+                return;
+            }
+            if (in_array($player->getName(), $data->getNested($level . ".island" . ".this-partners"))) {
                 if ($data->getNested($level . ".island" . ".settings" . ".interact") === true) {
                     $event->uncancel();
-                } else {
-                    $event->cancel();
-                    $player->sendPopup(SkyBlock::BT_MARK . "cYour partner won't let you interact!");
+                    return;
                 }
-            } else {
                 $event->cancel();
+                $player->sendPopup(SkyBlock::BT_MARK . "cYour partner won't let you interact!");
+                return;
             }
+            $event->cancel();
         }
     }
 
-    public function onPlaced(BlockPlaceEvent $event)
+    public function onPlaced(BlockPlaceEvent $event): void
     {
         $player = $event->getPlayer();
-        $item = $event->getItem();
         $level = $player->getWorld()->getFolderName();
         $data = SkyBlock::getInstance()->getConfig();
         if ($data->getNested($level . ".island") != null) {
             if ($level === $player->getName()) {
                 $event->uncancel();
-            } elseif (Server::getInstance()->isOp($player->getName())) {
+                return;
+            }
+            if (Server::getInstance()->isOp($player->getName())) {
                 $event->uncancel();
-            } elseif (in_array($player->getName(), $data->getNested($level . ".island" . ".this-partners"))) {
+                return;
+            }
+            if (in_array($player->getName(), $data->getNested($level . ".island" . ".this-partners"))) {
                 if ($data->getNested($level . ".island" . ".settings" . ".place") === true) {
-
-                        $event->uncancel();
-                } else {
-                    $event->cancel();
-                    $player->sendPopup(SkyBlock::BT_MARK . "cYour partner won't let you!");
+                    $event->uncancel();
+                    return;
                 }
-            } else {
                 $event->cancel();
+                $player->sendPopup(SkyBlock::BT_MARK . "cYour partner won't let you!");
+                return;
             }
+            $event->cancel();
         }
     }
 
-    public function onBreak(BlockBreakEvent $event)
+    public function onBreak(BlockBreakEvent $event): void
     {
         $player = $event->getPlayer();
         $level = $player->getWorld()->getFolderName();
-        $block = $event->getBlock();
         $data = SkyBlock::getInstance()->getConfig();
         if ($data->getNested($level . ".island") != null) {
             if ($level === $player->getName()) {
                 $event->uncancel();
-            } elseif (Server::getInstance()->isOp($player->getName())) {
-                $event->uncancel();
-            } elseif (in_array($player->getName(), $data->getNested($level . ".island" . ".this-partners"))) {
-                if ($data->getNested($level . ".island" . ".settings" . ".break") === true) {
-                        $event->uncancel();
-
-                } else {
-                    $event->cancel();
-                    $player->sendPopup(SkyBlock::BT_MARK . "cYour partner won't let you!");
-                }
-            } else {
-                $event->cancel();
+                return;
             }
+            if (Server::getInstance()->isOp($player->getName())) {
+                $event->uncancel();
+                return;
+            }
+            if (in_array($player->getName(), $data->getNested($level . ".island" . ".this-partners"))) {
+                if ($data->getNested($level . ".island" . ".settings" . ".break") === true) {
+                    $event->uncancel();
+                    return;
+                }
+                $event->cancel();
+                $player->sendPopup(SkyBlock::BT_MARK . "cYour partner won't let you!");
+                return;
+            }
+            $event->cancel();
         }
     }
 
-    public function onPickingUp(EntityItemPickupEvent $event)
+    public function onPickingUp(EntityItemPickupEvent $event): void
     {
         $viewers = $event->getInventory()->getViewers();
         foreach ($viewers as $player) {
@@ -109,23 +106,27 @@ class IslandListener implements Listener
             if ($data->getNested($level . ".island") != null) {
                 if ($level === $player->getName()) {
                     $event->uncancel();
-                } elseif (Server::getInstance()->isOp($player->getName())) {
+                    return;
+                }
+                if (Server::getInstance()->isOp($player->getName())) {
                     $event->uncancel();
-                } elseif (in_array($player->getName(), $data->getNested($level . ".island" . ".this-partners"))) {
+                    return;
+                }
+                if (in_array($player->getName(), $data->getNested($level . ".island" . ".this-partners"))) {
                     if ($data->getNested($level . ".island" . ".settings" . ".picking-up") === true) {
                         $event->uncancel();
-                    } else {
-                        $event->cancel();
-                        $player->sendPopup(SkyBlock::BT_MARK . "cYour partner won't let you!");
+                        return;
                     }
-                } else {
                     $event->cancel();
+                    $player->sendPopup(SkyBlock::BT_MARK . "cYour partner won't let you!");
+                    return;
                 }
+                $event->cancel();
             }
         }
     }
 
-    public function onMove(PlayerMoveEvent $event)
+    public function onMove(PlayerMoveEvent $event): void
     {
         $player = $event->getPlayer();
         $level = $player->getWorld()->getFolderName();
@@ -140,7 +141,7 @@ class IslandListener implements Listener
         }
     }
 
-    public function onDamage(EntityDamageEvent $event)
+    public function onDamage(EntityDamageEvent $event): void
     {
         $player = $event->getEntity();
         if ($player instanceof Player) {
@@ -154,14 +155,14 @@ class IslandListener implements Listener
                         $player->sendMessage("§8» §cUnfortunately, you died in adana and lost §7(%3) XP §c experience level.");
                     }
                 }
-                if ($event->getCause() === EntityDamageEvent::CAUSE_FALL) {
+                /*if ($event->getCause() === EntityDamageEvent::CAUSE_FALL) {
                     $event->cancel();
-                }
+                }*/
                 $event->cancel();
-            } else {
-                if (SkyBlock::getInstance()->getConfig()->getNested($player->getName() . ".island") != null) {
-                    $event->cancel();
-                }
+                return;
+            }
+            if (SkyBlock::getInstance()->getConfig()->getNested($player->getName() . ".island") != null) {
+                $event->cancel();
             }
         }
     }
