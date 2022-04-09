@@ -1,12 +1,14 @@
 <?php
 
-namespace Stats;
+namespace Stats\player;
 
-use pocketmine\event\entity\EntityRegainHealthEvent;
-use pocketmine\event\player\PlayerDeathEvent;
+use Stats\Main;
 use pocketmine\player\Player;
+use pocketmine\event\player\PlayerDeathEvent;
+use pocketmine\event\entity\EntityRegainHealthEvent;
 
-class Segundo extends Player{
+class MagicPlayer extends Player
+{
     public array $stats = [
         "MaxHealth" => 20,
         "Health" => 20,
@@ -38,6 +40,7 @@ class Segundo extends Player{
     {
         $world = Main::getInstance()->getServer()->getWorldManager()->getDefaultWorld();
         $ev = new PlayerDeathEvent($this, $this->getDrops(), $this->getXpDropAmount(), null);
+
         Main::getInstance()->getServer()->broadcastMessage($ev->getDeathMessage());
         $this->teleport($world->getSpawnLocation());
         $this->stats["Health"] = $this->stats["MaxHealth"];
@@ -45,48 +48,60 @@ class Segundo extends Player{
 
     public function isAlive(): bool
     {
-        if($this->getHealth() > 0){
+        if ($this->getHealth() > 0) {
             return true;
-        }else{
-            return false;
         }
+        return false;
     }
 
     public function setStats(string $stats, float $amount): void
     {
-        if($stats == "MaxHealth" and $amount <= 0){
-            $this->setMaxHealth(1);
-             return;
-        }
-        if($stats == "Health" and $amount <= 0){
-            $this->onDeath();
-        }elseif($stats == "Health" and $amount > $this->getMaxHealth()){
-            $this->setHealth($this->getMaxHealth());
-        }elseif($stats == "MaxHealth" and $amount < $this->getHealth()){
-            $this->setHealth($amount);
-            $this->setMaxHealth($amount);
-        }else{
-            $this->stats[$stats] = $amount;
+        switch ($stats) {
+            case "MaxHealth":
+                if ($amount <= 0) {
+                    $this->setMaxHealth(1);
+                }
+                break;
+            case "Health":
+                if ($amount <= 0) {
+                    $this->onDeath();
+                    break;
+                }
+                if ($amount > $this->getMaxHealth()) {
+                    $this->setHealth($this->getMaxHealth());
+                    break;
+                }
+                if ($amount < $this->getHealth()) {
+                    $this->setHealth($amount);
+                    $this->setMaxHealth($amount);
+                }
+                break;
+            default:
+                $this->stats[$stats] = $amount;
+                break;
         }
     }
 
     public function setHealth(float $amount): void
     {
-        if($amount <= 0)
-        {
-            $this->stats["Health"] = 0;
-            $this->onDeath();
-        }elseif($amount > $this->getMaxHealth()){
-            $this->stats["Health"] = $this->getMaxHealth();
-        }else{
-            $this->stats["Health"] = $amount;
+        switch (true) {
+            case $amount <= true:
+                $this->stats["Health"] = 0;
+                $this->onDeath();
+                break;
+            case $amount > $this->getMaxHealth():
+                $this->stats["Health"] = $this->getMaxHealth();
+                break;
+            default:
+                $this->stats["Health"] = $amount;
+                break;
         }
     }
 
     public function heal(EntityRegainHealthEvent $source): void
     {
         $source->call();
-        if($source->isCancelled()){
+        if ($source->isCancelled()) {
             return;
         }
         $this->setHealth($this->getHealth() + $source->getAmount());
