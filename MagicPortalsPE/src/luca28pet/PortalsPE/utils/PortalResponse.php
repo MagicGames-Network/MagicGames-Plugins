@@ -1,11 +1,12 @@
 <?php
+
 declare(strict_types=1);
 
 namespace luca28pet\PortalsPE\utils;
 
+use ReflectionClass;
 use BadMethodCallException;
 use InvalidArgumentException;
-use ReflectionClass;
 
 /**
  * @method static PortalResponse SUCCESS_TP()
@@ -13,8 +14,8 @@ use ReflectionClass;
  * @method static PortalResponse NO_PERM()
  * @method static PortalResponse WORLD_NOT_LOADED()
  */
-class PortalResponse{
-
+class PortalResponse
+{
     private static array $objects = [];
 
     public const SUCCESS_TP = 0;
@@ -25,33 +26,37 @@ class PortalResponse{
     /** @var int */
     private int $result;
 
-    public static function init() : void{
+    public static function init(): void
+    {
         $ref = new ReflectionClass(__CLASS__);
-        foreach($ref->getConstants() as $c => $v){
+        foreach ($ref->getConstants() as $c => $v) {
             self::addObject($c, $v);
         }
     }
 
-    public static function addObject(string $name, int $value) : void{
+    public static function addObject(string $name, int $value): void
+    {
         self::$objects[$name] = new self($value);
     }
 
-    public static function __callStatic(string $name, array $arguments) : PortalResponse{
-        if(!isset(self::$objects[$name])){
-            throw new BadMethodCallException(__CLASS__.' does not have constant '.$name);
+    public static function __callStatic(string $name, array $arguments): PortalResponse
+    {
+        if (!isset(self::$objects[$name])) {
+            throw new BadMethodCallException(__CLASS__ . ' does not have constant ' . $name);
         }
-        if($arguments !== []){
+        if ($arguments !== []) {
             throw new InvalidArgumentException('Can\'t call with arguments');
         }
         return self::$objects[$name];
     }
 
-    private function __construct(int $result){
+    private function __construct(int $result)
+    {
         $this->result = $result;
     }
 
-    public function getResult() : int{
+    public function getResult(): int
+    {
         return $this->result;
     }
-
 }
