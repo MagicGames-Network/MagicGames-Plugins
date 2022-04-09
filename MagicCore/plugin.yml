@@ -1,0 +1,184 @@
+name: MagicCore
+main: Pushkar\MagicCore\Main
+version: 4.0.0
+api:
+  - 4.0.0
+author: Pushkar
+description: Core v4.0.0 Made For MagicGames
+
+commands:
+  skin: 
+    description: §eSteal Someone Skin
+    permission: skin.cmd
+  repair: 
+    description: §eRepair Your Tool
+    permission: repair.cmd
+  speed:
+    description: §eGet Speed :D
+    permission: speed.cmd
+  items:
+    description: §eAdmin Items
+    permission: items.cmd
+  recipes:
+    description: §eSee Custom Recipe
+    permission: recipe.cmd
+  rankshop:
+    description: §eBuy Ranks
+    permission: rankshop.cmd
+  discord:
+    description: §eMagicGames Discord
+    permission: discord.cmd
+  invclear:
+    description: §cIT WILL CLEAR YOUR INVENTORY!!
+    permission: invclear.cmd
+  vision:
+    description: §eGet Night Vision
+    permission: vision.cmd
+
+
+  vanish: 
+    description: §eVanish Yourself
+    permission: vanish.cmd
+  unvanish: 
+    description: §eUnvanish Yourself
+    permission: unvanish.cmd
+  xyz:
+    description: §eGet Your Coordinates
+    permission: xyz.cmd
+  liftui:
+    description: §eLiftUI For Easier Travel In Mine
+    permission: liftui.cmd
+  warp:
+    description: §eWarpUI For Better Experience
+    permission: warp.cmd
+  diana:
+    description: §eMayor Diana
+    permission: diana.cmd
+  bazaar:
+    description: §eSell Items In Bazaar
+    permission: bazaar.cmd
+  enchantui:
+    description: §eSee Enchantment UI
+    permission: enchantui.cmd
+  servers:
+    description: §eMagic Games Other Servers
+    permission: servers.cmd
+  settings:
+    description: §eYour Personal Setting
+    permission: settings.cmd
+  information:
+    description: §eServer Info
+    permission: information.cmd
+  ranklist:
+    description: $eMagic Ranklist
+    permission: ranklist.cmd
+  changelog:
+    description: §eOpen the changelog on this server
+    permission: changelog.cmd
+  features:
+    description: §eFeatures of server
+    permission: features.cmd
+  rules:
+    description: §eSee Rules
+    permission: rules.cmd
+  stafflist:
+    description: §eList all the staff work on this server!
+    permission: stafflist.cmd
+  tutorial:
+    description: §eOpen the tutorial menu if u are confused!
+    permission: tutorial.cmd
+  socialmedia:
+    description: §eAll of the server socialmedia infos 
+    permission: socialmedia.cmd
+  announcement:
+    description: §eServer today is announcement!
+    permission: announcement.cmd
+  event:
+    description: §eList all event available today!
+    permission: event.cmd
+  size:
+    description: §eYour sizes
+    permission: size.cmd
+  fly:
+    description: §eFly :D
+    permission: fly.cmd
+permissions:
+  repair.cmd:
+    default: op
+  caui.cmd:
+    default: op
+  items.cmd:
+    default: op
+  feed.cmd:
+    default: op
+  heal.cmd:
+    default: op
+  skin.cmd:
+    default: op
+  vanish.cmd:
+    default: op
+  unvanish.cmd:
+    default: op
+  ci.cmd:
+    default: op
+  speed.cmd:
+     default: op
+  vision.cmd:
+     default: op
+  hub.cmd:
+     default: 
+  id.cmd:
+     default: true
+  invclear.cmd:
+     default: true
+  hide.cmd:
+     default: true
+  bazaar.cmd:
+     default: true
+  diana.cmd: 
+     default: true
+  warp.cmd:
+     default: true
+  liftui.cmd:
+     default: true
+  xyz.cmd:
+     default: true
+  settings.cmd:
+     default: true
+  servers.cmd:
+     default: true
+  enchantui.cmd:
+     default: true
+  tutorial.:
+     default: true
+  stafflist.cmd:
+     default: true
+  rules.cmd:
+     default: true
+  features.cmd:
+     default: true
+  changelog.cmd:
+     default: true
+  event.cmd:
+     default: true
+  announcement.cmd:
+     default: true
+  socialmedia.cmd:
+     default: true
+  tutorial.cmd:
+     default: true
+  rankshop.cmd:
+     default: true
+  recipe.cmd:
+     default: true
+  discord.cmd:
+     default: true
+  information.cmd:
+     default: true
+  ranklist.cmd:
+     default: true
+  size.cmd:
+     default: true
+  fly.cmd:
+     default: true
+  

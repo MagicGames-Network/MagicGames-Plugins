@@ -1,0 +1,15 @@
+name: MagicHealthDefense
+Autor: Pushkar
+main: Stats\Main
+api: 4.0.0
+version: 2
+
+commands:
+  hdset:
+    permission: "hdset.use"
+    description: "Set the Stats of a player"
+    usage: "§c/stset§b <player> <stats> <value>"
+permissions:
+  hdset.use:
+    description: "Permission to set Stats"
+    default: op
