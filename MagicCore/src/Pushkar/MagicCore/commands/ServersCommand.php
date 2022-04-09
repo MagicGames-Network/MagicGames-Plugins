@@ -12,15 +12,14 @@ class ServersCommand extends Command
 
     public function __construct()
     {
-        parent::__construct("servers","§eSee MagicGames All Servers");
+        parent::__construct("servers", "§eSee MagicGames All Servers");
     }
 
     public function execute(CommandSender $sender, string $commandLabel, array $args)
     {
 
-        if ($sender instanceof Player){
-            $sender->sendForm(new ServersForm());
+        if ($sender instanceof Player) {
+            $sender->sendForm(new ServersForm($sender));
         }
     }
-
 }

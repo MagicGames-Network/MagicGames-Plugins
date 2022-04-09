@@ -2,32 +2,31 @@
 
 namespace Pushkar\MagicCore\forms;
 
+use pocketmine\Server;
 use dktapps\pmforms\FormIcon;
 use dktapps\pmforms\MenuForm;
-use dktapps\pmforms\MenuOption;
 use pocketmine\player\Player;
-use pocketmine\Server;
+use dktapps\pmforms\MenuOption;
 
 class VanishForm extends MenuForm
 {
 
     public function __construct()
     {
-        parent::__construct("§l§cVanish/Unvanish","§6Please Select The Next Menu",[
+        parent::__construct("§l§cVanish/Unvanish", "§6Please Select The Next Menu", [
             new MenuOption("§eVanish\n§8Click To Open", new FormIcon("textures/icon/settings", FormIcon::IMAGE_TYPE_URL)),
             new MenuOption("§eUnvanish\n§8Click To Open", new FormIcon("textures/icon/settings", FormIcon::IMAGE_TYPE_URL)),
             new MenuOption("§cExit", new FormIcon("textures/blocks/barrier", FormIcon::IMAGE_TYPE_URL))
-        ], function (Player $sender, int $selected): void{
-            switch ($selected){
+        ], function (Player $sender, int $selected): void {
+            switch ($selected) {
                 case 0:
-                 Server::getInstance()->dispatchCommand($sender, "vanish");
-                 break;
-                 
+                    Server::getInstance()->dispatchCommand($sender, "vanish");
+                    break;
+
                 case 1:
-                  Server::getInstance()->dispatchCommand($sender, "unvanish");
-                 break;
+                    Server::getInstance()->dispatchCommand($sender, "unvanish");
+                    break;
             }
         });
     }
-
 }

@@ -2,25 +2,24 @@
 
 namespace Pushkar\MagicCore\commands;
 
+use pocketmine\player\Player;
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
-use pocketmine\player\Player;
-use Pushkar\MagicCore\forms\EnchantForm;
+use Pushkar\MagicCore\forms\InformationForm;
 
 class EventCommand extends Command
 {
 
     public function __construct()
     {
-        parent::__construct("event","§eServer Events");
+        parent::__construct("event", "§eServer Events");
     }
 
     public function execute(CommandSender $sender, string $commandLabel, array $args)
     {
 
-        if ($sender instanceof Player){
-            (new Information($this))->INFOTEN($sender);
+        if ($sender instanceof Player) {
+            (new InformationForm($this))->INFOTEN($sender);
         }
     }
-
 }

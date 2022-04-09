@@ -2,94 +2,92 @@
 
 namespace Pushkar\MagicCore\listener;
 
-use onebone\economyapi\EconomyAPI;
-use pocketmine\console\ConsoleCommandSender;
-use pocketmine\data\bedrock\EnchantmentIdMap;
-use pocketmine\event\block\BlockBreakEvent;
-use pocketmine\event\entity\EntityDamageByEntityEvent;
-use pocketmine\event\entity\EntityDamageEvent;
-use pocketmine\event\entity\EntityTrampleFarmlandEvent;
-use pocketmine\event\inventory\InventoryTransactionEvent;
+use Pushkar\MagicCore\Main;
+use pocketmine\player\Player;
 use pocketmine\event\Listener;
-use pocketmine\event\player\PlayerInteractEvent;
+use pocketmine\item\ItemFactory;
+use pocketmine\utils\TextFormat;
+use onebone\economyapi\EconomyAPI;
+use Pushkar\MagicCore\forms\StarForm;
+use pocketmine\event\block\BlockBreakEvent;
+use pocketmine\console\ConsoleCommandSender;
+use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\event\player\PlayerMoveEvent;
 use pocketmine\event\player\PlayerQuitEvent;
-use pocketmine\item\enchantment\EnchantmentInstance;
-use pocketmine\item\ItemFactory;
-use pocketmine\player\Player;
-use pocketmine\utils\TextFormat;
-use Pushkar\MagicCore\forms\anvil\AnvilMainForm;
-use Pushkar\MagicCore\Main;
-use Pushkar\MagicCore\forms\CraftingTableForm;
 use pocketmine\event\player\PlayerDeathEvent;
-use pocketmine\event\player\PlayerJoinEvent;
-use Pushkar\MagicCore\forms\StarForm;
+use pocketmine\event\entity\EntityDamageEvent;
+use Pushkar\MagicCore\forms\CraftingTableForm;
+use pocketmine\event\player\PlayerInteractEvent;
+use Pushkar\MagicCore\forms\anvil\AnvilMainForm;
+use pocketmine\event\entity\EntityDamageByEntityEvent;
+use pocketmine\event\entity\EntityTrampleFarmlandEvent;
+use pocketmine\event\inventory\InventoryTransactionEvent;
 
 class EventListener implements Listener
 {
     public function onJoin(PlayerJoinEvent $event): void
     {
-      $sender = $event->getPlayer();
-      $event->setJoinMessage(str_replace(["{name}"], [$sender->getName()], Main::getInstance()->getConfig()->get("join-message")));
-      $item = ItemFactory::getInstance()->get(1070,0,1);
-      $item->setCustomName("§r§aSkyblock Menu §7( Right Click )§r");
-      $item->setLore(["§r§7View All Of Your Skyblock Progress Including Your Skills, Collections, Recipes And More!\n\n§r§eClick To Open!"]);
-      $item->addEnchantment(new EnchantmentInstance(EnchantmentIdMap::getInstance()->fromId("-1")));
-      $sender->getInventory()->setItem(8, $item, true);
-      if ($sender->isConnected()){
-        $name = $sender->getName();
-        $sender->sendMessage("§e==============§6=============\n§r§7Welcome, $name §7to §eMagic Skyblock\n\n§7Amazing SkyBlock Experience On Bedrock\n\n§e§lVOTE: §r§7Our Vote Website http://bit.ly/vote-magic \n§6§lDISCORD: §r§7http://discord.io/magicgames\n§e==============§6==============");
-      if (Main::getInstance()->getConfig()->get("Hub-Spawn") === true) {
-        $sender->teleport(Main::getInstance()->getServer()->getWorldManager()->getDefaultWorld()->getSafeSpawn());
-      }
-      if(Main::getInstance()->getConfig()->get("onJoin-FlyReset") === true){
-			if($sender->isCreative()) return;
-			$sender->setAllowFlight(false);
-			$sender->sendMessage(Main::getInstance()->getConfig()->get("fly-disabled"));
-	   	}
-      }
-      $ainv = $sender->getArmorInventory();
-  		if(!$sender->hasPlayedBefore()){
-  		 if (Main::getInstance()->getConfig()->get("First-Join") === true) {
-  			if (Main::getInstance()->getConfig()->get("Inventory") === true) {
-  				foreach(Main::getInstance()->getConfig()->get("Slots", []) as $item){
-  					$result = ItemFactory::getInstance()->get($item["id"], $item["damage"], $item["count"]);
-  					$result->setCustomName($item["name"]);
-  					$result->setLore([$item["lore"]]);
-  					$sender->getInventory()->setItem($item["slot"], $result);
-  				}
-  			}
-  			foreach(Main::getInstance()->getConfig()->get("First-Join-Command") as $v){
-    			Main::getInstance()->getServer()->dispatchCommand(new ConsoleCommandSender(Main::getInstance()->getServer(), Main::getInstance()->getServer()->getLanguage()), str_replace("{player}", $sender->getName(), $v));
-    		}
-  			if (Main::getInstance()->getConfig()->get("Armor") === true) {
-  				$data = Main::getInstance()->getConfig()->get("helm");
-  				$item = ItemFactory::getInstance()->get($data["id"]);
-  				$item->setCustomName($data["name"]);
-  				$item->setLore([$data["lore"]]);
-  				$ainv->setHelmet($item);
-  
-  				$data = Main::getInstance()->getConfig()->get("chest");
-  				$item = ItemFactory::getInstance()->get($data["id"]);
-  				$item->setCustomName($data["name"]);
-  				$item->setLore([$data["lore"]]);
-  				$ainv->setChestplate($item);
-  
-  				$data = Main::getInstance()->getConfig()->get("leggins");
-  				$item = ItemFactory::getInstance()->get($data["id"]);
-  				$item->setCustomName($data["name"]);
-  				$item->setLore([$data["lore"]]);
-  				$ainv->setLeggings($item);
-  
-  				$data = Main::getInstance()->getConfig()->get("boots");
-  				$item = ItemFactory::getInstance()->get($data["id"]);
-  				$item->setCustomName($data["name"]);
-  				$item->setLore([$data["lore"]]);
-  				$ainv->setBoots($item);
-      			}
-      		}
+        $sender = $event->getPlayer();
+        //$event->setJoinMessage(str_replace(["{name}"], [$sender->getName()], Main::getInstance()->getConfig()->get("join-message")));
+        $item = ItemFactory::getInstance()->get(1070, 0, 1);
+        $item->setCustomName("§r§aSkyblock Menu §7( Right Click )§r");
+        $item->setLore(["§r§7View All Of Your Skyblock Progress Including Your Skills,\n§7Collections, Recipes And More!\n\n§r§eClick To Open!"]);
+        $sender->getInventory()->setItem(8, $item, true);
+        if ($sender->isConnected()) {
+            $name = $sender->getName();
+            $sender->sendMessage("§e==============§6=============\n§r§7Welcome, $name §7to §eMagic Skyblock\n\n§7Amazing SkyBlock Experience On Bedrock\n\n§e§lVOTE: §r§7Our Vote Website http://bit.ly/vote-magic \n§6§lDISCORD: §r§7http://discord.io/magicgames\n§e==============§6==============");
+            if (Main::getInstance()->getConfig()->get("Hub-Spawn") === true) {
+                $sender->teleport(Main::getInstance()->getServer()->getWorldManager()->getDefaultWorld()->getSafeSpawn());
+            }
+            if (Main::getInstance()->getConfig()->get("onJoin-FlyReset") === true) {
+                if ($sender->isCreative()) return;
+                $sender->setAllowFlight(false);
+                $sender->sendMessage(Main::getInstance()->getConfig()->get("fly-disabled"));
+            }
         }
-      }
+        $ainv = $sender->getArmorInventory();
+        if (!$sender->hasPlayedBefore()) {
+            if (Main::getInstance()->getConfig()->get("First-Join") === true) {
+                if (Main::getInstance()->getConfig()->get("Inventory") === true) {
+                    foreach (Main::getInstance()->getConfig()->get("Slots", []) as $item) {
+                        $result = ItemFactory::getInstance()->get($item["id"], $item["damage"], $item["count"]);
+                        $result->setCustomName($item["name"]);
+                        $result->setLore([$item["lore"]]);
+                        $sender->getInventory()->setItem($item["slot"], $result);
+                    }
+                }
+                foreach (Main::getInstance()->getConfig()->get("First-Join-Command") as $v) {
+                    Main::getInstance()->getServer()->dispatchCommand(new ConsoleCommandSender(Main::getInstance()->getServer(), Main::getInstance()->getServer()->getLanguage()), str_replace("{player}", $sender->getName(), $v));
+                }
+                if (Main::getInstance()->getConfig()->get("Armor") === true) {
+                    $data = Main::getInstance()->getConfig()->get("helm");
+                    $item = ItemFactory::getInstance()->get($data["id"]);
+                    $item->setCustomName($data["name"]);
+                    $item->setLore([$data["lore"]]);
+                    $ainv->setHelmet($item);
+
+                    $data = Main::getInstance()->getConfig()->get("chest");
+                    $item = ItemFactory::getInstance()->get($data["id"]);
+                    $item->setCustomName($data["name"]);
+                    $item->setLore([$data["lore"]]);
+                    $ainv->setChestplate($item);
+
+                    $data = Main::getInstance()->getConfig()->get("leggins");
+                    $item = ItemFactory::getInstance()->get($data["id"]);
+                    $item->setCustomName($data["name"]);
+                    $item->setLore([$data["lore"]]);
+                    $ainv->setLeggings($item);
+
+                    $data = Main::getInstance()->getConfig()->get("boots");
+                    $item = ItemFactory::getInstance()->get($data["id"]);
+                    $item->setCustomName($data["name"]);
+                    $item->setLore([$data["lore"]]);
+                    $ainv->setBoots($item);
+                }
+            }
+        }
+    }
+
     public function onInteract(PlayerInteractEvent $event): void
     {
         $sender = $event->getPlayer();
@@ -97,14 +95,14 @@ class EventListener implements Listener
         $block = $event->getBlock();
         switch ($event->getAction()) {
             case PlayerInteractEvent::LEFT_CLICK_BLOCK:
-                if ($item->getId() === 399 && $item->getCustomName() === "§r§aSkyblock Menu §7( Right Click )§r") {
+                if ($item->getId() === 1070 && $item->getCustomName() === "§r§aSkyblock Menu §7( Right Click )§r") {
                     $sender->sendForm(new StarForm());;
-                    }
+                }
                 break;
             case PlayerInteractEvent::RIGHT_CLICK_BLOCK:
-                if ($item->getId() === 399 && $item->getCustomName() === "§r§aSkyblock Menu §7( Right Click )§r") {
+                if ($item->getId() === 1070 && $item->getCustomName() === "§r§aSkyblock Menu §7( Right Click )§r") {
                     $sender->sendForm(new StarForm());
-                    }
+                }
                 if (Main::getInstance()->getConfig()->get("Anvil-Ui") === true) {
                     if ($block->getId() == 145) {
                         $event->cancel();
@@ -112,184 +110,196 @@ class EventListener implements Listener
                     }
                 }
                 if (Main::getInstance()->getConfig()->get("CraftingTable-Ui") === true) {
-                    if($block->getId() == 58){
+                    if ($block->getId() == 58) {
                         $event->Cancel();
                         $sender->sendForm(new CraftingTableForm());
-                  }
+                    }
                 }
                 break;
         }
     }
+
     public function onTransaction(InventoryTransactionEvent $event)
     {
-          $transaction = $event->getTransaction();
-          foreach ($transaction->getActions() as $action) {
+        $transaction = $event->getTransaction();
+        foreach ($transaction->getActions() as $action) {
             $item = $action->getSourceItem();
             $source = $transaction->getSource();
             if ($source instanceof Player && $item->getId() === 399 && $item->getCustomName() === "§r§aSkyblock Menu §7( Right Click )§r") {
-              $event->cancel();
+                $event->cancel();
             }
-          }
         }
-    public function onDamage(EntityDamageEvent $event) : void{
-      		$entity = $event->getEntity();
-      		$sender = $event->getEntity();
-          if (!$sender instanceof Player){
-            return;
-          }
-      		if(!$entity instanceof Player){
-      			return;
-      		}
-          if(Main::getInstance()->getConfig()->get("onDamage-FlyReset") === true){
-      			if($event instanceof EntityDamageByEntityEvent){
-      				if($entity instanceof Player){
-      					$damager = $event->getDamager();
-      					if(!$damager instanceof Player) return;
-      					if($damager->isCreative()) return;
-      					if($damager->getAllowFlight() === true){
-      						$damager->sendMessage(Main::PREFIX . TextFormat::DARK_RED . "Flight mode disabled due to combat");
-      						$damager->setAllowFlight(false);
-      						$damager->setFlying(false);
-      					}
-      				}
-      			}
-      		}
-      		if($event->getCause() === EntityDamageEvent::CAUSE_VOID){
-      			$sender->teleport(Main::getInstance()->getServer()->getWorldManager()->getDefaultWorld()->getSafeSpawn());
-      			$senderMoney = EconomyAPI::getInstance()->myMoney($sender);
-      			if (Main::getInstance()->getConfig()->get("Void-Money-Lose") === true) {
-              if (Main::getInstance()->getConfig()->get("Type") == "all"){
-                  $sender->sendMessage("§c§lINFO > §r§bYou Fell In Void And Lost §e$" . $senderMoney);
-                  EconomyAPI::getInstance()->reduceMoney($sender, $senderMoney);
-              }
-              if (Main::getInstance()->getConfig()->get("Type") == "half"){
-                  $sender->sendMessage("§c§lINFO > §r§bYou Fell In Void And Lost §e$" . $senderMoney / 2);
-                  EconomyAPI::getInstance()->reduceMoney($sender, $senderMoney / 2);
-              }
-              if (Main::getInstance()->getConfig()->get("Type") == "amount"){
-                  $sender->sendMessage("§c§lINFO > §r§bYou Fell In Void And Lost §e$" . (double)Main::getInstance()->getConfig()->get("Money-Loss"));
-                  EconomyAPI::getInstance()->reduceMoney($sender, (double)Main::getInstance()->getConfig()->get("Money-Loss"));
-              }
-              if (Main::getInstance()->getConfig()->get("Type") == "percent"){
-                  $sender->sendMessage("§c§lINFO > §r§bYou Fell In Void And Lost §e$" . ((double)Main::getInstance()->getConfig()->get("Money-Loss") / 100) * $senderMoney);
-                  EconomyAPI::getInstance()->reduceMoney($sender, ((double)Main::getInstance()->getConfig()->get("Money-Loss") / 100) * $senderMoney);
-              }
-      			}
-      			$event->cancel();
-      		}
-      	}
-      	
-    public function onBreak(BlockBreakEvent $event) : void 
+    }
+
+    public function onDamage(EntityDamageEvent $event): void
     {
-      if (Main::getInstance()->getConfig()->get("pickup") === true) {
-        $sender = $event->getPlayer();
-        if(!Main::getInstance()->shouldPickup($sender->getWorld()->getFolderName()))
+        $entity = $event->getEntity();
+        $sender = $event->getEntity();
+        if (!$sender instanceof Player) {
             return;
-        // Send items to player
-        $drops = $event->getDrops();
-        foreach ($drops as $key => $drop) {
-            if($sender->getInventory()->canAddItem($drop)) {
-                $sender->getInventory()->addItem($drop);
-                unset($drops[$key]);
-            } else {
-                if(Main::getInstance()->fullInvPopup != '') {
-                    $sender->sendPopup(TextFormat::colorize(Main::getInstance()->pickupfullInvPopup));
+        }
+        if (!$entity instanceof Player) {
+            return;
+        }
+        if (Main::getInstance()->getConfig()->get("onDamage-FlyReset") === true) {
+            if ($event instanceof EntityDamageByEntityEvent) {
+                if ($entity instanceof Player) {
+                    $damager = $event->getDamager();
+                    if (!$damager instanceof Player) return;
+                    if ($damager->isCreative()) return;
+                    if ($damager->getAllowFlight() === true) {
+                        $damager->sendMessage(Main::PREFIX . TextFormat::DARK_RED . "Flight mode disabled due to combat");
+                        $damager->setAllowFlight(false);
+                        $damager->setFlying(false);
+                    }
                 }
             }
         }
-        $event->setDrops($drops);
-        // Send xp to player
-        $xpDrops = $event->getXpDropAmount();
-        $sender->getXpManager()->addXp($xpDrops);
-        $event->setXpDropAmount(0);
-      }
+        if ($event->getCause() === EntityDamageEvent::CAUSE_VOID) {
+            $sender->teleport(Main::getInstance()->getServer()->getWorldManager()->getDefaultWorld()->getSafeSpawn());
+            $senderMoney = EconomyAPI::getInstance()->myMoney($sender);
+            if (Main::getInstance()->getConfig()->get("Void-Money-Lose") === true) {
+                switch (Main::getInstance()->getConfig()->get("Type")) {
+                    case "all":
+                        $sender->sendMessage("§c§lINFO > §r§bYou Fell In Void And Lost §e$" . $senderMoney);
+                        EconomyAPI::getInstance()->reduceMoney($sender, $senderMoney);
+                        break;
+                    case "half":
+                        $sender->sendMessage("§c§lINFO > §r§bYou Fell In Void And Lost §e$" . $senderMoney / 2);
+                        EconomyAPI::getInstance()->reduceMoney($sender, $senderMoney / 2);
+                        break;
+                    case "amount":
+                        $sender->sendMessage("§c§lINFO > §r§bYou Fell In Void And Lost §e$" . (float)Main::getInstance()->getConfig()->get("Money-Loss"));
+                        EconomyAPI::getInstance()->reduceMoney($sender, (float)Main::getInstance()->getConfig()->get("Money-Loss"));
+                        break;
+                    case "percent":
+                        $sender->sendMessage("§c§lINFO > §r§bYou Fell In Void And Lost §e$" . ((float)Main::getInstance()->getConfig()->get("Money-Loss") / 100) * $senderMoney);
+                        EconomyAPI::getInstance()->reduceMoney($sender, ((float)Main::getInstance()->getConfig()->get("Money-Loss") / 100) * $senderMoney);
+                        break;
+                }
+            }
+            $event->cancel();
+        }
     }
-    public function onDeath(PlayerDeathEvent $event) : void
+
+    public function onBreak(BlockBreakEvent $event): void
+    {
+        if (Main::getInstance()->getConfig()->get("pickup") === true) {
+            $sender = $event->getPlayer();
+            if (!Main::getInstance()->shouldPickup($sender->getWorld()->getFolderName()))
+                return;
+            // Send items to player
+            $drops = $event->getDrops();
+            foreach ($drops as $key => $drop) {
+                if ($sender->getInventory()->canAddItem($drop)) {
+                    $sender->getInventory()->addItem($drop);
+                    unset($drops[$key]);
+                } else {
+                    if (Main::getInstance()->fullInvPopup != '') {
+                        $sender->sendPopup(TextFormat::colorize(Main::getInstance()->pickupfullInvPopup));
+                    }
+                }
+            }
+            $event->setDrops($drops);
+            // Send xp to player
+            $xpDrops = $event->getXpDropAmount();
+            $sender->getXpManager()->addXp($xpDrops);
+            $event->setXpDropAmount(0);
+        }
+    }
+
+    public function onDeath(PlayerDeathEvent $event): void
     {
         $sender = $event->getPlayer();
         if (Main::getInstance()->getConfig()->get("KeepInventory") == true) {
-    			$worldName = $event->getPlayer()->getWorld()->getDisplayName();
-    			$worlds = Main::getInstance()->getConfig()->get("KeepInventory-Worlds");
-    			switch (Main::getInstance()->getConfig()->get("KeepInventory-Mode")) {
-    				case "all":
-    					$event->setKeepInventory(true);
-    					break;
-    				case "whitelist":
-    					if (in_array($worldName, $worlds)) {
-    						$event->setKeepInventory(true);
-    					}
-    					break;
-    				case "blacklist":
-    					if (!in_array($worldName, $worlds)) {
-    						$event->setKeepInventory(true);
-    					}
-    					break;
-    			}
-    		} else {
-    			$event->setKeepInventory(false);
-    		}
-        if(!$sender->getLastDamageCause() instanceof EntityDamageByEntityEvent) return;
+            $worldName = $event->getPlayer()->getWorld()->getDisplayName();
+            $worlds = Main::getInstance()->getConfig()->get("KeepInventory-Worlds");
+            switch (Main::getInstance()->getConfig()->get("KeepInventory-Mode")) {
+                case "all":
+                    $event->setKeepInventory(true);
+                    break;
+                case "whitelist":
+                    if (in_array($worldName, $worlds)) {
+                        $event->setKeepInventory(true);
+                    }
+                    break;
+                case "blacklist":
+                    if (!in_array($worldName, $worlds)) {
+                        $event->setKeepInventory(true);
+                    }
+                    break;
+            }
+        } else {
+            $event->setKeepInventory(false);
+        }
+
+        $lastDamage = $sender->getLastDamageCause();
+        if (!$lastDamage instanceof EntityDamageByEntityEvent) return;
+
         $senderMoney = EconomyAPI::getInstance()->myMoney($sender);
-        $damager = $sender->getLastDamageCause()->getDamager();
+        $damager = $lastDamage->getDamager();
         if (Main::getInstance()->getConfig()->get("Death-Money-Lose") === true) {
-        if (!$damager instanceof Player)
-        {
-            Main::getInstance()->naturalMoneyLoss($sender, $senderMoney);
-            return;
-        }
-        if (Main::getInstance()->getConfig()->get("Type") == "all"){
-            if (Main::getInstance()->getConfig()->get("KillerGainMoney"))
-            {
-                $damager->sendMessage("§c§lINFO > §r§bYou Have Killed §e " . $sender->getName() . " §bAnd Stole §e$" . $senderMoney);
-                EconomyAPI::getInstance()->addMoney($damager, $senderMoney);
+            if (!$damager instanceof Player) {
+                Main::getInstance()->naturalMoneyLoss($sender, $senderMoney);
+                return;
             }
-            $sender->sendMessage("§c§lINFO > §r§bYou Died And Lost §e$" . $senderMoney);
-            EconomyAPI::getInstance()->reduceMoney($sender, $senderMoney);
-        }
-        if (Main::getInstance()->getConfig()->get("Type") == "half"){
-            if (Main::getInstance()->getConfig()->get("KillerGainMoney"))
-            {
-                $damager->sendMessage("§c§lINFO > §r§bYou Have Killed §e " . $sender->getName() . " §bAnd Stole §e$" . $senderMoney / 2);
-                EconomyAPI::getInstance()->addMoney($damager, $senderMoney / 2);
+            switch (Main::getInstance()->getConfig()->get("Type")) {
+                case "all":
+                    if (Main::getInstance()->getConfig()->get("KillerGainMoney")) {
+                        $damager->sendMessage("§c§lINFO > §r§bYou Have Killed §e " . $sender->getName() . " §bAnd Stole §e$" . $senderMoney);
+                        EconomyAPI::getInstance()->addMoney($damager, $senderMoney);
+                    }
+                    $sender->sendMessage("§c§lINFO > §r§bYou Died And Lost §e$" . $senderMoney);
+                    EconomyAPI::getInstance()->reduceMoney($sender, $senderMoney);
+                    break;
+                case "half":
+                    if (Main::getInstance()->getConfig()->get("KillerGainMoney")) {
+                        $damager->sendMessage("§c§lINFO > §r§bYou Have Killed §e " . $sender->getName() . " §bAnd Stole §e$" . $senderMoney / 2);
+                        EconomyAPI::getInstance()->addMoney($damager, $senderMoney / 2);
+                    }
+                    $sender->sendMessage("§c§lINFO > §r§bYou Died And Lost §e$" . $senderMoney / 2);
+                    EconomyAPI::getInstance()->reduceMoney($sender, $senderMoney / 2);
+                    break;
+                case "amount":
+                    if (Main::getInstance()->getConfig()->get("KillerGainMoney")) {
+                        $damager->sendMessage("§c§lINFO > §r§bYou Have Killed §e " . $sender->getName() . " §bAnd Stole §e$" . (float)Main::getInstance()->getConfig()->get("Money-Loss"));
+                        EconomyAPI::getInstance()->addMoney($damager, (float)Main::getInstance()->getConfig()->get("Money-Loss"));
+                    }
+                    $sender->sendMessage("§c§lINFO > §r§bYou Died And Lost §e$" . (float)Main::getInstance()->getConfig()->get("Money-Loss"));
+                    EconomyAPI::getInstance()->reduceMoney($sender, (float)Main::getInstance()->getConfig()->get("Money-Loss"));
+                    break;
+                case "percent":
+                    if (Main::getInstance()->getConfig()->get("KillerGainMoney")) {
+                        $damager->sendMessage("§c§lINFO > §r§bYou Have Killed §e " . $sender->getName() . " §bAnd Stole §e$" . ((float)Main::getInstance()->getConfig()->get("Money-Loss") / 100) * $senderMoney);
+                        EconomyAPI::getInstance()->addMoney($damager, ((float)Main::getInstance()->getConfig()->get("Money-Loss") / 100) * $senderMoney);
+                    }
+                    $sender->sendMessage("§c§lINFO > §r§bYou Died And Lost §e$" . ((float)Main::getInstance()->getConfig()->get("Money-Loss") / 100) * $senderMoney);
+                    EconomyAPI::getInstance()->reduceMoney($sender, ((float)Main::getInstance()->getConfig()->get("Money-Loss") / 100) * $senderMoney);
+                    break;
             }
-            $sender->sendMessage("§c§lINFO > §r§bYou Died And Lost §e$" . $senderMoney / 2);
-            EconomyAPI::getInstance()->reduceMoney($sender, $senderMoney / 2);
         }
-        if (Main::getInstance()->getConfig()->get("Type") == "amount"){
-            if (Main::getInstance()->getConfig()->get("KillerGainMoney"))
-            {
-                $damager->sendMessage("§c§lINFO > §r§bYou Have Killed §e " . $sender->getName() . " §bAnd Stole §e$" . (double)Main::getInstance()->getConfig()->get("Money-Loss"));
-                EconomyAPI::getInstance()->addMoney($damager, (double)Main::getInstance()->getConfig()->get("Money-Loss"));
-            }
-            $sender->sendMessage("§c§lINFO > §r§bYou Died And Lost §e$" . (double)Main::getInstance()->getConfig()->get("Money-Loss"));
-            EconomyAPI::getInstance()->reduceMoney($sender, (double)Main::getInstance()->getConfig()->get("Money-Loss"));
-        }
-        if (Main::getInstance()->getConfig()->get("Type") == "percent"){
-            if (Main::getInstance()->getConfig()->get("KillerGainMoney"))
-            {
-                $damager->sendMessage("§c§lINFO > §r§bYou Have Killed §e " . $sender->getName() . " §bAnd Stole §e$" . ((double)Main::getInstance()->getConfig()->get("Money-Loss") / 100) * $senderMoney);
-                EconomyAPI::getInstance()->addMoney($damager, ((double)Main::getInstance()->getConfig()->get("Money-Loss") / 100) * $senderMoney);
-            }
-            $sender->sendMessage("§c§lINFO > §r§bYou Died And Lost §e$" . ((double)Main::getInstance()->getConfig()->get("Money-Loss") / 100) * $senderMoney);
-            EconomyAPI::getInstance()->reduceMoney($sender, ((double)Main::getInstance()->getConfig()->get("Money-Loss") / 100) * $senderMoney);
-        }
-      }
     }
-    public function onPlayerTrample(EntityTrampleFarmlandEvent $event){
-	  	$event->cancel();
-  	}
-  	public function onMove(PlayerMoveEvent $event): void {
-      $player = $event->getPlayer();
-      $level = $player->getWorld();
-      if($level->getBlock($player->getPosition())->getName() === "End Portal"){
-        Main::getInstance()->getServer()->dispatchCommand($player, Main::getInstance()->getConfig()->get("EndPortalCommand"));
-      }
-      if($level->getBlock($player->getPosition())->getName() === "Portal"){
-        Main::getInstance()->getServer()->dispatchCommand($player, Main::getInstance()->getConfig()->get("PortalCommand"));
-      }
+
+    public function onPlayerTrample(EntityTrampleFarmlandEvent $event)
+    {
+        $event->cancel();
     }
-  public function onQuit(PlayerQuitEvent $event){
+
+    public function onMove(PlayerMoveEvent $event): void
+    {
+        $player = $event->getPlayer();
+        $level = $player->getWorld();
+        if ($level->getBlock($player->getPosition())->getName() === "End Portal") {
+            Main::getInstance()->getServer()->dispatchCommand($player, Main::getInstance()->getConfig()->get("EndPortalCommand"));
+        }
+        if ($level->getBlock($player->getPosition())->getName() === "Portal") {
+            Main::getInstance()->getServer()->dispatchCommand($player, Main::getInstance()->getConfig()->get("PortalCommand"));
+        }
+    }
+
+    public function onQuit(PlayerQuitEvent $event)
+    {
         $sender = $event->getPlayer();
-        $event->setQuitMessage(str_replace(["{name}"], [$sender->getName()], Main::getInstance()->getConfig()->get("left-message")));
-  }
+        //$event->setQuitMessage(str_replace(["{name}"], [$sender->getName()], Main::getInstance()->getConfig()->get("left-message")));
+    }
 }
