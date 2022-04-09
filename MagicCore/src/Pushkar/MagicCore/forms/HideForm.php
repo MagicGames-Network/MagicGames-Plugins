@@ -18,7 +18,7 @@ class HideForm extends MenuForm
             "§l§cPlayer Hide/Un hide",
             "§bPlayer Hide / Un Hide\n\n§bThis Feature Will Reduce Lag On Player Device\n\n§a(§cNote:§a This Function Is Still In Beta You May Can Get Error)",
             [
-                new MenuOption("§eHide Status: " . isset($this->hide[$player->getName()]) ? "Hided" : "Un Hided" . "\n§8Click To Change")
+                new MenuOption("§eHide Status: " . (isset($this->hide[$player->getName()]) ? "Hided" : "Un Hided" . "\n§8Click To Change"))
             ],
             function (Player $player, int $selected): void {
                 if ($selected === 1) {

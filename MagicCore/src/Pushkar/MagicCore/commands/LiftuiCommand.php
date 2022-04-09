@@ -2,6 +2,7 @@
 
 namespace Pushkar\MagicCore\commands;
 
+use Pushkar\MagicCore\Main;
 use pocketmine\player\Player;
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
@@ -19,7 +20,7 @@ class LiftuiCommand extends Command
     {
 
         if ($sender instanceof Player) {
-            $sender->sendForm(new LiftUiForm());
+            $sender->sendForm(new LiftUiForm(Main::getInstance()));
         }
     }
 }

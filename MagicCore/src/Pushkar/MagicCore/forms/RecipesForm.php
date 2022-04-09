@@ -11,7 +11,6 @@ use jojoe77777\FormAPI\SimpleForm;
 
 class RecipesForm extends MenuForm
 {
-
     public function __construct()
     {
         parent::__construct("§l§6RECIPES BOOK", "§bUse Only Custom Crafting Table To Craft Things, Do /customtable", [
@@ -126,12 +125,12 @@ class RecipesForm extends MenuForm
                     break;
 
                 case 6:
-                    $sender->sendForm(new RecipesForm($sender));
+                    $sender->sendForm(new RecipesForm());
                     break;
             }
         });
         $form->setTitle("§l§6CUSTOM ITEMS RECIPES");
-        $form->setContent("§dSelect The Which Tool Recipe You Want:", 0,);
+        $form->setContent("§dSelect The Which Tool Recipe You Want:");
         $form->addButton("§l§dSWORDS\n§9»» §r§6Tap To View", 1, "https://cdn-icons-png.flaticon.com/128/2466/2466942.png");
         $form->addButton("§l§dAXE\n§9»» §r§6Tap To View", 1, "https://cdn-icons-png.flaticon.com/128/6769/6769130.png");
         $form->addButton("§l§dPICKAXE\n§9»» §r§6Tap To View", 1, "https://i.imgur.com/l4cLq8v.png");
@@ -151,13 +150,13 @@ class RecipesForm extends MenuForm
             }
             switch ($data) {
                 case 0:
-                    $sender->sendForm(new RecipesForm($sender));
+                    $sender->sendForm(new RecipesForm());
                     break;
             }
         });
         $name = $sender->getName();
         $form->setTitle("§l§6RECIPES HELP");
-        $form->setContent("§bHi,§e $name \n\n§l§a» §6VIDEO MODE:§r §eFirst Go To Settings > Video > UI Profile > Classic§r\n\n§l§a» §6COMMAND:§r §eDo /customtable To Open Custom Table§r\n\n§l§a» §6ERROR:§r §eIf You Are Unable To Open Recipe Join Discord And See Recipe Channel", 0,);
+        $form->setContent("§bHi,§e $name \n\n§l§a» §6VIDEO MODE:§r §eFirst Go To Settings > Video > UI Profile > Classic§r\n\n§l§a» §6COMMAND:§r §eDo /customtable To Open Custom Table§r\n\n§l§a» §6ERROR:§r §eIf You Are Unable To Open Recipe Join Discord And See Recipe Channel");
         $form->addButton("§l§aBACK\n§9»» §r§bTap To Go Back", 0, "textures/ui/icon_import");
         $sender->sendForm($form);
         return $form;
@@ -271,12 +270,12 @@ class RecipesForm extends MenuForm
                     break;
 
                 case 25:
-                    $sender->sendForm(new RecipesForm($sender));
+                    $sender->sendForm(new RecipesForm());
                     break;
             }
         });
         $form->setTitle("§l§6MINION RECIPES");
-        $form->setContent("§dSelect The Which Minion Recipe You Want:", 0,);
+        $form->setContent("§dSelect The Which Minion Recipe You Want:");
         $form->addButton("§l§dCOBBLESTONE MINION\n§9»» §r§6Tap To View", 1, "https://cdn-icons-png.flaticon.com/128/891/891978.png");
         $form->addButton("§l§dCOAL MINION\n§9»» §r§6Tap To View", 1, "https://cdn-icons-png.flaticon.com/128/891/891978.png");
         $form->addButton("§l§dIRON MINION\n§9»» §r§6Tap To View", 1, "https://cdn-icons-png.flaticon.com/128/891/891978.png");
@@ -395,12 +394,12 @@ class RecipesForm extends MenuForm
                     break;
 
                 case 20:
-                    $sender->sendForm(new RecipesForm($sender));
+                    $sender->sendForm(new RecipesForm());
                     break;
             }
         });
         $form->setTitle("§l§6ARMOR RECIPES");
-        $form->setContent("§dSelect The Which Armor Recipe You Want:", 0,);
+        $form->setContent("§dSelect The Which Armor Recipe You Want:");
         $form->addButton("§l§dGOD ARMOR\n§9»» §r§6Tap To Open", 1, "https://cdn-icons-png.flaticon.com/128/6010/6010434.png");
         $form->addButton("§l§dMINER ARMOR\n§9»» §r§6Tap To Open", 1, "https://cdn-icons-png.flaticon.com/128/6010/6010434.png");
         $form->addButton("§l§dFARMER ARMOR\n§9»» §r§6Tap To Open", 1, "https://cdn-icons-png.flaticon.com/128/6010/6010434.png");
@@ -550,12 +549,12 @@ class RecipesForm extends MenuForm
                     break;
 
                 case 29:
-                    $sender->sendForm(new RecipesForm($sender));
+                    $sender->sendForm(new RecipesForm());
                     break;
             }
         });
         $form->setTitle("§l§6ENCHANTED BLOCKS RECIPES");
-        $form->setContent("§dSelect The Which Enchanted Item Recipe You Want:", 0,);
+        $form->setContent("§dSelect The Which Enchanted Item Recipe You Want:");
         $form->addButton("§l§dENCHANTED COBBLESTONE\n§9»» §r§6Tap To View", 0, "textures/blocks/cobblestone");
         $form->addButton("§l§dENCHANTED COAL\n§9»» §r§6Tap To View", 0, "textures/items/coal");
         $form->addButton("§l§dENCHANTED IRON\n§9»» §r§6Tap To View", 0, "textures/items/iron_ingot");
@@ -619,7 +618,7 @@ class RecipesForm extends MenuForm
             }
         });
         $form->setTitle("§l§6GOD ARMOR RECIPE");
-        $form->setContent("§dSelect The Which God Armor Piece Recipe You Want:", 0,);
+        $form->setContent("§dSelect The Which God Armor Piece Recipe You Want:");
         $form->addButton("§l§dGOD HELMET\n§9»» §r§6Tap To View", 0, "textures/items/gold_helmet");
         $form->addButton("§l§dGOD CHESTPLATE\n§9»» §r§6Tap To View", 0, "textures/items/gold_chestplate");
         $form->addButton("§l§dGOD LEGGINGS\n§9»» §r§6Tap To View", 0, "textures/items/gold_leggings");
@@ -659,7 +658,7 @@ class RecipesForm extends MenuForm
             }
         });
         $form->setTitle("§l§6MINER ARMOR RECIPE");
-        $form->setContent("§dSelect The Which Miner Armor Piece Recipe You Want:", 0,);
+        $form->setContent("§dSelect The Which Miner Armor Piece Recipe You Want:");
         $form->addButton("§l§dMINER HELMET\n§9»» §r§6Tap To View", 0, "textures/items/chainmail_helmet");
         $form->addButton("§l§dMINER CHESTPLATE\n§9»» §r§6Tap To View", 0, "textures/items/chainmail_chestplate");
         $form->addButton("§l§dMINER LEGGINGS\n§9»» §r§6Tap To View", 0, "textures/items/chainmail_leggings");
@@ -701,7 +700,7 @@ class RecipesForm extends MenuForm
             }
         });
         $form->setTitle("§l§6FARMER ARMOR RECIPE");
-        $form->setContent("§dSelect The Which Farmer Armor Piece Recipe You Want:", 0,);
+        $form->setContent("§dSelect The Which Farmer Armor Piece Recipe You Want:");
         $form->addButton("§l§dFARMER HELMET\n§9»» §r§6Tap To View", 0, "textures/items/chainmail_helmet");
         $form->addButton("§l§dFARMER CHESTPLATE\n§9»» §r§6Tap To View", 0, "textures/items/chainmail_chestplate");
         $form->addButton("§l§dFARMER LEGGINGS\n§9»» §r§6Tap To View", 0, "textures/items/chainmail_leggings");
@@ -743,7 +742,7 @@ class RecipesForm extends MenuForm
             }
         });
         $form->setTitle("§l§6LAPIS ARMOR RECIPE");
-        $form->setContent("§dSelect The Which Lapis Armor Piece Recipe You Want:", 0,);
+        $form->setContent("§dSelect The Which Lapis Armor Piece Recipe You Want:");
         $form->addButton("§l§dLAPIS HELMET\n§9»» §r§6Tap To View", 0, "textures/items/chainmail_helmet");
         $form->addButton("§l§dLAPIS CHESTPLATE\n§9»» §r§6Tap To View", 0, "textures/items/chainmail_chestplate");
         $form->addButton("§l§dLAPIS LEGGINGS\n§9»» §r§6Tap To View", 0, "textures/items/chainmail_leggings");
@@ -785,7 +784,7 @@ class RecipesForm extends MenuForm
             }
         });
         $form->setTitle("§l§6END ARMOR RECIPE");
-        $form->setContent("§dSelect The Which End Armor Piece Recipe You Want:", 0,);
+        $form->setContent("§dSelect The Which End Armor Piece Recipe You Want:");
         $form->addButton("§l§dEND HELMET\n§9»» §r§6Tap To View", 0, "textures/items/chainmail_helmet");
         $form->addButton("§l§dEND CHESTPLATE\n§9»» §r§6Tap To View", 0, "textures/items/chainmail_chestplate");
         $form->addButton("§l§dEND LEGGINGS\n§9»» §r§6Tap To View", 0, "textures/items/chainmail_leggings");
@@ -827,7 +826,7 @@ class RecipesForm extends MenuForm
             }
         });
         $form->setTitle("§l§6GOLEM ARMOR RECIPE");
-        $form->setContent("§dSelect The Which Golem Armor Piece Recipe You Want:", 0,);
+        $form->setContent("§dSelect The Which Golem Armor Piece Recipe You Want:");
         $form->addButton("§l§dGOLEM HELMET\n§9»» §r§6Tap To View", 0, "textures/items/chainmail_helmet");
         $form->addButton("§l§dGOLEM CHESTPLATE\n§9»» §r§6Tap To View", 0, "textures/items/chainmail_chestplate");
         $form->addButton("§l§dGOLEM LEGGINGS\n§9»» §r§6Tap To View", 0, "textures/items/chainmail_leggings");
@@ -869,7 +868,7 @@ class RecipesForm extends MenuForm
             }
         });
         $form->setTitle("§l§6PUMPKIN ARMOR RECIPE");
-        $form->setContent("§dSelect The Which Pumpkin Armor Piece Recipe You Want:", 0,);
+        $form->setContent("§dSelect The Which Pumpkin Armor Piece Recipe You Want:");
         $form->addButton("§l§dPUMPKIN HELMET\n§9»» §r§6Tap To View", 0, "textures/items/chainmail_helmet");
         $form->addButton("§l§dPUMPKIN CHESTPLATE\n§9»» §r§6Tap To View", 0, "textures/items/chainmail_chestplate");
         $form->addButton("§l§dPUMPKIN LEGGINGS\n§9»» §r§6Tap To View", 0, "textures/items/chainmail_leggings");
@@ -911,7 +910,7 @@ class RecipesForm extends MenuForm
             }
         });
         $form->setTitle("§l§6NETHER ARMOR RECIPE");
-        $form->setContent("§dSelect The Which Nether Armor Piece Recipe You Want:", 0,);
+        $form->setContent("§dSelect The Which Nether Armor Piece Recipe You Want:");
         $form->addButton("§l§dNETHER HELMET\n§9»» §r§6Tap To View", 0, "textures/items/chainmail_helmet");
         $form->addButton("§l§dNETHER CHESTPLATE\n§9»» §r§6Tap To View", 0, "textures/items/chainmail_chestplate");
         $form->addButton("§l§dNETHER LEGGINGS\n§9»» §r§6Tap To View", 0, "textures/items/chainmail_leggings");
@@ -953,7 +952,7 @@ class RecipesForm extends MenuForm
             }
         });
         $form->setTitle("§l§6OAK ARMOR RECIPE");
-        $form->setContent("§dSelect The Which Oak Armor Piece Recipe You Want:", 0,);
+        $form->setContent("§dSelect The Which Oak Armor Piece Recipe You Want:");
         $form->addButton("§l§dOAK HELMET\n§9»» §r§6Tap To View", 0, "textures/items/chainmail_helmet");
         $form->addButton("§l§dOAK CHESTPLATE\n§9»» §r§6Tap To View", 0, "textures/items/chainmail_chestplate");
         $form->addButton("§l§dOAK LEGGINGS\n§9»» §r§6Tap To View", 0, "textures/items/chainmail_leggings");
@@ -995,7 +994,7 @@ class RecipesForm extends MenuForm
             }
         });
         $form->setTitle("§l§6ICE ARMOR RECIPE");
-        $form->setContent("§dSelect The Which Ice Armor Piece Recipe You Want:", 0,);
+        $form->setContent("§dSelect The Which Ice Armor Piece Recipe You Want:");
         $form->addButton("§l§dICE HELMET\n§9»» §r§6Tap To View", 0, "textures/items/chainmail_helmet");
         $form->addButton("§l§dICE CHESTPLATE\n§9»» §r§6Tap To View", 0, "textures/items/chainmail_chestplate");
         $form->addButton("§l§dICE LEGGINGS\n§9»» §r§6Tap To View", 0, "textures/items/chainmail_leggings");
@@ -1037,7 +1036,7 @@ class RecipesForm extends MenuForm
             }
         });
         $form->setTitle("§l§6ASSASSIN ARMOR RECIPE");
-        $form->setContent("§dSelect The Which Assassin Armor Piece Recipe You Want:", 0,);
+        $form->setContent("§dSelect The Which Assassin Armor Piece Recipe You Want:");
         $form->addButton("§l§dASSASSIN HELMET\n§9»» §r§6Tap To View", 0, "textures/items/chainmail_helmet");
         $form->addButton("§l§dASSASSIN CHESTPLATE\n§9»» §r§6Tap To View", 0, "textures/items/chainmail_chestplate");
         $form->addButton("§l§dASSASSIN LEGGINGS\n§9»» §r§6Tap To View", 0, "textures/items/chainmail_leggings");
@@ -1079,7 +1078,7 @@ class RecipesForm extends MenuForm
             }
         });
         $form->setTitle("§l§6TANK ARMOR RECIPE");
-        $form->setContent("§dSelect The Which Tank Armor Piece Recipe You Want:", 0,);
+        $form->setContent("§dSelect The Which Tank Armor Piece Recipe You Want:");
         $form->addButton("§l§dTANK HELMET\n§9»» §r§6Tap To View", 0, "textures/items/chainmail_helmet");
         $form->addButton("§l§dTANK CHESTPLATE\n§9»» §r§6Tap To View", 0, "textures/items/chainmail_chestplate");
         $form->addButton("§l§dTANK LEGGINGS\n§9»» §r§6Tap To View", 0, "textures/items/chainmail_leggings");
@@ -1121,7 +1120,7 @@ class RecipesForm extends MenuForm
             }
         });
         $form->setTitle("§l§6WISE ARMOR RECIPE");
-        $form->setContent("§dSelect The Which Wise Armor Piece Recipe You Want:", 0,);
+        $form->setContent("§dSelect The Which Wise Armor Piece Recipe You Want:");
         $form->addButton("§l§dWISE HELMET\n§9»» §r§6Tap To View", 0, "textures/items/chainmail_helmet");
         $form->addButton("§l§dWISE CHESTPLATE\n§9»» §r§6Tap To View", 0, "textures/items/chainmail_chestplate");
         $form->addButton("§l§dWISE LEGGINGS\n§9»» §r§6Tap To View", 0, "textures/items/chainmail_leggings");
@@ -1163,7 +1162,7 @@ class RecipesForm extends MenuForm
             }
         });
         $form->setTitle("§l§6EMERALD ARMOR RECIPE");
-        $form->setContent("§dSelect The Which Emerald Armor Piece Recipe You Want:", 0,);
+        $form->setContent("§dSelect The Which Emerald Armor Piece Recipe You Want:");
         $form->addButton("§l§dEMERALD HELMET\n§9»» §r§6Tap To View", 0, "textures/items/chainmail_helmet");
         $form->addButton("§l§dEMERALD CHESTPLATE\n§9»» §r§6Tap To View", 0, "textures/items/chainmail_chestplate");
         $form->addButton("§l§dEMERALD LEGGINGS\n§9»» §r§6Tap To View", 0, "textures/items/chainmail_leggings");
@@ -1205,7 +1204,7 @@ class RecipesForm extends MenuForm
             }
         });
         $form->setTitle("§l§6REDSTONE ARMOR RECIPE");
-        $form->setContent("§dSelect The Which Redstone Armor Piece Recipe You Want:", 0,);
+        $form->setContent("§dSelect The Which Redstone Armor Piece Recipe You Want:");
         $form->addButton("§l§dREDSTONE HELMET\n§9»» §r§6Tap To View", 0, "textures/items/chainmail_helmet");
         $form->addButton("§l§dREDSTONE CHESTPLATE\n§9»» §r§6Tap To View", 0, "textures/items/chainmail_chestplate");
         $form->addButton("§l§dREDSTONE LEGGINGS\n§9»» §r§6Tap To View", 0, "textures/items/chainmail_leggings");
@@ -1247,7 +1246,7 @@ class RecipesForm extends MenuForm
             }
         });
         $form->setTitle("§l§6UNSTABLE ARMOR RECIPE");
-        $form->setContent("§dSelect The Which Unstable Armor Piece Recipe You Want:", 0,);
+        $form->setContent("§dSelect The Which Unstable Armor Piece Recipe You Want:");
         $form->addButton("§l§dUNSTABLE HELMET\n§9»» §r§6Tap To View", 0, "textures/items/chainmail_helmet");
         $form->addButton("§l§dUNSTABLE CHESTPLATE\n§9»» §r§6Tap To View", 0, "textures/items/chainmail_chestplate");
         $form->addButton("§l§dUNSTABLE LEGGINGS\n§9»» §r§6Tap To View", 0, "textures/items/chainmail_leggings");
@@ -1289,7 +1288,7 @@ class RecipesForm extends MenuForm
             }
         });
         $form->setTitle("§l§6SPIDER ARMOR RECIPE");
-        $form->setContent("§dSelect The Which Spider Armor Piece Recipe You Want:", 0,);
+        $form->setContent("§dSelect The Which Spider Armor Piece Recipe You Want:");
         $form->addButton("§l§dSPIDER HELMET\n§9»» §r§6Tap To View", 0, "textures/items/chainmail_helmet");
         $form->addButton("§l§dSPIDER CHESTPLATE\n§9»» §r§6Tap To View", 0, "textures/items/chainmail_chestplate");
         $form->addButton("§l§dSPIDER LEGGINGS\n§9»» §r§6Tap To View", 0, "textures/items/chainmail_leggings");
@@ -1331,7 +1330,7 @@ class RecipesForm extends MenuForm
             }
         });
         $form->setTitle("§l§6DIGGER ARMOR RECIPE");
-        $form->setContent("§dSelect The Which Digger Armor Piece Recipe You Want:", 0,);
+        $form->setContent("§dSelect The Which Digger Armor Piece Recipe You Want:");
         $form->addButton("§l§dDIGGER HELMET\n§9»» §r§6Tap To View", 0, "textures/items/chainmail_helmet");
         $form->addButton("§l§dDIGGER CHESTPLATE\n§9»» §r§6Tap To View", 0, "textures/items/chainmail_chestplate");
         $form->addButton("§l§dDIGGER LEGGINGS\n§9»» §r§6Tap To View", 0, "textures/items/chainmail_leggings");
@@ -1373,7 +1372,7 @@ class RecipesForm extends MenuForm
             }
         });
         $form->setTitle("§l§6TECHNO ARMOR RECIPE");
-        $form->setContent("§dSelect The Which Techno Armor Piece Recipe You Want:", 0,);
+        $form->setContent("§dSelect The Which Techno Armor Piece Recipe You Want:");
         $form->addButton("§l§dTECHNO HELMET\n§9»» §r§6Tap To View", 0, "textures/items/chainmail_helmet");
         $form->addButton("§l§dTECHNO CHESTPLATE\n§9»» §r§6Tap To View", 0, "textures/items/chainmail_chestplate");
         $form->addButton("§l§dTECHNO LEGGINGS\n§9»» §r§6Tap To View", 0, "textures/items/chainmail_leggings");
@@ -1415,7 +1414,7 @@ class RecipesForm extends MenuForm
             }
         });
         $form->setTitle("§l§6LIQUED ARMOR RECIPE");
-        $form->setContent("§dSelect The Which Liqued Armor Piece Recipe You Want:", 0,);
+        $form->setContent("§dSelect The Which Liqued Armor Piece Recipe You Want:");
         $form->addButton("§l§dLIQUED HELMET\n§9»» §r§6Tap To View", 0, "textures/items/chainmail_helmet");
         $form->addButton("§l§dLIQUED CHESTPLATE\n§9»» §r§6Tap To View", 0, "textures/items/chainmail_chestplate");
         $form->addButton("§l§dLIQUED LEGGINGS\n§9»» §r§6Tap To View", 0, "textures/items/chainmail_leggings");
@@ -1462,12 +1461,12 @@ class RecipesForm extends MenuForm
                     break;
 
                 case 7:
-                    $sender->sendForm(new RecipesForm($sender));
+                    $sender->sendForm(new RecipesForm());
                     break;
             }
         });
         $form->setTitle("§l§6ORE SPAWNER RECIPES");
-        $form->setContent("§bSelect The Which Ore Spawner Recipe You Want:", 0,);
+        $form->setContent("§bSelect The Which Ore Spawner Recipe You Want:");
         $form->addButton("§l§dCOAL SPAWNER\n§9»» §r§6Tap To View", 0, "textures/items/coal");
         $form->addButton("§l§dIRON SPAWNER\n§9»» §r§6Tap To View", 0, "textures/items/iron_ingot");
         $form->addButton("§l§dGOLD SPAWNER\n§9»» §r§6Tap To View", 0, "textures/items/gold_ingot");
@@ -1531,12 +1530,12 @@ class RecipesForm extends MenuForm
                     Server::getInstance()->dispatchCommand($sender, "invcraft view minion");
                     break;
                 case 14:
-                    $sender->sendForm(new RecipesForm($sender));
+                    $sender->sendForm(new RecipesForm());
                     break;
             }
         });
         $form->setTitle("§l§6CUSTOM SWORD RECIPES");
-        $form->setContent("§bSelect The Recipe You Want To Craft:", 0,);
+        $form->setContent("§bSelect The Recipe You Want To Craft:");
         $form->addButton("§l§dASPECT OF THE END\n§9»» §r§6Tap To View", 0, "textures/items/sword/aspect_of_the_end");
         $form->addButton("§l§dELUCIDATOR\n§9»» §r§6Tap To View", 0, "textures/items/sword/elucidator");
         $form->addButton("§l§dGOLEM SWORD\n§9»» §r§6Tap To View", 0, "textures/items/sword/golem_sword");
@@ -1583,12 +1582,12 @@ class RecipesForm extends MenuForm
                     Server::getInstance()->dispatchCommand($sender, "invcraft view minion");
                     break;
                 case 6:
-                    $sender->sendForm(new RecipesForm($sender));
+                    $sender->sendForm(new RecipesForm());
                     break;
             }
         });
         $form->setTitle("§l§6CUSTOM AXE RECIPES");
-        $form->setContent("§bSelect The Recipe You Want To Craft:", 0,);
+        $form->setContent("§bSelect The Recipe You Want To Craft:");
         $form->addButton("§l§dFROZEN SCYTHE\n§9»» §r§6Tap To View", 0, "textures/items/axe/frozen_scythe");
         $form->addButton("§l§dJUNGLE AXE\n§9»» §r§6Tap To View", 0, "textures/items/axe/jungle_axe");
         $form->addButton("§l§dMUSHROOM AXE\n§9»» §r§6Tap To View", 0, "textures/items/axe/mushroom_cow_axe");
@@ -1615,12 +1614,12 @@ class RecipesForm extends MenuForm
                     Server::getInstance()->dispatchCommand($sender, "invcraft view minion");
                     break;
                 case 2:
-                    $sender->sendForm(new RecipesForm($sender));
+                    $sender->sendForm(new RecipesForm());
                     break;
             }
         });
         $form->setTitle("§l§6CUSTOM HOE RECIPES");
-        $form->setContent("§bSelect The Recipe You Want To Craft:", 0,);
+        $form->setContent("§bSelect The Recipe You Want To Craft:");
         $form->addButton("§l§dHOE OF TILLING\n§9»» §r§6Tap To View", 0, "textures/items/hoe/hoe_of_tilling");
         $form->addButton("§l§dHOE OF GREATER TILLING\n§9»» §r§6Tap To View", 0, "textures/items/hoe/hoe_of_greater_tilling");
         $form->addButton("§l§aBACK\n§9»» §r§bTap To Go Back", 0, "textures/ui/icon_import");
@@ -1661,12 +1660,12 @@ class RecipesForm extends MenuForm
                     Server::getInstance()->dispatchCommand($sender, "invcraft view minion");
                     break;
                 case 8:
-                    $sender->sendForm(new RecipesForm($sender));
+                    $sender->sendForm(new RecipesForm());
                     break;
             }
         });
         $form->setTitle("§l§6CUSTOM PICKAXE RECIPES");
-        $form->setContent("§bSelect The Recipe You Want To Craft:", 0,);
+        $form->setContent("§bSelect The Recipe You Want To Craft:");
         $form->addButton("§l§dPICKAXE BOULDER\n§9»» §r§6Tap To View", 0, "textures/items/pickaxe/PickaxeBoulder");
         $form->addButton("§l§dPICKAXE DOLPHIN\n§9»» §r§6Tap To View", 0, "textures/items/pickaxe/PickaxeDolphin");
         $form->addButton("§l§dPICKAXE DRAGON\n§9»» §r§6Tap To View", 0, "textures/items/pickaxe/PickaxeDragon");
@@ -1724,11 +1723,11 @@ class RecipesForm extends MenuForm
                     break;
 
                 case 9:
-                    $sender->sendForm(new RecipesForm($sender));
+                    $sender->sendForm(new RecipesForm());
             }
         });
         $form->setTitle("§l§6CUSTOM ITEMS RECIPES");
-        $form->setContent("§bSelect The Which Item Recipe You Want:", 0,);
+        $form->setContent("§bSelect The Which Item Recipe You Want:");
         $form->addButton("§l§dDRAGON'S BREATH\n§9»» §r§6Tap To View", 0, "textures/items/dragons_breath");
         $form->addButton("§l§dSUPER SMELTER\n§9»» §r§6Tap To Get", 0, "textures/blocks/furnace_front_off");
         $form->addButton("§l§dSUPER COMPACTER\n§9»» §r§6Tap To Get", 0, "textures/blocks/dispenser_front_horizontal");
@@ -1764,12 +1763,12 @@ class RecipesForm extends MenuForm
                     break;
 
                 case 3:
-                    $sender->sendForm(new RecipesForm($sender));
+                    $sender->sendForm(new RecipesForm());
                     break;
             }
         });
         $form->setTitle("§l§6WANDS RECIPES");
-        $form->setContent("§bSelect The Recipe You Want To Craft:", 0,);
+        $form->setContent("§bSelect The Recipe You Want To Craft:");
         $form->addButton("§l§dBUILDER WAND\n§9»» §r§6Tap To View", 0, "textures/items/wand/builders_wand");
         $form->addButton("§l§dSELL WAND\n§9»» §r§6Tap To View", 0, "textures/items/wand/sell_wand");
         $form->addButton("§l§dSMELT WAND\n§9»» §r§6Tap To View", 0, "textures/items/wand/melt_wand");
@@ -1814,12 +1813,12 @@ class RecipesForm extends MenuForm
                     Server::getInstance()->dispatchCommand($sender, "invcraft view minion");
                     break;
                 case 9:
-                    $sender->sendForm(new RecipesForm($sender));
+                    $sender->sendForm(new RecipesForm());
                     break;
             }
         });
         $form->setTitle("§l§6CUSTOM FOOD RECIPES");
-        $form->setContent("§bSelect The Recipe You Want To Craft:", 0,);
+        $form->setContent("§bSelect The Recipe You Want To Craft:");
         $form->addButton("§l§dBURGER\n§9»» §r§6Tap To View", 0, "textures/items/food/burger");
         $form->addButton("§l§dCHRISTMAS PUDDING\n§9»» §r§6Tap To View", 0, "textures/items/food/christmas_pudding");
         $form->addButton("§l§dHOTDOG\n§9»» §r§6Tap To View", 0, "textures/items/food/hotdog");

@@ -199,12 +199,12 @@ class ItemsForm extends MenuForm
                     break;
 
                 case 25:
-                    $sender->sendForm(new ItemsForm($sender));
+                    $sender->sendForm(new ItemsForm());
                     break;
             }
         });
         $form->setTitle("§l§6MINION RECIPES");
-        $form->setContent("§dSelect The Which Minion Recipe You Want:", 0,);
+        $form->setContent("§dSelect The Which Minion Recipe You Want:");
         $form->addButton("§l§dCOBBLESTONE MINION\n§9»» §r§6Tap To View", 1, "https://cdn-icons-png.flaticon.com/128/891/891978.png");
         $form->addButton("§l§dCOAL MINION\n§9»» §r§6Tap To View", 1, "https://cdn-icons-png.flaticon.com/128/891/891978.png");
         $form->addButton("§l§dIRON MINION\n§9»» §r§6Tap To View", 1, "https://cdn-icons-png.flaticon.com/128/891/891978.png");
@@ -363,12 +363,12 @@ class ItemsForm extends MenuForm
                     Server::getInstance()->dispatchCommand($sender, "customarmor Speeder full $ca");
                     break;
                 case 20:
-                    $sender->sendForm(new ItemsForm($sender));
+                    $sender->sendForm(new ItemsForm());
                     break;
             }
         });
         $form->setTitle("§l§6ARMOR RECIPES");
-        $form->setContent("§dSelect The Which Armor Recipe You Want:", 0,);
+        $form->setContent("§dSelect The Which Armor Recipe You Want:");
         $form->addButton("§l§dGOD ARMOR\n§9»» §r§6Tap To Open", 1, "https://cdn-icons-png.flaticon.com/128/6010/6010434.png");
         $form->addButton("§l§dMINER ARMOR\n§9»» §r§6Tap To Open", 1, "https://cdn-icons-png.flaticon.com/128/6010/6010434.png");
         $form->addButton("§l§dFARMER ARMOR\n§9»» §r§6Tap To Open", 1, "https://cdn-icons-png.flaticon.com/128/6010/6010434.png");
@@ -639,12 +639,12 @@ class ItemsForm extends MenuForm
                     break;
 
                 case 28:
-                    $sender->sendForm(new ItemsForm($sender));
+                    $sender->sendForm(new ItemsForm());
                     break;
             }
         });
         $form->setTitle("§l§6ENCHANTED BLOCKS RECIPES");
-        $form->setContent("§dSelect The Which Enchanted Item Recipe You Want:", 0,);
+        $form->setContent("§dSelect The Which Enchanted Item Recipe You Want:");
         $form->addButton("§l§dENCHANTED COBBLESTONE\n§9»» §r§6Tap To View", 0, "textures/blocks/cobblestone");
         $form->addButton("§l§dENCHANTED COAL\n§9»» §r§6Tap To View", 0, "textures/items/coal");
         $form->addButton("§l§dENCHANTED IRON\n§9»» §r§6Tap To View", 0, "textures/items/iron_ingot");
@@ -715,12 +715,12 @@ class ItemsForm extends MenuForm
                     break;
 
                 case 7:
-                    $sender->sendForm(new ItemsForm($sender));
+                    $sender->sendForm(new ItemsForm());
                     break;
             }
         });
         $form->setTitle("§l§6ORE SPAWNER RECIPES");
-        $form->setContent("§bSelect The Which Ore Spawner Recipe You Want:", 0,);
+        $form->setContent("§bSelect The Which Ore Spawner Recipe You Want:");
         $form->addButton("§l§dCOAL SPAWNER\n§9»» §r§6Tap To View", 0, "textures/items/coal");
         $form->addButton("§l§dIRON SPAWNER\n§9»» §r§6Tap To View", 0, "textures/items/iron_ingot");
         $form->addButton("§l§dGOLD SPAWNER\n§9»» §r§6Tap To View", 0, "textures/items/gold_ingot");
@@ -797,8 +797,8 @@ class ItemsForm extends MenuForm
                     break;
                 case 6:
                     $item = ItemFactory::getInstance()->get(1047, 0, 1);
-                    $enchantmentData["name"] = ("smelting");
-                    $enchantmentData["level"] = ("1");
+                    $enchantmentData["name"] = "smelting";
+                    $enchantmentData["level"] = 1;
                     $enchantment = StringToEnchantmentParser::getInstance()->parse($enchantmentData["name"]) ?? ((($plugin = Server::getInstance()->getPluginManager()->getPlugin("PiggyCustomEnchants")) instanceof PiggyCustomEnchants && $plugin->isEnabled()) ? CustomEnchantManager::getEnchantmentByName($enchantmentData["name"]) : null);
                     if ($enchantment !== null) $item->addEnchantment(new EnchantmentInstance($enchantment, $enchantmentData["level"]));
                     $item->setCustomName("§l§6ROGUE SWORD");
@@ -871,12 +871,12 @@ class ItemsForm extends MenuForm
                     $inv->addItem($item);
                     break;
                 case 14:
-                    $sender->sendForm(new ItemsForm($sender));
+                    $sender->sendForm(new ItemsForm());
                     break;
             }
         });
         $form->setTitle("§l§6CUSTOM SWORD RECIPES");
-        $form->setContent("§bSelect The Recipe You Want To Craft:", 0,);
+        $form->setContent("§bSelect The Recipe You Want To Craft:");
         $form->addButton("§l§dASPECT OF THE END\n§9»» §r§6Tap To View", 0, "textures/items/sword/aspect_of_the_end");
         $form->addButton("§l§dELUCIDATOR\n§9»» §r§6Tap To View", 0, "textures/items/sword/elucidator");
         $form->addButton("§l§dGOLEM SWORD\n§9»» §r§6Tap To View", 0, "textures/items/sword/golem_sword");
@@ -915,8 +915,8 @@ class ItemsForm extends MenuForm
                     break;
                 case 1:
                     $item = ItemFactory::getInstance()->get(1085, 0, 1);
-                    $enchantmentData["name"] = ("lumberjack");
-                    $enchantmentData["level"] = ("1");
+                    $enchantmentData["name"] = "lumberjack";
+                    $enchantmentData["level"] = 1;
                     $enchantment = StringToEnchantmentParser::getInstance()->parse($enchantmentData["name"]) ?? ((($plugin = Server::getInstance()->getPluginManager()->getPlugin("PiggyCustomEnchants")) instanceof PiggyCustomEnchants && $plugin->isEnabled()) ? CustomEnchantManager::getEnchantmentByName($enchantmentData["name"]) : null);
                     if ($enchantment !== null) $item->addEnchantment(new EnchantmentInstance($enchantment, $enchantmentData["level"]));
                     $item->setCustomName("§l§6JUNGLE AXE");
@@ -962,12 +962,12 @@ class ItemsForm extends MenuForm
                     $inv->addItem($item);
                     break;
                 case 6:
-                    $sender->sendForm(new ItemsForm($sender));
+                    $sender->sendForm(new ItemsForm());
                     break;
             }
         });
         $form->setTitle("§l§6CUSTOM AXE RECIPES");
-        $form->setContent("§bSelect The Recipe You Want To Craft:", 0,);
+        $form->setContent("§bSelect The Recipe You Want To Craft:");
         $form->addButton("§l§dFROZEN SCYTHE\n§9»» §r§6Tap To View", 0, "textures/items/axe/frozen_scythe");
         $form->addButton("§l§dJUNGLE AXE\n§9»» §r§6Tap To View", 0, "textures/items/axe/jungle_axe");
         $form->addButton("§l§dMUSHROOM AXE\n§9»» §r§6Tap To View", 0, "textures/items/axe/mushroom_cow_axe");
@@ -989,8 +989,8 @@ class ItemsForm extends MenuForm
             switch ($result) {
                 case 0:
                     $item = ItemFactory::getInstance()->get(1088, 0, 1);
-                    $enchantmentData["name"] = ("farmer");
-                    $enchantmentData["level"] = ("1");
+                    $enchantmentData["name"] = "farmer";
+                    $enchantmentData["level"] = 1;
                     $enchantment = StringToEnchantmentParser::getInstance()->parse($enchantmentData["name"]) ?? ((($plugin = Server::getInstance()->getPluginManager()->getPlugin("PiggyCustomEnchants")) instanceof PiggyCustomEnchants && $plugin->isEnabled()) ? CustomEnchantManager::getEnchantmentByName($enchantmentData["name"]) : null);
                     if ($enchantment !== null) $item->addEnchantment(new EnchantmentInstance($enchantment, $enchantmentData["level"]));
                     $item->setCustomName("§l§6HOE OF TILLING");
@@ -1001,8 +1001,8 @@ class ItemsForm extends MenuForm
                     break;
                 case 1:
                     $item = ItemFactory::getInstance()->get(1089, 0, 1);
-                    $enchantmentData["name"] = ("fertilizer");
-                    $enchantmentData["level"] = ("1");
+                    $enchantmentData["name"] = "fertilizer";
+                    $enchantmentData["level"] = 1;
                     $enchantment = StringToEnchantmentParser::getInstance()->parse($enchantmentData["name"]) ?? ((($plugin = Server::getInstance()->getPluginManager()->getPlugin("PiggyCustomEnchants")) instanceof PiggyCustomEnchants && $plugin->isEnabled()) ? CustomEnchantManager::getEnchantmentByName($enchantmentData["name"]) : null);
                     if ($enchantment !== null) $item->addEnchantment(new EnchantmentInstance($enchantment, $enchantmentData["level"]));
                     $item->setCustomName("§l§6HOE OF FERTILIZER");
@@ -1012,12 +1012,12 @@ class ItemsForm extends MenuForm
                     $inv->addItem($item);
                     break;
                 case 2:
-                    $sender->sendForm(new ItemsForm($sender));
+                    $sender->sendForm(new ItemsForm());
                     break;
             }
         });
         $form->setTitle("§l§6CUSTOM HOE RECIPES");
-        $form->setContent("§bSelect The Recipe You Want To Craft:", 0,);
+        $form->setContent("§bSelect The Recipe You Want To Craft:");
         $form->addButton("§l§dHOE OF TILLING\n§9»» §r§6Tap To View", 0, "textures/items/hoe/hoe_of_tilling");
         $form->addButton("§l§dHOE OF FERTILIZER\n§9»» §r§6Tap To View", 0, "textures/items/hoe/hoe_of_greater_tilling");
         $form->addButton("§l§aBACK\n§9»» §r§bTap To Go Back", 0, "textures/ui/icon_import");
@@ -1044,8 +1044,8 @@ class ItemsForm extends MenuForm
                     break;
                 case 1:
                     $item = ItemFactory::getInstance()->get(1006, 0, 1);
-                    $enchantmentData["name"] = ("oxygenate");
-                    $enchantmentData["level"] = ("1");
+                    $enchantmentData["name"] = "oxygenate";
+                    $enchantmentData["level"] = 1;
                     $enchantment = StringToEnchantmentParser::getInstance()->parse($enchantmentData["name"]) ?? ((($plugin = Server::getInstance()->getPluginManager()->getPlugin("PiggyCustomEnchants")) instanceof PiggyCustomEnchants && $plugin->isEnabled()) ? CustomEnchantManager::getEnchantmentByName($enchantmentData["name"]) : null);
                     if ($enchantment !== null) $item->addEnchantment(new EnchantmentInstance($enchantment, $enchantmentData["level"]));
                     $item->setCustomName("§l§6DOLPHIN PICKAXE");
@@ -1056,8 +1056,8 @@ class ItemsForm extends MenuForm
                     break;
                 case 2:
                     $item = ItemFactory::getInstance()->get(1004, 0, 1);
-                    $enchantmentData["name"] = ("driller");
-                    $enchantmentData["level"] = ("1");
+                    $enchantmentData["name"] = "driller";
+                    $enchantmentData["level"] = 1;
                     $enchantment = StringToEnchantmentParser::getInstance()->parse($enchantmentData["name"]) ?? ((($plugin = Server::getInstance()->getPluginManager()->getPlugin("PiggyCustomEnchants")) instanceof PiggyCustomEnchants && $plugin->isEnabled()) ? CustomEnchantManager::getEnchantmentByName($enchantmentData["name"]) : null);
                     if ($enchantment !== null) $item->addEnchantment(new EnchantmentInstance($enchantment, $enchantmentData["level"]));
                     $item->setCustomName("§l§6DRAGON PICKAXE");
@@ -1070,8 +1070,8 @@ class ItemsForm extends MenuForm
                     $item = ItemFactory::getInstance()->get(1000, 0, 1);
                     $item->addEnchantment(new EnchantmentInstance(EnchantmentIdMap::getInstance()->fromId(Main::FAKE_ENCH_ID)));
                     $item->setCustomName("§l§6ERUPTION PICKAXE");
-                    $enchantmentData["name"] = ("haste");
-                    $enchantmentData["level"] = ("3");
+                    $enchantmentData["name"] = "haste";
+                    $enchantmentData["level"] = 3;
                     $enchantment = StringToEnchantmentParser::getInstance()->parse($enchantmentData["name"]) ?? ((($plugin = Server::getInstance()->getPluginManager()->getPlugin("PiggyCustomEnchants")) instanceof PiggyCustomEnchants && $plugin->isEnabled()) ? CustomEnchantManager::getEnchantmentByName($enchantmentData["name"]) : null);
                     if ($enchantment !== null) $item->addEnchantment(new EnchantmentInstance($enchantment, $enchantmentData["level"]));
                     $item->setLore(["§r§8+§c  16 Efficiency\n\n§r§eItem Ability: Haste §l§eRIGHT CLICK§r\n§rYou Will Get Haste 3\n\n§r§l§dRARE"]);
@@ -1081,8 +1081,8 @@ class ItemsForm extends MenuForm
                     break;
                 case 4:
                     $item = ItemFactory::getInstance()->get(1001, 0, 1);
-                    $enchantmentData["name"] = ("smelting");
-                    $enchantmentData["level"] = ("1");
+                    $enchantmentData["name"] = "smelting";
+                    $enchantmentData["level"] = 1;
                     $enchantment = StringToEnchantmentParser::getInstance()->parse($enchantmentData["name"]) ?? ((($plugin = Server::getInstance()->getPluginManager()->getPlugin("PiggyCustomEnchants")) instanceof PiggyCustomEnchants && $plugin->isEnabled()) ? CustomEnchantManager::getEnchantmentByName($enchantmentData["name"]) : null);
                     if ($enchantment !== null) $item->addEnchantment(new EnchantmentInstance($enchantment, $enchantmentData["level"]));
                     $item->setCustomName("§l§6FLAME PICKAXE");
@@ -1093,8 +1093,8 @@ class ItemsForm extends MenuForm
                     break;
                 case 5:
                     $item = ItemFactory::getInstance()->get(1005, 0, 1);
-                    $enchantmentData["name"] = ("jackpot");
-                    $enchantmentData["level"] = ("1");
+                    $enchantmentData["name"] = "jackpot";
+                    $enchantmentData["level"] = 1;
                     $enchantment = StringToEnchantmentParser::getInstance()->parse($enchantmentData["name"]) ?? ((($plugin = Server::getInstance()->getPluginManager()->getPlugin("PiggyCustomEnchants")) instanceof PiggyCustomEnchants && $plugin->isEnabled()) ? CustomEnchantManager::getEnchantmentByName($enchantmentData["name"]) : null);
                     if ($enchantment !== null) $item->addEnchantment(new EnchantmentInstance($enchantment, $enchantmentData["level"]));
                     $item->setCustomName("§l§JACKPOT PICKAXE");
@@ -1122,12 +1122,12 @@ class ItemsForm extends MenuForm
                     $inv->addItem($item);
                     break;
                 case 8:
-                    $sender->sendForm(new ItemsForm($sender));
+                    $sender->sendForm(new ItemsForm());
                     break;
             }
         });
         $form->setTitle("§l§6CUSTOM PICKAXE RECIPES");
-        $form->setContent("§bSelect The Recipe You Want To Craft:", 0,);
+        $form->setContent("§bSelect The Recipe You Want To Craft:");
         $form->addButton("§l§dPICKAXE BOULDER\n§9»» §r§6Tap To View", 0, "textures/items/pickaxe/PickaxeBoulder");
         $form->addButton("§l§dPICKAXE DOLPHIN\n§9»» §r§6Tap To View", 0, "textures/items/pickaxe/PickaxeDolphin");
         $form->addButton("§l§dPICKAXE DRAGON\n§9»» §r§6Tap To View", 0, "textures/items/pickaxe/PickaxeDragon");
@@ -1210,11 +1210,11 @@ class ItemsForm extends MenuForm
                     break;
 
                 case 9:
-                    $sender->sendForm(new ItemsForm($sender));
+                    $sender->sendForm(new ItemsForm());
             }
         });
         $form->setTitle("§l§6CUSTOM ITEMS RECIPES");
-        $form->setContent("§bSelect The Which Item Recipe You Want:", 0,);
+        $form->setContent("§bSelect The Which Item Recipe You Want:");
         $form->addButton("§l§dDRAGON'S BREATH\n§9»» §r§6Tap To View", 0, "textures/items/dragons_breath");
         $form->addButton("§l§dSUPER SMELTER\n§9»» §r§6Tap To Get", 0, "textures/blocks/furnace_front_off");
         $form->addButton("§l§dSUPER COMPACTER\n§9»» §r§6Tap To Get", 0, "textures/blocks/dispenser_front_horizontal");
@@ -1250,12 +1250,12 @@ class ItemsForm extends MenuForm
                     break;
 
                 case 3:
-                    $sender->sendForm(new ItemsForm($sender));
+                    $sender->sendForm(new ItemsForm());
                     break;
             }
         });
         $form->setTitle("§l§6WANDS RECIPES");
-        $form->setContent("§bSelect The Recipe You Want To Craft:", 0,);
+        $form->setContent("§bSelect The Recipe You Want To Craft:");
         $form->addButton("§l§dBUILDER WAND\n§9»» §r§6Tap To View", 0, "textures/items/wand/builders_wand");
         $form->addButton("§l§dSELL WAND\n§9»» §r§6Tap To View", 0, "textures/items/wand/sell_wand");
         $form->addButton("§l§dSMELT WAND\n§9»» §r§6Tap To View", 0, "textures/items/wand/melt_wand");
@@ -1336,12 +1336,12 @@ class ItemsForm extends MenuForm
                     $inv->addItem($item);
                     break;
                 case 9:
-                    $sender->sendForm(new ItemsForm($sender));
+                    $sender->sendForm(new ItemsForm());
                     break;
             }
         });
         $form->setTitle("§l§6CUSTOM FOOD RECIPES");
-        $form->setContent("§bSelect The Recipe You Want To Craft:", 0,);
+        $form->setContent("§bSelect The Recipe You Want To Craft:");
         $form->addButton("§l§dBURGER\n§9»» §r§6Tap To View", 0, "textures/items/food/burger");
         $form->addButton("§l§dCHRISTMAS PUDDING\n§9»» §r§6Tap To View", 0, "textures/items/food/christmas_pudding");
         $form->addButton("§l§dHOTDOG\n§9»» §r§6Tap To View", 0, "textures/items/food/hotdog");

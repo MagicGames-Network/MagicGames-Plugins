@@ -285,7 +285,7 @@ class EventListener implements Listener
             return;
         }
 
-        $this->plugin->getScheduler()->scheduleDelayedTask(new ClosureTask(function (int $currentTick) use ($player, $craftingSet, $armorSet): void {
+        $this->plugin->getScheduler()->scheduleDelayedTask(new ClosureTask(function () use ($player, $craftingSet, $armorSet): void {
             if ($player->getInventory()->contains($craftingSet)) $player->getInventory()->removeItem($craftingSet);
             else $player->getCursorInventory()->removeItem($craftingSet);
             if (Utils::isHelmet($craftingSet)) {

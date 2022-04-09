@@ -19,7 +19,7 @@ class EventCommand extends Command
     {
 
         if ($sender instanceof Player) {
-            (new InformationForm($this))->INFOTEN($sender);
+            (new InformationForm())->INFOTEN($sender);
         }
     }
 }

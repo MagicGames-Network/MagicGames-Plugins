@@ -27,23 +27,23 @@ class SizeForm extends MenuForm
             function (Player $player, int $selected): void {
                 switch ($selected) {
                     case 0:
-                        $player->setScale("0.5");
+                        $player->setScale(0.5);
                         $player->sendMessage("§l§eMAGICGAMES > §r§bYour Size Is Now Set To 0.5!");
                         break;
                     case 1:
-                        $player->setScale("0.75");
+                        $player->setScale(0.75);
                         $player->sendMessage("§l§eMAGICGAMES > §r§bYour Size Is Now Set To 0.75!");
                         break;
                     case 2:
-                        $player->setScale("1.25");
+                        $player->setScale(1.25);
                         $player->sendMessage("§l§eMAGICGAMES > §r§bYour Size Is Now Set To 1.25!");
                         break;
                     case 3:
-                        $player->setScale("1.50");
+                        $player->setScale(1.50);
                         $player->sendMessage("§l§eMAGICGAMES > §r§bYour Size Is Now Set To 1.50!");
                         break;
                     case 4:
-                        $player->setScale("1.0");
+                        $player->setScale(1.0);
                         $player->sendMessage("§l§eMAGICGAMES > §r§bYour Size Is Now Has Been Reset!");
                         break;
                     case 5:

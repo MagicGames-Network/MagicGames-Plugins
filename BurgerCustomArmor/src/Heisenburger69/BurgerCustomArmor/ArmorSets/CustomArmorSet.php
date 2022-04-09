@@ -129,7 +129,7 @@ class CustomArmorSet
         $item = ArmorSetUtils::getHelmetFromTier($this->tier);
         $item->setCustomName(C::RESET . C::colorize($this->names["helmet"]));
 
-        if ($this->glint) $item->getNamedTag()->setTag("ench", new ListTag(["ench"]));
+        if ($this->glint) $item->getNamedTag()->setTag("ench", new ListTag());
         $item->getNamedTag()->setTag("burgercustomarmor", new StringTag("burgercustomarmor", $this->name));
 
         $lore = ArmorSetUtils::getHelmetLore($this->lores, $this->setBonusLore);
@@ -147,7 +147,7 @@ class CustomArmorSet
         $item = ArmorSetUtils::getChestplateFromTier($this->tier);
         $item->setCustomName(C::RESET . C::colorize($this->names["chestplate"]));
 
-        if ($this->glint) $item->getNamedTag()->setTag(Item::TAG_ENCH, new ListTag([Item::TAG_ENCH], NBT::TAG_Compound));
+        if ($this->glint) $item->getNamedTag()->setTag("ench", new ListTag());
         $item->getNamedTag()->setTag("burgercustomarmor", new StringTag("burgercustomarmor", $this->name));
 
         $lore = ArmorSetUtils::getChestplateLore($this->lores, $this->setBonusLore);
@@ -165,7 +165,7 @@ class CustomArmorSet
         $item = ArmorSetUtils::getLeggingsFromTier($this->tier);
         $item->setCustomName(C::RESET . C::colorize($this->names["leggings"]));
 
-        if ($this->glint) $item->getNamedTag()->setTag(Item::TAG_ENCH, new ListTag([Item::TAG_ENCH], NBT::TAG_Compound));
+        if ($this->glint) $item->getNamedTag()->setTag("ench", new ListTag());
         $item->getNamedTag()->setTag("burgercustomarmor", new StringTag("burgercustomarmor", $this->name));
 
         $lore = ArmorSetUtils::getLeggingsLore($this->lores, $this->setBonusLore);
@@ -183,7 +183,7 @@ class CustomArmorSet
         $item = ArmorSetUtils::getBootsFromTier($this->tier);
         $item->setCustomName(C::RESET . C::colorize($this->names["boots"]));
 
-        if ($this->glint) $item->getNamedTag()->setTag(Item::TAG_ENCH, new ListTag([Item::TAG_ENCH], NBT::TAG_Compound));
+        if ($this->glint) $item->getNamedTag()->setTag("ench", new ListTag());
         $item->getNamedTag()->setTag("burgercustomarmor", new StringTag("burgercustomarmor", $this->name));
 
         $lore = ArmorSetUtils::getBootsLore($this->lores, $this->setBonusLore);

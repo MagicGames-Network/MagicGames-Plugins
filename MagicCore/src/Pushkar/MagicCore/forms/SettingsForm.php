@@ -10,7 +10,6 @@ use dktapps\pmforms\MenuOption;
 
 class SettingsForm extends MenuForm
 {
-
     public function __construct()
     {
         parent::__construct("§l§eSettings", "§bYour Personal Setting", [
@@ -46,11 +45,11 @@ class SettingsForm extends MenuForm
                     break;
 
                 case 5:
-                    $sender->sendForm(new Perksform());
+                    $sender->sendForm(new PerksForm());
                     break;
 
                 case 6:
-                    $sender->sendForm(new Vanishform());
+                    $sender->sendForm(new VanishForm());
                     break;
 
                 case 7:

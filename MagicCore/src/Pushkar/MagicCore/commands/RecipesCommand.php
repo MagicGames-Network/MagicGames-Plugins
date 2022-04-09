@@ -9,7 +9,6 @@ use Pushkar\MagicCore\forms\RecipesForm;
 
 class RecipesCommand extends Command
 {
-
     public function __construct()
     {
         parent::__construct("recipes", "§eSee Custom Recipes");
@@ -18,7 +17,7 @@ class RecipesCommand extends Command
     public function execute(CommandSender $sender, string $commandLabel, array $args)
     {
         if ($sender instanceof Player) {
-            $sender->sendForm(new RecipesForm($sender));
+            $sender->sendForm(new RecipesForm()); /** @phpstan-ignore-line */
         }
     }
 }

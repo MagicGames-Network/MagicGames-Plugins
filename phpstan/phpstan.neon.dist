@@ -1,0 +1,15 @@
+includes:
+    - phpstan-baseline.neon
+
+parameters:
+    level: 5
+    paths:
+        - ../BurgerCustomArmor
+        - ../MagicCore
+        - ../MagicHealthDefense
+        - ../MagicIsland
+        - ../MagicPortalsPE
+        - ../MagicSkills
+    excludePaths:
+        - ../MagicCore/src/Pushkar/MagicCore/forms/RecipesForm.php
+        - ../BurgerCustomArmor/src/Heisenburger69/BurgerCustomArmor/Abilities/AbilityUtils.php

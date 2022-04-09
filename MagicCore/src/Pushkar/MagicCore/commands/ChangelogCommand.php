@@ -19,7 +19,7 @@ class ChangelogCommand extends Command
     {
 
         if ($sender instanceof Player) {
-            (new InformationForm($this))->INFOTWO($sender);
+            (new InformationForm())->INFOTWO($sender);
         }
     }
 }

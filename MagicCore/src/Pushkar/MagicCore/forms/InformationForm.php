@@ -75,58 +75,36 @@ class InformationForm extends MenuForm
                     break;
                 case 1;
                     $this->INFOONE($sender);
-
-
                     break;
                 case 2;
                     $this->INFOTWO($sender);
-
-
                     break;
                 case 3;
                     $this->INFOTHREE($sender);
-
-
                     break;
                 case 4;
                     $this->INFOFOR($sender);
-
-
                     break;
                 case 5;
                     $this->INFOFIVE($sender);
-
-
                     break;
                 case 6;
                     $this->INFOSIX($sender);
-
-
                     break;
                 case 7;
                     $this->INFOSEVEN($sender);
-
-
                     break;
                 case 8;
                     $this->INFOEIGHT($sender);
-
-
                     break;
                 case 9;
                     $this->INFONINE($sender);
-
-
                     break;
                 case 10;
                     $this->INFOTEN($sender);
-
-
                     break;
                 case 11;
                     $this->comingsoon($sender);
-
-
                     break;
             }
         });
@@ -146,7 +124,7 @@ class InformationForm extends MenuForm
         $form->addButton("§0§lCOMING SOON\n§r§cMORE FEATURES CMNG SOON!", 0, "textures/blocks/barrier");
         $sender->sendForm($form);
     }
-    
+
     public function INFOONE($sender)
     {
         $form = new SimpleForm(function (Player $sender, $data) {
@@ -157,9 +135,7 @@ class InformationForm extends MenuForm
                 case 0:
                     break;
                 case 1;
-                    $sender->sendForm(new InformationForm($sender));
-
-
+                    $sender->sendForm(new InformationForm());
                     break;
             }
         });
@@ -169,7 +145,7 @@ class InformationForm extends MenuForm
         $form->addButton(Main::getInstance()->getConfig()->get("BACK-BTN"), 0, "textures/ui/icon_import");
         $sender->sendForm($form);
     }
-    
+
     public function INFOTWO($sender)
     {
         $form = new SimpleForm(function (Player $sender, $data) {
@@ -180,9 +156,7 @@ class InformationForm extends MenuForm
                 case 0;
                     break;
                 case 1;
-                    $sender->sendForm(new InformationForm($sender));
-
-
+                    $sender->sendForm(new InformationForm());
                     break;
             }
         });
@@ -192,7 +166,7 @@ class InformationForm extends MenuForm
         $form->addButton(Main::getInstance()->getConfig()->get("BACK-BTN"), 0, "textures/ui/icon_import");
         $sender->sendForm($form);
     }
-    
+
     public function INFOTHREE($sender)
     {
         $form = new SimpleForm(function (Player $sender, $data) {
@@ -203,9 +177,7 @@ class InformationForm extends MenuForm
                 case 0;
                     break;
                 case 1;
-                    $sender->sendForm(new InformationForm($sender));
-
-
+                    $sender->sendForm(new InformationForm());
                     break;
             }
         });
@@ -215,7 +187,7 @@ class InformationForm extends MenuForm
         $form->addButton(Main::getInstance()->getConfig()->get("BACK-BTN"), 0, "textures/ui/icon_import");
         $sender->sendForm($form);
     }
-    
+
     public function INFOFOR($sender)
     {
         $form = new SimpleForm(function (Player $sender, $data) {
@@ -226,9 +198,7 @@ class InformationForm extends MenuForm
                 case 0;
                     break;
                 case 1;
-                    $sender->sendForm(new InformationForm($sender));
-
-
+                    $sender->sendForm(new InformationForm());
                     break;
             }
         });
@@ -238,7 +208,7 @@ class InformationForm extends MenuForm
         $form->addButton(Main::getInstance()->getConfig()->get("BACK-BTN"), 0, "textures/ui/icon_import");
         $sender->sendForm($form);
     }
-    
+
     public function INFOFIVE($sender)
     {
         $form = new SimpleForm(function (Player $sender, $data) {
@@ -249,9 +219,7 @@ class InformationForm extends MenuForm
                 case 0;
                     break;
                 case 1;
-                    $sender->sendForm(new InformationForm($sender));
-
-
+                    $sender->sendForm(new InformationForm());
                     break;
             }
         });
@@ -261,7 +229,7 @@ class InformationForm extends MenuForm
         $form->addButton(Main::getInstance()->getConfig()->get("BACK-BTN"), 0, "textures/ui/icon_import");
         $sender->sendForm($form);
     }
-    
+
     public function INFOSIX($sender)
     {
         $form = new SimpleForm(function (Player $sender, $data) {
@@ -272,34 +240,22 @@ class InformationForm extends MenuForm
                 case 0;
                     break;
                 case 1;
-                    $sender->sendForm(new InformationForm($sender));
-
-
+                    $sender->sendForm(new InformationForm());
                     break;
                 case 2;
                     $this->TutorialONE($sender);
-
-
                     break;
                 case 3;
                     $this->TutorialTWO($sender);
-
-
                     break;
                 case 4;
                     $this->TutorialTHREE($sender);
-
-
                     break;
                 case 5;
                     $this->TutorialFOR($sender);
-
-
                     break;
                 case 6;
                     $this->TutorialFIVE($sender);
-
-
                     break;
             }
         });
@@ -314,7 +270,7 @@ class InformationForm extends MenuForm
         $form->addButton(Main::getInstance()->getConfig()->get("TUTORIAL-FIVE-BTN"), 0, "textures/ui/icon_crafting");
         $sender->sendForm($form);
     }
-    
+
     public function TutorialONE($sender)
     {
         $form = new SimpleForm(function (Player $sender, $data) {
@@ -326,8 +282,6 @@ class InformationForm extends MenuForm
                     break;
                 case 1;
                     $this->INFOSIX($sender);
-
-
                     break;
             }
         });
@@ -337,7 +291,7 @@ class InformationForm extends MenuForm
         $form->addButton(Main::getInstance()->getConfig()->get("BACK-BTN"), 0, "textures/ui/icon_import");
         $sender->sendForm($form);
     }
-    
+
     public function TutorialTWO($sender)
     {
         $form = new SimpleForm(function (Player $sender, $data) {
@@ -349,8 +303,6 @@ class InformationForm extends MenuForm
                     break;
                 case 1;
                     $this->INFOSIX($sender);
-
-
                     break;
             }
         });
@@ -360,7 +312,7 @@ class InformationForm extends MenuForm
         $form->addButton(Main::getInstance()->getConfig()->get("BACK-BTN"), 0, "textures/ui/icon_import");
         $sender->sendForm($form);
     }
-    
+
     public function TutorialTHREE($sender)
     {
         $form = new SimpleForm(function (Player $sender, $data) {
@@ -372,8 +324,6 @@ class InformationForm extends MenuForm
                     break;
                 case 1;
                     $this->INFOSIX($sender);
-
-
                     break;
             }
         });
@@ -383,7 +333,7 @@ class InformationForm extends MenuForm
         $form->addButton(Main::getInstance()->getConfig()->get("BACK-BTN"), 0, "textures/ui/icon_import");
         $sender->sendForm($form);
     }
-    
+
     public function TutorialFOR($sender)
     {
         $form = new SimpleForm(function (Player $sender, $data) {
@@ -395,8 +345,6 @@ class InformationForm extends MenuForm
                     break;
                 case 1;
                     $this->INFOSIX($sender);
-
-
                     break;
             }
         });
@@ -406,7 +354,7 @@ class InformationForm extends MenuForm
         $form->addButton(Main::getInstance()->getConfig()->get("BACK-BTN"), 0, "textures/ui/icon_import");
         $sender->sendForm($form);
     }
-    
+
     public function TutorialFIVE($sender)
     {
         $form = new SimpleForm(function (Player $sender, $data) {
@@ -418,8 +366,6 @@ class InformationForm extends MenuForm
                     break;
                 case 1;
                     $this->INFOSIX($sender);
-
-
                     break;
             }
         });
@@ -429,7 +375,7 @@ class InformationForm extends MenuForm
         $form->addButton(Main::getInstance()->getConfig()->get("BACK-BTN"), 0, "textures/ui/icon_import");
         $sender->sendForm($form);
     }
-    
+
     public function INFOSEVEN($sender)
     {
         $form = new SimpleForm(function (Player $sender, $data) {
@@ -440,39 +386,25 @@ class InformationForm extends MenuForm
                 case 0;
                     break;
                 case 1;
-                    $sender->sendForm(new InformationForm($sender));
-
-
+                    $sender->sendForm(new InformationForm());
                     break;
                 case 2;
                     $this->RLONE($sender);
-
-
                     break;
                 case 3;
                     $this->RLTWO($sender);
-
-
                     break;
                 case 4;
                     $this->RLTHREE($sender);
-
-
                     break;
                 case 5;
                     $this->RLFOR($sender);
-
-
                     break;
                 case 6;
                     $this->RLFIVE($sender);
-
-
                     break;
                 case 7;
                     $this->RLSIX($sender);
-
-
                     break;
             }
         });
@@ -488,7 +420,7 @@ class InformationForm extends MenuForm
         $form->addButton(Main::getInstance()->getConfig()->get("RL-BTN-SIX"), 0, "textures/ui/icon_deals");
         $sender->sendForm($form);
     }
-    
+
     public function RLONE($sender)
     {
         $form = new SimpleForm(function (Player $sender, $data) {
@@ -500,8 +432,6 @@ class InformationForm extends MenuForm
                     break;
                 case 1;
                     $this->INFOSEVEN($sender);
-
-
                     break;
             }
         });
@@ -511,7 +441,7 @@ class InformationForm extends MenuForm
         $form->addButton(Main::getInstance()->getConfig()->get("BACK-BTN"), 0, "textures/ui/icon_import");
         $sender->sendForm($form);
     }
-    
+
     public function RLTWO($sender)
     {
         $form = new SimpleForm(function (Player $sender, $data) {
@@ -523,8 +453,6 @@ class InformationForm extends MenuForm
                     break;
                 case 1;
                     $this->INFOSEVEN($sender);
-
-
                     break;
             }
         });
@@ -534,7 +462,7 @@ class InformationForm extends MenuForm
         $form->addButton(Main::getInstance()->getConfig()->get("BACK-BTN"), 0, "textures/ui/icon_import");
         $sender->sendForm($form);
     }
-    
+
     public function RLTHREE($sender)
     {
         $form = new SimpleForm(function (Player $sender, $data) {
@@ -546,8 +474,6 @@ class InformationForm extends MenuForm
                     break;
                 case 1;
                     $this->INFOSEVEN($sender);
-
-
                     break;
             }
         });
@@ -557,7 +483,7 @@ class InformationForm extends MenuForm
         $form->addButton(Main::getInstance()->getConfig()->get("BACK-BTN"), 0, "textures/ui/icon_import");
         $sender->sendForm($form);
     }
-    
+
     public function RLFOR($sender)
     {
         $form = new SimpleForm(function (Player $sender, $data) {
@@ -569,8 +495,6 @@ class InformationForm extends MenuForm
                     break;
                 case 1;
                     $this->INFOSEVEN($sender);
-
-
                     break;
             }
         });
@@ -580,7 +504,7 @@ class InformationForm extends MenuForm
         $form->addButton(Main::getInstance()->getConfig()->get("BACK-BTN"), 0, "textures/ui/icon_import");
         $sender->sendForm($form);
     }
-    
+
     public function RLFIVE($sender)
     {
         $form = new SimpleForm(function (Player $sender, $data) {
@@ -592,8 +516,6 @@ class InformationForm extends MenuForm
                     break;
                 case 1;
                     $this->INFOSEVEN($sender);
-
-
                     break;
             }
         });
@@ -603,7 +525,7 @@ class InformationForm extends MenuForm
         $form->addButton(Main::getInstance()->getConfig()->get("BACK-BTN"), 0, "textures/ui/icon_import");
         $sender->sendForm($form);
     }
-    
+
     public function RLSIX($sender)
     {
         $form = new SimpleForm(function (Player $sender, $data) {
@@ -615,8 +537,6 @@ class InformationForm extends MenuForm
                     break;
                 case 1;
                     $this->INFOSEVEN($sender);
-
-
                     break;
             }
         });
@@ -626,7 +546,7 @@ class InformationForm extends MenuForm
         $form->addButton(Main::getInstance()->getConfig()->get("BACK-BTN"), 0, "textures/ui/icon_import");
         $sender->sendForm($form);
     }
-    
+
     public function INFOEIGHT($sender)
     {
         $form = new SimpleForm(function (Player $sender, $data) {
@@ -637,34 +557,22 @@ class InformationForm extends MenuForm
                 case 0;
                     break;
                 case 1;
-                    $sender->sendForm(new InformationForm($sender));
-
-
+                    $sender->sendForm(new InformationForm());
                     break;
                 case 2;
                     $this->SMONE($sender);
-
-
                     break;
                 case 3;
                     $this->SMTWO($sender);
-
-
                     break;
                 case 4;
                     $this->SMTHREE($sender);
-
-
                     break;
                 case 5;
                     $this->SMFOR($sender);
-
-
                     break;
                 case 6;
                     $this->SMFIVE($sender);
-
-
                     break;
             }
         });
@@ -679,7 +587,7 @@ class InformationForm extends MenuForm
         $form->addButton(Main::getInstance()->getConfig()->get("SM-BTN-FIVE"), 0, "textures/ui/book_cover");
         $sender->sendForm($form);
     }
-    
+
     public function SMONE($sender)
     {
         $form = new SimpleForm(function (Player $sender, $data) {
@@ -691,8 +599,6 @@ class InformationForm extends MenuForm
                     break;
                 case 1;
                     $this->INFOEIGHT($sender);
-
-
                     break;
             }
         });
@@ -702,7 +608,7 @@ class InformationForm extends MenuForm
         $form->addButton(Main::getInstance()->getConfig()->get("BACK-BTN"), 0, "textures/ui/icon_import");
         $sender->sendForm($form);
     }
-    
+
     public function SMTWO($sender)
     {
         $form = new SimpleForm(function (Player $sender, $data) {
@@ -714,8 +620,6 @@ class InformationForm extends MenuForm
                     break;
                 case 1;
                     $this->INFOEIGHT($sender);
-
-
                     break;
             }
         });
@@ -725,7 +629,7 @@ class InformationForm extends MenuForm
         $form->addButton(Main::getInstance()->getConfig()->get("BACK-BTN"), 0, "textures/ui/icon_import");
         $sender->sendForm($form);
     }
-    
+
     public function SMTHREE($sender)
     {
         $form = new SimpleForm(function (Player $sender, $data) {
@@ -737,8 +641,6 @@ class InformationForm extends MenuForm
                     break;
                 case 1;
                     $this->INFOEIGHT($sender);
-
-
                     break;
             }
         });
@@ -748,7 +650,7 @@ class InformationForm extends MenuForm
         $form->addButton(Main::getInstance()->getConfig()->get("BACK-BTN"), 0, "textures/ui/icon_import");
         $sender->sendForm($form);
     }
-    
+
     public function SMFOR($sender)
     {
         $form = new SimpleForm(function (Player $sender, $data) {
@@ -760,8 +662,6 @@ class InformationForm extends MenuForm
                     break;
                 case 1;
                     $this->INFOEIGHT($sender);
-
-
                     break;
             }
         });
@@ -771,7 +671,7 @@ class InformationForm extends MenuForm
         $form->addButton(Main::getInstance()->getConfig()->get("BACK-BTN"), 0, "textures/ui/icon_import");
         $sender->sendForm($form);
     }
-    
+
     public function SMFIVE($sender)
     {
         $form = new SimpleForm(function (Player $sender, $data) {
@@ -783,8 +683,6 @@ class InformationForm extends MenuForm
                     break;
                 case 1;
                     $this->INFOEIGHT($sender);
-
-
                     break;
             }
         });
@@ -794,7 +692,7 @@ class InformationForm extends MenuForm
         $form->addButton(Main::getInstance()->getConfig()->get("BACK-BTN"), 0, "textures/ui/icon_import");
         $sender->sendForm($form);
     }
-    
+
     public function INFONINE($sender)
     {
         $form = new SimpleForm(function (Player $sender, $data) {
@@ -805,9 +703,7 @@ class InformationForm extends MenuForm
                 case 0;
                     break;
                 case 1;
-                    $sender->sendForm(new InformationForm($sender));
-
-
+                    $sender->sendForm(new InformationForm());
                     break;
             }
         });
@@ -817,7 +713,7 @@ class InformationForm extends MenuForm
         $form->addButton(Main::getInstance()->getConfig()->get("BACK-BTN"), 0, "textures/ui/icon_import");
         $sender->sendForm($form);
     }
-    
+
     public function INFOTEN($sender)
     {
         $form = new SimpleForm(function (Player $sender, $data) {
@@ -828,9 +724,7 @@ class InformationForm extends MenuForm
                 case 0;
                     break;
                 case 1;
-                    $sender->sendForm(new InformationForm($sender));
-
-
+                    $sender->sendForm(new InformationForm());
                     break;
             }
         });
@@ -840,7 +734,7 @@ class InformationForm extends MenuForm
         $form->addButton(Main::getInstance()->getConfig()->get("BACK-BTN"), 0, "textures/ui/icon_import");
         $sender->sendForm($form);
     }
-    
+
     public function comingsoon($sender)
     {
         $form = new SimpleForm(function (Player $sender, $data) {
@@ -851,7 +745,6 @@ class InformationForm extends MenuForm
                 case 0;
                     $sender->sendMessage("\n§8§lCOMING SOON!\n§r§7Pushkar will add more features to this plugin just be patient because this plugin is still not §a100%§7 perfect\n");
                     $sender->sendTitle("§8§lCOMING SOON!", "§cMore features will be added!");
-
                     break;
             }
         });

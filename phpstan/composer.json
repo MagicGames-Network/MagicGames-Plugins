@@ -1,0 +1,20 @@
+{
+   "name": "pocketmine/phpstan-plugin-config",
+   "require": {
+      "ext-pthreads": "^4.0",
+      "phpstan/phpstan": "^1.5.4",
+      "pocketmine/pocketmine-mp": "4.2.6",
+      "phpstan/extension-installer": "^1.0"
+   },
+   "autoload": {
+      "psr-4": {
+         "_64FF00\\PurePerms\\": "PurePerms/src/_64FF00/PurePerms",
+         "alemiz\\sga\\": "StarGate-Atlantis/src/alemiz/sga",
+         "DaPigGuy\\PiggyCustomEnchants\\": "PiggyCustomEnchants/src/DaPigGuy/PiggyCustomEnchants",
+         "dktapps\\pmforms\\": "pmforms/src/dktapps/pmforms",
+         "jojoe77777\\FormAPI\\": "FormAPI/src/jojoe77777/FormAPI",
+         "muqsit\\invmenu\\": "InvMenu/src/muqsit/invmenu",
+         "onebone\\economyapi\\": "onebone/economyapi"
+      }
+   }
+}

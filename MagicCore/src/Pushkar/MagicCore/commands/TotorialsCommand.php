@@ -19,7 +19,7 @@ class TotorialsCommand extends Command
     {
 
         if ($sender instanceof Player) {
-            (new InformationForm($this))->INFOSIX($sender);
+            (new InformationForm())->INFOSIX($sender);
         }
     }
 }

@@ -19,7 +19,7 @@ class RanklistCommand extends Command
     {
 
         if ($sender instanceof Player) {
-            (new InformationForm($this))->INFOSEVEN($sender);
+            (new InformationForm())->INFOSEVEN($sender);
         }
     }
 }

@@ -15,9 +15,6 @@ class ChainChestplate extends Armor
     /** @var float */
     protected $metaFloat = 0.0;
 
-    /** @var int|null */
-    private $maxDurability = null;
-
     public function __construct(int $meta = 0)
     {
         parent::__construct(new ItemIdentifier(ItemIds::CHAIN_CHESTPLATE, $meta), "Chainmail Chestplate", new ArmorTypeInfo(5, 241, ArmorInventory::SLOT_CHEST));
@@ -44,7 +41,7 @@ class ChainChestplate extends Armor
         $amount -= $this->getUnbreakingDamageReduction($amount);
         $factor = $this->getMaxDurability() / parent::getMaxDurability();
         $this->metaFloat = ($this->metaFloat + ($amount / $factor));
-        $this->meta = min((int)round($this->metaFloat), parent::getMaxDurability());
+        $this->setDamage(min((int)round($this->metaFloat), parent::getMaxDurability()));
         if ($this->isBroken()) {
             $this->onBroken();
         }

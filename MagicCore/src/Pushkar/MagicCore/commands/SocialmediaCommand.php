@@ -19,7 +19,7 @@ class SocialmediaCommand extends Command
     {
 
         if ($sender instanceof Player) {
-            (new InformationForm($this))->INFOEIGHT($sender);
+            (new InformationForm())->INFOEIGHT($sender);
         }
     }
 }

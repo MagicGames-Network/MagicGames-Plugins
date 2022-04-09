@@ -3,6 +3,7 @@
 namespace Pushkar\MagicCore\forms;
 
 use pocketmine\Server;
+use Pushkar\MagicCore\Main;
 use dktapps\pmforms\FormIcon;
 use dktapps\pmforms\MenuForm;
 use pocketmine\player\Player;
@@ -21,7 +22,7 @@ class ServersForm extends MenuForm
         ], function (Player $sender, int $selected): void {
             switch ($selected) {
                 case 0:
-                    Server::getInstance()->dispatchCommand(new ConsoleCommandSender(Server::getInstance(), Server::getInstance()->getLanguage()), str_replace("{player}", $sender->getName(), $this->plugin->getConfig()->get("survivalserver.cmd")));
+                    Server::getInstance()->dispatchCommand(new ConsoleCommandSender(Server::getInstance(), Server::getInstance()->getLanguage()), str_replace("{player}", $sender->getName(), Main::getInstance()->getConfig()->get("survivalserver.cmd")));
                     $sender->sendTitle("§l§6Transfering", FormIcon::IMAGE_TYPE_URL);
                     break;
             }

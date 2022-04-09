@@ -19,7 +19,7 @@ class InformationCommand extends Command
     {
 
         if ($sender instanceof Player) {
-            $sender->sendForm(new InformationForm($sender));
+            $sender->sendForm(new InformationForm());
         }
     }
 }

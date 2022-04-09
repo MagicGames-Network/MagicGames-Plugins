@@ -19,7 +19,7 @@ class RulesCommand extends Command
     {
 
         if ($sender instanceof Player) {
-            (new InformationForm($this))->INFOFOR($sender);
+            (new InformationForm())->INFOFOR($sender);
         }
     }
 }

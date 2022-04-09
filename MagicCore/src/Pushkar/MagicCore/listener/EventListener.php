@@ -33,7 +33,7 @@ class EventListener implements Listener
         $item = ItemFactory::getInstance()->get(1070, 0, 1);
         $item->setCustomName("§r§aSkyblock Menu §7( Right Click )§r");
         $item->setLore(["§r§7View All Of Your Skyblock Progress Including Your Skills,\n§7Collections, Recipes And More!\n\n§r§eClick To Open!"]);
-        $sender->getInventory()->setItem(8, $item, true);
+        $sender->getInventory()->setItem(8, $item);
         if ($sender->isConnected()) {
             $name = $sender->getName();
             $sender->sendMessage("§e==============§6=============\n§r§7Welcome, $name §7to §eMagic Skyblock\n\n§7Amazing SkyBlock Experience On Bedrock\n\n§e§lVOTE: §r§7Our Vote Website http://bit.ly/vote-magic \n§6§lDISCORD: §r§7http://discord.io/magicgames\n§e==============§6==============");
@@ -229,7 +229,7 @@ class EventListener implements Listener
                     $sender->getInventory()->addItem($drop);
                     unset($drops[$key]);
                 } else {
-                    if (Main::getInstance()->fullInvPopup != '') {
+                    if (Main::getInstance()->pickupfullInvPopup != '') {
                         $sender->sendPopup(TextFormat::colorize(Main::getInstance()->pickupfullInvPopup));
                     }
                 }

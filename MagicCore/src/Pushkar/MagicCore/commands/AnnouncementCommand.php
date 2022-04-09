@@ -19,7 +19,7 @@ class AnnouncementCommand extends Command
     {
 
         if ($sender instanceof Player) {
-            (new InformationForm($this))->INFONINE($sender);
+            (new InformationForm())->INFONINE($sender);
         }
     }
 }

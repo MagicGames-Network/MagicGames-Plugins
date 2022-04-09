@@ -17,6 +17,7 @@ use pocketmine\command\Command;
 use _64FF00\PurePerms\PurePerms;
 use pocketmine\plugin\PluginBase;
 use Pushkar\McMMO\form\McmmoForm;
+use onebone\economyapi\EconomyAPI;
 use pocketmine\command\CommandSender;
 use Pushkar\McMMO\entity\FloatingText;
 use pocketmine\event\block\BlockBreakEvent;
@@ -45,6 +46,7 @@ class Main extends PluginBase implements Listener
     public array $database;
 
     public static Main $instance;
+    public ?EconomyAPI $eco;
 
     public function onEnable(): void
     {
@@ -53,7 +55,7 @@ class Main extends PluginBase implements Listener
         $this->getServer()->getPluginManager()->registerEvents($this, $this);
         //EntityFactory::register(FloatingText::class, true);
         self::$instance = $this;
-        $this->eco = $this->getServer()->getPluginManager()->getPlugin("EconomyAPI");
+        $this->eco = $this->getServer()->getPluginManager()->getPlugin("EconomyAPI"); /** @phpstan-ignore-line */
     }
 
     public function onCommand(CommandSender $sender, Command $command, String $label, array $args): bool

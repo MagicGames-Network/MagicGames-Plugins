@@ -63,7 +63,7 @@ class Main extends PluginBase implements Listener
                             if (isset($player->stats[$args[1]])) {
                                 if (isset($args[2])) {
                                     if (is_numeric($args[2])) {
-                                        $player->setStats($args[1], $args[2]);
+                                        $player->setStats($args[1], (float)$args[2]);
                                         if ($sender->getName() != $player->getName()) {
                                             $sender->sendMessage("§aChanged the stats of " . $player->getName() . ".");
                                         }
@@ -82,12 +82,12 @@ class Main extends PluginBase implements Listener
                         return false;
                     }
                     $sender->sendMessage($command->getUsage());
-                    return false;
                 }
-            } else {
-                $sender->sendMessage("§cNo Permission");
+                return false;
             }
+            $sender->sendMessage("§cNo Permission");
         }
+        return false;
     }
 
     public function onPlayerCreation(PlayerCreationEvent $event): void

@@ -27,17 +27,15 @@ class Main extends PluginBase implements Listener
 {
     public const FAKE_ENCH_ID = -1;
 
-    protected $skin = [];
+    public $skin = [];
     /** @var string $fullInvPopup */
-    protected $pickupfullInvPopup;
+    public $pickupfullInvPopup;
 
     /** @var string $mode */
-    protected $pickupmode;
+    public $pickupmode;
 
     /** @var array $affectedWorlds */
-    protected $pickupaffectedWorlds;
-
-    private Config $pdata;
+    public $pickupaffectedWorlds;
 
     const PREFIX = "§e§lMAGICGAMES >§r§b ";
     const VERSION = "v4.0.0";

@@ -41,7 +41,7 @@ class GoldChestplate extends Armor
         $amount -= $this->getUnbreakingDamageReduction($amount);
         $factor = $this->getMaxDurability() / parent::getMaxDurability();
         $this->metaFloat = ($this->metaFloat + ($amount / $factor));
-        $this->meta = min((int)round($this->metaFloat), parent::getMaxDurability());
+        $this->setDamage(min((int)round($this->metaFloat), parent::getMaxDurability()));
         if ($this->isBroken()) {
             $this->onBroken();
         }

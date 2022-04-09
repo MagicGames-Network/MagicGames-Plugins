@@ -39,41 +39,22 @@ use Heisenburger69\BurgerCustomArmor\Pocketmine\Diamond\DiamondChestplate;
 
 class Main extends PluginBase
 {
-    /** @var string */
     public const PREFIX = C::BOLD . C::AQUA . "Burger" . C::LIGHT_PURPLE . "CustomArmor" . "> " . C::RESET;
 
-    /**
-     * @var Main
-     */
-    public static $instance;
-    /**
-     * @var Config
-     */
-    private $armorSets;
-    /**
-     * @var Config
-     */
-    private $cfg;
-    /**
-     * @var CustomArmorSet[]
-     */
-    public $customSets;
+    public static Main $instance;
 
-    /**
-     * @var array
-     */
-    public $using;
-    /**
-     * @var Config
-     */
-    private $craftingRecipes;
+    private Config $armorSets;
+    public array $customSets;
+
+    public array $using;
+
+    private Config $craftingRecipes;
 
     public function onEnable(): void
     {
         self::$instance = $this;
 
         $this->saveDefaultConfig();
-        $this->cfg = $this->getConfig();
         $this->saveResource("armorsets.yml");
         $this->saveResource("recipes.yml");
         $this->saveResource("FireCape.png");
@@ -111,10 +92,10 @@ class Main extends PluginBase
         if (is_array($properties["abilities"]) && count($properties["abilities"]) > 0) {
             foreach ($properties["abilities"] as $ability => $value) {
                 if ($ability === "Effect") {
-                    $abilities = array_merge($abilities, AbilityUtils::getEffectAbilities($ability, $value));
+                    $abilities = array_merge($abilities, AbilityUtils::getEffectAbilities($ability, $value)); /** @phpstan-ignore-line */
                     continue;
                 }
-                if (($armorAbility = AbilityUtils::getAbility($ability, $value)) !== null) {
+                if (($armorAbility = AbilityUtils::getAbility($ability, $value)) !== null) { /** @phpstan-ignore-line */
                     $abilities[] = $armorAbility;
                 }
             }

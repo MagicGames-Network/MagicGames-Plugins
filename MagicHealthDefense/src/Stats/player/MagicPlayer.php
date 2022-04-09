@@ -73,7 +73,7 @@ class MagicPlayer extends Player
                 }
                 if ($amount < $this->getHealth()) {
                     $this->setHealth($amount);
-                    $this->setMaxHealth($amount);
+                    $this->setMaxHealth((int)$amount);
                 }
                 break;
             default:

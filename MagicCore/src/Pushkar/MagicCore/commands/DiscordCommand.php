@@ -19,7 +19,7 @@ class DiscordCommand extends Command
     {
 
         if ($sender instanceof Player) {
-            (new InformationForm($this))->SMONE($sender);
+            (new InformationForm())->SMONE($sender);
         }
     }
 }

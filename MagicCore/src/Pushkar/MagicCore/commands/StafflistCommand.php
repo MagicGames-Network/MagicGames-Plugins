@@ -19,7 +19,7 @@ class StafflistCommand extends Command
     {
 
         if ($sender instanceof Player) {
-            (new InformationForm($this))->INFOFIVE($sender);
+            (new InformationForm())->INFOFIVE($sender);
         }
     }
 }

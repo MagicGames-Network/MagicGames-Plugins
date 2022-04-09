@@ -19,7 +19,7 @@ class FeaturesCommand extends Command
     {
 
         if ($sender instanceof Player) {
-            (new InformationForm($this))->INFOTHREE($sender);
+            (new InformationForm())->INFOTHREE($sender);
         }
     }
 }

@@ -1,0 +1,19 @@
+[submodule "phpstan/PurePerms"]
+	path = phpstan/PurePerms
+	url = https://github.com/vecnavium-pm-pl/PurePerms
+[submodule "phpstan/StarGate-Atlantis"]
+	path = phpstan/StarGate-Atlantis
+	url = https://github.com/Alemiz112/StarGate-Atlantis
+	branch = pmmp-4
+[submodule "phpstan/PiggyCustomEnchants"]
+	path = phpstan/PiggyCustomEnchants
+	url = https://github.com/DaPigGuy/PiggyCustomEnchants/
+[submodule "phpstan/pmforms"]
+	path = phpstan/pmforms
+	url = https://github.com/dktapps-pm-pl/pmforms
+[submodule "phpstan/FormAPI"]
+	path = phpstan/FormAPI
+	url = https://github.com/DaPigGuy/FormAPI-4.0.0
+[submodule "phpstan/InvMenu"]
+	path = phpstan/InvMenu
+	url = https://github.com/Muqsit/InvMenu
