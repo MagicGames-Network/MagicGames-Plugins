@@ -3,12 +3,17 @@
 namespace Pushkar\MagicCore\listener;
 
 use pocketmine\Server;
+use pocketmine\world\World;
 use Pushkar\MagicCore\Main;
+use pocketmine\math\Vector3;
 use pocketmine\player\Player;
 use pocketmine\event\Listener;
+use pocketmine\world\Position;
+use pocketmine\world\Explosion;
 use pocketmine\item\ItemFactory;
 use pocketmine\utils\TextFormat;
 use onebone\economyapi\EconomyAPI;
+use pocketmine\math\VoxelRayTrace;
 use Pushkar\MagicCore\forms\StarForm;
 use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\console\ConsoleCommandSender;
@@ -116,38 +121,40 @@ class EventListener implements Listener
                         $sender->sendForm(new CraftingTableForm());
                     }
                 }
-                if ($item->getNamedTag()->getTag("aspect_of_the_end") !==null) {
-                  $start = $sender->add(0, $sender->getEyeHeight(), 0);
-            			$end = $start->add($sender->getDirectionVector()->multiply($sender->getViewDistance() * 16));
-            			$level = $sender->level;
-            			foreach(VoxelRayTrace::betweenPoints($start, $end) as $vector3){
-            				if($vector3->y >= Level::Y_MAX or $vector3->y <= 0){
-            					return;
-            				}
-            				if(($result = $level->getBlockAt($vector3->x, $vector3->y, $vector3->z)->calculateIntercept($start, $end)) !== null){
-            					$target = $result->hitVector;
-            					$sender->teleport($target);
-            					return;
-            				}
-            			}
+                if ($item->getNamedTag()->getTag("aspect_of_the_end") !== null) {
+                    $start = $sender->getPosition()->add(0, $sender->getEyeHeight(), 0);
+
+                    $endVector = $sender->getDirectionVector()->multiply($sender->getViewDistance() * 16);
+                    $end = $start->add($endVector->getX(), $endVector->getY(), $endVector->getZ());
+                    $level = $sender->getWorld();
+                    foreach (VoxelRayTrace::betweenPoints($start, $end) as $vector3) {
+                        if ($vector3->y >= World::Y_MAX or $vector3->y <= 0) {
+                            return;
+                        }
+                        if (($result = $level->getBlockAt($vector3->x, $vector3->y, $vector3->z)->calculateIntercept($start, $end)) !== null) {
+                            $target = $result->hitVector;
+                            $sender->teleport($target);
+                            return;
+                        }
+                    }
                 }
-                if ($item->getNamedTag()->getTag("golem_sword") !==null) {
-                  $explosion = new Explosion(new Position($block->getX(), $block->getY(), $block->getZ(), $sender->getLevel()), 1, null);
-                  $explosion->explodeB();
+                if ($item->getNamedTag()->getTag("golem_sword") !== null) {
+                    $explosion = new Explosion(new Position($block->getPosition()->getX(), $block->getPosition()->getY(), $block->getPosition()->getZ(), $sender->getPosition()->getWorld()), 1, null);
+                    $explosion->explodeB();
                 }
-                if ($item->getNamedTag()->getTag("leaping_sword") !==null) {
-                  $a = mt_rand(1,4);
-                  $b = mt_rand(1,4);
-                  $sender->setMotion(new Vector3($a, 1, $b));
+                if ($item->getNamedTag()->getTag("leaping_sword") !== null) {
+                    $a = mt_rand(1, 4);
+                    $b = mt_rand(1, 4);
+                    $sender->setMotion(new Vector3($a, 1, $b));
                 }
-                if ($item->getNamedTag()->getTag("profile") !==null) {
-                  Server::getInstance()->dispatchCommand($sender, "profile");
+                if ($item->getNamedTag()->getTag("profile") !== null) {
+                    Server::getInstance()->dispatchCommand($sender, "profile");
                 }
-                if ($item->getNamedTag()->getTag("bag") !==null) {
-                  #soon
+                if ($item->getNamedTag()->getTag("bag") !== null) {
+                    #soon
                 }
-                if ($item->getNamedTag()->getTag("bank") !==null) {
-                  Server::getInstance()->dispatchCommand($sender, "bank");
+                if ($item->getNamedTag()->getTag("bank") !== null) {
+                    Server::getInstance()->dispatchCommand($sender, "bank");
                 }
                 break;
         }
