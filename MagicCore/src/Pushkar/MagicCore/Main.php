@@ -107,6 +107,7 @@ class Main extends PluginBase implements Listener
             }
         }
     }
+    
     /**
      * @param string $level
      * @return bool
