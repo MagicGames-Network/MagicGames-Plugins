@@ -17,7 +17,7 @@ class RecipesCommand extends Command
     public function execute(CommandSender $sender, string $commandLabel, array $args)
     {
         if ($sender instanceof Player) {
-            $sender->sendForm(new RecipesForm()); /** @phpstan-ignore-line */
+            $sender->sendForm(new RecipesForm());
         }
     }
 }

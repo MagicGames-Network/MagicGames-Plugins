@@ -43,7 +43,12 @@ class EventListener implements Listener
             $name = $sender->getName();
             $sender->sendMessage("§e==============§6=============\n§r§7Welcome, $name §7to §eMagic Skyblock\n\n§7Amazing SkyBlock Experience On Bedrock\n\n§e§lVOTE: §r§7Our Vote Website http://bit.ly/vote-magic \n§6§lDISCORD: §r§7http://discord.io/magicgames\n§e==============§6==============");
             if (Main::getInstance()->getConfig()->get("Hub-Spawn") === true) {
-                $sender->teleport(Main::getInstance()->getServer()->getWorldManager()->getDefaultWorld()->getSafeSpawn());
+                $defaultWorld = Main::getInstance()->getServer()->getWorldManager()->getDefaultWorld();
+                if (!$defaultWorld instanceof World) {
+                    return;
+                }
+
+                $sender->teleport($defaultWorld->getSafeSpawn());
             }
             if (Main::getInstance()->getConfig()->get("onJoin-FlyReset") === true) {
                 if ($sender->isCreative()) return;
@@ -131,7 +136,7 @@ class EventListener implements Listener
                         if ($vector3->y >= World::Y_MAX or $vector3->y <= 0) {
                             return;
                         }
-                        if (($result = $level->getBlockAt($vector3->x, $vector3->y, $vector3->z)->calculateIntercept($start, $end)) !== null) {
+                        if (($result = $level->getBlockAt((int)$vector3->x, (int)$vector3->y, (int)$vector3->z)->calculateIntercept($start, $end)) !== null) {
                             $target = $result->hitVector;
                             $sender->teleport($target);
                             return;
@@ -160,7 +165,7 @@ class EventListener implements Listener
         }
     }
 
-    public function onTransaction(InventoryTransactionEvent $event)
+    public function onTransaction(InventoryTransactionEvent $event): void
     {
         $transaction = $event->getTransaction();
         foreach ($transaction->getActions() as $action) {
@@ -197,8 +202,17 @@ class EventListener implements Listener
             }
         }
         if ($event->getCause() === EntityDamageEvent::CAUSE_VOID) {
-            $sender->teleport(Main::getInstance()->getServer()->getWorldManager()->getDefaultWorld()->getSafeSpawn());
+            $defaultWorld = Main::getInstance()->getServer()->getWorldManager()->getDefaultWorld();
+            if (!$defaultWorld instanceof World) {
+                return;
+            }
+
+            $sender->teleport($defaultWorld->getSafeSpawn());
             $senderMoney = EconomyAPI::getInstance()->myMoney($sender);
+            if (is_bool($senderMoney)) {
+                return;
+            }
+
             if (Main::getInstance()->getConfig()->get("Void-Money-Lose") === true) {
                 switch (Main::getInstance()->getConfig()->get("Type")) {
                     case "all":
@@ -278,6 +292,10 @@ class EventListener implements Listener
         if (!$lastDamage instanceof EntityDamageByEntityEvent) return;
 
         $senderMoney = EconomyAPI::getInstance()->myMoney($sender);
+        if (is_bool($senderMoney)) {
+            return;
+        }
+
         $damager = $lastDamage->getDamager();
         if (Main::getInstance()->getConfig()->get("Death-Money-Lose") === true) {
             if (!$damager instanceof Player) {
@@ -321,7 +339,7 @@ class EventListener implements Listener
         }
     }
 
-    public function onPlayerTrample(EntityTrampleFarmlandEvent $event)
+    public function onPlayerTrample(EntityTrampleFarmlandEvent $event): void
     {
         $event->cancel();
     }
@@ -338,9 +356,9 @@ class EventListener implements Listener
         }
     }
 
-    public function onQuit(PlayerQuitEvent $event)
+    /*public function onQuit(PlayerQuitEvent $event): void
     {
         $sender = $event->getPlayer();
-        //$event->setQuitMessage(str_replace(["{name}"], [$sender->getName()], Main::getInstance()->getConfig()->get("left-message")));
-    }
+        $event->setQuitMessage(str_replace(["{name}"], [$sender->getName()], Main::getInstance()->getConfig()->get("left-message")));
+    }*/
 }

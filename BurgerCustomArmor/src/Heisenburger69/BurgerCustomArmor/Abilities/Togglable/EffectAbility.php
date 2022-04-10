@@ -17,12 +17,12 @@ class EffectAbility extends TogglableAbility
         $this->effect = $effectInstance;
     }
 
-    public function on(Player $player)
+    public function on(Player $player): void
     {
         $player->getEffects()->add($this->effect);
     }
 
-    public function off(Player $player)
+    public function off(Player $player): void
     {
         if ($player->getEffects()->has($this->effect->getType())) {
             $player->getEffects()->remove($this->effect->getType());

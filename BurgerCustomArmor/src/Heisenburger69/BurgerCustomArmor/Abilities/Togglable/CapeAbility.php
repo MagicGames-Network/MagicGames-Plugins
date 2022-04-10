@@ -17,12 +17,12 @@ class CapeAbility extends TogglableAbility
         $this->file = $file;
     }
 
-    public function on(Player $player)
+    public function on(Player $player): void
     {
         Utils::addCape($player, $this->file);
     }
 
-    public function off(Player $player)
+    public function off(Player $player): void
     {
         Utils::removeCape($player);
     }

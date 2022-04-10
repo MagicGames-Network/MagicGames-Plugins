@@ -24,8 +24,8 @@ class RepairCommand extends Command
                 $sender->getInventory()->setItemInHand($item);
                 $sender->sendMessage("§e§lMAGICGAMES > §r§bRepaired Your Item");
             }
-        } else {
-            $sender->sendMessage("Use this command in-game");
+            return;
         }
+        $sender->sendMessage("Use this command in-game");
     }
 }

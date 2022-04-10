@@ -46,16 +46,28 @@ class Main extends PluginBase implements Listener
     public array $database;
 
     public static Main $instance;
-    public ?EconomyAPI $eco;
+    public EconomyAPI $eco;
 
     public function onEnable(): void
     {
         $this->saveResource("database.yml");
-        $this->database = yaml_parse(file_get_contents($this->getDataFolder() . "database.yml"));
+        $contents = file_get_contents($this->getDataFolder() . "database.yml");
+        if (!$contents) {
+            $this->getLogger()->error("Could not load database.yml");
+            $this->getServer()->getPluginManager()->disablePlugin($this);
+            return;
+        }
+
+        $this->database = yaml_parse($contents);
         $this->getServer()->getPluginManager()->registerEvents($this, $this);
         //EntityFactory::register(FloatingText::class, true);
         self::$instance = $this;
-        $this->eco = $this->getServer()->getPluginManager()->getPlugin("EconomyAPI"); /** @phpstan-ignore-line */
+
+        if (!$this->getServer()->getPluginManager()->getPlugin("EconomyAPI") instanceof EconomyAPI) {
+            $this->getServer()->getPluginManager()->disablePlugin($this);
+            return;
+        }
+        $this->eco = $this->getServer()->getPluginManager()->getPlugin("EconomyAPI");
     }
 
     public function onCommand(CommandSender $sender, Command $command, String $label, array $args): bool
@@ -139,7 +151,7 @@ class Main extends PluginBase implements Listener
         return $this->database["level"][$type][strtolower($player->getName())];
     }
 
-    public function addXp(int $type, Player $player)
+    public function addXp(int $type, Player $player): void
     {
         $this->database["xp"][$type][strtolower($player->getName())]++;
         if ($this->database["xp"][$type][strtolower($player->getName())] >= ($this->getLevel($type, $player) * 100)) {
@@ -150,7 +162,7 @@ class Main extends PluginBase implements Listener
         $player->sendTip("₹§b+1 §d" . $a[$type] . " §7(§a" . $this->getXp($type, $player) . "§7)");
     }
 
-    public function addLevel(int $type, Player $player)
+    public function addLevel(int $type, Player $player): void
     {
         $this->database["level"][$type][strtolower($player->getName())]++;
         $a = ["Lumberjack", "Farmer", "Excavation", "Miner", "Killer", "Combat", "Builder", "Consumer", "Archer", "Lawn Mower"];
@@ -219,7 +231,7 @@ class Main extends PluginBase implements Listener
         return $this->database["level"][$type];
     }
 
-    public function onLogin(PlayerLoginEvent $event)
+    public function onLogin(PlayerLoginEvent $event): void
     {
         $player = $event->getPlayer();
         if (!isset($this->database["xp"][0][strtolower($player->getName())])) {
@@ -233,7 +245,7 @@ class Main extends PluginBase implements Listener
     /**
      * @priority LOWEST
      */
-    public function onBreak(BlockBreakEvent $event)
+    public function onBreak(BlockBreakEvent $event): void
     {
         if ($event->isCancelled()) {
             return;
@@ -288,7 +300,7 @@ class Main extends PluginBase implements Listener
     /**
      * @priority LOWEST
      */
-    public function onPlace(BlockPlaceEvent $event)
+    public function onPlace(BlockPlaceEvent $event): void
     {
         if ($event->isCancelled()) {
             return;
@@ -304,7 +316,7 @@ class Main extends PluginBase implements Listener
     /**
      * @priority LOWEST
      */
-    public function onDamage(EntityDamageEvent $event)
+    public function onDamage(EntityDamageEvent $event): void
     {
         if ($event->isCancelled()) {
             return;
@@ -329,7 +341,7 @@ class Main extends PluginBase implements Listener
     /**
      * @priority LOWEST
      */
-    public function onShootBow(EntityShootBowEvent $event)
+    public function onShootBow(EntityShootBowEvent $event): void
     {
         if ($event->isCancelled()) {
             return;
@@ -343,7 +355,7 @@ class Main extends PluginBase implements Listener
     /**
      * @priority LOWEST
      */
-    public function onItemConsume(PlayerItemConsumeEvent $event)
+    public function onItemConsume(PlayerItemConsumeEvent $event): void
     {
         if ($event->getPlayer()->getHungerManager()->getFood() < $event->getPlayer()->getHungerManager()->getMaxFood()) {
             $this->addXp(self::CONSUMER, $event->getPlayer());

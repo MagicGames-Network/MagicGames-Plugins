@@ -2,24 +2,25 @@
 
 namespace Heisenburger69\BurgerCustomArmor;
 
-use Heisenburger69\BurgerCustomArmor\Abilities\Reactive\Defensive\DefensiveAbility;
-use Heisenburger69\BurgerCustomArmor\Abilities\Reactive\Offensive\OffensiveAbility;
-use Heisenburger69\BurgerCustomArmor\Abilities\Togglable\TogglableAbility;
+use pocketmine\nbt\tag\Tag;
+use pocketmine\player\Player;
+use pocketmine\event\Listener;
+use pocketmine\scheduler\ClosureTask;
+use pocketmine\inventory\ArmorInventory;
+use pocketmine\event\player\PlayerJoinEvent;
+use pocketmine\event\player\PlayerQuitEvent;
+use pocketmine\event\entity\EntityDamageEvent;
+use pocketmine\event\inventory\CraftItemEvent;
+use Heisenburger69\BurgerCustomArmor\Utils\Utils;
+use pocketmine\event\entity\EntityDamageByEntityEvent;
+use pocketmine\event\inventory\InventoryTransactionEvent;
+use Heisenburger69\BurgerCustomArmor\Utils\EquipmentUtils;
 use Heisenburger69\BurgerCustomArmor\ArmorSets\CustomArmorSet;
 use Heisenburger69\BurgerCustomArmor\Events\CustomSetEquippedEvent;
 use Heisenburger69\BurgerCustomArmor\Events\CustomSetUnequippedEvent;
-use Heisenburger69\BurgerCustomArmor\Utils\EquipmentUtils;
-use Heisenburger69\BurgerCustomArmor\Utils\Utils;
-use pocketmine\event\entity\EntityDamageByEntityEvent;
-use pocketmine\event\entity\EntityDamageEvent;
-use pocketmine\event\inventory\CraftItemEvent;
-use pocketmine\event\inventory\InventoryTransactionEvent;
-use pocketmine\event\Listener;
-use pocketmine\event\player\PlayerJoinEvent;
-use pocketmine\event\player\PlayerQuitEvent;
-use pocketmine\inventory\ArmorInventory;
-use pocketmine\player\Player;
-use pocketmine\scheduler\ClosureTask;
+use Heisenburger69\BurgerCustomArmor\Abilities\Togglable\TogglableAbility;
+use Heisenburger69\BurgerCustomArmor\Abilities\Reactive\Defensive\DefensiveAbility;
+use Heisenburger69\BurgerCustomArmor\Abilities\Reactive\Offensive\OffensiveAbility;
 
 class EventListener implements Listener
 {
@@ -80,6 +81,9 @@ class EventListener implements Listener
             return;
         }
         $setName = $nbt->getValue();
+        if (!is_string($setName)) {
+            return;
+        }
         if (!EquipmentUtils::canUseSet($player, $setName)) {
             return;
         }
@@ -132,7 +136,7 @@ class EventListener implements Listener
     /**
      * @param EntityDamageByEntityEvent $event
      */
-    public function onOffensiveAbility(EntityDamageByEntityEvent $event)
+    public function onOffensiveAbility(EntityDamageByEntityEvent $event): void
     {
         $player = $event->getEntity();
         $damager = $event->getDamager();
@@ -143,6 +147,9 @@ class EventListener implements Listener
             return;
         }
         $setName = $nbt->getValue();
+        if (!is_string($setName)) {
+            return;
+        }
         if (!EquipmentUtils::canUseSet($damager, $setName)) {
             return;
         }
@@ -160,7 +167,7 @@ class EventListener implements Listener
         }
     }
 
-    public function onEquip(InventoryTransactionEvent $event)
+    public function onEquip(InventoryTransactionEvent $event): void
     {
         $transaction = $event->getTransaction();
         $inventories = $transaction->getInventories();
@@ -187,7 +194,7 @@ class EventListener implements Listener
                 if ($nbt->getValue() === $oldNbt->getValue()) return;
             }
             $setName = $nbt->getValue();
-            if (!isset($this->plugin->using[$setName])) {
+            if (!isset($this->plugin->using[$setName]) || !is_string($setName)) {
                 return;
             }
             EquipmentUtils::addUsingSet($player, $item, $setName);
@@ -210,7 +217,7 @@ class EventListener implements Listener
         }
     }
 
-    public function onUnequip(InventoryTransactionEvent $event)
+    public function onUnequip(InventoryTransactionEvent $event): void
     {
         $transaction = $event->getTransaction();
         $inventories = $transaction->getInventories();
@@ -237,7 +244,7 @@ class EventListener implements Listener
                 if ($nbt->getValue() === $newNbt->getValue()) return;
             }
             $setName = $nbt->getValue();
-            if (!isset($this->plugin->using[$setName])) {
+            if (!isset($this->plugin->using[$setName]) || !is_string($setName)) {
                 return;
             }
             $fullSetWorn = false;
@@ -279,7 +286,12 @@ class EventListener implements Listener
             return;
         }
 
-        $setName = $craftingSet->getNamedTag()->getTag("burgercustomarmor")->getValue();
+        $tag = $craftingSet->getNamedTag()->getTag("burgercustomarmor");
+        if (!$tag instanceof Tag) {
+            return;
+        }
+
+        $setName = $tag->getValue();
         $armorSet = $this->plugin->customSets[$setName];
         if (!$armorSet instanceof CustomArmorSet) {
             return;

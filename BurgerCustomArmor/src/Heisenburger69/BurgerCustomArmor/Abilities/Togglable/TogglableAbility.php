@@ -7,12 +7,12 @@ use pocketmine\player\Player;
 
 class TogglableAbility extends ArmorAbility
 {
-    public function on(Player $player)
+    public function on(Player $player): void
     {
 
     }
 
-    public function off(Player $player)
+    public function off(Player $player): void
     {
 
     }

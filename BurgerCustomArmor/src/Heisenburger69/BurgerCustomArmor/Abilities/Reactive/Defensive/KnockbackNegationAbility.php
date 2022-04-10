@@ -22,7 +22,7 @@ class KnockbackNegationAbility extends DefensiveAbility
         return true;
     }
 
-    public function activate(EntityDamageByEntityEvent $event)
+    public function activate(EntityDamageByEntityEvent $event): void
     {
         $kb = $event->getKnockBack();
         $event->setKnockBack($kb * $this->multiplier);

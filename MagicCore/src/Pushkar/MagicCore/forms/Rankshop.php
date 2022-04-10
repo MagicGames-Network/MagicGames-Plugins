@@ -4,6 +4,7 @@ namespace Pushkar\MagicCore\menu;
 
 use pocketmine\Server;
 use Pushkar\MagicCore\Main;
+use jojoe77777\FormAPI\Form;
 use pocketmine\player\Player;
 use jojoe77777\FormAPI\ModalForm;
 use jojoe77777\FormAPI\SimpleForm;
@@ -13,15 +14,19 @@ use pocketmine\console\ConsoleCommandSender;
 class Rankshop
 {
     private Main $plugin;
-    private ?EconomyAPI $eco;
+    private EconomyAPI $eco;
 
     public function __construct(Main $plugin)
     {
         $this->plugin = $plugin;
-        $this->eco = $this->plugin->getServer()->getPluginManager()->getPlugin("EconomyAPI"); /** @phpstan-ignore-line */
+        if (!$this->plugin->getServer()->getPluginManager()->getPlugin("EconomyAPI") instanceof EconomyAPI) {
+            $this->plugin->getServer()->getPluginManager()->disablePlugin($this->plugin);
+            return;
+        }
+        $this->eco = $this->plugin->getServer()->getPluginManager()->getPlugin("EconomyAPI");
     }
 
-    public function rankshop($sender)
+    public function rankshop(Player $sender): Form
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
             if ($data === null) {
@@ -71,7 +76,7 @@ class Rankshop
         return $form;
     }
     
-    public function member($sender)
+    public function member(Player $sender): Form
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
             if ($data === null) {
@@ -90,7 +95,7 @@ class Rankshop
         return $form;
     }
     
-    public function vote($sender)
+    public function vote(Player $sender): Form
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
             if ($data === null) {
@@ -109,7 +114,7 @@ class Rankshop
         return $form;
     }
     
-    public function vip($sender)
+    public function vip(Player $sender): Form
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
             if ($data === null) {
@@ -132,7 +137,7 @@ class Rankshop
         return $form;
     }
     
-    public function vipplus($sender)
+    public function vipplus(Player $sender): Form
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
             if ($data === null) {
@@ -155,7 +160,7 @@ class Rankshop
         return $form;
     }
     
-    public function mvp($sender)
+    public function mvp(Player $sender): Form
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
             if ($data === null) {
@@ -178,7 +183,7 @@ class Rankshop
         return $form;
     }
     
-    public function mvpplus($sender)
+    public function mvpplus(Player $sender): Form
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
             if ($data === null) {
@@ -201,7 +206,7 @@ class Rankshop
         return $form;
     }
     
-    public function mvpplusplus($sender)
+    public function mvpplusplus(Player $sender): Form
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
             if ($data === null) {
@@ -224,7 +229,7 @@ class Rankshop
         return $form;
     }
     
-    public function youtube($sender)
+    public function youtube(Player $sender): Form
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
             if ($data === null) {
@@ -243,7 +248,7 @@ class Rankshop
         return $form;
     }
     
-    public function vipbuy($sender)
+    public function vipbuy(Player $sender): Form
     {
         $form = new ModalForm(function (Player $sender, bool $result) {
             if ($result == null) {
@@ -276,9 +281,10 @@ class Rankshop
         $form->setButton1("§6»Yes«");
         $form->setButton2("§c»Cancel«");
         $sender->sendForm($form);
+        return $form;
     }
     
-    public function vipplusbuy($sender)
+    public function vipplusbuy(Player $sender): Form
     {
         $form = new ModalForm(function (Player $sender, bool $result) {
             if ($result == null) {
@@ -312,9 +318,10 @@ class Rankshop
         $form->setButton1("§6»Yes«");
         $form->setButton2("§c»Cancel«");
         $sender->sendForm($form);
+        return $form;
     }
     
-    public function mvpbuy($sender)
+    public function mvpbuy(Player $sender): Form
     {
         $form = new ModalForm(function (Player $sender, bool $result) {
             if ($result == null) {
@@ -348,9 +355,10 @@ class Rankshop
         $form->setButton1("§6»Yes«");
         $form->setButton2("§c»Cancel«");
         $sender->sendForm($form);
+        return $form;
     }
     
-    public function mvpplusbuy($sender)
+    public function mvpplusbuy(Player $sender): Form
     {
         $form = new ModalForm(function (Player $sender, bool $result) {
             if ($result == null) {
@@ -384,9 +392,10 @@ class Rankshop
         $form->setButton1("§6»Yes«");
         $form->setButton2("§c»Cancel«");
         $sender->sendForm($form);
+        return $form;
     }
     
-    public function mvpplusplusbuy($sender)
+    public function mvpplusplusbuy(Player $sender): Form
     {
         $form = new ModalForm(function (Player $sender, bool $result) {
             if ($result == null) {
@@ -418,5 +427,6 @@ class Rankshop
         $form->setButton1("§6»Yes«");
         $form->setButton2("§c»Cancel«");
         $sender->sendForm($form);
+        return $form;
     }
 }

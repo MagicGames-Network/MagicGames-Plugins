@@ -22,8 +22,8 @@ class XyzCommand extends Command
             $y = intval($pos->getY());
             $z = intval($pos->getZ());
             $sender->sendMessage("§6§l========================\n§l§bCOORDINATES :§r§e $x $y $z\n§6§l========================");
-        } else {
-            $sender->sendMessage("Use this command in-game");
+            return;
         }
+        $sender->sendMessage("Use this command in-game");
     }
 }

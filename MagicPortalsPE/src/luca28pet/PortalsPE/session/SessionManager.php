@@ -12,14 +12,15 @@ class SessionManager
     /** @var PlayerSession[] */
     private array $sessions = [];
 
-    public function initSession(Player $player): void
+    public function initSession(Player $player): PlayerSession
     {
-        $this->sessions[$player->getName()] = new PlayerSession(
+        $ses = $this->sessions[$player->getName()] = new PlayerSession(
             $player,
             new PartialPortalSelection(null, null, null, null),
             false,
             false
         );
+        return $ses;
     }
 
     public function getSession(Player $player): ?PlayerSession
@@ -31,7 +32,7 @@ class SessionManager
     {
         $ses = $this->getSession($player);
         if ($ses !== null) {
-            $ses->close();
+            //$ses->close();
             unset($this->sessions[$player->getName()]);
         }
     }

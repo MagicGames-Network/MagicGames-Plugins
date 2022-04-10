@@ -2,12 +2,15 @@
 
 namespace Heisenburger69\BurgerCustomArmor\ArmorSets;
 
-use pocketmine\nbt\NBT;
 use pocketmine\item\Item;
 use pocketmine\color\Color;
-use pocketmine\nbt\tag\ListTag;
 use pocketmine\nbt\tag\StringTag;
 use pocketmine\utils\TextFormat as C;
+use Pushkar\MagicCore\Main as MagicCore;
+use pocketmine\item\enchantment\ItemFlags;
+use pocketmine\item\enchantment\Enchantment;
+use pocketmine\data\bedrock\EnchantmentIdMap;
+use pocketmine\item\enchantment\EnchantmentInstance;
 use Heisenburger69\BurgerCustomArmor\Abilities\ArmorAbility;
 use Heisenburger69\BurgerCustomArmor\Pocketmine\Leather\LeatherCap;
 use Heisenburger69\BurgerCustomArmor\Pocketmine\Leather\LeatherBoots;
@@ -22,62 +25,23 @@ class CustomArmorSet
     public const TIER_CHAIN = 2;
     public const TIER_LEATHER = 1;
 
-    /**
-     * @var string
-     */
-    private $name;
-    /**
-     * @var int
-     */
-    private $tier;
-    /**
-     * @var bool
-     */
-    private $glint;
-    /**
-     * @var ArmorAbility[]
-     */
-    private $abilities;
-    /**
-     * @var Color
-     */
-    private $color;
-    /**
-     * @var array
-     */
-    private $strength;
-    /**
-     * @var array
-     */
-    private $names;
-    /**
-     * @var array
-     */
-    private $lores;
-    /**
-     * @var array
-     */
-    private $setBonusLore;
-    /**
-     * @var array
-     */
-    public $durabilities;
-    /**
-     * @var array
-     */
-    private $equippedCommands;
-    /**
-     * @var array
-     */
-    private $unequippedCommands;
-    /**
-     * @var array
-     */
-    private $equippedMessages;
-    /**
-     * @var array
-     */
-    private $unequippedMessages;
+    private string $name;
+    private int $tier;
+    private bool $glint;
+    /** @var ArmorAbility[] */
+    private array $abilities;
+    private Color $color;
+    private array $strength;
+    private array $names;
+    private array $lores;
+    private array $setBonusLore;
+    public array $durabilities;
+    private array $equippedCommands;
+    private array $unequippedCommands;
+    private array $equippedMessages;
+    private array $unequippedMessages;
+
+    private EnchantmentInstance $fakeEnchant;
 
     /**
      * CustomArmorSet constructor.
@@ -108,6 +72,8 @@ class CustomArmorSet
         $this->unequippedCommands = $unequippedCommands;
         $this->equippedMessages = $equippedMessages;
         $this->unequippedMessages = $unequippedMessages;
+
+        $this->fakeEnchant = new EnchantmentInstance(new Enchantment("Glow", 1, ItemFlags::ALL, ItemFlags::NONE, 1));
     }
 
     /**
@@ -129,7 +95,7 @@ class CustomArmorSet
         $item = ArmorSetUtils::getHelmetFromTier($this->tier);
         $item->setCustomName(C::RESET . C::colorize($this->names["helmet"]));
 
-        if ($this->glint) $item->getNamedTag()->setTag("ench", new ListTag());
+        if ($this->glint) $item->addEnchantment($this->fakeEnchant);
         $item->getNamedTag()->setTag("burgercustomarmor", new StringTag("burgercustomarmor", $this->name));
 
         $lore = ArmorSetUtils::getHelmetLore($this->lores, $this->setBonusLore);
@@ -147,7 +113,7 @@ class CustomArmorSet
         $item = ArmorSetUtils::getChestplateFromTier($this->tier);
         $item->setCustomName(C::RESET . C::colorize($this->names["chestplate"]));
 
-        if ($this->glint) $item->getNamedTag()->setTag("ench", new ListTag());
+        if ($this->glint) $item->addEnchantment($this->fakeEnchant);
         $item->getNamedTag()->setTag("burgercustomarmor", new StringTag("burgercustomarmor", $this->name));
 
         $lore = ArmorSetUtils::getChestplateLore($this->lores, $this->setBonusLore);
@@ -165,7 +131,7 @@ class CustomArmorSet
         $item = ArmorSetUtils::getLeggingsFromTier($this->tier);
         $item->setCustomName(C::RESET . C::colorize($this->names["leggings"]));
 
-        if ($this->glint) $item->getNamedTag()->setTag("ench", new ListTag());
+        if ($this->glint) $item->addEnchantment($this->fakeEnchant);
         $item->getNamedTag()->setTag("burgercustomarmor", new StringTag("burgercustomarmor", $this->name));
 
         $lore = ArmorSetUtils::getLeggingsLore($this->lores, $this->setBonusLore);
@@ -183,7 +149,7 @@ class CustomArmorSet
         $item = ArmorSetUtils::getBootsFromTier($this->tier);
         $item->setCustomName(C::RESET . C::colorize($this->names["boots"]));
 
-        if ($this->glint) $item->getNamedTag()->setTag("ench", new ListTag());
+        if ($this->glint) $item->addEnchantment($this->fakeEnchant);
         $item->getNamedTag()->setTag("burgercustomarmor", new StringTag("burgercustomarmor", $this->name));
 
         $lore = ArmorSetUtils::getBootsLore($this->lores, $this->setBonusLore);

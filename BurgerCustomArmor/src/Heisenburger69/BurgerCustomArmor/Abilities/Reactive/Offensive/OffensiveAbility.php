@@ -13,7 +13,7 @@ class OffensiveAbility extends ReactiveAbility
         return true;
     }
 
-    public function activate(EntityDamageByEntityEvent $event)
+    public function activate(EntityDamageByEntityEvent $event): void
     {
 
     }

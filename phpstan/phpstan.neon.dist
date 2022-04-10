@@ -2,7 +2,16 @@ includes:
     - phpstan-baseline.neon
 
 parameters:
-    level: 5
+    level: 8
+    checkMissingIterableValueType: false
+    reportUnmatchedIgnoredErrors: false
+    ignoreErrors:
+        - '#Parameter \#[1234567890] \$title of method [a-zA-Z0-9\\_]+::setTitle\(\) expects string, mixed given.#'
+        - '#Parameter \#[1234567890] \$content of method [a-zA-Z0-9\\_]+::setContent\(\) expects string, mixed given.#'
+        - '#Parameter \#[1234567890] \$text of method [a-zA-Z0-9\\_]+::addButton\(\) expects string, mixed given.#'
+        - '#Parameter \#[1234567890] \$title of method [a-zA-Z0-9\\_]+::__construct\(\) expects string, mixed given.#'
+        - '#Parameter \#[1234567890] \$text of method [a-zA-Z0-9\\_]+::__construct\(\) expects string, mixed given.#'
+        - '#Parameter \#[1234567890] \$text of class [a-zA-Z0-9\\_]+ constructor expects string, mixed given.#'
     paths:
         - ../BurgerCustomArmor
         - ../MagicCore
@@ -11,5 +20,6 @@ parameters:
         - ../MagicPortalsPE
         - ../MagicSkills
     excludePaths:
-        - ../MagicCore/src/Pushkar/MagicCore/forms/RecipesForm.php
-        - ../BurgerCustomArmor/src/Heisenburger69/BurgerCustomArmor/Abilities/AbilityUtils.php
+        analyse:
+            - ../MagicCore/src/Pushkar/MagicCore/forms/RecipesForm.php
+            - ../BurgerCustomArmor/src/Heisenburger69/BurgerCustomArmor/Abilities/AbilityUtils.php

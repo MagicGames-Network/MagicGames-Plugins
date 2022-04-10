@@ -25,11 +25,11 @@ class VisionCommand extends Command
                 unset($this->vision[$sender->getName()]);
                 $sender->getEffects()->remove(VanillaEffects::NIGHT_VISION());
                 $sender->sendMessage("§aVision: Off");
-            } else {
-                $this->vision[$sender->getName()] = 0;
-                $sender->getEffects()->add(new EffectInstance(VanillaEffects::NIGHT_VISION(), 600 * 100, 3));
-                $sender->sendMessage("§aVision: On");
+                return;
             }
+            $this->vision[$sender->getName()] = 0;
+            $sender->getEffects()->add(new EffectInstance(VanillaEffects::NIGHT_VISION(), 600 * 100, 3));
+            $sender->sendMessage("§aVision: On");
         }
     }
 }

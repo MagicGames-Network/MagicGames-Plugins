@@ -9,8 +9,8 @@ use luca28pet\PortalsPE\selection\PartialPortalSelection;
 
 class PlayerSession
 {
-    private ?Player $player;
-    private ?PartialPortalSelection $selection;
+    private Player $player;
+    private PartialPortalSelection $selection;
     private bool $selectingFirstBlock;
     private bool $selectingSecondBlock;
 
@@ -57,9 +57,9 @@ class PlayerSession
         $this->selectingSecondBlock = $selectingSecondBlock;
     }
 
-    public function close(): void
+    /*public function close(): void
     {
         $this->player = null;
         $this->selection = null;
-    }
+    }*/
 }

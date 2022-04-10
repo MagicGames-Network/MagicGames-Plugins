@@ -3,13 +3,16 @@
 namespace Pushkar\MagicCore\forms;
 
 use pocketmine\Server;
-use Pushkar\MagicCore\Main;
+use jojoe77777\FormAPI\Form;
 use dktapps\pmforms\FormIcon;
 use dktapps\pmforms\MenuForm;
 use pocketmine\player\Player;
 use dktapps\pmforms\MenuOption;
 use pocketmine\item\ItemFactory;
 use jojoe77777\FormAPI\SimpleForm;
+use Pushkar\MagicCore\Main as MagicCore;
+use pocketmine\item\enchantment\ItemFlags;
+use pocketmine\item\enchantment\Enchantment;
 use pocketmine\data\bedrock\EnchantmentIdMap;
 use pocketmine\item\enchantment\EnchantmentInstance;
 use DaPigGuy\PiggyCustomEnchants\PiggyCustomEnchants;
@@ -18,9 +21,12 @@ use pocketmine\item\enchantment\StringToEnchantmentParser;
 
 class ItemsForm extends MenuForm
 {
+    private EnchantmentInstance $fakeEnchant;
 
     public function __construct()
     {
+        $this->fakeEnchant = new EnchantmentInstance(new Enchantment("Glow", 1, ItemFlags::ALL, ItemFlags::NONE, 1));
+        
         parent::__construct("§l§6RECIPES BOOK", "§bUse Only Custom Crafting Table To Craft Things, Do /customtable", [
             new MenuOption("§l§eMINION RECIPES\n§9»» §r§6Tap To Open", new FormIcon("https://cdn-icons-png.flaticon.com/128/891/891978.png", FormIcon::IMAGE_TYPE_URL)),
             new MenuOption("§l§eARMOR RECIPES\n§9»» §r§6Tap To Open", new FormIcon("https://cdn-icons-png.flaticon.com/128/361/361761.png", FormIcon::IMAGE_TYPE_URL)),
@@ -91,7 +97,7 @@ class ItemsForm extends MenuForm
         });
     }
 
-    public function minions($sender)
+    public function minions(Player $sender): Form
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
             if ($data === null) {
@@ -235,7 +241,7 @@ class ItemsForm extends MenuForm
         return $form;
     }
 
-    public function armors($sender)
+    public function armors(Player $sender): Form
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
             if ($data === null) {
@@ -404,7 +410,7 @@ class ItemsForm extends MenuForm
         return $form;
     }
 
-    public function eblocks($sender)
+    public function eblocks(Player $sender): Form
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
             if ($data === null) {
@@ -413,7 +419,7 @@ class ItemsForm extends MenuForm
             switch ($data) {
                 case 0:
                     $item = ItemFactory::getInstance()->get(4, 0, 64);
-                    $item->addEnchantment(new EnchantmentInstance(EnchantmentIdMap::getInstance()->fromId(Main::FAKE_ENCH_ID)));
+                    $item->addEnchantment($this->fakeEnchant);
                     $item->setCustomName("§r§eEnchanted Cobblestone\n§7Use It To Craft Minion And Custom Armor\n\n§d§lUNCOMMON");
                     $inv = $sender->getInventory();
                     $inv->addItem($item);
@@ -421,7 +427,7 @@ class ItemsForm extends MenuForm
 
                 case 1:
                     $item = ItemFactory::getInstance()->get(263, 0, 64);
-                    $item->addEnchantment(new EnchantmentInstance(EnchantmentIdMap::getInstance()->fromId(Main::FAKE_ENCH_ID)));
+                    $item->addEnchantment($this->fakeEnchant);
                     $item->setCustomName("§r§eEnchanted Coal\n§7Use It To Craft Minion And Custom Armor\n\n§l§9RARE");
                     $inv = $sender->getInventory();
                     $inv->addItem($item);
@@ -429,7 +435,7 @@ class ItemsForm extends MenuForm
 
                 case 2:
                     $item = ItemFactory::getInstance()->get(265, 0, 64);
-                    $item->addEnchantment(new EnchantmentInstance(EnchantmentIdMap::getInstance()->fromId(Main::FAKE_ENCH_ID)));
+                    $item->addEnchantment($this->fakeEnchant);
                     $item->setCustomName("§r§eEnchanted Iron\n§7Use It To Craft Minion And Custom Armor\n\n§l§9RARE");
                     $inv = $sender->getInventory();
                     $inv->addItem($item);
@@ -437,7 +443,7 @@ class ItemsForm extends MenuForm
 
                 case 3:
                     $item = ItemFactory::getInstance()->get(266, 0, 64);
-                    $item->addEnchantment(new EnchantmentInstance(EnchantmentIdMap::getInstance()->fromId(Main::FAKE_ENCH_ID)));
+                    $item->addEnchantment($this->fakeEnchant);
                     $item->setCustomName("§r§eEnchanted Gold\n§7Use It To Craft Minion And Custom Armor\n\n§l§9RARE");
                     $inv = $sender->getInventory();
                     $inv->addItem($item);
@@ -445,7 +451,7 @@ class ItemsForm extends MenuForm
 
                 case 4:
                     $item = ItemFactory::getInstance()->get(351, 4, 64);
-                    $item->addEnchantment(new EnchantmentInstance(EnchantmentIdMap::getInstance()->fromId(Main::FAKE_ENCH_ID)));
+                    $item->addEnchantment($this->fakeEnchant);
                     $item->setCustomName("§r§eEnchanted Lapis\n§7Use It To Craft Minion And Custom Armor\n\n§l§9RARE");
                     $inv = $sender->getInventory();
                     $inv->addItem($item);
@@ -453,7 +459,7 @@ class ItemsForm extends MenuForm
 
                 case 5:
                     $item = ItemFactory::getInstance()->get(331, 0, 64);
-                    $item->addEnchantment(new EnchantmentInstance(EnchantmentIdMap::getInstance()->fromId(Main::FAKE_ENCH_ID)));
+                    $item->addEnchantment($this->fakeEnchant);
                     $item->setCustomName("§r§eEnchanted Redstone\n§7Use It To Craft Minion And Custom Armor\n\n§l§9RARE");
                     $inv = $sender->getInventory();
                     $inv->addItem($item);
@@ -461,7 +467,7 @@ class ItemsForm extends MenuForm
 
                 case 6:
                     $item = ItemFactory::getInstance()->get(264, 0, 64);
-                    $item->addEnchantment(new EnchantmentInstance(EnchantmentIdMap::getInstance()->fromId(Main::FAKE_ENCH_ID)));
+                    $item->addEnchantment($this->fakeEnchant);
                     $item->setCustomName("§r§eEnchanted Diamond\n§7Use It To Craft Minion And Custom Armor\n\n§l§9RARE");
                     $inv = $sender->getInventory();
                     $inv->addItem($item);
@@ -469,7 +475,7 @@ class ItemsForm extends MenuForm
 
                 case 7:
                     $item = ItemFactory::getInstance()->get(388, 0, 64);
-                    $item->addEnchantment(new EnchantmentInstance(EnchantmentIdMap::getInstance()->fromId(Main::FAKE_ENCH_ID)));
+                    $item->addEnchantment($this->fakeEnchant);
                     $item->setCustomName("§r§eEnchanted Emerald\n§7Use It To Craft Minion And Custom Armor\n\n§l§9RARE");
                     $inv = $sender->getInventory();
                     $inv->addItem($item);
@@ -477,7 +483,7 @@ class ItemsForm extends MenuForm
 
                 case 8:
                     $item = ItemFactory::getInstance()->get(406, 0, 64);
-                    $item->addEnchantment(new EnchantmentInstance(EnchantmentIdMap::getInstance()->fromId(Main::FAKE_ENCH_ID)));
+                    $item->addEnchantment($this->fakeEnchant);
                     $item->setCustomName("§r§eEnchanted Quartz\n§7Use It To Craft Minion And Custom Armor\n\n§l§9RARE");
                     $inv = $sender->getInventory();
                     $inv->addItem($item);
@@ -485,7 +491,7 @@ class ItemsForm extends MenuForm
 
                 case 9:
                     $item = ItemFactory::getInstance()->get(87, 0, 64);
-                    $item->addEnchantment(new EnchantmentInstance(EnchantmentIdMap::getInstance()->fromId(Main::FAKE_ENCH_ID)));
+                    $item->addEnchantment($this->fakeEnchant);
                     $item->setCustomName("§r§eEnchanted Netherack\n§7Use It To Craft Minion And Custom Armor\n\n§9§lEPIC");
                     $inv = $sender->getInventory();
                     $inv->addItem($item);
@@ -493,7 +499,7 @@ class ItemsForm extends MenuForm
 
                 case 10:
                     $item = ItemFactory::getInstance()->get(121, 0, 64);
-                    $item->addEnchantment(new EnchantmentInstance(EnchantmentIdMap::getInstance()->fromId(Main::FAKE_ENCH_ID)));
+                    $item->addEnchantment($this->fakeEnchant);
                     $item->setCustomName("§r§eEnchanted End Stone\n§7Use It To Craft Minion And Custom Armor\n\n§9§lEPIC");
                     $inv = $sender->getInventory();
                     $inv->addItem($item);
@@ -501,7 +507,7 @@ class ItemsForm extends MenuForm
 
                 case 11:
                     $item = ItemFactory::getInstance()->get(296, 0, 64);
-                    $item->addEnchantment(new EnchantmentInstance(EnchantmentIdMap::getInstance()->fromId(Main::FAKE_ENCH_ID)));
+                    $item->addEnchantment($this->fakeEnchant);
                     $item->setCustomName("§r§eEnchanted Wheat\n§7Use It To Craft Minion And Custom Armor\n\n§d§lEPIC");
                     $inv = $sender->getInventory();
                     $inv->addItem($item);
@@ -509,7 +515,7 @@ class ItemsForm extends MenuForm
 
                 case 12:
                     $item = ItemFactory::getInstance()->get(391, 0, 64);
-                    $item->addEnchantment(new EnchantmentInstance(EnchantmentIdMap::getInstance()->fromId(Main::FAKE_ENCH_ID)));
+                    $item->addEnchantment($this->fakeEnchant);
                     $item->setCustomName("§r§eEnchanted Carrot\n§7Use It To Craft Minion And Custom Armor\n\n§d§lEPIC");
                     $inv = $sender->getInventory();
                     $inv->addItem($item);
@@ -517,7 +523,7 @@ class ItemsForm extends MenuForm
 
                 case 13:
                     $item = ItemFactory::getInstance()->get(392, 0, 64);
-                    $item->addEnchantment(new EnchantmentInstance(EnchantmentIdMap::getInstance()->fromId(Main::FAKE_ENCH_ID)));
+                    $item->addEnchantment($this->fakeEnchant);
                     $item->setCustomName("§r§eEnchanted Potato\n§7Use It To Craft Minion And Custom Armor\n\n§d§lEPIC");
                     $inv = $sender->getInventory();
                     $inv->addItem($item);
@@ -526,7 +532,7 @@ class ItemsForm extends MenuForm
 
                 case 14:
                     $item = ItemFactory::getInstance()->get(103, 0, 64);
-                    $item->addEnchantment(new EnchantmentInstance(EnchantmentIdMap::getInstance()->fromId(Main::FAKE_ENCH_ID)));
+                    $item->addEnchantment($this->fakeEnchant);
                     $item->setCustomName("§r§eEnchanted Melon\n§7Use It To Craft Minion And Custom Armor\n\n§d§lEPIC");
                     $inv = $sender->getInventory();
                     $inv->addItem($item);
@@ -534,7 +540,7 @@ class ItemsForm extends MenuForm
 
                 case 15:
                     $item = ItemFactory::getInstance()->get(86, 0, 64);
-                    $item->addEnchantment(new EnchantmentInstance(EnchantmentIdMap::getInstance()->fromId(Main::FAKE_ENCH_ID)));
+                    $item->addEnchantment($this->fakeEnchant);
                     $item->setCustomName("§r§eEnchanted Pumpkin\n§7Use It To Craft Minion And Custom Armor\n\n§d§lEPIC");
                     $inv = $sender->getInventory();
                     $inv->addItem($item);
@@ -542,7 +548,7 @@ class ItemsForm extends MenuForm
 
                 case 16:
                     $item = ItemFactory::getInstance()->get(3, 0, 64);
-                    $item->addEnchantment(new EnchantmentInstance(EnchantmentIdMap::getInstance()->fromId(Main::FAKE_ENCH_ID)));
+                    $item->addEnchantment($this->fakeEnchant);
                     $item->setCustomName("§r§eEnchanted Dirt Block\n§7Use It To Craft Minion And Custom Armor\n\n§d§lEPIC");
                     $inv = $sender->getInventory();
                     $inv->addItem($item);
@@ -550,7 +556,7 @@ class ItemsForm extends MenuForm
 
                 case 17:
                     $item = ItemFactory::getInstance()->get(12, 0, 64);
-                    $item->addEnchantment(new EnchantmentInstance(EnchantmentIdMap::getInstance()->fromId(Main::FAKE_ENCH_ID)));
+                    $item->addEnchantment($this->fakeEnchant);
                     $item->setCustomName("§r§eEnchanted Sand Block\n§7Use It To Craft Minion And Custom Armor\n\n§d§lEPIC");
                     $inv = $sender->getInventory();
                     $inv->addItem($item);
@@ -558,7 +564,7 @@ class ItemsForm extends MenuForm
 
                 case 18:
                     $item = ItemFactory::getInstance()->get(17, 0, 64);
-                    $item->addEnchantment(new EnchantmentInstance(EnchantmentIdMap::getInstance()->fromId(Main::FAKE_ENCH_ID)));
+                    $item->addEnchantment($this->fakeEnchant);
                     $item->setCustomName("§r§eEnchanted Qak Logs\n§7Use It To Craft Minion And Custom Armor\n\n§d§lEPIC");
                     $inv = $sender->getInventory();
                     $inv->addItem($item);
@@ -566,7 +572,7 @@ class ItemsForm extends MenuForm
 
                 case 19:
                     $item = ItemFactory::getInstance()->get(162, 0, 64);
-                    $item->addEnchantment(new EnchantmentInstance(EnchantmentIdMap::getInstance()->fromId(Main::FAKE_ENCH_ID)));
+                    $item->addEnchantment($this->fakeEnchant);
                     $item->setCustomName("§r§eEnchanted Acacia Log\n§7Use It To Craft Minion And Custom Armor\n\n§d§lEPIC");
                     $inv = $sender->getInventory();
                     $inv->addItem($item);
@@ -574,7 +580,7 @@ class ItemsForm extends MenuForm
 
                 case 20:
                     $item = ItemFactory::getInstance()->get(17, 2, 64);
-                    $item->addEnchantment(new EnchantmentInstance(EnchantmentIdMap::getInstance()->fromId(Main::FAKE_ENCH_ID)));
+                    $item->addEnchantment($this->fakeEnchant);
                     $item->setCustomName("§r§eEnchanted Birch Log\n§7Use It To Craft Minion And Custom Armor\n\n§d§lEPIC");
                     $inv = $sender->getInventory();
                     $inv->addItem($item);
@@ -583,7 +589,7 @@ class ItemsForm extends MenuForm
 
                 case 21:
                     $item = ItemFactory::getInstance()->get(17, 1, 64);
-                    $item->addEnchantment(new EnchantmentInstance(EnchantmentIdMap::getInstance()->fromId(Main::FAKE_ENCH_ID)));
+                    $item->addEnchantment($this->fakeEnchant);
                     $item->setCustomName("§r§eEnchanted Spruce Log\n§7Use It To Craft Minion And Custom Armor\n\n§d§lEPIC");
                     $inv = $sender->getInventory();
                     $inv->addItem($item);
@@ -591,7 +597,7 @@ class ItemsForm extends MenuForm
 
                 case 22:
                     $item = ItemFactory::getInstance()->get(17, 3, 64);
-                    $item->addEnchantment(new EnchantmentInstance(EnchantmentIdMap::getInstance()->fromId(Main::FAKE_ENCH_ID)));
+                    $item->addEnchantment($this->fakeEnchant);
                     $item->setCustomName("§r§eEnchanted Jungle Log\n§7Use It To Craft Minion And Custom Armor\n\n§d§lEPIC");
                     $inv = $sender->getInventory();
                     $inv->addItem($item);
@@ -599,7 +605,7 @@ class ItemsForm extends MenuForm
 
                 case 23:
                     $item = ItemFactory::getInstance()->get(162, 1, 64);
-                    $item->addEnchantment(new EnchantmentInstance(EnchantmentIdMap::getInstance()->fromId(Main::FAKE_ENCH_ID)));
+                    $item->addEnchantment($this->fakeEnchant);
                     $item->setCustomName("§r§eEnchanted Dark Oak Log\n§7Use It To Craft Minion And Custom Armor\n\n§d§lEPIC");
                     $inv = $sender->getInventory();
                     $inv->addItem($item);
@@ -608,7 +614,7 @@ class ItemsForm extends MenuForm
 
                 case 24:
                     $item = ItemFactory::getInstance()->get(363, 0, 64);
-                    $item->addEnchantment(new EnchantmentInstance(EnchantmentIdMap::getInstance()->fromId(Main::FAKE_ENCH_ID)));
+                    $item->addEnchantment($this->fakeEnchant);
                     $item->setCustomName("§r§eEnchanted Steak\n§7Use It To Craft Minion And Custom Armor\n\n§d§lEPIC");
                     $inv = $sender->getInventory();
                     $inv->addItem($item);
@@ -616,7 +622,7 @@ class ItemsForm extends MenuForm
 
                 case 25:
                     $item = ItemFactory::getInstance()->get(365, 0, 64);
-                    $item->addEnchantment(new EnchantmentInstance(EnchantmentIdMap::getInstance()->fromId(Main::FAKE_ENCH_ID)));
+                    $item->addEnchantment($this->fakeEnchant);
                     $item->setCustomName("§r§eEnchanted Chicken\n§7Use It To Craft Minion And Custom Armor\n\n§d§lEPIC");
                     $inv = $sender->getInventory();
                     $inv->addItem($item);
@@ -624,7 +630,7 @@ class ItemsForm extends MenuForm
 
                 case 26:
                     $item = ItemFactory::getInstance()->get(423, 0, 64);
-                    $item->addEnchantment(new EnchantmentInstance(EnchantmentIdMap::getInstance()->fromId(Main::FAKE_ENCH_ID)));
+                    $item->addEnchantment($this->fakeEnchant);
                     $item->setCustomName("§r§eEnchanted Mutton\n§7Use It To Craft Minion And Custom Armor\n\n§d§lEPIC");
                     $inv = $sender->getInventory();
                     $inv->addItem($item);
@@ -632,7 +638,7 @@ class ItemsForm extends MenuForm
 
                 case 27:
                     $item = ItemFactory::getInstance()->get(80, 0, 64);
-                    $item->addEnchantment(new EnchantmentInstance(EnchantmentIdMap::getInstance()->fromId(Main::FAKE_ENCH_ID)));
+                    $item->addEnchantment($this->fakeEnchant);
                     $item->setCustomName("§r§eEnchanted Snow\n§7Use It To Craft Minion And Custom Armor\n\n§d§lEPIC");
                     $inv = $sender->getInventory();
                     $inv->addItem($item);
@@ -678,7 +684,7 @@ class ItemsForm extends MenuForm
         return $form;
     }
 
-    public function ore($sender)
+    public function ore(Player $sender): Form
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
             $result = $data;
@@ -733,7 +739,7 @@ class ItemsForm extends MenuForm
         return $form;
     }
     
-    public function sword($sender)
+    public function sword(Player $sender): Form
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
             $result = $data;
@@ -743,7 +749,7 @@ class ItemsForm extends MenuForm
             switch ($result) {
                 case 0:
                     $item = ItemFactory::getInstance()->get(1038, 0, 1);
-                    $item->addEnchantment(new EnchantmentInstance(EnchantmentIdMap::getInstance()->fromId(Main::FAKE_ENCH_ID)));
+                    $item->addEnchantment($this->fakeEnchant);
                     $item->setCustomName("§l§6ASPECT OF THE END");
                     $item->setLore(["§r§8+§c  40 Damage\n\n§r§eItem Ability: Teleporting §l§eRIGHT CLICK§r\n§r§bRight Click To Teleport In\n§r§bClicked Block Like A Enderman.\n§r§eCooldown: §f5 seconds\n\n§r§l§9RARE"]);
                     $item->getNamedTag()->setString("aspect_of_the_end", "sword");
@@ -752,7 +758,7 @@ class ItemsForm extends MenuForm
                     break;
                 case 1:
                     $item = ItemFactory::getInstance()->get(1039, 0, 1);
-                    $item->addEnchantment(new EnchantmentInstance(EnchantmentIdMap::getInstance()->fromId(Main::FAKE_ENCH_ID)));
+                    $item->addEnchantment($this->fakeEnchant);
                     $item->setCustomName("§l§6ELUCIDATOR");
                     $item->setLore(["§r§8+§c  30 Damage\n\n§r§eItem Ability: Auto Pickup §l§eRIGHT CLICK§r\n§rIf You Kill Any Mob Item Drop Will\n§rAutomatically Come In Your Inventory\n\n§r§l§dRARE"]);
                     $item->getNamedTag()->setString("elucidator", "sword");
@@ -761,7 +767,7 @@ class ItemsForm extends MenuForm
                     break;
                 case 2:
                     $item = ItemFactory::getInstance()->get(1041, 0, 1);
-                    $item->addEnchantment(new EnchantmentInstance(EnchantmentIdMap::getInstance()->fromId(Main::FAKE_ENCH_ID)));
+                    $item->addEnchantment($this->fakeEnchant);
                     $item->setCustomName("§l§6GOLEM SWORD");
                     $item->setLore(["§r§8+§c  55 Damage\n\n§r§eItem Ability: Explosion §l§eRIGHT CLICK§r\n§rRight Click To Explosion\n§r§eCooldown: §f5 seconds\n\n§r§l§dRARE"]);
                     $item->getNamedTag()->setString("golem_sword", "sword");
@@ -770,7 +776,7 @@ class ItemsForm extends MenuForm
                     break;
                 case 3:
                     $item = ItemFactory::getInstance()->get(1042, 0, 1);
-                    $item->addEnchantment(new EnchantmentInstance(EnchantmentIdMap::getInstance()->fromId(Main::FAKE_ENCH_ID)));
+                    $item->addEnchantment($this->fakeEnchant);
                     $item->setCustomName("§l§6LEAPING SWORD");
                     $item->setLore(["§r§8+§c  12 Damage\n\n§r§eItem Ability: Leaping §l§eRIGHT CLICK§r\n§rRight Click To Get Jump Boost Like A Rabbit\n§r§eCooldown: §f5 seconds\n\n§r§l§dRARE"]);
                     $item->getNamedTag()->setString("leaping_sword", "sword");
@@ -779,7 +785,7 @@ class ItemsForm extends MenuForm
                     break;
                 case 4:
                     $item = ItemFactory::getInstance()->get(1043, 0, 1);
-                    $item->addEnchantment(new EnchantmentInstance(EnchantmentIdMap::getInstance()->fromId(Main::FAKE_ENCH_ID)));
+                    $item->addEnchantment($this->fakeEnchant);
                     $item->setCustomName("§l§6MIDAS SWORD");
                     $item->setLore(["§r§8+§c  60 Damage\n\n§r§l§dRARE"]);
                     $item->getNamedTag()->setString("midas_sword", "sword");
@@ -788,7 +794,7 @@ class ItemsForm extends MenuForm
                     break;
                 case 5:
                     $item = ItemFactory::getInstance()->get(1044, 0, 1);
-                    $item->addEnchantment(new EnchantmentInstance(EnchantmentIdMap::getInstance()->fromId(Main::FAKE_ENCH_ID)));
+                    $item->addEnchantment($this->fakeEnchant);
                     $item->setCustomName("§l§6POOCH SWORD");
                     $item->setLore(["§r§8+§c  30 Damage\n\n§r§l§dRARE"]);
                     $item->getNamedTag()->setString("pooch_sword", "sword");
@@ -809,7 +815,7 @@ class ItemsForm extends MenuForm
                     break;
                 case 7:
                     $item = ItemFactory::getInstance()->get(1048, 0, 1);
-                    $item->addEnchantment(new EnchantmentInstance(EnchantmentIdMap::getInstance()->fromId(Main::FAKE_ENCH_ID)));
+                    $item->addEnchantment($this->fakeEnchant);
                     $item->setCustomName("§l§6SHAMAN SWORD");
                     $item->setLore(["§r§8+§c  100 Damage\n\n§r§l§dRARE"]);
                     $item->getNamedTag()->setString("shaman_sword", "sword");
@@ -818,7 +824,7 @@ class ItemsForm extends MenuForm
                     break;
                 case 8:
                     $item = ItemFactory::getInstance()->get(1049, 0, 1);
-                    $item->addEnchantment(new EnchantmentInstance(EnchantmentIdMap::getInstance()->fromId(Main::FAKE_ENCH_ID)));
+                    $item->addEnchantment($this->fakeEnchant);
                     $item->setCustomName("§l§6SILVER FANG");
                     $item->setLore(["§r§8+§c  5 Damage\n\n§r§l§aUNCOMMON"]);
                     $item->getNamedTag()->setString("silver_fang", "sword");
@@ -827,7 +833,7 @@ class ItemsForm extends MenuForm
                     break;
                 case 9:
                     $item = ItemFactory::getInstance()->get(1050, 0, 1);
-                    $item->addEnchantment(new EnchantmentInstance(EnchantmentIdMap::getInstance()->fromId(Main::FAKE_ENCH_ID)));
+                    $item->addEnchantment($this->fakeEnchant);
                     $item->setCustomName("§l§6SPIRIT SWORD");
                     $item->setLore(["§r§8+§c  60 Damage\n\n§r§l§dRARE"]);
                     $item->getNamedTag()->setString("spirit_sword", "sword");
@@ -836,7 +842,7 @@ class ItemsForm extends MenuForm
                     break;
                 case 10:
                     $item = ItemFactory::getInstance()->get(1037, 0, 1);
-                    $item->addEnchantment(new EnchantmentInstance(EnchantmentIdMap::getInstance()->fromId(Main::FAKE_ENCH_ID)));
+                    $item->addEnchantment($this->fakeEnchant);
                     $item->setCustomName("§l§6TACTICIAN SWORD");
                     $item->setLore(["§r§8+§c  70 Damage\n\n§r§l§dRARE"]);
                     $item->getNamedTag()->setString("tactician_sword", "sword");
@@ -845,7 +851,7 @@ class ItemsForm extends MenuForm
                     break;
                 case 11:
                     $item = ItemFactory::getInstance()->get(1051, 0, 1);
-                    $item->addEnchantment(new EnchantmentInstance(EnchantmentIdMap::getInstance()->fromId(Main::FAKE_ENCH_ID)));
+                    $item->addEnchantment($this->fakeEnchant);
                     $item->setCustomName("§l§6THICK TACTICIAN SWORD");
                     $item->setLore(["§r§8+§c  90 Damage\n\n§r§l§dRARE"]);
                     $item->getNamedTag()->setString("thick_tactician_sword", "sword");
@@ -854,7 +860,7 @@ class ItemsForm extends MenuForm
                     break;
                 case 12:
                     $item = ItemFactory::getInstance()->get(1052, 0, 1);
-                    $item->addEnchantment(new EnchantmentInstance(EnchantmentIdMap::getInstance()->fromId(Main::FAKE_ENCH_ID)));
+                    $item->addEnchantment($this->fakeEnchant);
                     $item->setCustomName("§l§6YETI SWORD");
                     $item->setLore(["§r§8+§c  60 Damage\n\n§r§l§dRARE"]);
                     $item->getNamedTag()->setString("yeti_sword", "sword");
@@ -863,7 +869,7 @@ class ItemsForm extends MenuForm
                     break;
                 case 13:
                     $item = ItemFactory::getInstance()->get(1053, 0, 1);
-                    $item->addEnchantment(new EnchantmentInstance(EnchantmentIdMap::getInstance()->fromId(Main::FAKE_ENCH_ID)));
+                    $item->addEnchantment($this->fakeEnchant);
                     $item->setCustomName("§l§6ZOMBIE SWORD");
                     $item->setLore(["§r§8+§c  80 Damage\n\n§r§l§dRARE"]);
                     $item->getNamedTag()->setString("zombie_sword", "sword");
@@ -896,7 +902,7 @@ class ItemsForm extends MenuForm
         return $form;
     }
     
-    public function axe($sender)
+    public function axe(Player $sender): Form
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
             $result = $data;
@@ -906,7 +912,7 @@ class ItemsForm extends MenuForm
             switch ($result) {
                 case 0:
                     $item = ItemFactory::getInstance()->get(1040, 0, 1);
-                    $item->addEnchantment(new EnchantmentInstance(EnchantmentIdMap::getInstance()->fromId(Main::FAKE_ENCH_ID)));
+                    $item->addEnchantment($this->fakeEnchant);
                     $item->setCustomName("§l§6FROZEN SCYTHE");
                     $item->setLore(["§r§8+§c  30 Efficiency\n\n§r§l§dRARE"]);
                     $item->getNamedTag()->setString("frozen_scythe", "axe");
@@ -927,7 +933,7 @@ class ItemsForm extends MenuForm
                     break;
                 case 2:
                     $item = ItemFactory::getInstance()->get(1086, 0, 1);
-                    $item->addEnchantment(new EnchantmentInstance(EnchantmentIdMap::getInstance()->fromId(Main::FAKE_ENCH_ID)));
+                    $item->addEnchantment($this->fakeEnchant);
                     $item->setCustomName("§l§6MUSHROOM COW AXE");
                     $item->setLore(["§r§8+§c  12 Efficiency\n\n§r§l§dRARE"]);
                     $item->getNamedTag()->setString("mushroom_cow_axe", "axe");
@@ -936,7 +942,7 @@ class ItemsForm extends MenuForm
                     break;
                 case 3:
                     $item = ItemFactory::getInstance()->get(1045, 0, 1);
-                    $item->addEnchantment(new EnchantmentInstance(EnchantmentIdMap::getInstance()->fromId(Main::FAKE_ENCH_ID)));
+                    $item->addEnchantment($this->fakeEnchant);
                     $item->setCustomName("§l§6PROMISING AXE");
                     $item->setLore(["§r§8+§c  15 Efficiency\n\n§r§l§dRARE"]);
                     $item->getNamedTag()->setString("promising_axe", "axe");
@@ -945,7 +951,7 @@ class ItemsForm extends MenuForm
                     break;
                 case 4:
                     $item = ItemFactory::getInstance()->get(1046, 0, 1);
-                    $item->addEnchantment(new EnchantmentInstance(EnchantmentIdMap::getInstance()->fromId(Main::FAKE_ENCH_ID)));
+                    $item->addEnchantment($this->fakeEnchant);
                     $item->setCustomName("§l§6RAIDER AXE");
                     $item->setLore(["§r§8+§c  20 Efficiency\n\n§r§l§dRARE"]);
                     $item->getNamedTag()->setString("raider_axe", "axe");
@@ -954,7 +960,7 @@ class ItemsForm extends MenuForm
                     break;
                 case 5:
                     $item = ItemFactory::getInstance()->get(1087, 0, 1);
-                    $item->addEnchantment(new EnchantmentInstance(EnchantmentIdMap::getInstance()->fromId(Main::FAKE_ENCH_ID)));
+                    $item->addEnchantment($this->fakeEnchant);
                     $item->setCustomName("§l§6SCULPTOR AXE");
                     $item->setLore(["§r§8+§c  18 Efficiency\n\n§r§l§dRARE"]);
                     $item->getNamedTag()->setString("sculptor_axe", "axe");
@@ -979,7 +985,7 @@ class ItemsForm extends MenuForm
         return $form;
     }
     
-    public function hoe($sender)
+    public function hoe(Player $sender): Form
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
             $result = $data;
@@ -1025,7 +1031,7 @@ class ItemsForm extends MenuForm
         return $form;
     }
     
-    public function pickaxe($sender)
+    public function pickaxe(Player $sender): Form
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
             $result = $data;
@@ -1035,7 +1041,7 @@ class ItemsForm extends MenuForm
             switch ($result) {
                 case 0:
                     $item = ItemFactory::getInstance()->get(1003, 0, 1);
-                    $item->addEnchantment(new EnchantmentInstance(EnchantmentIdMap::getInstance()->fromId(Main::FAKE_ENCH_ID)));
+                    $item->addEnchantment($this->fakeEnchant);
                     $item->setCustomName("§l§6BOULDER PICKAXE");
                     $item->setLore(["§r§8+§c  20 Efficiency\n\n§r§l§dRARE"]);
                     $item->getNamedTag()->setString("PickaxeBoulder", "pickaxe");
@@ -1068,7 +1074,7 @@ class ItemsForm extends MenuForm
                     break;
                 case 3:
                     $item = ItemFactory::getInstance()->get(1000, 0, 1);
-                    $item->addEnchantment(new EnchantmentInstance(EnchantmentIdMap::getInstance()->fromId(Main::FAKE_ENCH_ID)));
+                    $item->addEnchantment($this->fakeEnchant);
                     $item->setCustomName("§l§6ERUPTION PICKAXE");
                     $enchantmentData["name"] = "haste";
                     $enchantmentData["level"] = 3;
@@ -1105,7 +1111,7 @@ class ItemsForm extends MenuForm
                     break;
                 case 6:
                     $item = ItemFactory::getInstance()->get(1002, 0, 1);
-                    $item->addEnchantment(new EnchantmentInstance(EnchantmentIdMap::getInstance()->fromId(Main::FAKE_ENCH_ID)));
+                    $item->addEnchantment($this->fakeEnchant);
                     $item->setCustomName("§l§6LAVE PICKAXE");
                     $item->setLore(["§r§8+§c  30 Efficiency\n\n§r§l§dRARE"]);
                     $item->getNamedTag()->setString("PickaxeBoulder", "pickaxe");
@@ -1114,7 +1120,7 @@ class ItemsForm extends MenuForm
                     break;
                 case 7:
                     $item = ItemFactory::getInstance()->get(1007, 0, 1);
-                    $item->addEnchantment(new EnchantmentInstance(EnchantmentIdMap::getInstance()->fromId(Main::FAKE_ENCH_ID)));
+                    $item->addEnchantment($this->fakeEnchant);
                     $item->setCustomName("§l§6JUNGLE PICKAXE");
                     $item->setLore(["§r§8+§c  15 Efficiency\n\n§r§l§dRARE"]);
                     $item->getNamedTag()->setString("junglepickaxe", "pickaxe");
@@ -1141,7 +1147,7 @@ class ItemsForm extends MenuForm
         return $form;
     }
     
-    public function items($sender)
+    public function items(Player $sender): Form
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
             if ($data === null) {
@@ -1150,7 +1156,7 @@ class ItemsForm extends MenuForm
             switch ($data) {
                 case 0:
                     $item = ItemFactory::getInstance()->get(437, 0, 64);
-                    $item->addEnchantment(new EnchantmentInstance(EnchantmentIdMap::getInstance()->fromId(Main::FAKE_ENCH_ID)));
+                    $item->addEnchantment($this->fakeEnchant);
                     $item->setCustomName("§r§e§lDRAGON BREATH");
                     $item->setLore(["§7Use It To Craft Custom Items\n\n§d§lEPIC"]);
                     $inv = $sender->getInventory();
@@ -1159,7 +1165,7 @@ class ItemsForm extends MenuForm
 
                 case 1:
                     $item = ItemFactory::getInstance()->get(61, 0, 64);
-                    $item->addEnchantment(new EnchantmentInstance(EnchantmentIdMap::getInstance()->fromId(Main::FAKE_ENCH_ID)));
+                    $item->addEnchantment($this->fakeEnchant);
                     $item->setCustomName("§r§l§eSUPER SMELTER");
                     $item->setLore(["§r§7Use This Super Smelter For Enable\n§r§7Smelter Upgrade In Your Any Minion.\n\n§r§l§eLEGENDARY"]);
                     $inv = $sender->getInventory();
@@ -1168,7 +1174,7 @@ class ItemsForm extends MenuForm
 
                 case 2:
                     $item = ItemFactory::getInstance()->get(23, 0, 64);
-                    $item->addEnchantment(new EnchantmentInstance(EnchantmentIdMap::getInstance()->fromId(Main::FAKE_ENCH_ID)));
+                    $item->addEnchantment($this->fakeEnchant);
                     $item->setCustomName("§r§e§lSUPER COMPACTER");
                     $item->setLore(["§r§7Use This Super Compacter For Enable\n§r§7Compacter Upgrade In Your Any Minion.\n\n§r§l§eLEGENDARY"]);
                     $inv = $sender->getInventory();
@@ -1177,7 +1183,7 @@ class ItemsForm extends MenuForm
 
                 case 3:
                     $item = ItemFactory::getInstance()->get(137, 0, 64);
-                    $item->addEnchantment(new EnchantmentInstance(EnchantmentIdMap::getInstance()->fromId(Main::FAKE_ENCH_ID)));
+                    $item->addEnchantment($this->fakeEnchant);
                     $item->setCustomName("§r§e§lSUPER EXPANDER");
                     $item->setLore(["§r§7Use This Super Expander For Enable\n§r§7Expander Upgrade In Your Any Minion.\n\n§r§l§eLEGENDARY"]);
                     $inv = $sender->getInventory();
@@ -1229,7 +1235,7 @@ class ItemsForm extends MenuForm
         return $form;
     }
     
-    public function wand($sender)
+    public function wand(Player $sender): Form
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
             $result = $data;
@@ -1264,7 +1270,7 @@ class ItemsForm extends MenuForm
         return $form;
     }
     
-    public function food($sender)
+    public function food(Player $sender): Form
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
             $result = $data;

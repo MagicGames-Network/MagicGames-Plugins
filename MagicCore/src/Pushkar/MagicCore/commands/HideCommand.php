@@ -19,8 +19,8 @@ class HideCommand extends Command
     {
         if ($sender instanceof Player) {
             $sender->sendForm(new HideForm($sender));
-        } else {
-            $sender->sendMessage("Use this command in-game");
+            return;
         }
+        $sender->sendMessage("Use this command in-game");
     }
 }

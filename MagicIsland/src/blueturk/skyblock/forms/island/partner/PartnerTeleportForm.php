@@ -33,7 +33,12 @@ class PartnerTeleportForm extends MenuForm
             "§7Choose the partner you want to teleport to!",
             $options,
             function (Player $player, int $option): void {
-                $selectedPlayer = $this->getOption($option)->getText();
+                $menuOption = $this->getOption($option);
+                if (!$menuOption instanceof MenuOption) {
+                    return;
+                }
+                
+                $selectedPlayer = $menuOption->getText();
                 IslandManager::teleportPartnerIsland($player, $selectedPlayer);
             }
         );

@@ -17,6 +17,7 @@ use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
 use luca28pet\PortalsPE\flag\FlagsManager;
 use luca28pet\PortalsPE\utils\LookingVector3;
+use luca28pet\PortalsPE\session\PlayerSession;
 use luca28pet\PortalsPE\selection\CompletePortalSelection;
 
 class PortalCommand extends Command
@@ -49,18 +50,16 @@ class PortalCommand extends Command
         switch ($subCommand) {
             case 'pos1':
                 $ses = $this->plugin->getSessionManager()->getSession($sender);
-                if ($ses === null) {
-                    $this->plugin->getSessionManager()->initSession($sender);
-                    $ses = $this->plugin->getSessionManager()->getSession($sender);
+                if (!$ses instanceof PlayerSession) {
+                    $ses = $this->plugin->getSessionManager()->initSession($sender);
                 }
                 $ses->setSelectingFirstBlock(true);
                 $sender->sendMessage('Please break or place the first position');
                 return true;
             case 'pos2':
                 $ses = $this->plugin->getSessionManager()->getSession($sender);
-                if ($ses === null) {
-                    $this->plugin->getSessionManager()->initSession($sender);
-                    $ses = $this->plugin->getSessionManager()->getSession($sender);
+                if (!$ses instanceof PlayerSession) {
+                    $ses = $this->plugin->getSessionManager()->initSession($sender);
                 }
                 $ses->setSelectingSecondBlock(true);
                 $sender->sendMessage('Please break or place the second position');
@@ -71,7 +70,7 @@ class PortalCommand extends Command
                     return true;
                 }
                 $ses = $this->plugin->getSessionManager()->getSession($sender);
-                if ($ses === null) {
+                if (!$ses instanceof PlayerSession) {
                     $sender->sendMessage('Please select both positions first with /portal pos1 and /portal pos2');
                     return true;
                 }
@@ -84,13 +83,21 @@ class PortalCommand extends Command
                     $sender->sendMessage('The positions must be in the same world');
                     return true;
                 }
+
+                $firstBlock = $selection->getFirstBlock();
+                $secondBlock = $selection->getSecondBlock();
+                $firstBlockFolderName = $selection->getFirstBlockFolderName();
+                if ($firstBlock === null || $secondBlock === null || $firstBlockFolderName === null) {
+                    return true;
+                }
+
                 $this->plugin->addPortal(
                     new Portal(
                         $args[0],
                         new CompletePortalSelection(
-                            $selection->getFirstBlock(),
-                            $selection->getSecondBlock(),
-                            $selection->getFirstBlockFolderName()
+                            $firstBlock,
+                            $secondBlock,
+                            $firstBlockFolderName
                         ),
                         LookingVector3::fromObject($sender->getPosition(), $sender->getLocation()->getYaw(), $sender->getLocation()->getPitch()),
                         $sender->getWorld()->getFolderName(),

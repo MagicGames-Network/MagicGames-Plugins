@@ -2,11 +2,12 @@
 
 namespace Heisenburger69\BurgerCustomArmor\Utils;
 
-use Heisenburger69\BurgerCustomArmor\Abilities\Togglable\TogglableAbility;
-use Heisenburger69\BurgerCustomArmor\Events\CustomSetEquippedEvent;
-use Heisenburger69\BurgerCustomArmor\Main;
 use pocketmine\item\Item;
 use pocketmine\player\Player;
+use Heisenburger69\BurgerCustomArmor\Main;
+use Heisenburger69\BurgerCustomArmor\Events\CustomSetEquippedEvent;
+use Heisenburger69\BurgerCustomArmor\Abilities\Togglable\TogglableAbility;
+use Heisenburger69\BurgerCustomArmor\ArmorSets\CustomArmorSet;
 
 class EquipmentUtils
 {
@@ -97,7 +98,7 @@ class EquipmentUtils
      *
      * @param Player $player
      */
-    public static function updateSetUsage(Player $player)
+    public static function updateSetUsage(Player $player): void
     {
         $setName = null;
         $armorSet = null;
@@ -106,13 +107,13 @@ class EquipmentUtils
                 continue;
             }
             $setName = $nbt->getValue();
-            if (!isset(Main::$instance->customSets[$setName])) {
+            if (!is_string($setName) || !isset(Main::$instance->customSets[$setName])) {
                 continue;
             }
             $armorSet = Main::$instance->customSets[$setName];
             self::addUsingSet($player, $item, $setName);
         }
-        if ($setName === null || $armorSet === null) return;
+        if (!is_string($setName) || !$armorSet instanceof CustomArmorSet) return;
         if (!self::canUseSet($player, $setName)) {
             return;
         }
@@ -124,6 +125,6 @@ class EquipmentUtils
                 $ability->on($player);
             }
         }
-        ($event = new CustomSetEquippedEvent($player, $armorSet))->call();
+        (new CustomSetEquippedEvent($player, $armorSet))->call();
     }
 }

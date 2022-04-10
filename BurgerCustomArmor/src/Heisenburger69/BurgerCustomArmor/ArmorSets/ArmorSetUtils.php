@@ -139,7 +139,7 @@ class ArmorSetUtils
         }
     }
 
-    public static function getHelmetLore(array $lores, array $setBonusLore)
+    public static function getHelmetLore(array $lores, array $setBonusLore): array
     {
         $lore = [];
         $itemLore = [];
@@ -155,7 +155,7 @@ class ArmorSetUtils
         return $lore;
     }
 
-    public static function getChestplateLore(array $lores, array $setBonusLore)
+    public static function getChestplateLore(array $lores, array $setBonusLore): array
     {
         $lore = [];
         $itemLore = [];
@@ -171,7 +171,7 @@ class ArmorSetUtils
         return $lore;
     }
 
-    public static function getLeggingsLore(array $lores, array $setBonusLore)
+    public static function getLeggingsLore(array $lores, array $setBonusLore): array
     {
         $lore = [];
         $itemLore = [];
@@ -187,7 +187,7 @@ class ArmorSetUtils
         return $lore;
     }
 
-    public static function getBootsLore(array $lores, array $setBonusLore)
+    public static function getBootsLore(array $lores, array $setBonusLore): array
     {
         $lore = [];
         $itemLore = [];

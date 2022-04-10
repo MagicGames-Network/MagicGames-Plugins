@@ -17,9 +17,9 @@ use pocketmine\event\entity\EntityDamageByEntityEvent;
 
 class Main extends PluginBase implements Listener
 {
-    private static $instance;
+    private static Main $instance;
 
-    public static function getInstance()
+    public static function getInstance(): Main
     {
         return self::$instance;
     }
@@ -55,7 +55,7 @@ class Main extends PluginBase implements Listener
     public function onCommand(CommandSender $sender, Command $command, string $label, array $args): bool
     {
         if ($command->getName() == "hdset") {
-            if ($this->getServer()->isOp($sender->getName()) || $sender->hasPermission($command->getPermission())) {
+            if ($this->getServer()->isOp($sender->getName()) || $sender->hasPermission($command->getPermission() ?? "hdset.use")) {
                 if (isset($args[0])) {
                     if (isset($args[1])) {
                         $player = $this->getServer()->getPlayerByPrefix($args[0]);

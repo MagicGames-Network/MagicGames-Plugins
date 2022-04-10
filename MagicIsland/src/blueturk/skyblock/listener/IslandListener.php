@@ -4,9 +4,11 @@
 namespace blueturk\skyblock\listener;
 
 use pocketmine\Server;
+use pocketmine\world\World;
 use pocketmine\player\Player;
 use pocketmine\event\Listener;
 use blueturk\skyblock\SkyBlock;
+use pocketmine\inventory\Inventory;
 use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\event\block\BlockPlaceEvent;
 use pocketmine\event\player\PlayerMoveEvent;
@@ -99,7 +101,12 @@ class IslandListener implements Listener
 
     public function onPickingUp(EntityItemPickupEvent $event): void
     {
-        $viewers = $event->getInventory()->getViewers();
+        $inventory = $event->getInventory();
+        if (!$inventory instanceof Inventory) {
+            return;
+        }
+        
+        $viewers = $inventory->getViewers();
         foreach ($viewers as $player) {
             $level = $player->getWorld()->getFolderName();
             $data = SkyBlock::getInstance()->getConfig();
@@ -134,7 +141,12 @@ class IslandListener implements Listener
         if ($data->getNested($level . ".island") != null) {
             if (in_array($player->getName(), $data->getNested($level . ".island" . ".banneds"))) {
                 if (!Server::getInstance()->isOp($player->getName())) {
-                    $player->teleport(Server::getInstance()->getWorldManager()->getDefaultWorld()->getSpawnLocation());
+                    $defaultWorld = Server::getInstance()->getWorldManager()->getDefaultWorld();
+                    if (!$defaultWorld instanceof World) {
+                        return;
+                    }
+                    
+                    $player->teleport($defaultWorld->getSpawnLocation());
                     $player->sendPopup(SkyBlock::BT_MARK . "cYou are banned on this island!");
                 }
             }
@@ -148,8 +160,13 @@ class IslandListener implements Listener
             $level = $player->getWorld()->getFolderName();
             if ($level === $player->getName()) {
                 if ($event->getCause() === EntityDamageEvent::CAUSE_VOID) {
+                    $world = Server::getInstance()->getWorldManager()->getWorldByName($player->getName());
+                    if (!$world instanceof World) {
+                        return;
+                    }
+
                     $event->cancel();
-                    $player->teleport(Server::getInstance()->getWorldManager()->getWorldByName($player->getName())->getSpawnLocation());
+                    $player->teleport($world->getSpawnLocation());
                     if ($player->getXpManager()->getXpLevel() >= 7) {
                         $player->getXpManager()->setXpLevel($player->getXpManager()->getXpLevel() - 7);
                         $player->sendMessage("§8» §cUnfortunately, you died in adana and lost §7(%3) XP §c experience level.");

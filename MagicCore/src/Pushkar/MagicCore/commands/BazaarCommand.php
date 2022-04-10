@@ -19,8 +19,8 @@ class BazaarCommand extends Command
     {
         if ($sender instanceof Player) {
             $sender->sendForm(new BazaarForm());
-        } else {
-            $sender->sendMessage("Use this command in-game");
+            return;
         }
+        $sender->sendMessage("Use this command in-game");
     }
 }

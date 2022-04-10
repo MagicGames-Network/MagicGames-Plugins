@@ -26,14 +26,20 @@ class FlyCommand extends Command
             $sender->sendMessage(Main::PREFIX . "You do not have permission to use this command");
         }
         if ($sender instanceof Player) {
+            /** @var string $enabled */
+            $enabled = Main::getInstance()->getConfig()->get("fly-enabled");
+            /** @var string $disabled */
+            $disabled = Main::getInstance()->getConfig()->get("fly-disabled");
+
             if (empty($args[0])) {
                 if (!$sender->isCreative()) {
-                    $sender->sendMessage($sender->getAllowFlight() === false ? Main::getInstance()->getConfig()->get("fly-enabled") : Main::getInstance()->getConfig()->get("fly-disabled"));
-                    $sender->setAllowFlight($sender->getAllowFlight() === false);
-                    if ($sender->getAllowFlight() === false && $sender->isFlying()) $sender->setFlying(false);
-                } else {
-                    $sender->sendMessage(Main::PREFIX . TextFormat::RED . "You can only use this command in survival mode");
+                    $sender->sendMessage(!$sender->getAllowFlight() ? $enabled : $disabled);
+                    $sender->setAllowFlight(!$sender->getAllowFlight());
+                    if (!$sender->getAllowFlight() && $sender->isFlying()) $sender->setFlying(false);
+                    return;
                 }
+                $sender->sendMessage(Main::PREFIX . TextFormat::RED . "You can only use this command in survival mode");
+                return;
             }
             if (!$sender->hasPermission("fly.other.cmd")) {
                 $sender->sendMessage(Main::PREFIX . TextFormat::RED . "You do not have permission to enable flight for others");
@@ -41,16 +47,16 @@ class FlyCommand extends Command
             if (Server::getInstance()->getPlayerByPrefix($args[0])) {
                 $sender = Server::getInstance()->getPlayerByPrefix($args[0]);
                 if (!$sender->isCreative()) {
-                    $sender->sendMessage($sender->getAllowFlight() === false ? Main::getInstance()->getConfig()->get("fly-enabled") : Main::getInstance()->getConfig()->get("fly-disabled"));
-                    $sender->sendMessage($sender->getAllowFlight() === false ? Main::PREFIX . TextFormat::GREEN . "You have enabled fly for " . $sender->getName() : Main::PREFIX . TextFormat::RED . "You have disabled fly for " . $sender->getName());
-                    $sender->setAllowFlight($sender->getAllowFlight() === false);
-                    if ($sender->getAllowFlight() === false && $sender->isFlying()) $sender->setFlying(false);
-                } else {
-                    $sender->sendMessage(Main::PREFIX . TextFormat::RED . $sender->getName() . " is in creative mode");
+                    $sender->sendMessage(!$sender->getAllowFlight() ? $enabled : $disabled);
+                    $sender->sendMessage(!$sender->getAllowFlight() ? Main::PREFIX . TextFormat::GREEN . "You have enabled fly for " . $sender->getName() : Main::PREFIX . TextFormat::RED . "You have disabled fly for " . $sender->getName());
+                    $sender->setAllowFlight(!$sender->getAllowFlight());
+                    if (!$sender->getAllowFlight() && $sender->isFlying()) $sender->setFlying(false);
+                    return;
                 }
-            } else {
-                $sender->sendMessage(Main::PREFIX . TextFormat::RED . "Player not found");
+                $sender->sendMessage(Main::PREFIX . TextFormat::RED . $sender->getName() . " is in creative mode");
+                return;
             }
+            $sender->sendMessage(Main::PREFIX . TextFormat::RED . "Player not found");
         }
     }
 }

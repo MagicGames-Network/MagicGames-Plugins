@@ -20,8 +20,8 @@ class WarpCommand extends Command
     {
         if ($sender instanceof Player) {
             $sender->sendForm(new WarpForm(Main::getInstance()));
-        } else {
-            $sender->sendMessage("Use this command in-game");
+            return;
         }
+        $sender->sendMessage("Use this command in-game");
     }
 }

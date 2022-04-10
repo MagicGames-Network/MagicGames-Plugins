@@ -64,7 +64,7 @@ class InformationForm extends MenuForm
         });
     }
 
-    public function MainMenu($sender)
+    public function MainMenu(Player $sender): void
     {
         $form = new SimpleForm(function (Player $sender, $data) {
             $result = $data;
@@ -125,7 +125,7 @@ class InformationForm extends MenuForm
         $sender->sendForm($form);
     }
 
-    public function INFOONE($sender)
+    public function INFOONE(Player $sender): void
     {
         $form = new SimpleForm(function (Player $sender, $data) {
             $result = $data;
@@ -146,7 +146,7 @@ class InformationForm extends MenuForm
         $sender->sendForm($form);
     }
 
-    public function INFOTWO($sender)
+    public function INFOTWO(Player $sender): void
     {
         $form = new SimpleForm(function (Player $sender, $data) {
             $result = $data;
@@ -167,7 +167,7 @@ class InformationForm extends MenuForm
         $sender->sendForm($form);
     }
 
-    public function INFOTHREE($sender)
+    public function INFOTHREE(Player $sender): void
     {
         $form = new SimpleForm(function (Player $sender, $data) {
             $result = $data;
@@ -188,7 +188,7 @@ class InformationForm extends MenuForm
         $sender->sendForm($form);
     }
 
-    public function INFOFOR($sender)
+    public function INFOFOR(Player $sender): void
     {
         $form = new SimpleForm(function (Player $sender, $data) {
             $result = $data;
@@ -209,7 +209,7 @@ class InformationForm extends MenuForm
         $sender->sendForm($form);
     }
 
-    public function INFOFIVE($sender)
+    public function INFOFIVE(Player $sender): void
     {
         $form = new SimpleForm(function (Player $sender, $data) {
             $result = $data;
@@ -230,7 +230,7 @@ class InformationForm extends MenuForm
         $sender->sendForm($form);
     }
 
-    public function INFOSIX($sender)
+    public function INFOSIX(Player $sender): void
     {
         $form = new SimpleForm(function (Player $sender, $data) {
             $result = $data;
@@ -271,7 +271,7 @@ class InformationForm extends MenuForm
         $sender->sendForm($form);
     }
 
-    public function TutorialONE($sender)
+    public function TutorialONE(Player $sender): void
     {
         $form = new SimpleForm(function (Player $sender, $data) {
             $result = $data;
@@ -292,7 +292,7 @@ class InformationForm extends MenuForm
         $sender->sendForm($form);
     }
 
-    public function TutorialTWO($sender)
+    public function TutorialTWO(Player $sender): void
     {
         $form = new SimpleForm(function (Player $sender, $data) {
             $result = $data;
@@ -313,7 +313,7 @@ class InformationForm extends MenuForm
         $sender->sendForm($form);
     }
 
-    public function TutorialTHREE($sender)
+    public function TutorialTHREE(Player $sender): void
     {
         $form = new SimpleForm(function (Player $sender, $data) {
             $result = $data;
@@ -334,7 +334,7 @@ class InformationForm extends MenuForm
         $sender->sendForm($form);
     }
 
-    public function TutorialFOR($sender)
+    public function TutorialFOR(Player $sender): void
     {
         $form = new SimpleForm(function (Player $sender, $data) {
             $result = $data;
@@ -355,7 +355,7 @@ class InformationForm extends MenuForm
         $sender->sendForm($form);
     }
 
-    public function TutorialFIVE($sender)
+    public function TutorialFIVE(Player $sender): void
     {
         $form = new SimpleForm(function (Player $sender, $data) {
             $result = $data;
@@ -376,7 +376,7 @@ class InformationForm extends MenuForm
         $sender->sendForm($form);
     }
 
-    public function INFOSEVEN($sender)
+    public function INFOSEVEN(Player $sender): void
     {
         $form = new SimpleForm(function (Player $sender, $data) {
             $result = $data;
@@ -421,7 +421,7 @@ class InformationForm extends MenuForm
         $sender->sendForm($form);
     }
 
-    public function RLONE($sender)
+    public function RLONE(Player $sender): void
     {
         $form = new SimpleForm(function (Player $sender, $data) {
             $result = $data;
@@ -442,7 +442,7 @@ class InformationForm extends MenuForm
         $sender->sendForm($form);
     }
 
-    public function RLTWO($sender)
+    public function RLTWO(Player $sender): void
     {
         $form = new SimpleForm(function (Player $sender, $data) {
             $result = $data;
@@ -463,7 +463,7 @@ class InformationForm extends MenuForm
         $sender->sendForm($form);
     }
 
-    public function RLTHREE($sender)
+    public function RLTHREE(Player $sender): void
     {
         $form = new SimpleForm(function (Player $sender, $data) {
             $result = $data;
@@ -484,7 +484,7 @@ class InformationForm extends MenuForm
         $sender->sendForm($form);
     }
 
-    public function RLFOR($sender)
+    public function RLFOR(Player $sender): void
     {
         $form = new SimpleForm(function (Player $sender, $data) {
             $result = $data;
@@ -505,7 +505,7 @@ class InformationForm extends MenuForm
         $sender->sendForm($form);
     }
 
-    public function RLFIVE($sender)
+    public function RLFIVE(Player $sender): void
     {
         $form = new SimpleForm(function (Player $sender, $data) {
             $result = $data;
@@ -526,7 +526,7 @@ class InformationForm extends MenuForm
         $sender->sendForm($form);
     }
 
-    public function RLSIX($sender)
+    public function RLSIX(Player $sender): void
     {
         $form = new SimpleForm(function (Player $sender, $data) {
             $result = $data;
@@ -547,7 +547,7 @@ class InformationForm extends MenuForm
         $sender->sendForm($form);
     }
 
-    public function INFOEIGHT($sender)
+    public function INFOEIGHT(Player $sender): void
     {
         $form = new SimpleForm(function (Player $sender, $data) {
             $result = $data;
@@ -588,7 +588,7 @@ class InformationForm extends MenuForm
         $sender->sendForm($form);
     }
 
-    public function SMONE($sender)
+    public function SMONE(Player $sender): void
     {
         $form = new SimpleForm(function (Player $sender, $data) {
             $result = $data;
@@ -609,7 +609,7 @@ class InformationForm extends MenuForm
         $sender->sendForm($form);
     }
 
-    public function SMTWO($sender)
+    public function SMTWO(Player $sender): void
     {
         $form = new SimpleForm(function (Player $sender, $data) {
             $result = $data;
@@ -630,7 +630,7 @@ class InformationForm extends MenuForm
         $sender->sendForm($form);
     }
 
-    public function SMTHREE($sender)
+    public function SMTHREE(Player $sender): void
     {
         $form = new SimpleForm(function (Player $sender, $data) {
             $result = $data;
@@ -651,7 +651,7 @@ class InformationForm extends MenuForm
         $sender->sendForm($form);
     }
 
-    public function SMFOR($sender)
+    public function SMFOR(Player $sender): void
     {
         $form = new SimpleForm(function (Player $sender, $data) {
             $result = $data;
@@ -672,7 +672,7 @@ class InformationForm extends MenuForm
         $sender->sendForm($form);
     }
 
-    public function SMFIVE($sender)
+    public function SMFIVE(Player $sender): void
     {
         $form = new SimpleForm(function (Player $sender, $data) {
             $result = $data;
@@ -693,7 +693,7 @@ class InformationForm extends MenuForm
         $sender->sendForm($form);
     }
 
-    public function INFONINE($sender)
+    public function INFONINE(Player $sender): void
     {
         $form = new SimpleForm(function (Player $sender, $data) {
             $result = $data;
@@ -714,7 +714,7 @@ class InformationForm extends MenuForm
         $sender->sendForm($form);
     }
 
-    public function INFOTEN($sender)
+    public function INFOTEN(Player $sender): void
     {
         $form = new SimpleForm(function (Player $sender, $data) {
             $result = $data;
@@ -735,7 +735,7 @@ class InformationForm extends MenuForm
         $sender->sendForm($form);
     }
 
-    public function comingsoon($sender)
+    public function comingsoon(Player $sender): void
     {
         $form = new SimpleForm(function (Player $sender, $data) {
             $result = $data;
@@ -752,6 +752,5 @@ class InformationForm extends MenuForm
         $form->setContent("§c§lWARNING!\n§r§7you are not allowed to eSM-BTN-ONEdit this message on the config also u cant edit this page!\n\n§b§lINFO:\n§r§7report any bug/error to ItzFabn the creator of this plugin also please apologize if this plugin still bugging/error...");
         $form->addButton("§8§lCOMING SOON\n§r§8Tap for more info");
         $sender->sendForm($form);
-        return true;
     }
 }

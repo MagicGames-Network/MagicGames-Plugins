@@ -21,8 +21,8 @@ class FeedCommand extends Command
             $sender->getHungerManager()->setFood(20);
             $sender->getHungerManager()->setSaturation(20);
             $sender->sendMessage(Main::PREFIX . "Gods Feeded You");
-        } else {
-            $sender->sendMessage("Use this command in-game");
+            return;
         }
+        $sender->sendMessage("Use this command in-game");
     }
 }

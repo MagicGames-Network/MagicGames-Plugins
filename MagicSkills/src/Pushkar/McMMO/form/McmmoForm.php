@@ -16,7 +16,7 @@ class McmmoForm
         $this->plugin = $plugin;
     }
 
-    public function init(Player $player)
+    public function init(Player $player): void
     {
         $form = new SimpleForm(function (Player $player, $data) {
             if ($data === null) {
@@ -40,7 +40,7 @@ class McmmoForm
         $player->sendForm($form);
     }
 
-    public function stats(Player $player)
+    public function stats(Player $player): void
     {
         $form = new SimpleForm(function (Player $player, $data) {
             if ($data !== null) {
@@ -85,7 +85,7 @@ class McmmoForm
         $player->sendForm($form);
     }
 
-    public function leaderboard(Player $player)
+    public function leaderboard(Player $player): void
     {
         $a = ["Lumberjack", "Farmer", "Excavation", "Miner", "Killer", "Combat", "Builder", "Consumer", "Archer", "Lawn Mower"];
         $form = new SimpleForm(function (Player $player, $data) use ($a) {
@@ -107,7 +107,7 @@ class McmmoForm
         $player->sendForm($form);
     }
 
-    public function leaderboards(Player $player, int $type)
+    public function leaderboards(Player $player, int $type): void
     {
         $form = new SimpleForm(function (Player $player, $data) {
             if ($data !== null) {

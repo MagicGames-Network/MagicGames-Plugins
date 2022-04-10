@@ -3,6 +3,7 @@
 namespace Stats\player;
 
 use Stats\Main;
+use pocketmine\world\World;
 use pocketmine\player\Player;
 use pocketmine\event\player\PlayerDeathEvent;
 use pocketmine\event\entity\EntityRegainHealthEvent;
@@ -38,8 +39,16 @@ class MagicPlayer extends Player
 
     protected function onDeath(): void
     {
+        //Crafting grid must always be evacuated even if keep-inventory is true. This dumps the contents into the
+		//main inventory and drops the rest on the ground.
+		$this->removeCurrentWindow();
+
         $world = Main::getInstance()->getServer()->getWorldManager()->getDefaultWorld();
+        if (!$world instanceof World) {
+            return;
+        }
         $ev = new PlayerDeathEvent($this, $this->getDrops(), $this->getXpDropAmount(), null);
+        $ev->call();
 
         Main::getInstance()->getServer()->broadcastMessage($ev->getDeathMessage());
         $this->teleport($world->getSpawnLocation());

@@ -20,8 +20,8 @@ class HealCommand extends Command
         if ($sender instanceof Player) {
             $sender->setHealth(20);
             $sender->sendMessage(Main::PREFIX . "Gods Healed You");
-        } else {
-            $sender->sendMessage("Use this command in-game");
+            return;
         }
+        $sender->sendMessage("Use this command in-game");
     }
 }

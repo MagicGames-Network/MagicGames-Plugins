@@ -23,7 +23,7 @@ class DamageAmplificationAbility extends OffensiveAbility
         return true;
     }
 
-    public function activate(EntityDamageByEntityEvent $event)
+    public function activate(EntityDamageByEntityEvent $event): void
     {
         $baseDmg = $event->getBaseDamage() + ($event->getBaseDamage() * $this->negation);
         if ($baseDmg < 0) $baseDmg = 0;

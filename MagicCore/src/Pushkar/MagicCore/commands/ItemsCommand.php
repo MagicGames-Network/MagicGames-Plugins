@@ -19,8 +19,8 @@ class ItemsCommand extends Command
     {
         if ($sender instanceof Player) {
             $sender->sendForm(new ItemsForm());
-        } else {
-            $sender->sendMessage("Use this command in-game");
+            return;
         }
+        $sender->sendMessage("Use this command in-game");
     }
 }

@@ -16,12 +16,12 @@ class ScaleAbility extends TogglableAbility
         $this->scale = $scale;
     }
 
-    public function on(Player $player)
+    public function on(Player $player): void
     {
         $player->setScale($this->scale);
     }
 
-    public function off(Player $player)
+    public function off(Player $player): void
     {
         $player->setScale(1);
     }

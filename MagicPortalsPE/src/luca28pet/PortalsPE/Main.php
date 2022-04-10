@@ -53,7 +53,12 @@ class Main extends PluginBase
         }
 
         if (file_exists($this->getDataFolder() . 'portals.json')) {
-            $data = json_decode(file_get_contents($this->getDataFolder() . 'portals.json'), true, 512, JSON_THROW_ON_ERROR);
+            $contents = file_get_contents($this->getDataFolder() . 'portals.json');
+            if (!$contents) {
+                return;
+            }
+            
+            $data = json_decode($contents, true, 512, JSON_THROW_ON_ERROR);
             foreach ($data as $name => $portalData) {
                 $this->portals[$name] = new Portal(
                     $name,

@@ -22,7 +22,12 @@ class PartnerAddForm extends MenuForm
             "Select the player you want to add a partner!",
             $options,
             function (Player $player, int $option): void {
-                $selectedPlayer = $this->getOption($option)->getText();
+                $menuOption = $this->getOption($option);
+                if (!$menuOption instanceof MenuOption) {
+                    return;
+                }
+                
+                $selectedPlayer = $menuOption->getText();
                 IslandManager::partnerRequest($player, $selectedPlayer);
             }
         );

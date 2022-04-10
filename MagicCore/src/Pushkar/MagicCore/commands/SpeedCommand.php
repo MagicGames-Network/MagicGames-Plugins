@@ -10,7 +10,6 @@ use pocketmine\entity\effect\VanillaEffects;
 
 class SpeedCommand extends Command
 {
-
     private array $speed;
 
     public function __construct()
@@ -26,11 +25,11 @@ class SpeedCommand extends Command
                 unset($this->speed[$sender->getName()]);
                 $sender->getEffects()->remove(VanillaEffects::SPEED());
                 $sender->sendMessage("§aSpeed: Off");
-            } else {
-                $this->speed[$sender->getName()] = 0;
-                $sender->getEffects()->add(new EffectInstance(VanillaEffects::SPEED(), 600 * 100, 3));
-                $sender->sendMessage("§aSpeed: On");
+                return;
             }
+            $this->speed[$sender->getName()] = 0;
+            $sender->getEffects()->add(new EffectInstance(VanillaEffects::SPEED(), 600 * 100, 3));
+            $sender->sendMessage("§aSpeed: On");
         }
     }
 }

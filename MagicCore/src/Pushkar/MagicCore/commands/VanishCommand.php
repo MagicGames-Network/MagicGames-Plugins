@@ -24,11 +24,11 @@ class VanishCommand extends Command
                 $sender->sendMessage(TextFormat::GRAY . "You are now vanished.");
                 $sender->setInvisible(true);
                 unset($this->vanish[$sender->getName()]);
-            } else {
-                $sender->sendMessage(TextFormat::GRAY . "You are now un vanished.");
-                $sender->setInvisible(false);
-                $this->vanish[$sender->getName()] = 1;
+                return;
             }
+            $sender->sendMessage(TextFormat::GRAY . "You are now un vanished.");
+            $sender->setInvisible(false);
+            $this->vanish[$sender->getName()] = 1;
         }
     }
 }

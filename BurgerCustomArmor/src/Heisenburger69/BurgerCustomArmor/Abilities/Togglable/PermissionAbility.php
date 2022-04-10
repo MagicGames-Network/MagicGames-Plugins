@@ -17,12 +17,12 @@ class PermissionAbility extends TogglableAbility
         $this->permission = $permission;
     }
 
-    public function on(Player $player)
+    public function on(Player $player): void
     {
         $player->addAttachment(Main::$instance, $this->permission, true);
     }
 
-    public function off(Player $player)
+    public function off(Player $player): void
     {
         $player->addAttachment(Main::$instance, $this->permission, false);
     }

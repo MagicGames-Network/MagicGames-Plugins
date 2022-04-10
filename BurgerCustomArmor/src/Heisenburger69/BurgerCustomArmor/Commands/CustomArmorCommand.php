@@ -3,10 +3,10 @@
 namespace Heisenburger69\BurgerCustomArmor\Commands;
 
 use pocketmine\command\Command;
+use pocketmine\lang\Translatable;
 use pocketmine\command\CommandSender;
 use pocketmine\utils\TextFormat as C;
 use Heisenburger69\BurgerCustomArmor\Main;
-use Heisenburger69\BurgerCustomArmor\ArmorSets\CustomArmorSet;
 
 class CustomArmorCommand extends Command
 {
@@ -34,8 +34,11 @@ class CustomArmorCommand extends Command
             $sender->sendMessage(Main::PREFIX . C::DARK_RED . "Insufficient Permission.");
             return;
         }
+
+        /** @var string $usage */
+        $usage = $this->getUsage();
         if (count($args) !== 3) {
-            $sender->sendMessage(Main::PREFIX . C::RED . $this->getUsage());
+            $sender->sendMessage(Main::PREFIX . C::RED . $usage);
             return;
         }
         if (!isset($this->plugin->customSets[$args[0]])) {

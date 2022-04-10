@@ -1,11 +1,11 @@
 <?php
 
-#  ██████╗░██╗░░░██╗░██████╗██╗░░██╗██╗░░██╗░█████╗░██████╗░
-#  ██╔══██╗██║░░░██║██╔════╝██║░░██║██║░██╔╝██╔══██╗██╔══██╗
-#  ██████╔╝██║░░░██║╚█████╗░███████║█████═╝░███████║██████╔╝
-#  ██╔═══╝░██║░░░██║░╚═══██╗██╔══██║██╔═██╗░██╔══██║██╔══██╗
-#  ██║░░░░░╚██████╔╝██████╔╝██║░░██║██║░╚██╗██║░░██║██║░░██║
-#  ╚═╝░░░░░░╚═════╝░╚═════╝░╚═╝░░╚═╝╚═╝░░╚═╝╚═╝░░╚═╝╚═╝░░╚═╝
+//  ██████╗░██╗░░░██╗░██████╗██╗░░██╗██╗░░██╗░█████╗░██████╗░
+//  ██╔══██╗██║░░░██║██╔════╝██║░░██║██║░██╔╝██╔══██╗██╔══██╗
+//  ██████╔╝██║░░░██║╚█████╗░███████║█████═╝░███████║██████╔╝
+//  ██╔═══╝░██║░░░██║░╚═══██╗██╔══██║██╔═██╗░██╔══██║██╔══██╗
+//  ██║░░░░░╚██████╔╝██████╔╝██║░░██║██║░╚██╗██║░░██║██║░░██║
+//  ╚═╝░░░░░░╚═════╝░╚═════╝░╚═╝░░╚═╝╚═╝░░╚═╝╚═╝░░╚═╝╚═╝░░╚═╝
 
 namespace Pushkar\MagicCore;
 
@@ -13,6 +13,7 @@ use pocketmine\Server;
 use pocketmine\utils\Config;
 use pocketmine\player\Player;
 use pocketmine\event\Listener;
+use pocketmine\command\Command;
 use alemiz\sga\StarGateAtlantis;
 use pocketmine\plugin\PluginBase;
 use muqsit\invmenu\InvMenuHandler;
@@ -25,29 +26,29 @@ use Pushkar\MagicCore\managers\CommandManager;
 
 class Main extends PluginBase implements Listener
 {
+    public const PREFIX = "§e§lMAGICGAMES >§r§b ";
+    public const VERSION = "v4.0.0";
     public const FAKE_ENCH_ID = -1;
 
-    public $skin = [];
-    /** @var string $fullInvPopup */
-    public $pickupfullInvPopup;
-
-    /** @var string $mode */
-    public $pickupmode;
-
-    /** @var array $affectedWorlds */
-    public $pickupaffectedWorlds;
-
-    const PREFIX = "§e§lMAGICGAMES >§r§b ";
-    const VERSION = "v4.0.0";
     private static Main $instance;
+
+    public array $skin = [];
+
+    public string $pickupfullInvPopup;
+    public string $pickupmode;
+    public array $pickupaffectedWorlds;
 
     public function onLoad(): void
     {
         self::$instance = $this;
         $this->getLogger()->info("§eLoading MagicGamesCore");
-        foreach ($this->getConfig()->get("load-worlds") as $AllWorlds) {
-            if ($this->getServer()->getWorldManager()->loadWorld($AllWorlds)) {
-                $this->getLogger()->info("§eWorld ${AllWorlds} Has Been Successfully Loaded");
+        
+        /** @var array $loadWorlds */
+        $loadWorlds = $this->getConfig()->get("load-worlds");
+        /** @var string $world */
+        foreach ($loadWorlds as $world) {
+            if ($this->getServer()->getWorldManager()->loadWorld($world)) {
+                $this->getLogger()->info("§eWorld ${world} Has Been Successfully Loaded");
             }
         }
     }
@@ -57,15 +58,19 @@ class Main extends PluginBase implements Listener
         if (!InvMenuHandler::isRegistered()) {
             InvMenuHandler::register($this);
         }
+
         $cmdMap = $this->getServer()->getCommandMap();
         $pmmpversion = $cmdMap->getCommand("version");
         $pmmpver = $cmdMap->getCommand("ver");
         $pmmpabout = $cmdMap->getCommand("about");
-        $cmdMap->unregister($pmmpversion);
-        $cmdMap->unregister($pmmpabout);
-        $cmdMap->unregister($pmmpver);
-        #$this->getServer()->getNetwork()->setName($this->getConfig()->get("server-modt"));
+
+        $pmmpversion instanceof Command ? $cmdMap->unregister($pmmpversion) : null;
+        $pmmpabout instanceof Command ? $cmdMap->unregister($pmmpabout) : null;
+        $pmmpver instanceof Command ? $cmdMap->unregister($pmmpver) : null;
+
+        //$this->getServer()->getNetwork()->setName($this->getConfig()->get("server-modt"));
         EnchantmentIdMap::getInstance()->register(self::FAKE_ENCH_ID, new Enchantment("Glow", 1, ItemFlags::ALL, ItemFlags::NONE, 1));
+        
         $this->getServer()->getPluginManager()->registerEvents($this, $this);
         $this->getLogger()->info("Plugins Made For MagicGames, Copyright By MagicGames™ ©
                                 ███╗░░░███╗░█████╗░░██████╗░██╗░█████╗░░██████╗░░█████╗░███╗░░░███╗███████╗░██████╗
@@ -77,9 +82,11 @@ class Main extends PluginBase implements Listener
                                 Made By Namless And Pushkar");
 
         $this->reloadConfig();
+
         $this->pickupfullInvPopup = $this->getConfig()->get('pickup-full-inventory', '');
         $this->pickupmode = $this->getConfig()->get('pickupmode', 'blacklist');
         $this->pickupaffectedWorlds = $this->getConfig()->get('pickupworlds', []);
+
         CommandManager::initalize();
         Server::getInstance()->getPluginManager()->registerEvents(new EventListener(), $this);
     }
@@ -96,9 +103,14 @@ class Main extends PluginBase implements Listener
     {
         if ($this->getConfig()->get("Crash-Rejoin") === true) {
             foreach ($this->getServer()->getOnlinePlayers() as $sender) {
-                if (!$sender instanceof Player)
+                if (!$sender instanceof Player) 
                     $sender->sendMessage("§l§cDISCONNECTED FROM SERVER\n§r§bServer Is Restarting");
+                
                 $server = $this->getConfig()->get("Crash-Rejoin-Server");
+                if (!is_string($server)) {
+                    return;
+                }
+
                 $player = $sender->getName();
                 StarGateAtlantis::getInstance()->transferPlayer($sender, $server);
                 $this->getLogger()->info("§eSuccessfully Transfered Player ${player}");
@@ -122,9 +134,15 @@ class Main extends PluginBase implements Listener
         return true;
     }
 
-    public function naturalMoneyLoss($sender, $senderMoney)
+    public function naturalMoneyLoss(Player $sender, float $senderMoney): void
     {
         if (!$this->getConfig()->get("LoseMoneyNaturally")) return;
+
+        $moneyLoss = $this->getConfig()->get("Money-Loss");
+        if (!is_numeric($moneyLoss)) {
+            return;
+        }
+
         switch ($this->getConfig()->get("Type")) {
             case "all":
                 $sender->sendMessage("§c§lINFO > §r§bYou Died And Lost §e$" . $senderMoney);
@@ -135,12 +153,12 @@ class Main extends PluginBase implements Listener
                 EconomyAPI::getInstance()->reduceMoney($sender, $senderMoney / 2);
                 break;
             case "amount":
-                $sender->sendMessage("§c§lINFO > §r§bYou Died And Lost §e$" . (float)$this->getConfig()->get("Money-Loss"));
-                EconomyAPI::getInstance()->reduceMoney($sender, (float)$this->getConfig()->get("Money-Loss"));
+                $sender->sendMessage("§c§lINFO > §r§bYou Died And Lost §e$" . (float)$moneyLoss);
+                EconomyAPI::getInstance()->reduceMoney($sender, (float)$moneyLoss);
                 break;
             case "percent":
-                $sender->sendMessage("§c§lINFO > §r§bYou Died And Lost §e$" . ((float)$this->getConfig()->get("Money-Loss") / 100) * $senderMoney);
-                EconomyAPI::getInstance()->reduceMoney($sender, ((float)$this->getConfig()->get("Money-Loss") / 100) * $senderMoney);
+                $sender->sendMessage("§c§lINFO > §r§bYou Died And Lost §e$" . ((float)$moneyLoss / 100) * $senderMoney);
+                EconomyAPI::getInstance()->reduceMoney($sender, ((float)$moneyLoss / 100) * $senderMoney);
                 break;
         }
     }

@@ -2,10 +2,11 @@
 
 namespace Heisenburger69\BurgerCustomArmor\Utils;
 
-use pocketmine\player\Player;
+use GdImage;
 use pocketmine\item\Item;
 use pocketmine\entity\Skin;
 use pocketmine\world\World;
+use pocketmine\player\Player;
 use Heisenburger69\BurgerCustomArmor\Main;
 use Heisenburger69\BurgerCustomArmor\Pocketmine\Gold\GoldBoots;
 use Heisenburger69\BurgerCustomArmor\Pocketmine\Iron\IronBoots;
@@ -44,12 +45,14 @@ class Utils
 
         if ($blacklist) {
             $disallowedWorlds = Main::$instance->getConfig()->get("blacklisted-worlds");
+            if (!is_array($disallowedWorlds)) return false;
             if (in_array($levelName, $disallowedWorlds)) return false;
             return true;
         }
 
         if ($whitelist) {
             $allowedWorlds = Main::$instance->getConfig()->get("whitelisted-worlds");
+            if (!is_array($allowedWorlds)) return false;
             if (in_array($levelName, $allowedWorlds)) return true;
             return false;
         }
@@ -65,8 +68,17 @@ class Utils
     public static function createCape(string $fileName)
     {
         $img = @imagecreatefrompng(Main::$instance->getDataFolder() . $fileName);
+        if (!$img instanceof GdImage) {
+            return '';
+        }
+
         $bytes = '';
-        $l = (int)@getimagesize(Main::$instance->getDataFolder() . $fileName)[1];
+        $lc = @getimagesize(Main::$instance->getDataFolder() . $fileName);
+        if (!is_array($lc)) {
+            return '';
+        }
+
+        $l = (int)$lc[1];
         for ($y = 0; $y < $l; $y++) {
             for ($x = 0; $x < 64; $x++) {
                 $rgba = @imagecolorat($img, $x, $y);
@@ -85,7 +97,7 @@ class Utils
      * @param Player $player
      * @param string $fileName
      */
-    public static function addCape(Player $player, string $fileName)
+    public static function addCape(Player $player, string $fileName): void
     {
         $oldSkin = $player->getSkin();
         $capeData = self::createCape($fileName);
@@ -97,7 +109,7 @@ class Utils
     /**
      * @param Player $player
      */
-    public static function removeCape(Player $player)
+    public static function removeCape(Player $player): void
     {
         $oldSkin = $player->getSkin();
         $capeData = "";

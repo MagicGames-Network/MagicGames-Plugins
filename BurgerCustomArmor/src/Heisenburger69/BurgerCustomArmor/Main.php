@@ -70,6 +70,10 @@ class Main extends PluginBase
 
     public function registerArmorSets(): void
     {
+        /** 
+         * @var string $name
+         * @var array $properties
+         * */
         foreach ($this->armorSets->getAll() as $name => $properties) {
             $this->registerArmorSet($name, $properties);
         }
@@ -82,6 +86,9 @@ class Main extends PluginBase
     public function registerArmorSet(string $name, array $properties): void
     {
         $tier = ArmorSetUtils::getTierFromName($properties["tier"]);
+        if (!is_int($tier)) {
+            return;
+        }
 
         $color = new Color(0, 0, 0);
         if (isset($properties["color"])) {
@@ -92,10 +99,10 @@ class Main extends PluginBase
         if (is_array($properties["abilities"]) && count($properties["abilities"]) > 0) {
             foreach ($properties["abilities"] as $ability => $value) {
                 if ($ability === "Effect") {
-                    $abilities = array_merge($abilities, AbilityUtils::getEffectAbilities($ability, $value)); /** @phpstan-ignore-line */
+                    $abilities = array_merge($abilities, AbilityUtils::getEffectAbilities($ability, $value));
                     continue;
                 }
-                if (($armorAbility = AbilityUtils::getAbility($ability, $value)) !== null) { /** @phpstan-ignore-line */
+                if (($armorAbility = AbilityUtils::getAbility($ability, $value)) !== null) {
                     $abilities[] = $armorAbility;
                 }
             }
@@ -161,7 +168,7 @@ class Main extends PluginBase
     private function registerRecipes(): void
     {
         foreach ($this->craftingRecipes->getAll() as $name => $recipeData) {
-            $customArmor = explode("-", $name);
+            $customArmor = explode("-", (string)$name);
             $setName = $customArmor[0];
             $setPiece = $customArmor[1];
 
@@ -170,10 +177,16 @@ class Main extends PluginBase
             $item->setCustomName(C::RESET . C::BOLD . $setName . C::RESET . " " . $item->getName());
 
             $requiredItems = [];
+            /** 
+             * @var string $materialSymbol 
+             * @var array $materialData
+             */
             foreach ($recipeData["materials"] as $materialSymbol => $materialData) {
-                $requiredItems[$materialSymbol] = ItemFactory::getInstance()->get($materialData["id"], $materialData["meta"], $materialData["count"]);
+                $requiredItems[$materialSymbol] = ItemFactory::getInstance()->get((int)$materialData["id"], (int)$materialData["meta"], (int)$materialData["count"]);
             }
-            $this->getServer()->getCraftingManager()->registerShapedRecipe(new ShapedRecipe($recipeData["shape"], $requiredItems, [$item]));
+            if (is_array($recipeData["shape"])) {
+                $this->getServer()->getCraftingManager()->registerShapedRecipe(new ShapedRecipe($recipeData["shape"], $requiredItems, [$item]));
+            }
         }
         //$this->getServer()->getCraftingManager()->buildCraftingDataCache();
     }
