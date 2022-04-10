@@ -1,0 +1,15 @@
+---
+name: MagicGamesMinion
+main: BhawaniSingh\HCMinion\BetterMinion
+version: 1.0.0
+api: 3.0.0
+author: Pushkar
+depend:
+- EconomyAPI
+- SellAll
+
+permissions:
+  minion.command:
+    default: op
+    description: Allows users to use magic minion
+...
