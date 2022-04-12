@@ -4,11 +4,9 @@ declare(strict_types=1);
 
 namespace BhawaniSingh\HCMinion\minions;
 
-use pocketmine\nbt\tag\CompoundTag;
-
 interface MinionNBT
 {
-    public function nbtSerialize(): CompoundTag;
+    //public function nbtSerialize(): ListTag;
 
-    public static function nbtDeserialize(CompoundTag $tag);
+    //public static function nbtDeserialize(ListTag $tag): self;
 }

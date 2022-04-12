@@ -4,17 +4,14 @@ declare(strict_types=1);
 
 namespace BhawaniSingh\HCMinion\entities\types;
 
-use BhawaniSingh\HCMinion\entities\MinionEntity;
-use pocketmine\block\Block;
-use pocketmine\block\BlockIds;
 use pocketmine\item\Item;
-use pocketmine\level\particle\DestroyBlockParticle;
 use pocketmine\utils\Random;
-use function abs;
-use function array_rand;
-use function count;
-use function in_array;
-use function mt_rand;
+use pocketmine\item\ItemFactory;
+use pocketmine\block\VanillaBlocks;
+use pocketmine\block\BlockLegacyIds;
+use pocketmine\item\StringToItemParser;
+use BhawaniSingh\HCMinion\entities\MinionEntity;
+use pocketmine\world\particle\BlockBreakParticle;
 
 class LumberjackMinion extends MinionEntity
 {
@@ -26,10 +23,10 @@ class LumberjackMinion extends MinionEntity
                     continue;
                 }
                 if (($x % 2 === 0 && $z % 2 === 0)) {
-                    $block = $this->level->getBlock($this->add($x, 0, $z));
-                    if ($block->getId() === BlockIds::SAPLING && $block->getDamage() === $this->getMinionInformation()->getType()->toTree()->sapling->getDamage()) {
+                    $block = $this->getWorld()->getBlock($this->getPosition()->add($x, 0, $z));
+                    if ($block->getId() === BlockLegacyIds::SAPLING) {
                         if (mt_rand(0, 1) === 0) {
-                            $this->getMinionInformation()->getType()->toTree()->placeObject($this->level, $block->getX(), $block->getY(), $block->getZ(), new Random());
+                            $this->getMinionInformation()->getType()->toTree()->placeObject($this->getWorld(), (int)$block->getPosition()->getX(), (int)$block->getPosition()->getY(), (int)$block->getPosition()->getZ(), new Random());
                         }
                     }
                 }
@@ -45,10 +42,10 @@ class LumberjackMinion extends MinionEntity
                 if ($x === 0 && $z === 0) {
                     continue;
                 }
-                $dirt = $this->level->getBlock($this->add($x, -1, $z));
-                $block = $this->level->getBlock($this->add($x, 0, $z));
-                if (($x % 2 === 0 && $z % 2 === 0) || ($this->getMinionInformation()->getUpgrade()->isExpand() && (abs($x) === 1 && abs($z) === 1))) {
-                    if (in_array($dirt->getId(), [BlockIds::GRASS, BlockIds::DIRT, BlockIds::FARMLAND], true) && ($block->getId() === BlockIds::AIR || ($block->getId() === $this->getMinionInformation()->getType()->getTargetId() && $block->getDamage() === $this->getMinionInformation()->getType()->getTargetMeta()))) {
+                $dirt = $this->getWorld()->getBlock($this->getPosition()->add($x, -1, $z));
+                $block = $this->getWorld()->getBlock($this->getPosition()->add($x, 0, $z));
+                if (($x % 2 === 0 && $z % 2 === 0) || ($this->getMinionInformation()->getUpgrade()->isSuperExpander() && (abs($x) === 1 && abs($z) === 1))) {
+                    if (in_array($dirt->getId(), [VanillaBlocks::GRASS()->getId(), VanillaBlocks::DIRT()->getId(), VanillaBlocks::FARMLAND()->getId()], true) && ($block->getId() === VanillaBlocks::AIR()->getId() || ($block->getId() === $this->getMinionInformation()->getType()->getTargetId()))) {
                         $blocks[] = $block;
                     }
                 }
@@ -59,26 +56,20 @@ class LumberjackMinion extends MinionEntity
         }
     }
 
-    protected function canUseExpander(): bool
-    {
-        return false;
-    }
-
     protected function startWorking(): void
     {
-        if ($this->target->getId() !== BlockIds::AIR) {
-            for ($y = 0; $y < 3; ++$y) {
-                $block = $this->level->getBlock($this->target->add(0, $y));
-                if ($block->getId() !== $this->getMinionInformation()->getType()->getTargetId() || $block->getDamage() !== $this->getMinionInformation()->getType()->getTargetMeta()) {
+        if ($this->target->getId() !== 0) {
+            for ($y = 0; $y < 4; ++$y) {
+                $block = $this->getWorld()->getBlock($this->target->getPosition()->add(0, $y, 0));
+                if ($block->getId() !== $this->getMinionInformation()->getType()->getTargetId()) {
                     $this->stopWorking();
-
                     break;
                 }
-                $this->level->addParticle(new DestroyBlockParticle($block->add(0.5, 0.5, 0.5), $block));
-                $this->level->setBlock($block, Block::get(BlockIds::AIR));
-                $drop = Item::get($block->getId(), $block->getDamage());
+                $this->getWorld()->addParticle($block->getPosition()->add(0.5, 0.5, 0.5), new BlockBreakParticle($block));
+                $this->getWorld()->setBlock($block->getPosition(), VanillaBlocks::AIR());
+                $drop = ItemFactory::getInstance()->get($block->getId(), $block->getMeta());
                 for ($i = 1; $i <= $drop->getCount(); ++$i) {
-                    $thing = Item::get($drop->getId(), $drop->getDamage());
+                    $thing = ItemFactory::getInstance()->get($drop->getId(), $drop->getMeta());
                     if ($this->getMinionInventory()->canAddItem($thing)) {
                         $this->getMinionInventory()->addItem($thing);
                         $this->getMinionInformation()->incrementResourcesCollected();
@@ -86,16 +77,21 @@ class LumberjackMinion extends MinionEntity
                 }
             }
         } else {
-            $this->level->setBlock($this->target, $this->getMinionInformation()->getType()->toTree()->sapling);
+            $this->getWorld()->setBlock($this->target->getPosition(), $this->getMinionInformation()->getType()->toTree()->sapling);
         }
     }
 
-    protected function getTool(string $tool, bool $isNetheriteTool): Item
+    protected function getTool(string $tool, bool $isNetheriteTool): ?Item
     {
-        return $isNetheriteTool ? Item::get(746) : Item::fromString($tool . ' Axe');
+        return $isNetheriteTool ? ItemFactory::getInstance()->get(746) : StringToItemParser::getInstance()->parse($tool . ' Axe');
     }
 
     protected function canUseAutoSmelter(): bool
+    {
+        return false;
+    }
+
+    protected function canUseExpander(): bool
     {
         return false;
     }

@@ -4,13 +4,15 @@ declare(strict_types=1);
 
 namespace BhawaniSingh\HCMinion\entities\types;
 
-use BhawaniSingh\HCMinion\entities\MinionEntity;
-use pocketmine\block\BlockIds;
-use pocketmine\block\BlockToolType;
+use function count;
+use function array_rand;
 use pocketmine\item\Item;
 use pocketmine\item\ItemIds;
-use function array_rand;
-use function count;
+use pocketmine\item\ItemFactory;
+use pocketmine\block\BlockToolType;
+use pocketmine\block\VanillaBlocks;
+use pocketmine\item\StringToItemParser;
+use BhawaniSingh\HCMinion\entities\MinionEntity;
 
 class MiningMinion extends MinionEntity
 {
@@ -22,8 +24,8 @@ class MiningMinion extends MinionEntity
                 if ($x === 0 && $z === 0) {
                     continue;
                 }
-                $block = $this->level->getBlock($this->add($x, -1, $z));
-                if ($block->getId() === BlockIds::AIR || ($block->getId() === $this->getMinionInformation()->getType()->getTargetId() && $block->getDamage() === $this->getMinionInformation()->getType()->getTargetMeta())) {
+                $block = $this->getWorld()->getBlock($this->getPosition()->add($x, -1, $z));
+                if ($block->getId() === VanillaBlocks::AIR()->getId() || ($block->getId() === $this->getMinionInformation()->getType()->getTargetId() && $block->getMeta() === $this->getMinionInformation()->getType()->getTargetMeta())) {
                     $blocks[] = $block;
                 }
             }
@@ -33,16 +35,16 @@ class MiningMinion extends MinionEntity
         }
     }
 
-    protected function getTool(string $tool, bool $isNetheriteTool): Item
+    protected function getTool(string $tool, bool $isNetheriteTool): ?Item
     {
         $tools = [
-            BlockToolType::TYPE_NONE => $isNetheriteTool ? Item::get(745) : Item::fromString($tool . ' Pickaxe'),
-            BlockToolType::TYPE_SHOVEL => $isNetheriteTool ? Item::get(744) : Item::fromString($tool . ' Shovel'),
-            BlockToolType::TYPE_PICKAXE => $isNetheriteTool ? Item::get(745) : Item::fromString($tool . ' Pickaxe'),
-            BlockToolType::TYPE_AXE => $isNetheriteTool ? Item::get(746) : Item::fromString($tool . ' Axe'),
-            BlockToolType::TYPE_SHEARS => Item::get(ItemIds::SHEARS),
+            BlockToolType::NONE => $isNetheriteTool ? ItemFactory::getInstance()->get(745) : StringToItemParser::getInstance()->parse($tool . ' Pickaxe'),
+            BlockToolType::SHOVEL => $isNetheriteTool ? ItemFactory::getInstance()->get(744) : StringToItemParser::getInstance()->parse($tool . ' Shovel'),
+            BlockToolType::PICKAXE => $isNetheriteTool ? ItemFactory::getInstance()->get(745) : StringToItemParser::getInstance()->parse($tool . ' Pickaxe'),
+            BlockToolType::AXE => $isNetheriteTool ? ItemFactory::getInstance()->get(746) : StringToItemParser::getInstance()->parse($tool . ' Axe'),
+            BlockToolType::SHEARS => ItemFactory::getInstance()->get(ItemIds::SHEARS),
         ];
 
-        return $tools[$this->getMinionInformation()->getType()->toBlock()->getToolType()];
+        return $tools[$this->getMinionInformation()->getType()->toBlock()->getBreakInfo()->getToolType()];
     }
 }

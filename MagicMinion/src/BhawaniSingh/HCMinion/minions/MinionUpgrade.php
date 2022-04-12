@@ -4,28 +4,24 @@ declare(strict_types=1);
 
 namespace BhawaniSingh\HCMinion\minions;
 
-use pocketmine\nbt\tag\ByteTag;
-use pocketmine\nbt\tag\CompoundTag;
-use function boolval;
-use function intval;
-
 class MinionUpgrade implements MinionNBT
 {
-    /** @var bool */
-    private $autoSmelt;
-    /** @var bool */
-    private $autoSell;
-    /** @var bool */
-    private $compact;
-    /** @var bool */
-    private $expand;
+    public const AUTO_SMELT_LEVEL = 2;
+    public const AUTO_SELL_LEVEL = 4;
+    public const SUPER_COMPACTER_LEVEL = 6;
+    public const SUPER_EXPANDER_LEVEL = 8;
 
-    public function __construct(bool $autoSmelt = false, bool $autoSell = false, bool $compact = false, bool $expand = false)
+    private bool $autoSmelt;
+    private bool $autoSell;
+    private bool $superCompacter;
+    private bool $superExpander;
+
+    public function __construct(bool $autoSmelt, bool $autoSell, bool $superCompacter, bool $superExpander)
     {
         $this->autoSmelt = $autoSmelt;
         $this->autoSell = $autoSell;
-        $this->compact = $compact;
-        $this->expand = $expand;
+        $this->superCompacter = $superCompacter;
+        $this->superExpander = $superExpander;
     }
 
     public function isAutoSmelt(): bool
@@ -33,7 +29,7 @@ class MinionUpgrade implements MinionNBT
         return $this->autoSmelt;
     }
 
-    public function setAutoSmelt(bool $autoSmelt = true): void
+    public function setAutoSmelt(bool $autoSmelt): void
     {
         $this->autoSmelt = $autoSmelt;
     }
@@ -43,43 +39,28 @@ class MinionUpgrade implements MinionNBT
         return $this->autoSell;
     }
 
-    public function setAutoSell(bool $autoSell = true): void
+    public function setAutoSell(bool $autoSell): void
     {
         $this->autoSell = $autoSell;
     }
 
-    public function isCompact(): bool
+    public function isSuperCompacter(): bool
     {
-        return $this->compact;
+        return $this->superCompacter;
     }
 
-    public function setCompact(bool $compact = true): void
+    public function setSuperCompacter(bool $superCompacter): void
     {
-        $this->compact = $compact;
+        $this->superCompacter = $superCompacter;
     }
 
-    public function isExpand(): bool
+    public function isSuperExpander(): bool
     {
-        return $this->expand;
+        return $this->superExpander;
     }
 
-    public function setExpand(bool $expand = true): void
+    public function setSuperExpander(bool $superExpander): void
     {
-        $this->expand = $expand;
-    }
-
-    public function nbtSerialize(): CompoundTag
-    {
-        return new CompoundTag('MinionUpgrade', [
-            new ByteTag('AutoSmelt', intval($this->isAutoSmelt())),
-            new ByteTag('AutoSell', intval($this->isAutoSell())),
-            new ByteTag('Compact', intval($this->isCompact())),
-            new ByteTag('Expand', intval($this->isExpand())),
-        ]);
-    }
-
-    public static function nbtDeserialize(CompoundTag $tag): self
-    {
-        return new self(boolval($tag->getByte('AutoSmelt')), boolval($tag->getByte('AutoSell')), boolval($tag->getByte('Compact')), boolval($tag->getByte('Expand')));
+        $this->superExpander = $superExpander;
     }
 }

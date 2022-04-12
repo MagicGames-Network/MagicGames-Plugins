@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace BhawaniSingh\HCMinion\commands\arguments;
 
-use CortexPE\Commando\args\StringEnumArgument;
-use BhawaniSingh\HCMinion\minions\MinionType;
 use pocketmine\command\CommandSender;
+use BhawaniSingh\HCMinion\minions\MinionType;
+use CortexPE\Commando\args\StringEnumArgument;
 
 class TypeArgument extends StringEnumArgument
 {
@@ -24,7 +24,7 @@ class TypeArgument extends StringEnumArgument
         return $this->getValue($argument);
     }
 
-    public function getValue(string $string)
+    public function getValue(string $string): mixed
     {
         return parent::getValue($string) ?? -1;
     }

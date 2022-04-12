@@ -17,8 +17,10 @@ parameters:
         - ../MagicCore
         - ../MagicHealthDefense
         - ../MagicIsland
+        - ../MagicMinion
         - ../MagicPortalsPE
         - ../MagicSkills
+        - ../SellAll
     excludePaths:
         analyse:
             - ../MagicCore/src/Pushkar/MagicCore/forms/RecipesForm.php

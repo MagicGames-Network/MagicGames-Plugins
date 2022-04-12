@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace BhawaniSingh\HCMinion\minions;
 
-use pocketmine\nbt\tag\CompoundTag;
-use pocketmine\nbt\tag\IntTag;
+use pocketmine\nbt\NBT;
+use pocketmine\nbt\tag\ListTag;
 use pocketmine\nbt\tag\StringTag;
 
 class MinionInformation implements MinionNBT
@@ -65,19 +65,41 @@ class MinionInformation implements MinionNBT
         ++$this->resourcesCollected;
     }
 
-    public function nbtSerialize(): CompoundTag
+    // To Improve
+    public function nbtSerialize(): ListTag
     {
-        return new CompoundTag('MinionInformation', [
-            new StringTag('Owner', $this->getOwner()),
-            $this->getType()->nbtSerialize(),
-            $this->getUpgrade()->nbtSerialize(),
-            new IntTag('Level', $this->getLevel()),
-            new IntTag('ResourcesCollected', $this->getResourcesCollected()),
-        ]);
+        return new ListTag([
+            new StringTag($this->getOwner()),
+            new StringTag((string) $this->getType()->getActionType()),
+            new StringTag((string) $this->getType()->getTargetId()),
+            new StringTag((string) $this->getType()->getTargetMeta()),
+            new StringTag($this->getUpgrade()->isAutoSmelt() ? 'true' : 'false'),
+            new StringTag($this->getUpgrade()->isAutoSell() ? 'true' : 'false'),
+            new StringTag($this->getUpgrade()->isSuperCompacter() ? 'true' : 'false'),
+            new StringTag($this->getUpgrade()->isSuperExpander() ? 'true' : 'false'),
+            new StringTag((string) $this->getLevel()),
+            new StringTag((string) $this->getResourcesCollected()),
+        ], NBT::TAG_String);
     }
 
-    public static function nbtDeserialize(CompoundTag $tag): self
+    public static function nbtDeserialize(ListTag $tag): self
     {
-        return new self($tag->getString('Owner'), MinionType::nbtDeserialize($tag->getCompoundTag('MinionType')), MinionUpgrade::nbtDeserialize($tag->getCompoundTag('MinionUpgrade')), $tag->getInt('Level'), $tag->getInt('ResourcesCollected'));
+        $value = $tag->getValue();
+        return new self(
+            $value[0]->getValue(),
+            new MinionType(
+                (int) $value[1]->getValue(),
+                (int) $value[2]->getValue(),
+                (int) $value[3]->getValue()
+            ),
+            new MinionUpgrade(
+                $value[4]->getValue() === 'true',
+                $value[5]->getValue() === 'true',
+                $value[6]->getValue() === 'true',
+                $value[7]->getValue() === 'true'
+            ),
+            (int) $value[8]->getValue(),
+            (int) $value[9]->getValue()
+        );
     }
 }

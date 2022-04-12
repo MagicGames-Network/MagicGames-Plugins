@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace BhawaniSingh\HCMinion\minions;
 
-use BhawaniSingh\HCMinion\entities\objects\MinionTree;
 use pocketmine\block\Block;
-use pocketmine\nbt\tag\CompoundTag;
-use pocketmine\nbt\tag\IntTag;
+use pocketmine\block\BlockFactory;
+use BhawaniSingh\HCMinion\entities\objects\MinionTree;
 
 class MinionType implements MinionNBT
 {
@@ -46,7 +45,7 @@ class MinionType implements MinionNBT
 
     public function toBlock(): Block
     {
-        return Block::get($this->getTargetId(), $this->getTargetMeta());
+        return BlockFactory::getInstance()->get($this->getTargetId(), $this->getTargetMeta());
     }
 
     public function toTree(): MinionTree
@@ -57,19 +56,5 @@ class MinionType implements MinionNBT
     public function getTargetName(): string
     {
         return $this->toBlock()->getName();
-    }
-
-    public function nbtSerialize(): CompoundTag
-    {
-        return new CompoundTag('MinionType', [
-            new IntTag('ActionType', $this->getActionType()),
-            new IntTag('TargetId', $this->getTargetId()),
-            new IntTag('TargetMeta', $this->getTargetMeta()),
-        ]);
-    }
-
-    public static function nbtDeserialize(CompoundTag $tag): self
-    {
-        return new self($tag->getInt('ActionType'), $tag->getInt('TargetId'), $tag->getInt('TargetMeta'));
     }
 }

@@ -11,6 +11,9 @@ use pocketmine\nbt\tag\StringTag;
 use pocketmine\plugin\PluginBase;
 use pocketmine\crafting\ShapedRecipe;
 use pocketmine\utils\TextFormat as C;
+use pocketmine\item\enchantment\ItemFlags;
+use pocketmine\item\enchantment\Enchantment;
+use pocketmine\data\bedrock\EnchantmentIdMap;
 use pocketmine\item\LegacyStringToItemParser;
 use Heisenburger69\BurgerCustomArmor\Abilities\AbilityUtils;
 use Heisenburger69\BurgerCustomArmor\ArmorSets\ArmorSetUtils;
@@ -43,12 +46,13 @@ class Main extends PluginBase
 
     public static Main $instance;
 
+    private Config $craftingRecipes;
     private Config $armorSets;
-    public array $customSets;
 
+    public array $customSets;
     public array $using;
 
-    private Config $craftingRecipes;
+    public const FAKE_ENCH_ID = -1;
 
     public function onEnable(): void
     {
@@ -60,6 +64,8 @@ class Main extends PluginBase
         $this->saveResource("FireCape.png");
         $this->armorSets = new Config($this->getDataFolder() . "armorsets.yml");
         $this->craftingRecipes = new Config($this->getDataFolder() . "recipes.yml");
+
+        EnchantmentIdMap::getInstance()->register(self::FAKE_ENCH_ID, new Enchantment("Glow", 1, ItemFlags::ALL, ItemFlags::NONE, 1));
 
         $this->registerCustomItems();
         $this->getServer()->getPluginManager()->registerEvents(new EventListener($this), $this);

@@ -10,6 +10,7 @@
       "psr-4": {
          "_64FF00\\PurePerms\\": "PurePerms/src/_64FF00/PurePerms",
          "alemiz\\sga\\": "StarGate-Atlantis/src/alemiz/sga",
+         "CortexPE\\Commando\\": "Commando/src/CortexPE/Commando",
          "DaPigGuy\\PiggyCustomEnchants\\": "PiggyCustomEnchants/src/DaPigGuy/PiggyCustomEnchants",
          "dktapps\\pmforms\\": "pmforms/src/dktapps/pmforms",
          "jojoe77777\\FormAPI\\": "FormAPI/src/jojoe77777/FormAPI",

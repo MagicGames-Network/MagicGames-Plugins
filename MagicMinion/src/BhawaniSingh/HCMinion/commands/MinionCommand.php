@@ -4,20 +4,19 @@ declare(strict_types=1);
 
 namespace BhawaniSingh\HCMinion\commands;
 
+use pocketmine\player\Player;
+use pocketmine\utils\TextFormat;
 use CortexPE\Commando\BaseCommand;
+use pocketmine\command\CommandSender;
 use BhawaniSingh\HCMinion\commands\subcommands\GiveCommand;
 use BhawaniSingh\HCMinion\commands\subcommands\RemoveCommand;
-use pocketmine\command\CommandSender;
-use pocketmine\Player;
-use pocketmine\utils\TextFormat;
 
 class MinionCommand extends BaseCommand
 {
     public function onRun(CommandSender $sender, string $aliasUsed, array $args): void
     {
-        if ($sender instanceof Player && !$sender->hasPermission($this->getPermission())) {
+        if ($sender instanceof Player || !$sender->hasPermission($this->getPermission() ?? 'minion.commands')) {
             $sender->sendMessage(TextFormat::RED . "You don't have permission to use this command!");
-
             return;
         }
         $this->sendUsage();

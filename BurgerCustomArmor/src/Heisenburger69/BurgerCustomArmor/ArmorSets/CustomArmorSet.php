@@ -7,6 +7,7 @@ use pocketmine\color\Color;
 use pocketmine\nbt\tag\StringTag;
 use pocketmine\utils\TextFormat as C;
 use Pushkar\MagicCore\Main as MagicCore;
+use Heisenburger69\BurgerCustomArmor\Main;
 use pocketmine\item\enchantment\ItemFlags;
 use pocketmine\item\enchantment\Enchantment;
 use pocketmine\data\bedrock\EnchantmentIdMap;
@@ -73,7 +74,8 @@ class CustomArmorSet
         $this->equippedMessages = $equippedMessages;
         $this->unequippedMessages = $unequippedMessages;
 
-        $this->fakeEnchant = new EnchantmentInstance(new Enchantment("Glow", 1, ItemFlags::ALL, ItemFlags::NONE, 1));
+        /** @phpstan-ignore-next-line */
+        $this->fakeEnchant = new EnchantmentInstance(EnchantmentIdMap::getInstance()->fromId(Main::FAKE_ENCH_ID));
     }
 
     /**

@@ -3,7 +3,6 @@
 namespace Heisenburger69\BurgerCustomArmor\Commands;
 
 use pocketmine\command\Command;
-use pocketmine\lang\Translatable;
 use pocketmine\command\CommandSender;
 use pocketmine\utils\TextFormat as C;
 use Heisenburger69\BurgerCustomArmor\Main;

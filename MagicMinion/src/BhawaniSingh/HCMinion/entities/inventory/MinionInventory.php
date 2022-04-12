@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace BhawaniSingh\HCMinion\entities\inventory;
 
-use pocketmine\inventory\BaseInventory;
+use pocketmine\inventory\SimpleInventory;
 
-class MinionInventory extends BaseInventory
+class MinionInventory extends SimpleInventory
 {
     public function getName(): string
     {
         return 'MinionInventory';
     }
 
-    public function getDefaultSize(): int
+    public function setSize(int $size): void
     {
-        return 15;
+        $this->slots->setSize($size);
     }
 }

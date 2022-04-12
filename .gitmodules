@@ -17,3 +17,6 @@
 [submodule "phpstan/InvMenu"]
 	path = phpstan/InvMenu
 	url = https://github.com/Muqsit/InvMenu
+[submodule "phpstan/Commando"]
+	path = phpstan/Commando
+	url = https://github.com/CortexPE/Commando

@@ -4,18 +4,16 @@ declare(strict_types=1);
 
 namespace BhawaniSingh\HCMinion;
 
-use BhawaniSingh\HCMinion\minions\MinionInformation;
-use BhawaniSingh\HCMinion\minions\MinionType;
-use BhawaniSingh\HCMinion\minions\MinionUpgrade;
-use pocketmine\entity\Entity;
-use pocketmine\event\Listener;
-use pocketmine\event\player\PlayerInteractEvent;
-use pocketmine\event\player\PlayerQuitEvent;
 use pocketmine\item\Item;
-use pocketmine\nbt\tag\ByteArrayTag;
-use pocketmine\nbt\tag\CompoundTag;
-use pocketmine\nbt\tag\StringTag;
-use function in_array;
+use pocketmine\event\Listener;
+use pocketmine\entity\Location;
+use pocketmine\nbt\tag\ListTag;
+use BhawaniSingh\HCMinion\utils\Utils;
+use pocketmine\event\player\PlayerQuitEvent;
+use pocketmine\item\LegacyStringToItemParser;
+use BhawaniSingh\HCMinion\entities\MinionEntity;
+use pocketmine\event\player\PlayerInteractEvent;
+use BhawaniSingh\HCMinion\minions\MinionInformation;
 
 class EventListener implements Listener
 {
@@ -28,36 +26,40 @@ class EventListener implements Listener
         $block = $event->getBlock();
         $player = $event->getPlayer();
         if ($event->getAction() === PlayerInteractEvent::RIGHT_CLICK_BLOCK) {
-            $mItem = Item::fromString((string) BetterMinion::getInstance()->getConfig()->get('minion-item'), false);
-            if ($item->getId() === $mItem->getId() && $item->getDamage() === $mItem->getDamage()) {
-                if (($minionInformation = $item->getNamedTag()->getCompoundTag('MinionInformation')) !== null) {
-                    if (($minionType = $minionInformation->getCompoundTag('MinionType')) !== null) {
-                        $event->setCancelled();
-                        /* if (!$block->isSolid()) {TODO: anti-glitch
+            $mItem = LegacyStringToItemParser::getInstance()->parse((string) BetterMinion::getInstance()->getConfig()->get('minion-item'));
+            if (!$mItem instanceof Item) {
+                return;
+            }
+
+            if ($item->getId() === $mItem->getId() && $item->getMeta() === $mItem->getMeta()) {
+                if ($item->getNamedTag()->getTag('MinionInformation') instanceof ListTag) {
+                    $event->cancel();
+                    /* if (!$block->isSolid()) {TODO: anti-glitch
                             $block = $block->getLevelNonNull()->getBlock($block->subtract(0, 1));
                         } */
-                        $levelName = $player->getLevelNonNull()->getFolderName();
-                        if (in_array($levelName, BetterMinion::getInstance()->getConfig()->get('worlds', []), true)) {
-                            return;
-                        }
-                        $minionUpgrade = $minionInformation->hasTag('MinionUpgrade') ? MinionUpgrade::nbtDeserialize($minionInformation->getCompoundTag('MinionUpgrade')) : new MinionUpgrade();
-                        $skin = $player->getSkin();
-                        $nbt = Entity::createBaseNBT($block->getSide($event->getFace())->add(0.5, 0, 0.5));
-                        $nbt->setTag(new CompoundTag('Skin', [
-                            new StringTag('Name', $skin->getSkinId()),
-                            new ByteArrayTag('Data', $skin->getSkinData()),
-                            new ByteArrayTag('CapeData', $skin->getCapeData()),
-                            new StringTag('GeometryName', $skin->getGeometryName()),
-                            new ByteArrayTag('GeometryData', $skin->getGeometryData()),
-                        ]));
-                        $type = MinionType::nbtDeserialize($minionType);
-                        $nbt->setTag((new MinionInformation($player->getName(), $type, $minionUpgrade, $minionInformation->getInt('Level', 1), $minionInformation->getInt('ResourcesCollected', 0)))->nbtSerialize());
-                        $entityType = BetterMinion::$minions[$type->getActionType()];
-                        $entity = new $entityType($player->getLevelNonNull(), $nbt);
-                        $entity->spawnToAll();
-                        $item->pop();
-                        $player->getInventory()->setItemInHand($item);
+                    $levelName = $player->getWorld()->getFolderName();
+                    if (in_array($levelName, BetterMinion::getInstance()->getConfig()->get('worlds', []), true)) {
+                        return;
                     }
+                    $minionInformation = MinionInformation::nbtDeserialize($item->getNamedTag()->getTag('MinionInformation'));
+
+                    $entityPos = $block->getSide($event->getFace())->getPosition();
+                    $entityPos = new Location($entityPos->x + 0.5, $entityPos->y, $entityPos->z + 0.5, $player->getWorld(), 0, 0);
+                    
+                    $nbt = Utils::createBaseNBT($entityPos);
+
+                    $level = $minionInformation->getLevel();
+                    $resourcesCollect = $minionInformation->getResourcesCollected();
+                    $nbt->setTag('MinionInformation', (new MinionInformation($player->getName(), $minionInformation->getType(), $minionInformation->getUpgrade(), $level, $resourcesCollect))->nbtSerialize());
+
+                    $entityType = BetterMinion::$minions[$minionInformation->getType()->getActionType()];
+
+                    /** @var MinionEntity $entity */
+                    $entity = new $entityType($entityPos, $player->getSkin(), $nbt);
+
+                    $entity->spawnToAll();
+                    $item->pop();
+                    $player->getInventory()->setItemInHand($item);
                 }
             }
         }
@@ -66,8 +68,7 @@ class EventListener implements Listener
     public function onQuit(PlayerQuitEvent $event): void
     {
         $player = $event->getPlayer();
-        if (isset(BetterMinion::getInstance()->isRemove[$player->getName()])) {
+        if (isset(BetterMinion::getInstance()->isRemove[$player->getName()]))
             unset(BetterMinion::getInstance()->isRemove[$player->getName()]);
-        }
     }
 }
