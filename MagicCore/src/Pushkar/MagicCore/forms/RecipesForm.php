@@ -143,7 +143,7 @@ class RecipesForm extends MenuForm
         return $form;
     }
 
-    public function helpme(Player $sender)
+    public function helpme(Player $sender): Form
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
             if ($data === null) {

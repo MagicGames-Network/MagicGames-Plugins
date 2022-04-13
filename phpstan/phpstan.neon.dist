@@ -14,6 +14,7 @@ parameters:
         - '#Parameter \#[1234567890] \$text of class [a-zA-Z0-9\\_]+ constructor expects string, mixed given.#'
     paths:
         - ../BurgerCustomArmor
+        - ../MagicBankUI
         - ../MagicCore
         - ../MagicHealthDefense
         - ../MagicIsland
