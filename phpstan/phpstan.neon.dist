@@ -23,5 +23,4 @@ parameters:
         - ../SellAll
     excludePaths:
         analyse:
-            - ../MagicCore/src/Pushkar/MagicCore/forms/RecipesForm.php
             - ../BurgerCustomArmor/src/Heisenburger69/BurgerCustomArmor/Abilities/AbilityUtils.php

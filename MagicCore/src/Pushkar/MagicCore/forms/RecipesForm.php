@@ -3,6 +3,7 @@
 namespace Pushkar\MagicCore\forms;
 
 use pocketmine\Server;
+use jojoe77777\FormAPI\Form;
 use dktapps\pmforms\FormIcon;
 use dktapps\pmforms\MenuForm;
 use pocketmine\player\Player;
@@ -93,7 +94,7 @@ class RecipesForm extends MenuForm
         });
     }
 
-    public function tools($sender)
+    public function tools(Player $sender): Form
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
             if ($data === null) {
@@ -161,8 +162,8 @@ class RecipesForm extends MenuForm
         $sender->sendForm($form);
         return $form;
     }
-    
-    public function minions($sender)
+
+    public function minions(Player $sender): Form
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
             if ($data === null) {
@@ -306,7 +307,7 @@ class RecipesForm extends MenuForm
         return $form;
     }
 
-    public function armors($sender)
+    public function armors(Player $sender): Form
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
             if ($data === null) {
@@ -425,10 +426,10 @@ class RecipesForm extends MenuForm
         return $form;
     }
 
-    public function eblocks($sender)
+    public function eblocks(Player $sender): Form
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
-            if ($data === null) {
+            /*if ($data === null) {
                 return true;
             }
             switch ($data) {
@@ -551,7 +552,7 @@ class RecipesForm extends MenuForm
                 case 29:
                     $sender->sendForm(new RecipesForm());
                     break;
-            }
+            }*/
         });
         $form->setTitle("§l§6ENCHANTED BLOCKS RECIPES");
         $form->setContent("§dSelect The Which Enchanted Item Recipe You Want:");
@@ -589,10 +590,10 @@ class RecipesForm extends MenuForm
         return $form;
     }
 
-    public function armor1($sender)
+    public function armor1(Player $sender): Form
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
-            if ($data === null) {
+            /*if ($data === null) {
                 return true;
             }
             switch ($data) {
@@ -615,7 +616,7 @@ class RecipesForm extends MenuForm
                 case 4:
                     $this->armors($sender);
                     break;
-            }
+            }*/
         });
         $form->setTitle("§l§6GOD ARMOR RECIPE");
         $form->setContent("§dSelect The Which God Armor Piece Recipe You Want:");
@@ -627,11 +628,11 @@ class RecipesForm extends MenuForm
         $sender->sendForm($form);
         return $form;
     }
-    
-    public function armor2($sender)
+
+    public function armor2(Player $sender): Form
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
-            $result = $data;
+            /*$result = $data;
             if ($result === null) {
                 return true;
             }
@@ -655,7 +656,7 @@ class RecipesForm extends MenuForm
                 case 4:
                     $this->armors($sender);
                     break;
-            }
+            }*/
         });
         $form->setTitle("§l§6MINER ARMOR RECIPE");
         $form->setContent("§dSelect The Which Miner Armor Piece Recipe You Want:");
@@ -668,12 +669,12 @@ class RecipesForm extends MenuForm
         return $form;
     }
 
-    public function armor3($sender)
+    public function armor3(Player $sender): Form
     {
 
 
         $form = new SimpleForm(function (Player $sender, int $data = null) {
-            $result = $data;
+            /*$result = $data;
             if ($result === null) {
                 return true;
             }
@@ -697,7 +698,7 @@ class RecipesForm extends MenuForm
                 case 4:
                     $this->armors($sender);
                     break;
-            }
+            }*/
         });
         $form->setTitle("§l§6FARMER ARMOR RECIPE");
         $form->setContent("§dSelect The Which Farmer Armor Piece Recipe You Want:");
@@ -710,12 +711,12 @@ class RecipesForm extends MenuForm
         return $form;
     }
 
-    public function armor4($sender)
+    public function armor4(Player $sender): Form
     {
 
 
         $form = new SimpleForm(function (Player $sender, int $data = null) {
-            $result = $data;
+            /*$result = $data;
             if ($result === null) {
                 return true;
             }
@@ -739,7 +740,7 @@ class RecipesForm extends MenuForm
                 case 4:
                     $this->armors($sender);
                     break;
-            }
+            }*/
         });
         $form->setTitle("§l§6LAPIS ARMOR RECIPE");
         $form->setContent("§dSelect The Which Lapis Armor Piece Recipe You Want:");
@@ -752,12 +753,12 @@ class RecipesForm extends MenuForm
         return $form;
     }
 
-    public function armor5($sender)
+    public function armor5(Player $sender): Form
     {
 
 
         $form = new SimpleForm(function (Player $sender, int $data = null) {
-            $result = $data;
+            /*$result = $data;
             if ($result === null) {
                 return true;
             }
@@ -781,7 +782,7 @@ class RecipesForm extends MenuForm
                 case 4:
                     $this->armors($sender);
                     break;
-            }
+            }*/
         });
         $form->setTitle("§l§6END ARMOR RECIPE");
         $form->setContent("§dSelect The Which End Armor Piece Recipe You Want:");
@@ -794,12 +795,12 @@ class RecipesForm extends MenuForm
         return $form;
     }
 
-    public function armor6($sender)
+    public function armor6(Player $sender): Form
     {
 
 
         $form = new SimpleForm(function (Player $sender, int $data = null) {
-            $result = $data;
+            /*$result = $data;
             if ($result === null) {
                 return true;
             }
@@ -823,7 +824,7 @@ class RecipesForm extends MenuForm
                 case 4:
                     $this->armors($sender);
                     break;
-            }
+            }*/
         });
         $form->setTitle("§l§6GOLEM ARMOR RECIPE");
         $form->setContent("§dSelect The Which Golem Armor Piece Recipe You Want:");
@@ -836,12 +837,12 @@ class RecipesForm extends MenuForm
         return $form;
     }
 
-    public function armor7($sender)
+    public function armor7(Player $sender): Form
     {
 
 
         $form = new SimpleForm(function (Player $sender, int $data = null) {
-            $result = $data;
+            /*$result = $data;
             if ($result === null) {
                 return true;
             }
@@ -865,7 +866,7 @@ class RecipesForm extends MenuForm
                 case 4:
                     $this->armors($sender);
                     break;
-            }
+            }*/
         });
         $form->setTitle("§l§6PUMPKIN ARMOR RECIPE");
         $form->setContent("§dSelect The Which Pumpkin Armor Piece Recipe You Want:");
@@ -878,12 +879,12 @@ class RecipesForm extends MenuForm
         return $form;
     }
 
-    public function armor8($sender)
+    public function armor8(Player $sender): Form
     {
 
 
         $form = new SimpleForm(function (Player $sender, int $data = null) {
-            $result = $data;
+            /*$result = $data;
             if ($result === null) {
                 return true;
             }
@@ -907,7 +908,7 @@ class RecipesForm extends MenuForm
                 case 4:
                     $this->armors($sender);
                     break;
-            }
+            }*/
         });
         $form->setTitle("§l§6NETHER ARMOR RECIPE");
         $form->setContent("§dSelect The Which Nether Armor Piece Recipe You Want:");
@@ -920,12 +921,12 @@ class RecipesForm extends MenuForm
         return $form;
     }
 
-    public function armor9($sender)
+    public function armor9(Player $sender): Form
     {
 
 
         $form = new SimpleForm(function (Player $sender, int $data = null) {
-            $result = $data;
+            /*$result = $data;
             if ($result === null) {
                 return true;
             }
@@ -949,7 +950,7 @@ class RecipesForm extends MenuForm
                 case 4:
                     $this->armors($sender);
                     break;
-            }
+            }*/
         });
         $form->setTitle("§l§6OAK ARMOR RECIPE");
         $form->setContent("§dSelect The Which Oak Armor Piece Recipe You Want:");
@@ -962,12 +963,12 @@ class RecipesForm extends MenuForm
         return $form;
     }
 
-    public function armor10($sender)
+    public function armor10(Player $sender): Form
     {
 
 
         $form = new SimpleForm(function (Player $sender, int $data = null) {
-            $result = $data;
+            /*$result = $data;
             if ($result === null) {
                 return true;
             }
@@ -991,7 +992,7 @@ class RecipesForm extends MenuForm
                 case 4:
                     $this->armors($sender);
                     break;
-            }
+            }*/
         });
         $form->setTitle("§l§6ICE ARMOR RECIPE");
         $form->setContent("§dSelect The Which Ice Armor Piece Recipe You Want:");
@@ -1004,12 +1005,12 @@ class RecipesForm extends MenuForm
         return $form;
     }
 
-    public function armor11($sender)
+    public function armor11(Player $sender): Form
     {
 
 
         $form = new SimpleForm(function (Player $sender, int $data = null) {
-            $result = $data;
+            /*$result = $data;
             if ($result === null) {
                 return true;
             }
@@ -1033,7 +1034,7 @@ class RecipesForm extends MenuForm
                 case 4:
                     $this->armors($sender);
                     break;
-            }
+            }*/
         });
         $form->setTitle("§l§6ASSASSIN ARMOR RECIPE");
         $form->setContent("§dSelect The Which Assassin Armor Piece Recipe You Want:");
@@ -1046,12 +1047,12 @@ class RecipesForm extends MenuForm
         return $form;
     }
 
-    public function armor12($sender)
+    public function armor12(Player $sender): Form
     {
 
 
         $form = new SimpleForm(function (Player $sender, int $data = null) {
-            $result = $data;
+            /*$result = $data;
             if ($result === null) {
                 return true;
             }
@@ -1075,7 +1076,7 @@ class RecipesForm extends MenuForm
                 case 4:
                     $this->armors($sender);
                     break;
-            }
+            }*/
         });
         $form->setTitle("§l§6TANK ARMOR RECIPE");
         $form->setContent("§dSelect The Which Tank Armor Piece Recipe You Want:");
@@ -1088,12 +1089,12 @@ class RecipesForm extends MenuForm
         return $form;
     }
 
-    public function armor13($sender)
+    public function armor13(Player $sender): Form
     {
 
 
         $form = new SimpleForm(function (Player $sender, int $data = null) {
-            $result = $data;
+            /*$result = $data;
             if ($result === null) {
                 return true;
             }
@@ -1117,7 +1118,7 @@ class RecipesForm extends MenuForm
                 case 4:
                     $this->armors($sender);
                     break;
-            }
+            }*/
         });
         $form->setTitle("§l§6WISE ARMOR RECIPE");
         $form->setContent("§dSelect The Which Wise Armor Piece Recipe You Want:");
@@ -1130,12 +1131,12 @@ class RecipesForm extends MenuForm
         return $form;
     }
 
-    public function armor14($sender)
+    public function armor14(Player $sender): Form
     {
 
 
         $form = new SimpleForm(function (Player $sender, int $data = null) {
-            $result = $data;
+            /*$result = $data;
             if ($result === null) {
                 return true;
             }
@@ -1159,7 +1160,7 @@ class RecipesForm extends MenuForm
                 case 4:
                     $this->armors($sender);
                     break;
-            }
+            }*/
         });
         $form->setTitle("§l§6EMERALD ARMOR RECIPE");
         $form->setContent("§dSelect The Which Emerald Armor Piece Recipe You Want:");
@@ -1172,12 +1173,12 @@ class RecipesForm extends MenuForm
         return $form;
     }
 
-    public function armor15($sender)
+    public function armor15(Player $sender): Form
     {
 
 
         $form = new SimpleForm(function (Player $sender, int $data = null) {
-            $result = $data;
+            /*$result = $data;
             if ($result === null) {
                 return true;
             }
@@ -1201,7 +1202,7 @@ class RecipesForm extends MenuForm
                 case 4:
                     $this->armors($sender);
                     break;
-            }
+            }*/
         });
         $form->setTitle("§l§6REDSTONE ARMOR RECIPE");
         $form->setContent("§dSelect The Which Redstone Armor Piece Recipe You Want:");
@@ -1214,12 +1215,12 @@ class RecipesForm extends MenuForm
         return $form;
     }
 
-    public function armor16($sender)
+    public function armor16(Player $sender): Form
     {
 
 
         $form = new SimpleForm(function (Player $sender, int $data = null) {
-            $result = $data;
+            /*$result = $data;
             if ($result === null) {
                 return true;
             }
@@ -1243,7 +1244,7 @@ class RecipesForm extends MenuForm
                 case 4:
                     $this->armors($sender);
                     break;
-            }
+            }*/
         });
         $form->setTitle("§l§6UNSTABLE ARMOR RECIPE");
         $form->setContent("§dSelect The Which Unstable Armor Piece Recipe You Want:");
@@ -1256,12 +1257,12 @@ class RecipesForm extends MenuForm
         return $form;
     }
 
-    public function armor17($sender)
+    public function armor17(Player $sender): Form
     {
 
 
         $form = new SimpleForm(function (Player $sender, int $data = null) {
-            $result = $data;
+            /*$result = $data;
             if ($result === null) {
                 return true;
             }
@@ -1285,7 +1286,7 @@ class RecipesForm extends MenuForm
                 case 4:
                     $this->armors($sender);
                     break;
-            }
+            }*/
         });
         $form->setTitle("§l§6SPIDER ARMOR RECIPE");
         $form->setContent("§dSelect The Which Spider Armor Piece Recipe You Want:");
@@ -1298,12 +1299,12 @@ class RecipesForm extends MenuForm
         return $form;
     }
 
-    public function armor18($sender)
+    public function armor18(Player $sender): Form
     {
 
 
         $form = new SimpleForm(function (Player $sender, int $data = null) {
-            $result = $data;
+            /*$result = $data;
             if ($result === null) {
                 return true;
             }
@@ -1327,7 +1328,7 @@ class RecipesForm extends MenuForm
                 case 4:
                     $this->armors($sender);
                     break;
-            }
+            }*/
         });
         $form->setTitle("§l§6DIGGER ARMOR RECIPE");
         $form->setContent("§dSelect The Which Digger Armor Piece Recipe You Want:");
@@ -1340,12 +1341,12 @@ class RecipesForm extends MenuForm
         return $form;
     }
 
-    public function armor19($sender)
+    public function armor19(Player $sender): Form
     {
 
 
         $form = new SimpleForm(function (Player $sender, int $data = null) {
-            $result = $data;
+            /*$result = $data;
             if ($result === null) {
                 return true;
             }
@@ -1369,7 +1370,7 @@ class RecipesForm extends MenuForm
                 case 4:
                     $this->armors($sender);
                     break;
-            }
+            }*/
         });
         $form->setTitle("§l§6TECHNO ARMOR RECIPE");
         $form->setContent("§dSelect The Which Techno Armor Piece Recipe You Want:");
@@ -1382,12 +1383,12 @@ class RecipesForm extends MenuForm
         return $form;
     }
 
-    public function armor20($sender)
+    public function armor20(Player $sender): Form
     {
 
 
         $form = new SimpleForm(function (Player $sender, int $data = null) {
-            $result = $data;
+            /*$result = $data;
             if ($result === null) {
                 return true;
             }
@@ -1411,7 +1412,7 @@ class RecipesForm extends MenuForm
                 case 4:
                     $this->armors($sender);
                     break;
-            }
+            }*/
         });
         $form->setTitle("§l§6LIQUED ARMOR RECIPE");
         $form->setContent("§dSelect The Which Liqued Armor Piece Recipe You Want:");
@@ -1423,11 +1424,11 @@ class RecipesForm extends MenuForm
         $sender->sendForm($form);
         return $form;
     }
-    
-    public function ore($sender)
+
+    public function ore(Player $sender): Form
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
-            $result = $data;
+            /*$result = $data;
             if ($result === null) {
                 return true;
             }
@@ -1463,7 +1464,7 @@ class RecipesForm extends MenuForm
                 case 7:
                     $sender->sendForm(new RecipesForm());
                     break;
-            }
+            }*/
         });
         $form->setTitle("§l§6ORE SPAWNER RECIPES");
         $form->setContent("§bSelect The Which Ore Spawner Recipe You Want:");
@@ -1478,8 +1479,8 @@ class RecipesForm extends MenuForm
         $sender->sendForm($form);
         return $form;
     }
-    
-    public function sword($sender)
+
+    public function sword(Player $sender): Form
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
             $result = $data;
@@ -1554,8 +1555,8 @@ class RecipesForm extends MenuForm
         $sender->sendForm($form);
         return $form;
     }
-    
-    public function axe($sender)
+
+    public function axe(Player $sender): Form
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
             $result = $data;
@@ -1598,8 +1599,8 @@ class RecipesForm extends MenuForm
         $sender->sendForm($form);
         return $form;
     }
-    
-    public function hoe($sender)
+
+    public function hoe(Player $sender): Form
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
             $result = $data;
@@ -1626,8 +1627,8 @@ class RecipesForm extends MenuForm
         $sender->sendForm($form);
         return $form;
     }
-    
-    public function pickaxe($sender)
+
+    public function pickaxe(Player $sender): Form
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
             $result = $data;
@@ -1678,11 +1679,11 @@ class RecipesForm extends MenuForm
         $sender->sendForm($form);
         return $form;
     }
-    
-    public function items($sender)
+
+    public function items(Player $sender): Form
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
-            if ($data === null) {
+            /*if ($data === null) {
                 return true;
             }
             switch ($data) {
@@ -1724,7 +1725,7 @@ class RecipesForm extends MenuForm
 
                 case 9:
                     $sender->sendForm(new RecipesForm());
-            }
+            }*/
         });
         $form->setTitle("§l§6CUSTOM ITEMS RECIPES");
         $form->setContent("§bSelect The Which Item Recipe You Want:");
@@ -1741,8 +1742,8 @@ class RecipesForm extends MenuForm
         $sender->sendForm($form);
         return $form;
     }
-    
-    public function wand($sender)
+
+    public function wand(Player $sender): Form
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
             $result = $data;
@@ -1777,7 +1778,7 @@ class RecipesForm extends MenuForm
         return $form;
     }
 
-    public function food($sender)
+    public function food(Player $sender): Form
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
             $result = $data;
