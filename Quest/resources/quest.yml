@@ -1,0 +1,11 @@
+quests:
+  Break 5 Oak logs:
+    progress: 5
+    item:
+      id: 17
+      meta: 0
+      amount: 5
+    type-img: 0
+    url-img: "textures/ui/icon_trailer"
+    rewardCommands:
+      - "givemoney {name} 50"
