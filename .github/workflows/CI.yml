@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  phpstan:
     name: PHPStan analysis
     runs-on: ubuntu-latest
     strategy:
@@ -15,16 +15,19 @@ jobs:
           - "8.0"
 
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout Repository
+        uses: actions/checkout@v3.0.0
+        with:
+          submodules: recursive
 
       - name: Setup PHP
-        uses: shivammathur/setup-php@2.15.0
+        uses: shivammathur/setup-php@2.18.1
         with:
           php-version: ${{ matrix.php }}
 
       - name: Restore Composer package cache
         id: composer-cache
-        uses: actions/cache@v2
+        uses: actions/cache@v3.0.2
         with:
           path: "~/.cache/composer"
           key: "php-${{ matrix.php }}-composer-${{ hashFiles('**/composer.json') }}"
@@ -33,10 +36,6 @@ jobs:
       - name: Install PHPStan Composer dependencies
         working-directory: ./phpstan
         run: composer install --prefer-dist --no-interaction --ignore-platform-reqs
-      
-      - name: Install extra dependencies
-        working-directory: ./phpstan
-        run: git submodule update --init --recursive
 
       - name: Run PHPStan
         working-directory: ./phpstan
