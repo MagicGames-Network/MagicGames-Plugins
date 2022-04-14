@@ -7,10 +7,7 @@ use pocketmine\player\Player;
 
 class PermissionAbility extends TogglableAbility
 {
-    /**
-     * @var string
-     */
-    private $permission;
+    private string$permission;
 
     public function __construct(string $permission)
     {

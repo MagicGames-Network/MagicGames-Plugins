@@ -7,10 +7,7 @@ use pocketmine\player\Player;
 
 class CapeAbility extends TogglableAbility
 {
-    /**
-     * @var string
-     */
-    private $file;
+    private string $file;
 
     public function __construct(string $file)
     {

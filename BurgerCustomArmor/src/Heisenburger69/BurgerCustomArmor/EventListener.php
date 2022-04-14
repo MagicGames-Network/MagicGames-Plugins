@@ -2,6 +2,7 @@
 
 namespace Heisenburger69\BurgerCustomArmor;
 
+use pocketmine\item\Armor;
 use pocketmine\nbt\tag\Tag;
 use pocketmine\player\Player;
 use pocketmine\event\Listener;
@@ -15,6 +16,7 @@ use Heisenburger69\BurgerCustomArmor\Utils\Utils;
 use pocketmine\event\entity\EntityDamageByEntityEvent;
 use pocketmine\event\inventory\InventoryTransactionEvent;
 use Heisenburger69\BurgerCustomArmor\Utils\EquipmentUtils;
+use pocketmine\inventory\transaction\action\SlotChangeAction;
 use Heisenburger69\BurgerCustomArmor\ArmorSets\CustomArmorSet;
 use Heisenburger69\BurgerCustomArmor\Events\CustomSetEquippedEvent;
 use Heisenburger69\BurgerCustomArmor\Events\CustomSetUnequippedEvent;
@@ -170,97 +172,47 @@ class EventListener implements Listener
     public function onEquip(InventoryTransactionEvent $event): void
     {
         $transaction = $event->getTransaction();
-        $inventories = $transaction->getInventories();
-
-        $involved = false;
-        foreach ($inventories as $inventory) {
-            if ($inventory instanceof ArmorInventory) {
-                $involved = true;
-                break;
-            }
-        }
-        if (!$involved) {
-            return;
-        }
-
         $player = $transaction->getSource();
+
         foreach ($transaction->getActions() as $action) {
-            $item = $action->getTargetItem();
-            $oldItem = $action->getSourceItem();
-            if (($nbt = $item->getNamedTag()->getTag("burgercustomarmor")) === null) {
-                return;
-            }
-            if (($oldNbt = $oldItem->getNamedTag()->getTag("burgercustomarmor")) !== null) {
-                if ($nbt->getValue() === $oldNbt->getValue()) return;
-            }
-            $setName = $nbt->getValue();
-            if (!isset($this->plugin->using[$setName]) || !is_string($setName)) {
-                return;
-            }
-            EquipmentUtils::addUsingSet($player, $item, $setName);
-            if (!EquipmentUtils::canUseSet($player, $setName)) {
-                return;
-            }
-            $armorSet = $this->plugin->customSets[$setName];
-            if (!$armorSet instanceof CustomArmorSet) {
-                return;
-            }
-            ($event = new CustomSetEquippedEvent($player, $armorSet))->call();
-            foreach ($armorSet->getAbilities() as $ability) {
-                if (!Utils::checkProtectionLevel($player->getWorld())) {
-                    return;
-                }
-                if ($ability instanceof TogglableAbility) {
-                    $ability->on($player);
-                }
-            }
-        }
-    }
+            if ($action instanceof SlotChangeAction) {
+                $inventory = $action->getInventory();
 
-    public function onUnequip(InventoryTransactionEvent $event): void
-    {
-        $transaction = $event->getTransaction();
-        $inventories = $transaction->getInventories();
+                $targetItem = $action->getTargetItem();
+                $sourceItem = $action->getSourceItem();
 
-        $involved = false;
-        foreach ($inventories as $inventory) {
-            if ($inventory instanceof ArmorInventory) {
-                $involved = true;
-                break;
-            }
-        }
-        if (!$involved) {
-            return;
-        }
-
-        $player = $transaction->getSource();
-        foreach ($transaction->getActions() as $action) {
-            $item = $action->getSourceItem();
-            $newItem = $action->getTargetItem();
-            if (($nbt = $item->getNamedTag()->getTag("burgercustomarmor")) === null) {
-                return;
-            }
-            if (($newNbt = $newItem->getNamedTag()->getTag("burgercustomarmor")) !== null) {
-                if ($nbt->getValue() === $newNbt->getValue()) return;
-            }
-            $setName = $nbt->getValue();
-            if (!isset($this->plugin->using[$setName]) || !is_string($setName)) {
-                return;
-            }
-            $fullSetWorn = false;
-            if (EquipmentUtils::canUseSet($player, $setName)) {
-                $fullSetWorn = true;
-            }
-            EquipmentUtils::removeUsingSet($player, $item, $setName);
-            $armorSet = $this->plugin->customSets[$setName];
-            if (!$armorSet instanceof CustomArmorSet) {
-                return;
-            }
-            if ($fullSetWorn) {
-                ($event = new CustomSetUnequippedEvent($player, $armorSet))->call();
-                foreach ($armorSet->getAbilities() as $ability) {
-                    if ($ability instanceof TogglableAbility) {
-                        $ability->off($player);
+                if ($inventory instanceof ArmorInventory) {
+                    EquipmentUtils::updateSetUsage($transaction->getSource());
+                    
+                    $nbt = $sourceItem->getNamedTag()->getTag("burgercustomarmor");
+                    $oldNbt = $targetItem->getNamedTag()->getTag("burgercustomarmor");
+                    if ($nbt === null || ($oldNbt !== null && $nbt->getValue() === $oldNbt->getValue())) {
+                        return;
+                    }
+                    
+                    if ($inventory->getItem($action->getSlot()) instanceof Armor) {
+                        echo 'test 2' . PHP_EOL;
+                        $setName = $nbt->getValue();
+                        if (!isset($this->plugin->using[$setName]) || !is_string($setName)) {
+                            return;
+                        }
+                        $fullSetWorn = false;
+                        if (EquipmentUtils::canUseSet($player, $setName)) {
+                            $fullSetWorn = true;
+                        }
+                        EquipmentUtils::removeUsingSet($player, $targetItem, $setName);
+                        $armorSet = $this->plugin->customSets[$setName];
+                        if (!$armorSet instanceof CustomArmorSet) {
+                            return;
+                        }
+                        if ($fullSetWorn) {
+                            ($event = new CustomSetUnequippedEvent($player, $armorSet))->call();
+                            foreach ($armorSet->getAbilities() as $ability) {
+                                if ($ability instanceof TogglableAbility) {
+                                    $ability->off($player);
+                                }
+                            }
+                        }
                     }
                 }
             }

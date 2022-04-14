@@ -2,8 +2,8 @@
 
 namespace Heisenburger69\BurgerCustomArmor\Abilities\Togglable;
 
-use Heisenburger69\BurgerCustomArmor\Abilities\ArmorAbility;
 use pocketmine\player\Player;
+use Heisenburger69\BurgerCustomArmor\Abilities\ArmorAbility;
 
 class TogglableAbility extends ArmorAbility
 {

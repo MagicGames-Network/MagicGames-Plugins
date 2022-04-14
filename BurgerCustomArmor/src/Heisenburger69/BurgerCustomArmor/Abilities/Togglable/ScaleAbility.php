@@ -6,10 +6,7 @@ use pocketmine\player\Player;
 
 class ScaleAbility extends TogglableAbility
 {
-    /**
-     * @var float
-     */
-    private $scale;
+    private float $scale;
 
     public function __construct(float $scale)
     {

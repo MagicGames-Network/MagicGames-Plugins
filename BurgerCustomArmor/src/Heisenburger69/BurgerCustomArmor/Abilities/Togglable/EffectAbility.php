@@ -7,10 +7,7 @@ use pocketmine\entity\effect\EffectInstance;
 
 class EffectAbility extends TogglableAbility
 {
-    /**
-     * @var EffectInstance
-     */
-    private $effect;
+    private EffectInstance $effect;
 
     public function __construct(EffectInstance $effectInstance)
     {
@@ -24,8 +21,6 @@ class EffectAbility extends TogglableAbility
 
     public function off(Player $player): void
     {
-        if ($player->getEffects()->has($this->effect->getType())) {
-            $player->getEffects()->remove($this->effect->getType());
-        }
+        $player->getEffects()->remove($this->effect->getType());
     }
 }
