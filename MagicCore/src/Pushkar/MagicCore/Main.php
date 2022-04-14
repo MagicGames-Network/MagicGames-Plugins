@@ -103,8 +103,7 @@ class Main extends PluginBase implements Listener
     {
         if ($this->getConfig()->get("Crash-Rejoin") === true) {
             foreach ($this->getServer()->getOnlinePlayers() as $sender) {
-                if (!$sender instanceof Player) 
-                    $sender->sendMessage("§l§cDISCONNECTED FROM SERVER\n§r§bServer Is Restarting");
+                $sender->sendMessage("§l§cDISCONNECTED FROM SERVER\n§r§bServer Is Restarting");
                 
                 $server = $this->getConfig()->get("Crash-Rejoin-Server");
                 if (!is_string($server)) {

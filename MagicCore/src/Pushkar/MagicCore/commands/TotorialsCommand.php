@@ -15,11 +15,12 @@ class TotorialsCommand extends Command
         parent::__construct("totorials", "§eServer Totorials");
     }
 
-    public function execute(CommandSender $sender, string $commandLabel, array $args)
+    public function execute(CommandSender $sender, string $commandLabel, array $args): mixed
     {
-
         if ($sender instanceof Player) {
             (new InformationForm())->INFOSIX($sender);
+            return true;
         }
+        return false;
     }
 }

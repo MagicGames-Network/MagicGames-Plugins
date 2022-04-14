@@ -210,7 +210,7 @@ class Main extends PluginBase implements Listener
                 break;
         }
 
-        $player->sendtitle("§6Level Up ", "§e$a[$type]",);
+        $player->sendTitle("§6Level Up ", "§e$a[$type]",);
         $cost = ($this->getLevel($type, $player) * 1000);
         $this->eco->addMoney($player, $cost);
         if ($player instanceof MagicPlayer) {

@@ -16,14 +16,15 @@ class WeatherCommand extends Command
         $this->setPermissionMessage("§8» §7This command is only for VIP users!");
     }
 
-    public function execute(CommandSender $sender, string $commandLabel, array $args)
+    public function execute(CommandSender $sender, string $commandLabel, array $args): mixed
     {
         if ($sender instanceof Player) {
             if ($sender->hasPermission("weather.command.bt")) {
                 $sender->sendForm(new WeatherSettingsForm());
-                return;
+                return true;
             }
             $sender->sendMessage($this->getPermissionMessage() ?? "§8» §7This command is only for VIP users!");
         }
+        return false;
     }
 }

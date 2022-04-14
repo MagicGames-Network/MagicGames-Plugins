@@ -26,6 +26,8 @@ class MinionTree extends Tree
         $this->trunkBlock = BlockFactory::getInstance()->get($log->getId(), $log->getMeta());
         $this->leafBlock = BlockFactory::getInstance()->get($log->getId() === BlockLegacyIds::WOOD ? BlockLegacyIds::LEAVES : BlockLegacyIds::LEAVES2, $log->getMeta());
         $this->sapling = BlockFactory::getInstance()->get(BlockLegacyIds::SAPLING, $log->getId() === BlockLegacyIds::WOOD ? $log->getMeta() : ($log->getMeta() + 4));
+    
+        parent::__construct($this->trunkBlock, $this->leafBlock, 4);
     }
 
     public function placeObject(World $world, int $x, int $y, int $z, Random $random): void

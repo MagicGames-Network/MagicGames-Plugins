@@ -17,8 +17,8 @@ class IslandBanPlayerForm extends MenuForm
         $options = [];
         $world = Server::getInstance()->getWorldManager()->getWorldByName($player->getName());
         if ($world instanceof World) {
-            foreach ($world->getPlayers() as $player) {
-                $options[] = new MenuOption($player->getName());
+            foreach ($world->getPlayers() as $worldPlayer) {
+                $options[] = new MenuOption($worldPlayer->getName());
             }
         }
         parent::__construct(

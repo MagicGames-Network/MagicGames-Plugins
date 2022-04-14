@@ -10,10 +10,8 @@ use pocketmine\player\Player;
 use dktapps\pmforms\MenuOption;
 use pocketmine\item\ItemFactory;
 use jojoe77777\FormAPI\SimpleForm;
-use Pushkar\MagicCore\Main as MagicCore;
 use pocketmine\item\enchantment\ItemFlags;
 use pocketmine\item\enchantment\Enchantment;
-use pocketmine\data\bedrock\EnchantmentIdMap;
 use pocketmine\item\enchantment\EnchantmentInstance;
 use DaPigGuy\PiggyCustomEnchants\PiggyCustomEnchants;
 use DaPigGuy\PiggyCustomEnchants\CustomEnchantManager;
@@ -746,6 +744,8 @@ class ItemsForm extends MenuForm
             if ($result === null) {
                 return true;
             }
+
+            $enchantmentData = [];
             switch ($result) {
                 case 0:
                     $item = ItemFactory::getInstance()->get(1038, 0, 1);
@@ -909,6 +909,8 @@ class ItemsForm extends MenuForm
             if ($result === null) {
                 return true;
             }
+
+            $enchantmentData = [];
             switch ($result) {
                 case 0:
                     $item = ItemFactory::getInstance()->get(1040, 0, 1);
@@ -992,6 +994,8 @@ class ItemsForm extends MenuForm
             if ($result === null) {
                 return true;
             }
+
+            $enchantmentData = [];
             switch ($result) {
                 case 0:
                     $item = ItemFactory::getInstance()->get(1088, 0, 1);
@@ -1038,6 +1042,8 @@ class ItemsForm extends MenuForm
             if ($result === null) {
                 return true;
             }
+
+            $enchantmentData = [];
             switch ($result) {
                 case 0:
                     $item = ItemFactory::getInstance()->get(1003, 0, 1);

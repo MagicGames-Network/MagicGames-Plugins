@@ -18,18 +18,20 @@ class VisionCommand extends Command
         parent::__construct("vision", "§eGet Vision :D");
     }
 
-    public function execute(CommandSender $sender, string $commandLabel, array $args)
+    public function execute(CommandSender $sender, string $commandLabel, array $args): mixed
     {
         if ($sender instanceof Player) {
             if (isset($this->vision[$sender->getName()])) {
                 unset($this->vision[$sender->getName()]);
                 $sender->getEffects()->remove(VanillaEffects::NIGHT_VISION());
                 $sender->sendMessage("§aVision: Off");
-                return;
+                return true;
             }
             $this->vision[$sender->getName()] = 0;
             $sender->getEffects()->add(new EffectInstance(VanillaEffects::NIGHT_VISION(), 600 * 100, 3));
             $sender->sendMessage("§aVision: On");
+            return true;
         }
+        return false;
     }
 }

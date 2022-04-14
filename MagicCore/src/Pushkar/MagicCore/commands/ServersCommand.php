@@ -15,11 +15,12 @@ class ServersCommand extends Command
         parent::__construct("servers", "§eSee MagicGames All Servers");
     }
 
-    public function execute(CommandSender $sender, string $commandLabel, array $args)
+    public function execute(CommandSender $sender, string $commandLabel, array $args): mixed
     {
-
         if ($sender instanceof Player) {
             $sender->sendForm(new ServersForm($sender));
+            return true;
         }
+        return false;
     }
 }

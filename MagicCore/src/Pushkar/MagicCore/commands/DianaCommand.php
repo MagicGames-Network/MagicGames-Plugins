@@ -11,13 +11,12 @@ use pocketmine\command\CommandSender;
 
 class DianaCommand extends Command
 {
-
     public function __construct()
     {
         parent::__construct("diana", "§eMayor Diana");
     }
 
-    public function execute(CommandSender $sender, string $commandLabel, array $args)
+    public function execute(CommandSender $sender, string $commandLabel, array $args): mixed
     {
         if ($sender instanceof Player) {
             $name = $sender->getName();
@@ -30,6 +29,8 @@ class DianaCommand extends Command
                 function (): void {
                 }
             ));
+            return true;
         }
+        return false;
     }
 }

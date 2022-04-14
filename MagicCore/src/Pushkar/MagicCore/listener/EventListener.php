@@ -19,7 +19,6 @@ use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\console\ConsoleCommandSender;
 use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\event\player\PlayerMoveEvent;
-use pocketmine\event\player\PlayerQuitEvent;
 use pocketmine\event\player\PlayerDeathEvent;
 use pocketmine\event\entity\EntityDamageEvent;
 use Pushkar\MagicCore\forms\CraftingTableForm;
@@ -60,11 +59,11 @@ class EventListener implements Listener
         if (!$sender->hasPlayedBefore()) {
             if (Main::getInstance()->getConfig()->get("First-Join") === true) {
                 if (Main::getInstance()->getConfig()->get("Inventory") === true) {
-                    foreach (Main::getInstance()->getConfig()->get("Slots", []) as $item) {
-                        $result = ItemFactory::getInstance()->get($item["id"], $item["damage"], $item["count"]);
-                        $result->setCustomName($item["name"]);
-                        $result->setLore([$item["lore"]]);
-                        $sender->getInventory()->setItem($item["slot"], $result);
+                    foreach (Main::getInstance()->getConfig()->get("Slots", []) as $slotItem) {
+                        $result = ItemFactory::getInstance()->get($slotItem["id"], $slotItem["damage"], $slotItem["count"]);
+                        $result->setCustomName($slotItem["name"]);
+                        $result->setLore([$slotItem["lore"]]);
+                        $sender->getInventory()->setItem($slotItem["slot"], $result);
                     }
                 }
                 foreach (Main::getInstance()->getConfig()->get("First-Join-Command") as $v) {
@@ -122,7 +121,7 @@ class EventListener implements Listener
                 }
                 if (Main::getInstance()->getConfig()->get("CraftingTable-Ui") === true) {
                     if ($block->getId() == 58) {
-                        $event->Cancel();
+                        $event->cancel();
                         $sender->sendForm(new CraftingTableForm());
                     }
                 }
@@ -171,7 +170,7 @@ class EventListener implements Listener
         foreach ($transaction->getActions() as $action) {
             $item = $action->getSourceItem();
             $source = $transaction->getSource();
-            if ($source instanceof Player && $item->getId() === 399 && $item->getCustomName() === "§r§aSkyblock Menu §7( Right Click )§r") {
+            if ($item->getId() === 399 && $item->getCustomName() === "§r§aSkyblock Menu §7( Right Click )§r") {
                 $event->cancel();
             }
         }
@@ -180,18 +179,14 @@ class EventListener implements Listener
     public function onDamage(EntityDamageEvent $event): void
     {
         $entity = $event->getEntity();
-        $sender = $event->getEntity();
-        if (!$sender instanceof Player) {
-            return;
-        }
         if (!$entity instanceof Player) {
             return;
         }
+
         if (Main::getInstance()->getConfig()->get("onDamage-FlyReset") === true) {
             if ($event instanceof EntityDamageByEntityEvent) {
-                if ($entity instanceof Player) {
-                    $damager = $event->getDamager();
-                    if (!$damager instanceof Player) return;
+                $damager = $event->getDamager();
+                if ($damager instanceof Player) {
                     if ($damager->isCreative()) return;
                     if ($damager->getAllowFlight() === true) {
                         $damager->sendMessage(Main::PREFIX . TextFormat::DARK_RED . "Flight mode disabled due to combat");
@@ -207,8 +202,8 @@ class EventListener implements Listener
                 return;
             }
 
-            $sender->teleport($defaultWorld->getSafeSpawn());
-            $senderMoney = EconomyAPI::getInstance()->myMoney($sender);
+            $entity->teleport($defaultWorld->getSafeSpawn());
+            $senderMoney = EconomyAPI::getInstance()->myMoney($entity);
             if (is_bool($senderMoney)) {
                 return;
             }
@@ -216,20 +211,20 @@ class EventListener implements Listener
             if (Main::getInstance()->getConfig()->get("Void-Money-Lose") === true) {
                 switch (Main::getInstance()->getConfig()->get("Type")) {
                     case "all":
-                        $sender->sendMessage("§c§lINFO > §r§bYou Fell In Void And Lost §e$" . $senderMoney);
-                        EconomyAPI::getInstance()->reduceMoney($sender, $senderMoney);
+                        $entity->sendMessage("§c§lINFO > §r§bYou Fell In Void And Lost §e$" . $senderMoney);
+                        EconomyAPI::getInstance()->reduceMoney($entity, $senderMoney);
                         break;
                     case "half":
-                        $sender->sendMessage("§c§lINFO > §r§bYou Fell In Void And Lost §e$" . $senderMoney / 2);
-                        EconomyAPI::getInstance()->reduceMoney($sender, $senderMoney / 2);
+                        $entity->sendMessage("§c§lINFO > §r§bYou Fell In Void And Lost §e$" . $senderMoney / 2);
+                        EconomyAPI::getInstance()->reduceMoney($entity, $senderMoney / 2);
                         break;
                     case "amount":
-                        $sender->sendMessage("§c§lINFO > §r§bYou Fell In Void And Lost §e$" . (float)Main::getInstance()->getConfig()->get("Money-Loss"));
-                        EconomyAPI::getInstance()->reduceMoney($sender, (float)Main::getInstance()->getConfig()->get("Money-Loss"));
+                        $entity->sendMessage("§c§lINFO > §r§bYou Fell In Void And Lost §e$" . (float)Main::getInstance()->getConfig()->get("Money-Loss"));
+                        EconomyAPI::getInstance()->reduceMoney($entity, (float)Main::getInstance()->getConfig()->get("Money-Loss"));
                         break;
                     case "percent":
-                        $sender->sendMessage("§c§lINFO > §r§bYou Fell In Void And Lost §e$" . ((float)Main::getInstance()->getConfig()->get("Money-Loss") / 100) * $senderMoney);
-                        EconomyAPI::getInstance()->reduceMoney($sender, ((float)Main::getInstance()->getConfig()->get("Money-Loss") / 100) * $senderMoney);
+                        $entity->sendMessage("§c§lINFO > §r§bYou Fell In Void And Lost §e$" . ((float)Main::getInstance()->getConfig()->get("Money-Loss") / 100) * $senderMoney);
+                        EconomyAPI::getInstance()->reduceMoney($entity, ((float)Main::getInstance()->getConfig()->get("Money-Loss") / 100) * $senderMoney);
                         break;
                 }
             }

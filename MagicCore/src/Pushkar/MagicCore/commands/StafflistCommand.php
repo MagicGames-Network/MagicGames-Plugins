@@ -15,11 +15,12 @@ class StafflistCommand extends Command
         parent::__construct("stafflist", "§eServer Staff List");
     }
 
-    public function execute(CommandSender $sender, string $commandLabel, array $args)
+    public function execute(CommandSender $sender, string $commandLabel, array $args): mixed
     {
-
         if ($sender instanceof Player) {
             (new InformationForm())->INFOFIVE($sender);
+            return true;
         }
+        return false;
     }
 }

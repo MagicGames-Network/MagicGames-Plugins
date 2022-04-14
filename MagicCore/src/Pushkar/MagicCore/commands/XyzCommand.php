@@ -14,7 +14,7 @@ class XyzCommand extends Command
         parent::__construct("xyz", "§eGet Your Coordinates");
     }
 
-    public function execute(CommandSender $sender, string $commandLabel, array $args)
+    public function execute(CommandSender $sender, string $commandLabel, array $args): mixed
     {
         if ($sender instanceof Player) {
             $pos = $sender->getPosition();
@@ -22,8 +22,9 @@ class XyzCommand extends Command
             $y = intval($pos->getY());
             $z = intval($pos->getZ());
             $sender->sendMessage("§6§l========================\n§l§bCOORDINATES :§r§e $x $y $z\n§6§l========================");
-            return;
+            return true;
         }
         $sender->sendMessage("Use this command in-game");
+        return false;
     }
 }

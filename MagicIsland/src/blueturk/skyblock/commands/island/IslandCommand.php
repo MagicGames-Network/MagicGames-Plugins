@@ -16,15 +16,16 @@ class IslandCommand extends Command
         parent::__construct("island", "§bOpens the island screen!", "/island", ["island", "is", "sb"]);
     }
 
-    public function execute(CommandSender $sender, string $commandLabel, array $args)
+    public function execute(CommandSender $sender, string $commandLabel, array $args): mixed
     {
         if ($sender instanceof Player) {
             $data = SkyBlock::getInstance()->getConfig();
             if ($data->getNested($sender->getName() . "." . "island") !== null) {
                 $sender->sendForm(new IslandOptionsForm($sender));
-                return;
+                return true;
             }
             $sender->sendForm(new NoIslandForm());
         }
+        return false;
     }
 }

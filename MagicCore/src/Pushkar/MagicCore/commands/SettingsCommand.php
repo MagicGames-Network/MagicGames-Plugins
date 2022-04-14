@@ -15,11 +15,12 @@ class SettingsCommand extends Command
         parent::__construct("settings", "§eYour Personal Settings");
     }
 
-    public function execute(CommandSender $sender, string $commandLabel, array $args)
+    public function execute(CommandSender $sender, string $commandLabel, array $args): mixed
     {
-
         if ($sender instanceof Player) {
             $sender->sendForm(new SettingsForm());
+            return true;
         }
+        return false;
     }
 }

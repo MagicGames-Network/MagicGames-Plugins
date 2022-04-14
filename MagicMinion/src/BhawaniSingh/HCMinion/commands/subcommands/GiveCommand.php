@@ -54,10 +54,6 @@ class GiveCommand extends BaseSubCommand
             $resourcesCollect = 0;
 
             $item = LegacyStringToItemParser::getInstance()->parse((string) BetterMinion::getInstance()->getConfig()->get('minion-item'));
-            if (!$item instanceof Item) {
-                $sender->sendMessage('Minion item is invalid!');
-                return;
-            }
 
             $item->setCustomName(TextFormat::RESET . TextFormat::YELLOW . $minionType->getTargetName() . ' Minion I');
             $item->getNamedTag()->setTag('MinionInformation', (new MinionInformation($player->getName(), $minionType, $minionUpgrade, $level, $resourcesCollect))->nbtSerialize());

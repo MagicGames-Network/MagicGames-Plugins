@@ -9,13 +9,12 @@ use pocketmine\command\CommandSender;
 
 class RepairCommand extends Command
 {
-
     public function __construct()
     {
         parent::__construct("repair", "§eRepair Your Items");
     }
 
-    public function execute(CommandSender $sender, string $commandLabel, array $args)
+    public function execute(CommandSender $sender, string $commandLabel, array $args): mixed
     {
         if ($sender instanceof Player) {
             $item = $sender->getInventory()->getItemInHand();
@@ -24,8 +23,9 @@ class RepairCommand extends Command
                 $sender->getInventory()->setItemInHand($item);
                 $sender->sendMessage("§e§lMAGICGAMES > §r§bRepaired Your Item");
             }
-            return;
+            return true;
         }
         $sender->sendMessage("Use this command in-game");
+        return false;
     }
 }

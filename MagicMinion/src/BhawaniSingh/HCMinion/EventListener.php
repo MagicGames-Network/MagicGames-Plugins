@@ -27,9 +27,6 @@ class EventListener implements Listener
         $player = $event->getPlayer();
         if ($event->getAction() === PlayerInteractEvent::RIGHT_CLICK_BLOCK) {
             $mItem = LegacyStringToItemParser::getInstance()->parse((string) BetterMinion::getInstance()->getConfig()->get('minion-item'));
-            if (!$mItem instanceof Item) {
-                return;
-            }
 
             if ($item->getId() === $mItem->getId() && $item->getMeta() === $mItem->getMeta()) {
                 if ($item->getNamedTag()->getTag('MinionInformation') instanceof ListTag) {

@@ -16,8 +16,8 @@ class IslandPlayersForm extends MenuForm
         $options = [];
         $world = Server::getInstance()->getWorldManager()->getWorldByName($player->getName());
         if ($world instanceof World) {
-            foreach ($world->getPlayers() as $player) {
-                $options[] = new MenuOption($player->getNameTag());
+            foreach ($world->getPlayers() as $worldPlayer) {
+                $options[] = new MenuOption($worldPlayer->getNameTag());
             }
         }
         parent::__construct(SkyBlock::BT_TITLE . "Players on the Island", "\n", $options, function (Player $player, int $option): void {

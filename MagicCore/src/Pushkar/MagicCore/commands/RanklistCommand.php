@@ -15,11 +15,12 @@ class RanklistCommand extends Command
         parent::__construct("ranklist", "§eServer Ranks");
     }
 
-    public function execute(CommandSender $sender, string $commandLabel, array $args)
+    public function execute(CommandSender $sender, string $commandLabel, array $args): mixed
     {
-
         if ($sender instanceof Player) {
             (new InformationForm())->INFOSEVEN($sender);
+            return true;
         }
+        return false;
     }
 }

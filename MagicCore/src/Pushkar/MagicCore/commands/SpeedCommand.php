@@ -18,18 +18,20 @@ class SpeedCommand extends Command
     }
 
 
-    public function execute(CommandSender $sender, string $commandLabel, array $args)
+    public function execute(CommandSender $sender, string $commandLabel, array $args): mixed
     {
         if ($sender instanceof Player) {
             if (isset($this->speed[$sender->getName()])) {
                 unset($this->speed[$sender->getName()]);
                 $sender->getEffects()->remove(VanillaEffects::SPEED());
                 $sender->sendMessage("§aSpeed: Off");
-                return;
+                return true;
             }
             $this->speed[$sender->getName()] = 0;
             $sender->getEffects()->add(new EffectInstance(VanillaEffects::SPEED(), 600 * 100, 3));
             $sender->sendMessage("§aSpeed: On");
+            return true;
         }
+        return false;
     }
 }

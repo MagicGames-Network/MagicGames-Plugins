@@ -9,18 +9,18 @@ use Pushkar\MagicCore\forms\HideForm;
 
 class HideCommand extends Command
 {
-
     public function __construct()
     {
         parent::__construct("hide", "§eHide/Show Player");
     }
 
-    public function execute(CommandSender $sender, string $commandLabel, array $args)
+    public function execute(CommandSender $sender, string $commandLabel, array $args): mixed
     {
         if ($sender instanceof Player) {
             $sender->sendForm(new HideForm($sender));
-            return;
+            return true;
         }
         $sender->sendMessage("Use this command in-game");
+        return false;
     }
 }

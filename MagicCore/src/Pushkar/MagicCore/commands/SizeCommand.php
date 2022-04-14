@@ -15,10 +15,12 @@ class SizeCommand extends Command
         parent::__construct("size", "§eYour sizes");
     }
 
-    public function execute(CommandSender $sender, string $commandLabel, array $args)
+    public function execute(CommandSender $sender, string $commandLabel, array $args): mixed
     {
         if ($sender instanceof Player) {
             $sender->sendForm(new SizeForm($sender));
+            return true;
         }
+        return false;
     }
 }

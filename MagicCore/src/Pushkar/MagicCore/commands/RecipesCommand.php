@@ -14,10 +14,12 @@ class RecipesCommand extends Command
         parent::__construct("recipes", "§eSee Custom Recipes");
     }
 
-    public function execute(CommandSender $sender, string $commandLabel, array $args)
+    public function execute(CommandSender $sender, string $commandLabel, array $args): mixed
     {
         if ($sender instanceof Player) {
             $sender->sendForm(new RecipesForm());
+            return true;
         }
+        return false;
     }
 }

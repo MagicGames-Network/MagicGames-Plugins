@@ -233,7 +233,12 @@ abstract class MinionEntity extends Human
                                 // Level Up
                                 $player->removeCurrentWindow();
                                 if ($this->getMinionInformation()->getLevel() < 15) {
-                                    if (EconomyAPI::getInstance()->myMoney($player) - $this->getLevelUpCost() >= 0) {
+                                    $playerMoney = EconomyAPI::getInstance()->myMoney($player);
+                                    if (is_bool($playerMoney)) {
+                                        break;
+                                    }
+
+                                    if ($playerMoney - $this->getLevelUpCost() >= 0) {
                                         EconomyAPI::getInstance()->reduceMoney($player, $this->getLevelUpCost());
                                         $this->getMinionInformation()->incrementLevel();
                                         $player->sendMessage(TextFormat::GREEN . 'Your Minion Has Been Upgraded To Level ' . TextFormat::GOLD . Utils::getRomanNumeral($this->getMinionInformation()->getLevel()));
@@ -264,9 +269,9 @@ abstract class MinionEntity extends Human
                                             $player->getInventory()->addItem($itemClicked);
                                             $remaining = $itemClicked->getCount();
                                             /** @var Item $item */
-                                            foreach (array_reverse($this->getMinionInventory()->all($itemClicked), true) as $slot => $item) {
+                                            foreach (array_reverse($this->getMinionInventory()->all($itemClicked), true) as $index => $item) {
                                                 $itemCount = $item->getCount();
-                                                $this->getMinionInventory()->setItem($slot, $item->setCount(max($itemCount - $remaining, 0)));
+                                                $this->getMinionInventory()->setItem($index, $item->setCount(max($itemCount - $remaining, 0)));
                                                 $remaining -= $itemCount;
                                                 if ($remaining === 0) {
                                                     break;
@@ -307,21 +312,19 @@ abstract class MinionEntity extends Human
             if (!$this->checkFull()) {
                 return $hasUpdate;
             }
-            if (!$this->target instanceof Block) {
-                $this->getTarget();
-            }
+            $this->getTarget();
+            
             ++$this->currentActionTicks;
-            if ($this->target instanceof Block) {
-                $this->target = $this->getWorld()->getBlock($this->target->getPosition());
-                if (!$this->checkTarget()) {
-                    $this->stopWorking();
-                    return $hasUpdate;
-                }
+
+            $this->target = $this->getWorld()->getBlock($this->target->getPosition());
+            if (!$this->checkTarget()) {
+                $this->stopWorking();
+                return $hasUpdate;
             }
 
             switch ($this->currentAction) {
                 case self::ACTION_IDLE:
-                    if ($this->currentActionTicks >= 60 && $this->target !== null) { //TODO: Customize
+                    if ($this->currentActionTicks >= 60) { //TODO: Customize
                         $this->currentAction = self::ACTION_TURNING;
                         $this->currentActionTicks = 0;
                     }
@@ -540,10 +543,9 @@ abstract class MinionEntity extends Human
     {
         $this->currentAction = self::ACTION_IDLE;
         $this->currentActionTicks = 0;
-        if ($this->target instanceof Block) {
-            $this->getWorld()->broadcastPacketToViewers($this->getPosition(), LevelEventPacket::create(LevelEvent::BLOCK_STOP_BREAK, 0, $this->target->getPosition()));
-            $this->target = VanillaBlocks::AIR();
-        }
+
+        $this->getWorld()->broadcastPacketToViewers($this->getPosition(), LevelEventPacket::create(LevelEvent::BLOCK_STOP_BREAK, 0, $this->target->getPosition()));
+        $this->target = VanillaBlocks::AIR();
     }
 
     protected function isInventoryFull(): bool
@@ -564,16 +566,11 @@ abstract class MinionEntity extends Human
 
     private function destroy(): void
     {
-        if ($this->target instanceof Block) {
-            $this->getWorld()->broadcastPacketToViewers($this->getPosition(), LevelEventPacket::create(LevelEvent::BLOCK_STOP_BREAK, 0, $this->target->getPosition()));
-        }
+        $this->getWorld()->broadcastPacketToViewers($this->getPosition(), LevelEventPacket::create(LevelEvent::BLOCK_STOP_BREAK, 0, $this->target->getPosition()));
         foreach ($this->getMinionInventory()->getContents() as $content) {
             $this->getWorld()->dropItem($this->getPosition(), $content);
         }
         $minionItem = LegacyStringToItemParser::getInstance()->parse((string) BetterMinion::getInstance()->getConfig()->get('minion-item'));
-        if (!$minionItem instanceof Item) {
-            return;
-        }
 
         $minionItem->setCustomName(TextFormat::RESET . TextFormat::YELLOW . $this->getMinionInformation()->getType()->getTargetName() . ' Minion ' . Utils::getRomanNumeral($this->getMinionInformation()->getLevel()));
         $minionItem->addEnchantment(new EnchantmentInstance($this->fakeEnchant));
@@ -600,10 +597,9 @@ abstract class MinionEntity extends Human
     {
         $block = $this->getMinionInformation()->getType()->toBlock();
         $drops = $block->getDropsForCompatibleTool(VanillaItems::AIR());
-        if (empty($drops)) {
+        if (count($drops) === 0) {
             $drops = $block->getSilkTouchDrops(VanillaItems::AIR());
         }
-
         return $drops;
     }
 

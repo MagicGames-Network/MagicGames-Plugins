@@ -15,11 +15,12 @@ class SocialmediaCommand extends Command
         parent::__construct("socialmedia", "§eServer Social Media");
     }
 
-    public function execute(CommandSender $sender, string $commandLabel, array $args)
+    public function execute(CommandSender $sender, string $commandLabel, array $args): mixed
     {
-
         if ($sender instanceof Player) {
             (new InformationForm())->INFOEIGHT($sender);
+            return true;
         }
+        return false;
     }
 }

@@ -19,12 +19,13 @@ class RemoveCommand extends BaseSubCommand
             $sender->sendMessage("You don't have permission to use this command!");
             return;
         }
-        /** @var Player $player */
-        $player = !isset($args['player']) ? $sender : Server::getInstance()->getPlayerByPrefix($args['player']);
+
+        $player = Server::getInstance()->getPlayerByPrefix($args['player']);
         if (!$player instanceof Player) {
             $sender->sendMessage("That player can't be found");
             return;
         }
+        
         if (isset(BetterMinion::getInstance()->isRemove[$player->getName()])) {
             unset(BetterMinion::getInstance()->isRemove[$player->getName()]);
         } else {

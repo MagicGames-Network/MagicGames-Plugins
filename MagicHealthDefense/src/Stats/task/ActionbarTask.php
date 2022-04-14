@@ -21,7 +21,7 @@ class ActionbarTask extends Task
                 if ($heal > $maxheal) {
                     $player->setHealth($maxheal);
                 }
-                $player->sendActionbarMessage("§cHealth: $heal" . "§7/§c$maxheal  §aDefense: §a$defense \n§4Damage: $damage  §bMana: 100 ");
+                $player->sendActionBarMessage("§cHealth: $heal" . "§7/§c$maxheal  §aDefense: §a$defense \n§4Damage: $damage  §bMana: 100 ");
             }
         }
     }

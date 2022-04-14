@@ -63,8 +63,8 @@ class SellAll extends PluginBase
                                 $price = $this->configValues[$item->getId() . ":" . $item->getMeta()];
                                 $count = $item->getCount();
                                 $totalprice = $price * $count;
-                                $this->addMoney($sender->getName(), (int)$totalprice);
-                                $item->setCount($item->getCount() - (int)$count);
+                                $this->addMoney($sender->getName(), (int) $totalprice);
+                                $item->setCount($item->getCount() - $count);
                                 $sender->getInventory()->setItemInHand($item);
                                 $sender->sendMessage(TextFormat::colorize($this->replaceVars($this->messageValues["success.sell"], array(
                                     "AMOUNT" => (string)$count,
@@ -76,8 +76,8 @@ class SellAll extends PluginBase
                                 $price = $this->configValues[$item->getId()];
                                 $count = $item->getCount();
                                 $totalprice = $price * $count;
-                                $this->addMoney($sender->getName(), (int)$totalprice);
-                                $item->setCount($item->getCount() - (int)$count);
+                                $this->addMoney($sender->getName(), (int) $totalprice);
+                                $item->setCount($item->getCount() - $count);
                                 $sender->getInventory()->setItemInHand($item);
                                 $sender->sendMessage(TextFormat::colorize($this->replaceVars($this->messageValues["success.sell"], array(
                                     "AMOUNT" => (string)$count,
@@ -180,7 +180,7 @@ class SellAll extends PluginBase
                                             if (isset($this->configValues[$item->getId() . ":" . $item->getMeta()])) {
                                                 $revenue = $revenue + ($item->getCount() * $this->configValues[$item->getId() . ":" . $item->getMeta()]);
                                                 $sender->getInventory()->remove($item);
-                                            } elseif (isset($this->configValues[$item->getID()])) {
+                                            } elseif (isset($this->configValues[$item->getId()])) {
                                                 $revenue = $revenue + ($item->getCount() * $this->configValues[$item->getId()]);
                                                 $sender->getInventory()->remove($item);
                                             }

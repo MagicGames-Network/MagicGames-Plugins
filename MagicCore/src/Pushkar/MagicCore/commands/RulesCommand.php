@@ -15,11 +15,12 @@ class RulesCommand extends Command
         parent::__construct("rules", "§eServer Rules");
     }
 
-    public function execute(CommandSender $sender, string $commandLabel, array $args)
+    public function execute(CommandSender $sender, string $commandLabel, array $args): mixed
     {
-
         if ($sender instanceof Player) {
             (new InformationForm())->INFOFOR($sender);
+            return true;
         }
+        return false;
     }
 }

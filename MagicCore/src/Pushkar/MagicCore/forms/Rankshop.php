@@ -250,8 +250,9 @@ class Rankshop
     
     public function vipbuy(Player $sender): Form
     {
-        $form = new ModalForm(function (Player $sender, bool $result) {
+        $form = new ModalForm(function (Player $sender, ?int $result) {
             if ($result == null) {
+                return;
             }
             switch ($result) {
                 case 1:
@@ -286,8 +287,9 @@ class Rankshop
     
     public function vipplusbuy(Player $sender): Form
     {
-        $form = new ModalForm(function (Player $sender, bool $result) {
+        $form = new ModalForm(function (Player $sender, ?int $result) {
             if ($result == null) {
+                return;
             }
             switch ($result) {
                 case 1:
@@ -323,8 +325,9 @@ class Rankshop
     
     public function mvpbuy(Player $sender): Form
     {
-        $form = new ModalForm(function (Player $sender, bool $result) {
+        $form = new ModalForm(function (Player $sender, ?int $result) {
             if ($result == null) {
+                return;
             }
             switch ($result) {
                 case 1:
@@ -360,8 +363,9 @@ class Rankshop
     
     public function mvpplusbuy(Player $sender): Form
     {
-        $form = new ModalForm(function (Player $sender, bool $result) {
+        $form = new ModalForm(function (Player $sender, ?int $result) {
             if ($result == null) {
+                return;
             }
             switch ($result) {
                 case 1:
@@ -397,8 +401,9 @@ class Rankshop
     
     public function mvpplusplusbuy(Player $sender): Form
     {
-        $form = new ModalForm(function (Player $sender, bool $result) {
+        $form = new ModalForm(function (Player $sender, ?int $result) {
             if ($result == null) {
+                return;
             }
             switch ($result) {
                 case 1:
