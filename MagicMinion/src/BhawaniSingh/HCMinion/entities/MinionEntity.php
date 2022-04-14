@@ -123,7 +123,7 @@ abstract class MinionEntity extends Human
                     // Super Expander
                     if ($this->canUseExpander()) {
                         $commandBlock = ItemFactory::getInstance()->get(137, 0, 1);
-                        $commandBlock->addEnchantment(new EnchantmentInstance($this->fakeEnchant));
+                        $commandBlock->addEnchantment($this->fakeEnchant);
 
                         $menu->getInventory()->setItem(46, $commandBlock->setCustomName('§r§l§eExpander §l§7(' . ($this->getMinionInformation()->getUpgrade()->isSuperExpander() ? "§r§l§aEnabled" : "§r§l§cDisabled") . '§l§7)')->setLore(["§r§7Increases The Minion Range\n§r§7By One Block To High Blocks"]));
                     } else {
@@ -573,7 +573,7 @@ abstract class MinionEntity extends Human
         $minionItem = LegacyStringToItemParser::getInstance()->parse((string) BetterMinion::getInstance()->getConfig()->get('minion-item'));
 
         $minionItem->setCustomName(TextFormat::RESET . TextFormat::YELLOW . $this->getMinionInformation()->getType()->getTargetName() . ' Minion ' . Utils::getRomanNumeral($this->getMinionInformation()->getLevel()));
-        $minionItem->addEnchantment(new EnchantmentInstance($this->fakeEnchant));
+        $minionItem->addEnchantment($this->fakeEnchant);
         $minionItem->getNamedTag()->setTag("MinionInformation", $this->minionInformation->nbtSerialize());
         $this->getWorld()->dropItem($this->getPosition(), $minionItem);
         $this->flagForDespawn();
