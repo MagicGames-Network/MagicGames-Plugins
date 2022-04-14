@@ -15,15 +15,30 @@ class PlayerManager
     /**@var Player[]*/
     private array $players = [];
 
-    public function __construct()
+    public function LoadPlayer(P $player): void
     {
-        MagicTags::getInstance()->getDatabase()->executeSelect(Queries::LOAD_DB, [], function (array $rows): void
-        {
-            foreach ($rows as $row)
+        MagicTags::getInstance()->getDatabase()->executeSelect(
+            Queries::LOAD_DB,
+            [
+                "uuid" =>$player->getUniqueId()->toString()
+            ],
+            function (array $rows)use($player): void
             {
-                $this->players[$row["name"]] = new Player($row["uuid"], $row["name"], $row["tags"], $row["currenttag"]);
+                if (count($rows) == 0 )
+                {
+                    $this->createPlayer($player);
+                    return;
+                }
+                foreach ($rows as $row) {
+                    $this->players[$row["name"]] = new Player($row["uuid"], $row["name"], $row["tags"], $row["currenttag"]);
+                }
             }
-        });
+        );
+    }
+
+    public function unloadPlayer(P $player): void
+    {
+        unset($this->players[strtolower($player->getName())]);
     }
 
     public function createPlayer(P $player): Player
