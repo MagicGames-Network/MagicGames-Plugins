@@ -46,7 +46,7 @@ class CustomArmorCommand extends Command
         }
         $armorSet = $this->plugin->customSets[$args[0]];
         $playerName = $args[2];
-        if (($player = $this->plugin->getServer()->getPlayerExact($playerName)) === null) {
+        if (($player = $this->plugin->getServer()->getPlayerByPrefix($playerName)) === null) {
             $sender->sendMessage(Main::PREFIX . C::RED . "The given player is offline!");
             return;
         }
