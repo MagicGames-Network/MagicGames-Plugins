@@ -98,7 +98,7 @@ class CustomArmorSet
         $item->setCustomName(C::RESET . C::colorize($this->names["helmet"]));
 
         if ($this->glint) $item->addEnchantment($this->fakeEnchant);
-        $item->getNamedTag()->setTag("burgercustomarmor", new StringTag("burgercustomarmor", $this->name));
+        $item->getNamedTag()->setTag("burgercustomarmor", new StringTag($this->name));
 
         $lore = ArmorSetUtils::getHelmetLore($this->lores, $this->setBonusLore);
         $item->setLore($lore);
@@ -116,7 +116,7 @@ class CustomArmorSet
         $item->setCustomName(C::RESET . C::colorize($this->names["chestplate"]));
 
         if ($this->glint) $item->addEnchantment($this->fakeEnchant);
-        $item->getNamedTag()->setTag("burgercustomarmor", new StringTag("burgercustomarmor", $this->name));
+        $item->getNamedTag()->setTag("burgercustomarmor", new StringTag($this->name));
 
         $lore = ArmorSetUtils::getChestplateLore($this->lores, $this->setBonusLore);
         $item->setLore($lore);
@@ -134,7 +134,7 @@ class CustomArmorSet
         $item->setCustomName(C::RESET . C::colorize($this->names["leggings"]));
 
         if ($this->glint) $item->addEnchantment($this->fakeEnchant);
-        $item->getNamedTag()->setTag("burgercustomarmor", new StringTag("burgercustomarmor", $this->name));
+        $item->getNamedTag()->setTag("burgercustomarmor", new StringTag($this->name));
 
         $lore = ArmorSetUtils::getLeggingsLore($this->lores, $this->setBonusLore);
         $item->setLore($lore);
@@ -152,7 +152,7 @@ class CustomArmorSet
         $item->setCustomName(C::RESET . C::colorize($this->names["boots"]));
 
         if ($this->glint) $item->addEnchantment($this->fakeEnchant);
-        $item->getNamedTag()->setTag("burgercustomarmor", new StringTag("burgercustomarmor", $this->name));
+        $item->getNamedTag()->setTag("burgercustomarmor", new StringTag($this->name));
 
         $lore = ArmorSetUtils::getBootsLore($this->lores, $this->setBonusLore);
         $item->setLore($lore);

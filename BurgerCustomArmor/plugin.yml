@@ -5,3 +5,7 @@ api: 4.0.0
 authors: [Heisenburger69, AGTHARN]
 description: Create Custom Armor Sets with several abilities!
 website: github.com/Heisenburger69
+
+permissions:
+  burgercustomarmor.command:
+    default: op

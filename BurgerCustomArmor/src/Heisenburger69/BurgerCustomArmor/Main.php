@@ -179,7 +179,7 @@ class Main extends PluginBase
             $setPiece = $customArmor[1];
 
             $item = LegacyStringToItemParser::getInstance()->parse($setPiece);
-            $item->getNamedTag()->setTag("burgercustomarmor", new StringTag("burgercustomarmor", $setName));
+            $item->getNamedTag()->setTag("burgercustomarmor", new StringTag($setName));
             $item->setCustomName(C::RESET . C::BOLD . $setName . C::RESET . " " . $item->getName());
 
             $requiredItems = [];
