@@ -41,7 +41,7 @@ class MagicPlayer extends Player
     {
         //Crafting grid must always be evacuated even if keep-inventory is true. This dumps the contents into the
 		//main inventory and drops the rest on the ground.
-		$this->removeCurrentWindow();
+		
 
         $world = Main::getInstance()->getServer()->getWorldManager()->getDefaultWorld();
         if (!$world instanceof World) {
