@@ -59,7 +59,7 @@ abstract class MinionEntity extends Human
     protected Block $target;
     private float $money = 0;
 
-    protected Enchantment $fakeEnchant;
+    protected EnchantmentInstance $fakeEnchant;
 
     /** @var float */
     protected $gravity = 0;
