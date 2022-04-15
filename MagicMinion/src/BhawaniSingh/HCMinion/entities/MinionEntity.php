@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace BhawaniSingh\HCMinion\entities;
 
+use pocketmine\Server;
 use pocketmine\item\Item;
 use pocketmine\item\Armor;
 use muqsit\invmenu\InvMenu;
@@ -317,6 +318,9 @@ abstract class MinionEntity extends Human
             ++$this->currentActionTicks;
 
             $this->target = $this->getWorld()->getBlock($this->target->getPosition());
+            if (!$this->getWorld()->isChunkLoaded($this->target->getPosition()->x, $this->target->getPosition()->z)) {
+                return false;
+            }
             if (!$this->checkTarget()) {
                 $this->stopWorking();
                 return $hasUpdate;

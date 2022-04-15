@@ -26,7 +26,7 @@ class IslandManager
         if (!$world instanceof World) {
             return;
         }
-        
+
         $player->teleport($world->getSpawnLocation());
         $player->sendMessage(SkyBlock::BT_MARK . "bYou visited the island!");
         $selectedPlayer->sendMessage(SkyBlock::BT_MARK . "b" . $player->getName() . " The player visited the island!");
@@ -66,12 +66,16 @@ class IslandManager
                 SkyBlock::getInstance()->getConfig()->setNested($requestPlayer->getName() . ".island" . ".this-partners", $array);
                 if (SkyBlock::getInstance()->getConfig()->getNested($player->getName() . ".island") != null) {
                     $array1 = SkyBlock::getInstance()->getConfig()->getNested($player->getName() . ".island" . ".other-partners");
-                    array_push($array1, $requestPlayer->getName());
-                    SkyBlock::getInstance()->getConfig()->setNested($player->getName() . ".island" . ".other-partners", $array1);
+                    if (is_array($array1)) {
+                        array_push($array1, $requestPlayer->getName());
+                        SkyBlock::getInstance()->getConfig()->setNested($player->getName() . ".island" . ".other-partners", $array1);
+                    }
                 } else {
                     $array1 = SkyBlock::getInstance()->getConfig()->getNested($player->getName() . ".partners");
-                    array_push($array1, $requestPlayer->getName());
-                    SkyBlock::getInstance()->getConfig()->setNested($player->getName() . ".partners", $array1);
+                    if (is_array($array1)) {
+                        array_push($array1, $requestPlayer->getName());
+                        SkyBlock::getInstance()->getConfig()->setNested($player->getName() . ".partners", $array1);
+                    }
                 }
                 $player->sendMessage(SkyBlock::BT_MARK . "bYou accepted the partnership offer!");
                 $requestPlayer->sendMessage(SkyBlock::BT_MARK . "bPartnership accepted your offer!");
