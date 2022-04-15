@@ -66,13 +66,6 @@ class FarmingMinion extends MinionEntity
 
     protected function startWorking(): void
     {
-        $farmland = $this->getWorld()->getBlock($this->target->getPosition()->getSide(Facing::DOWN));
-        if (!$this->isFarmland($farmland)) {
-            if (in_array($farmland->getId(), [BlockLegacyIds::GRASS, BlockLegacyIds::DIRT], true)) {
-                $this->getWorld()->setBlock($farmland->getPosition(), VanillaBlocks::FARMLAND());
-            }
-        }
-
         $this->getWorld()->addParticle($this->target->getPosition()->add(0.5, 0.5, 0.5), new BlockBreakParticle($this->target));
         $this->getWorld()->setBlock($this->target->getPosition(), $this->target->getId() === BlockLegacyIds::AIR ? $this->getMinionInformation()->getType()->toBlock() : VanillaBlocks::AIR());
         if ($this->target->getId() !== BlockLegacyIds::AIR && $this->target instanceof Crops && $this->target->getAge() === 7) {
@@ -85,6 +78,13 @@ class FarmingMinion extends MinionEntity
                         $this->getMinionInformation()->incrementResourcesCollected();
                     }
                 }
+            }
+        }
+
+        $farmland = $this->getWorld()->getBlock($this->target->getPosition()->getSide(Facing::DOWN));
+        if (!$this->isFarmland($farmland)) {
+            if (in_array($farmland->getId(), [BlockLegacyIds::GRASS, BlockLegacyIds::DIRT], true)) {
+                $this->getWorld()->setBlock($farmland->getPosition(), VanillaBlocks::FARMLAND());
             }
         }
     }

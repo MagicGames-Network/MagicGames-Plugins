@@ -35,7 +35,7 @@ class BankUI extends PluginBase implements Listener
 
         $this->saveDefaultConfig();
         $this->getServer()->getPluginManager()->registerEvents($this, $this);
-        
+
         @mkdir($this->getDataFolder() . "Players");
         if ($this->getConfig()->get("enable-interest")) {
             $this->interestTask();
@@ -46,7 +46,7 @@ class BankUI extends PluginBase implements Listener
     {
         $this->saveAllData();
     }
-    
+
     public function interestTask(): void
     {
         $this->getScheduler()->scheduleRepeatingTask(new ClosureTask(
@@ -562,10 +562,12 @@ class BankUI extends PluginBase implements Listener
 
     public function saveData(Player $player): void
     {
-        $playerBankMoney = new Config($this->getDataFolder() . "Players/" . $player->getName() . ".yml", Config::YAML);
-        $playerBankMoney->set("Money", $this->playersMoney[$player->getName()]);
-        $playerBankMoney->set("Transactions", $this->playersTransactions[$player->getName()]);
-        $playerBankMoney->save();
+        if (isset($this->playersMoney[$player->getName()])) {
+            $playerBankMoney = new Config($this->getDataFolder() . "Players/" . $player->getName() . ".yml", Config::YAML);
+            $playerBankMoney->set("Money", $this->playersMoney[$player->getName()]);
+            $playerBankMoney->set("Transactions", $this->playersTransactions[$player->getName()]);
+            $playerBankMoney->save();
+        }
     }
 
     public function saveAllData(): void
@@ -635,7 +637,7 @@ class BankUI extends PluginBase implements Listener
         if (!$item->getNamedTag()->getTag("Amount")) {
             return;
         }
-        
+
         $item->setCount($item->getCount() - 1);
         $player->getInventory()->setItemInHand($item);
         EconomyAPI::getInstance()->addMoney($player, (float) $item->getNamedTag()->getString("Amount"));

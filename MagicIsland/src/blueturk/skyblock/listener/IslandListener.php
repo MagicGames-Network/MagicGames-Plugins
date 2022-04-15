@@ -11,13 +11,45 @@ use blueturk\skyblock\SkyBlock;
 use pocketmine\inventory\Inventory;
 use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\event\block\BlockPlaceEvent;
+use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\event\player\PlayerMoveEvent;
+use pocketmine\event\player\PlayerQuitEvent;
+use blueturk\skyblock\managers\IslandManager;
 use pocketmine\event\entity\EntityDamageEvent;
 use pocketmine\event\player\PlayerInteractEvent;
 use pocketmine\event\entity\EntityItemPickupEvent;
 
 class IslandListener implements Listener
 {
+    public function onJoin(PlayerJoinEvent $event): void
+    {
+        $sender = $event->getPlayer();
+        if ($sender instanceof Player) {
+            $data = SkyBlock::getInstance()->getConfig();
+            if ($data->getNested($sender->getName() . "." . "island") !== null) {
+                IslandManager::teleportToIsland($sender);
+            }
+        }
+    }
+
+    public function onQuit(PlayerQuitEvent $event): void
+    {
+        $sender = $event->getPlayer();
+        if ($sender instanceof Player) {
+            $data = SkyBlock::getInstance()->getConfig();
+            if ($data->getNested($sender->getName() . "." . "island") !== null) {
+                $world = Server::getInstance()->getWorldManager()->getWorldByName($sender->getName());
+                if (!$world instanceof World) {
+                    return;
+                }
+
+                if (Server::getInstance()->getWorldManager()->isWorldLoaded($sender->getName())) {
+                    Server::getInstance()->getWorldManager()->unloadWorld($world);
+                }
+            }
+        }
+    }
+
     public function onInteract(PlayerInteractEvent $event): void
     {
         $player = $event->getPlayer();
@@ -105,7 +137,7 @@ class IslandListener implements Listener
         if (!$inventory instanceof Inventory) {
             return;
         }
-        
+
         $viewers = $inventory->getViewers();
         foreach ($viewers as $player) {
             $level = $player->getWorld()->getFolderName();
@@ -145,7 +177,7 @@ class IslandListener implements Listener
                     if (!$defaultWorld instanceof World) {
                         return;
                     }
-                    
+
                     $player->teleport($defaultWorld->getSpawnLocation());
                     $player->sendPopup(SkyBlock::BT_MARK . "cYou are banned on this island!");
                 }

@@ -24,7 +24,7 @@ class QuestListener implements Listener
         $questConfig = $quest->getQuest();
         if (!$provider->hasQuest($player->getName())) {
             $randomQuest = array_keys($questConfig->get("quests"));
-            $randomQuest  = $randomQuest[array_rand($randomQuest)];
+            $randomQuest = $randomQuest[array_rand($randomQuest)];
             $provider->addQuest($player->getName(), (string) $randomQuest);
             $player->sendMessage("  §6§lNEW OBJECTIVE\n  §r§f" . $randomQuest);
         }

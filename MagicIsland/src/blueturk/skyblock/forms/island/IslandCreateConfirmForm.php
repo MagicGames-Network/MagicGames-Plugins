@@ -17,7 +17,7 @@ class IslandCreateConfirmForm extends ModalForm
             function (Player $player, bool $choice) use ($type): void {
                 switch ($choice) {
                     case true:
-                        $player->sendMessage(SkyBlock::BT_MARK . "Your island is being created..");
+                        $player->sendMessage(SkyBlock::BT_MARK . "bYour island is being created..");
 
                         IslandManager::islandCreate($player, $type);
                         break;

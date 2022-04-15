@@ -271,6 +271,7 @@ class IslandManager
         //Copy Island Word
         $dataPath = SkyBlock::getInstance()->getServer()->getDataPath();
         if (is_dir($dataPath . $islandType)) {
+            @mkdir($dataPath . "worlds/" . $player->getName() . "/");
             @mkdir($dataPath . "worlds/" . $player->getName() . "/db/");
             $world = opendir(SkyBlock::getInstance()->getServer()->getDataPath() . $islandType . "/db/");
             if (!is_resource($world)) {
