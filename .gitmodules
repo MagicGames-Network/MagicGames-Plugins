@@ -20,3 +20,6 @@
 [submodule "phpstan/Commando"]
 	path = phpstan/Commando
 	url = https://github.com/CortexPE/Commando
+[submodule "phpstan/ScoreHud"]
+	path = phpstan/ScoreHud
+	url = https://github.com/Ifera/ScoreHud

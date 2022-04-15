@@ -21,6 +21,7 @@ parameters:
         - ../MagicMinion
         - ../MagicPortalsPE
         - ../MagicSkills
+        - ../Quest
         - ../SellAll
     excludePaths:
         analyse:

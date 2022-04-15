@@ -15,7 +15,8 @@
          "dktapps\\pmforms\\": "pmforms/src/dktapps/pmforms",
          "jojoe77777\\FormAPI\\": "FormAPI/src/jojoe77777/FormAPI",
          "muqsit\\invmenu\\": "InvMenu/src/muqsit/invmenu",
-         "onebone\\economyapi\\": "onebone/economyapi"
+         "onebone\\economyapi\\": "onebone/economyapi",
+         "Ifera\\ScoreHud\\": "ScoreHud/src/Ifera/ScoreHud"
       }
    }
 }
