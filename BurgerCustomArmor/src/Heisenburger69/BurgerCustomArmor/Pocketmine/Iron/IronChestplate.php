@@ -2,15 +2,15 @@
 
 namespace Heisenburger69\BurgerCustomArmor\Pocketmine\Iron;
 
-use pocketmine\item\Armor;
 use pocketmine\item\ItemIds;
 use pocketmine\item\ArmorTypeInfo;
 use pocketmine\item\ItemIdentifier;
 use pocketmine\inventory\ArmorInventory;
 use Heisenburger69\BurgerCustomArmor\Main;
+use Heisenburger69\BurgerCustomArmor\Pocketmine\BurgerArmor;
 use Heisenburger69\BurgerCustomArmor\ArmorSets\CustomArmorSet;
 
-class IronChestplate extends Armor
+class IronChestplate extends BurgerArmor
 {
     /** @var float */
     protected $metaFloat = 0.0;

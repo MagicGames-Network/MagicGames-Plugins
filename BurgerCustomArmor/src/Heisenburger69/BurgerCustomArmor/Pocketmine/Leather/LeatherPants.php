@@ -2,15 +2,15 @@
 
 namespace Heisenburger69\BurgerCustomArmor\Pocketmine\Leather;
 
-use pocketmine\item\Armor;
 use pocketmine\item\ItemIds;
 use pocketmine\item\ArmorTypeInfo;
 use pocketmine\item\ItemIdentifier;
 use pocketmine\inventory\ArmorInventory;
 use Heisenburger69\BurgerCustomArmor\Main;
+use Heisenburger69\BurgerCustomArmor\Pocketmine\BurgerArmor;
 use Heisenburger69\BurgerCustomArmor\ArmorSets\CustomArmorSet;
 
-class LeatherPants extends Armor
+class LeatherPants extends BurgerArmor
 {
     /** @var float */
     protected $metaFloat = 0.0;
@@ -26,7 +26,7 @@ class LeatherPants extends Armor
             $setName = $nbt->getValue();
             $armorSet = Main::$instance->customSets[$setName];
             if ($armorSet instanceof CustomArmorSet) {
-                return isset($armorSet->durabilities["chestplate"]) ? $armorSet->durabilities["chestplate"] : parent::getMaxDurability();
+                return isset($armorSet->durabilities["leggings"]) ? $armorSet->durabilities["leggings"] : parent::getMaxDurability();
             }
         }
         return parent::getMaxDurability();

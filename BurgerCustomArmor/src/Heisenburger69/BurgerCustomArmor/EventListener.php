@@ -191,7 +191,6 @@ class EventListener implements Listener
                     }
                     
                     if ($inventory->getItem($action->getSlot()) instanceof Armor) {
-                        echo 'test 2' . PHP_EOL;
                         $setName = $nbt->getValue();
                         if (!isset($this->plugin->using[$setName]) || !is_string($setName)) {
                             return;
