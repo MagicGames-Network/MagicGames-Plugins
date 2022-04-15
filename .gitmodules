@@ -23,3 +23,9 @@
 [submodule "phpstan/ScoreHud"]
 	path = phpstan/ScoreHud
 	url = https://github.com/Ifera/ScoreHud
+[submodule "phpstan/libasynql"]
+	path = phpstan/libasynql
+	url = https://github.com/poggit/libasynql
+[submodule "phpstan/GroupsAPI"]
+	path = phpstan/GroupsAPI
+	url = https://github.com/alvin0319/GroupsAPI

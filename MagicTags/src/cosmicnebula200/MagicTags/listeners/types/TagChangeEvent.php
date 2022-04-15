@@ -9,12 +9,8 @@ use pocketmine\event\player\PlayerEvent;
 
 class TagChangeEvent extends PlayerEvent implements Cancellable
 {
-
-    /**@var string*/
     private string $old_tag;
-    /**@var string*/
     private string $tag;
-    /**@var bool */
     private bool $canceled = false;
 
     public function __construct(string $old_tag, string $tag)

@@ -4,44 +4,43 @@ declare(strict_types=1);
 
 namespace cosmicnebula200\MagicTags\players;
 
-use cosmicnebula200\MagicTags\queries\Queries;
-use pocketmine\player\Player as P;
-use cosmicnebula200\MagicTags\MagicTags;
 use Ramsey\Uuid\Uuid;
+use pocketmine\Server;
+use pocketmine\player\Player;
+use cosmicnebula200\MagicTags\MagicTags;
+use cosmicnebula200\MagicTags\queries\Queries;
+use cosmicnebula200\MagicTags\players\TagPlayer;
 
 class PlayerManager
 {
-
-    /**@var Player[]*/
+    /** @var TagPlayer[] */
     private array $players = [];
 
-    public function LoadPlayer(P $player): void
+    public function LoadPlayer(Player $player): void
     {
         MagicTags::getInstance()->getDatabase()->executeSelect(
             Queries::LOAD_DB,
             [
-                "uuid" =>$player->getUniqueId()->toString()
+                "uuid" => $player->getUniqueId()->toString()
             ],
-            function (array $rows)use($player): void
-            {
-                if (count($rows) == 0 )
-                {
+            function (array $rows) use ($player): void {
+                if (count($rows) == 0) {
                     $this->createPlayer($player);
                     return;
                 }
                 foreach ($rows as $row) {
-                    $this->players[$row["name"]] = new Player($row["uuid"], $row["name"], $row["tags"], $row["currenttag"]);
+                    $this->players[$row["name"]] = new TagPlayer($row["uuid"], $row["name"], $row["tags"], $row["currenttag"]);
                 }
             }
         );
     }
 
-    public function unloadPlayer(P $player): void
+    public function unloadPlayer(Player $player): void
     {
         unset($this->players[strtolower($player->getName())]);
     }
 
-    public function createPlayer(P $player): Player
+    public function createPlayer(Player $player): TagPlayer
     {
         MagicTags::getInstance()->getDatabase()->executeInsert(Queries::CREATE_PLAYER, [
             "uuid" => $player->getUniqueId()->toString(),
@@ -49,28 +48,22 @@ class PlayerManager
             "tags" => "",
             "currenttag" => ""
         ]);
-        $this->players[strtolower($player->getName())] = new Player($player->getUniqueId()->toString(), strtolower($player->getName()), '' , '');
+        $this->players[strtolower($player->getName())] = new TagPlayer($player->getUniqueId()->toString(), strtolower($player->getName()), '', '');
         return $this->players[strtolower($player->getName())];
     }
 
-    public function getPlayerByName(string $name): ?Player
+    public function getPlayer(Player $player): TagPlayer
     {
-        return $this->players[strtolower($name)] ?? null;
+        return $this->players[strtolower($player->getName())] ?? $this->createPlayer($player);
     }
 
-    public function getPlayer(P $player): ?Player
+    public function getPlayerByUUID(UUID $UUID): ?TagPlayer
     {
-        return $this->players[strtolower($player->getName())] ?? null;
-    }
-
-    public function getPlayerByUUID(UUID $UUID): ?Player
-    {
-        foreach ($this->players as $player)
-        {
-            if ($player->getUUID() == $UUID)
+        foreach ($this->players as $player) {
+            if ($player->getUUID() == $UUID) {
                 return $player;
+            }
         }
         return null;
     }
-
 }

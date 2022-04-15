@@ -16,7 +16,9 @@
          "jojoe77777\\FormAPI\\": "FormAPI/src/jojoe77777/FormAPI",
          "muqsit\\invmenu\\": "InvMenu/src/muqsit/invmenu",
          "onebone\\economyapi\\": "onebone/economyapi",
-         "Ifera\\ScoreHud\\": "ScoreHud/src/Ifera/ScoreHud"
+         "Ifera\\ScoreHud\\": "ScoreHud/src/Ifera/ScoreHud",
+         "poggit\\libasynql\\": "libasynql/libasynql/src/poggit/libasynql",
+         "alvin0319\\GroupsAPI\\": "GroupsAPI/src/alvin0319/GroupsAPI"
       }
    }
 }

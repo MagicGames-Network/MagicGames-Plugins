@@ -4,24 +4,20 @@ declare(strict_types=1);
 
 namespace cosmicnebula200\MagicTags;
 
-use cosmicnebula200\MagicTags\listeners\EventListener;
+use pocketmine\utils\Config;
+use poggit\libasynql\libasynql;
+use pocketmine\utils\TextFormat;
+use pocketmine\plugin\PluginBase;
+use poggit\libasynql\DataConnector;
+use cosmicnebula200\MagicTags\queries\Queries;
 use cosmicnebula200\MagicTags\commands\TagCommand;
 use cosmicnebula200\MagicTags\players\PlayerManager;
-use cosmicnebula200\MagicTags\queries\Queries;
-use pocketmine\plugin\PluginBase;
-use pocketmine\utils\Config;
-use pocketmine\utils\TextFormat;
-use poggit\libasynql\DataConnector;
-use poggit\libasynql\libasynql;
+use cosmicnebula200\MagicTags\listeners\EventListener;
 
 class MagicTags extends PluginBase
 {
-
-    /**@var self*/
     private static self $instance;
-    /**@var DataConnector*/
     private DataConnector $database;
-    /**@var PlayerManager*/
     private PlayerManager $playerManager;
 
     public function onLoad(): void
@@ -40,10 +36,11 @@ class MagicTags extends PluginBase
         $this->getServer()->getPluginManager()->registerEvents(new EventListener(), $this);
     }
 
-    public function initDB()
+    public function initDB(): void
     {
         $db = libasynql::create($this, $this->getConfig()->get("database"), ["sqlite" => "sqlite.sql", "mysql" => "mysql.sql"]);
         $db->executeGeneric(Queries::CREATE_DB);
+        
         $this->database = $db;
     }
 
@@ -51,8 +48,7 @@ class MagicTags extends PluginBase
     {
         $messages = $this->getMessages()->getAll();
         $msg = $messages["messages"][$message];
-        foreach ($tags as $key => $value)
-        {
+        foreach ($tags as $key => $value) {
             $msg = str_replace("{" . $key . "}", $value, $msg);
         }
         return TextFormat::colorize($messages["prefix"] . " " .  $msg);
@@ -83,5 +79,4 @@ class MagicTags extends PluginBase
     {
         return self::$instance;
     }
-
 }

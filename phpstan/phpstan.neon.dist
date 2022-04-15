@@ -21,6 +21,7 @@ parameters:
         - ../MagicMinion
         - ../MagicPortalsPE
         - ../MagicSkills
+        - ../MagicTags
         - ../Quest
         - ../SellAll
     excludePaths:
