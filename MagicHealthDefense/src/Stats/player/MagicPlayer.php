@@ -39,10 +39,6 @@ class MagicPlayer extends Player
 
     protected function onDeath(): void
     {
-        //Crafting grid must always be evacuated even if keep-inventory is true. This dumps the contents into the
-		//main inventory and drops the rest on the ground.
-		
-
         $world = Main::getInstance()->getServer()->getWorldManager()->getDefaultWorld();
         if (!$world instanceof World) {
             return;
@@ -94,7 +90,7 @@ class MagicPlayer extends Player
     public function setHealth(float $amount): void
     {
         switch (true) {
-            case $amount <= true:
+            case $amount <= 0:
                 $this->stats["Health"] = 0;
                 $this->onDeath();
                 break;
