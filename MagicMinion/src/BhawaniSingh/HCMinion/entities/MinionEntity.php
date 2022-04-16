@@ -325,6 +325,8 @@ abstract class MinionEntity extends Human
                 $this->isWorking = true;
             }
 
+            // this will force the server to wait for the results so that it doesn't crash when chunk is unloaded
+            /** @phpstan-ignore-next-line */
             if (!$this->getWorld()->requestChunkPopulation($this->target->getPosition()->getX() >> Chunk::COORD_BIT_SIZE, $this->target->getPosition()->getZ() >> Chunk::COORD_BIT_SIZE, null) instanceof Promise) {
                 return false;
             }

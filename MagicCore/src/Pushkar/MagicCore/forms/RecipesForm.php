@@ -3,7 +3,6 @@
 namespace Pushkar\MagicCore\forms;
 
 use pocketmine\Server;
-use jojoe77777\FormAPI\Form;
 use dktapps\pmforms\FormIcon;
 use dktapps\pmforms\MenuForm;
 use pocketmine\player\Player;
@@ -69,7 +68,7 @@ class RecipesForm extends MenuForm
                     break;
 
                 case 9:
-                    $this->wand($sender);
+                    $sender->sendTitle("§r§l§eCOMMING SOON");
                     break;
 
                 case 10:
@@ -77,7 +76,7 @@ class RecipesForm extends MenuForm
                     break;
 
                 case 11:
-                    $this->ore($sender);
+                    $sender->sendTitle("§r§l§eCOMMING SOON");
                     break;
 
                 case 12:
@@ -94,7 +93,7 @@ class RecipesForm extends MenuForm
         });
     }
 
-    public function tools(Player $sender): Form
+    public function tools($sender)
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
             if ($data === null) {
@@ -143,7 +142,7 @@ class RecipesForm extends MenuForm
         return $form;
     }
 
-    public function helpme(Player $sender): Form
+    public function helpme(Player $sender)
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
             if ($data === null) {
@@ -162,8 +161,8 @@ class RecipesForm extends MenuForm
         $sender->sendForm($form);
         return $form;
     }
-
-    public function minions(Player $sender): Form
+    
+    public function minions($sender)
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
             if ($data === null) {
@@ -171,103 +170,103 @@ class RecipesForm extends MenuForm
             }
             switch ($data) {
                 case 0:
-                    Server::getInstance()->dispatchCommand($sender, "invcraft view minion");
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view minion1");
                     break;
 
                 case 1:
-                    Server::getInstance()->dispatchCommand($sender, "invcraft view minion");
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view minion2");
                     break;
 
                 case 2:
-                    Server::getInstance()->dispatchCommand($sender, "invcraft view minion");
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view minion3");
                     break;
 
                 case 3:
-                    Server::getInstance()->dispatchCommand($sender, "invcraft view minion");
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view minion4");
                     break;
 
                 case 4:
-                    Server::getInstance()->dispatchCommand($sender, "invcraft view minion");
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view minion5");
                     break;
 
                 case 5:
-                    Server::getInstance()->dispatchCommand($sender, "invcraft view minion");
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view minion6");
                     break;
 
                 case 6:
-                    Server::getInstance()->dispatchCommand($sender, "invcraft view minion");
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view minion7");
                     break;
 
                 case 7:
-                    Server::getInstance()->dispatchCommand($sender, "invcraft view minion");
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view minion8");
                     break;
 
                 case 8:
-                    Server::getInstance()->dispatchCommand($sender, "invcraft view minion");
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view minion9");
                     break;
 
                 case 9:
-                    Server::getInstance()->dispatchCommand($sender, "invcraft view minion");
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view minion10");
                     break;
 
                 case 10:
-                    Server::getInstance()->dispatchCommand($sender, "invcraft view minion");
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view minion11");
                     break;
 
                 case 11:
-                    Server::getInstance()->dispatchCommand($sender, "invcraft view minion");
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view minion12");
                     break;
 
                 case 12:
-                    Server::getInstance()->dispatchCommand($sender, "invcraft view minion");
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view minion13");
                     break;
 
                 case 13:
-                    Server::getInstance()->dispatchCommand($sender, "invcraft view minion");
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view minion14");
                     break;
 
                 case 14:
-                    Server::getInstance()->dispatchCommand($sender, "invcraft view minion");
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view minion15");
                     break;
 
                 case 15:
-                    Server::getInstance()->dispatchCommand($sender, "invcraft view minion");
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view minion16");
                     break;
 
                 case 16:
-                    Server::getInstance()->dispatchCommand($sender, "invcraft view minion");
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view minion17");
                     break;
 
                 case 17:
-                    Server::getInstance()->dispatchCommand($sender, "invcraft view minion");
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view minion18");
                     break;
 
                 case 18:
-                    Server::getInstance()->dispatchCommand($sender, "invcraft view minion");
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view minion19");
                     break;
 
                 case 19:
-                    Server::getInstance()->dispatchCommand($sender, "invcraft view minion");
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view minion20");
                     break;
 
                 case 20:
-                    Server::getInstance()->dispatchCommand($sender, "invcraft view minion");
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view minion21");
                     break;
 
                 case 21:
-                    Server::getInstance()->dispatchCommand($sender, "invcraft view minion");
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view minion22");
                     break;
 
                 case 22:
-                    Server::getInstance()->dispatchCommand($sender, "invcraft view minion");
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view minion23");
                     break;
 
                 case 23:
-                    Server::getInstance()->dispatchCommand($sender, "invcraft view minion");
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view minion24");
                     break;
 
                 case 24:
-                    Server::getInstance()->dispatchCommand($sender, "invcraft view minion");
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view minion25");
                     break;
 
                 case 25:
@@ -307,7 +306,7 @@ class RecipesForm extends MenuForm
         return $form;
     }
 
-    public function armors(Player $sender): Form
+    public function armors($sender)
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
             if ($data === null) {
@@ -426,133 +425,133 @@ class RecipesForm extends MenuForm
         return $form;
     }
 
-    public function eblocks(Player $sender): Form
+    public function eblocks($sender)
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
-            /*if ($data === null) {
+            if ($data === null) {
                 return true;
             }
             switch ($data) {
                 case 0:
-                    $this->block1($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view ec1");
                     break;
 
                 case 1:
-                    $this->block2($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view ec2");
                     break;
 
                 case 2:
-                    $this->block3($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view ec3");
                     break;
 
                 case 3:
-                    $this->block4($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view ec4");
                     break;
 
                 case 4:
-                    $this->block5($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view ec5");
                     break;
 
                 case 5:
-                    $this->block6($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view ec6");
                     break;
 
                 case 6:
-                    $this->block7($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view ec7");
                     break;
 
                 case 7:
-                    $this->block8($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view ec8");
                     break;
 
                 case 8:
-                    $this->block9($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view ec9");
                     break;
 
                 case 9:
-                    $this->block10($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view ec10");
                     break;
 
                 case 10:
-                    $this->block11($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view ec11");
                     break;
 
                 case 11:
-                    $this->block12($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view ec12");
                     break;
 
                 case 12:
-                    $this->block13($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view ec13");
                     break;
 
                 case 13:
-                    $this->block14($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view ec14");
                     break;
 
                 case 14:
-                    $this->block15($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view ec15");
                     break;
 
                 case 15:
-                    $this->block16($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view ec16");
                     break;
 
                 case 16:
-                    $this->block17($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view ec17");
                     break;
 
                 case 17:
-                    $this->block18($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view ec18");
                     break;
 
                 case 18:
-                    $this->block19($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view ec19");
                     break;
 
                 case 19:
-                    $this->block20($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view ec20");
                     break;
 
                 case 20:
-                    $this->block21($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view ec21");
                     break;
 
                 case 21:
-                    $this->block22($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view ec22");
                     break;
 
                 case 22:
-                    $this->block23($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view ec23");
                     break;
 
                 case 23:
-                    $this->block24($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view ec24");
                     break;
 
                 case 24:
-                    $this->block25($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view ec25");
                     break;
 
                 case 25:
-                    $this->block26($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view ec26");
                     break;
 
                 case 26:
-                    $this->block27($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view ec27");
                     break;
 
                 case 27:
-                    $this->block28($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view ec28");
                     break;
 
                 case 28:
-                    $this->block29($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view ec29");
                     break;
 
                 case 29:
                     $sender->sendForm(new RecipesForm());
                     break;
-            }*/
+            }
         });
         $form->setTitle("§l§6ENCHANTED BLOCKS RECIPES");
         $form->setContent("§dSelect The Which Enchanted Item Recipe You Want:");
@@ -590,33 +589,33 @@ class RecipesForm extends MenuForm
         return $form;
     }
 
-    public function armor1(Player $sender): Form
+    public function armor1($sender)
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
-            /*if ($data === null) {
+            if ($data === null) {
                 return true;
             }
             switch ($data) {
                 case 0:
-                    $this->helmet1($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view helmet1");
                     break;
 
                 case 1:
-                    $this->chestplate1($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view chest1");
                     break;
 
                 case 2:
-                    $this->leggings1($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view leg1");
                     break;
 
                 case 3:
-                    $this->boots1($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view boot1");
                     break;
 
                 case 4:
                     $this->armors($sender);
                     break;
-            }*/
+            }
         });
         $form->setTitle("§l§6GOD ARMOR RECIPE");
         $form->setContent("§dSelect The Which God Armor Piece Recipe You Want:");
@@ -628,35 +627,35 @@ class RecipesForm extends MenuForm
         $sender->sendForm($form);
         return $form;
     }
-
-    public function armor2(Player $sender): Form
+    
+    public function armor2($sender)
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
-            /*$result = $data;
+            $result = $data;
             if ($result === null) {
                 return true;
             }
             switch ($result) {
                 case 0:
-                    $this->helmet2($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view helmet2");
                     break;
 
                 case 1:
-                    $this->chestplate2($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view chest2");
                     break;
 
                 case 2:
-                    $this->leggings2($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view leg2");
                     break;
 
                 case 3:
-                    $this->boots2($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view boot2");
                     break;
 
                 case 4:
                     $this->armors($sender);
                     break;
-            }*/
+            }
         });
         $form->setTitle("§l§6MINER ARMOR RECIPE");
         $form->setContent("§dSelect The Which Miner Armor Piece Recipe You Want:");
@@ -669,36 +668,36 @@ class RecipesForm extends MenuForm
         return $form;
     }
 
-    public function armor3(Player $sender): Form
+    public function armor3($sender)
     {
 
 
         $form = new SimpleForm(function (Player $sender, int $data = null) {
-            /*$result = $data;
+            $result = $data;
             if ($result === null) {
                 return true;
             }
             switch ($result) {
                 case 0:
-                    $this->helmet3($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view helmet3");
                     break;
 
                 case 1:
-                    $this->chestplate3($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view chest3");
                     break;
 
                 case 2:
-                    $this->leggings3($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view leg3");
                     break;
 
                 case 3:
-                    $this->boots3($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view boot3");
                     break;
 
                 case 4:
                     $this->armors($sender);
                     break;
-            }*/
+            }
         });
         $form->setTitle("§l§6FARMER ARMOR RECIPE");
         $form->setContent("§dSelect The Which Farmer Armor Piece Recipe You Want:");
@@ -711,36 +710,36 @@ class RecipesForm extends MenuForm
         return $form;
     }
 
-    public function armor4(Player $sender): Form
+    public function armor4($sender)
     {
 
 
         $form = new SimpleForm(function (Player $sender, int $data = null) {
-            /*$result = $data;
+            $result = $data;
             if ($result === null) {
                 return true;
             }
             switch ($result) {
                 case 0:
-                    $this->helmet4($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view helmet4");
                     break;
 
                 case 1:
-                    $this->chestplate4($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view chest4");
                     break;
 
                 case 2:
-                    $this->leggings4($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view leg4");
                     break;
 
                 case 3:
-                    $this->boots4($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view boot4");
                     break;
 
                 case 4:
                     $this->armors($sender);
                     break;
-            }*/
+            }
         });
         $form->setTitle("§l§6LAPIS ARMOR RECIPE");
         $form->setContent("§dSelect The Which Lapis Armor Piece Recipe You Want:");
@@ -753,36 +752,36 @@ class RecipesForm extends MenuForm
         return $form;
     }
 
-    public function armor5(Player $sender): Form
+    public function armor5($sender)
     {
 
 
         $form = new SimpleForm(function (Player $sender, int $data = null) {
-            /*$result = $data;
+            $result = $data;
             if ($result === null) {
                 return true;
             }
             switch ($result) {
                 case 0:
-                    $this->helmet5($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view helmet5");
                     break;
 
                 case 1:
-                    $this->chestplate5($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view chest5");
                     break;
 
                 case 2:
-                    $this->leggings5($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view leg5");
                     break;
 
                 case 3:
-                    $this->boots5($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view boot5");
                     break;
 
                 case 4:
                     $this->armors($sender);
                     break;
-            }*/
+            }
         });
         $form->setTitle("§l§6END ARMOR RECIPE");
         $form->setContent("§dSelect The Which End Armor Piece Recipe You Want:");
@@ -795,36 +794,36 @@ class RecipesForm extends MenuForm
         return $form;
     }
 
-    public function armor6(Player $sender): Form
+    public function armor6($sender)
     {
 
 
         $form = new SimpleForm(function (Player $sender, int $data = null) {
-            /*$result = $data;
+            $result = $data;
             if ($result === null) {
                 return true;
             }
             switch ($result) {
                 case 0:
-                    $this->helmet6($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view helmet6");
                     break;
 
                 case 1:
-                    $this->chestplate6($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view chest6");
                     break;
 
                 case 2:
-                    $this->leggings6($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view leg6");
                     break;
 
                 case 3:
-                    $this->boots6($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view boot6");
                     break;
 
                 case 4:
                     $this->armors($sender);
                     break;
-            }*/
+            }
         });
         $form->setTitle("§l§6GOLEM ARMOR RECIPE");
         $form->setContent("§dSelect The Which Golem Armor Piece Recipe You Want:");
@@ -837,36 +836,36 @@ class RecipesForm extends MenuForm
         return $form;
     }
 
-    public function armor7(Player $sender): Form
+    public function armor7($sender)
     {
 
 
         $form = new SimpleForm(function (Player $sender, int $data = null) {
-            /*$result = $data;
+            $result = $data;
             if ($result === null) {
                 return true;
             }
             switch ($result) {
                 case 0:
-                    $this->helmet7($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view helmet7");
                     break;
 
                 case 1:
-                    $this->chestplate7($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view chest7");
                     break;
 
                 case 2:
-                    $this->leggings7($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view leg7");
                     break;
 
                 case 3:
-                    $this->boots7($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view boot7");
                     break;
 
                 case 4:
                     $this->armors($sender);
                     break;
-            }*/
+            }
         });
         $form->setTitle("§l§6PUMPKIN ARMOR RECIPE");
         $form->setContent("§dSelect The Which Pumpkin Armor Piece Recipe You Want:");
@@ -879,36 +878,36 @@ class RecipesForm extends MenuForm
         return $form;
     }
 
-    public function armor8(Player $sender): Form
+    public function armor8($sender)
     {
 
 
         $form = new SimpleForm(function (Player $sender, int $data = null) {
-            /*$result = $data;
+            $result = $data;
             if ($result === null) {
                 return true;
             }
             switch ($result) {
                 case 0:
-                    $this->helmet8($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view helmet8");
                     break;
 
                 case 1:
-                    $this->chestplate8($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view chest8");
                     break;
 
                 case 2:
-                    $this->leggings8($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view leg8");
                     break;
 
                 case 3:
-                    $this->boots8($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view boot8");
                     break;
 
                 case 4:
                     $this->armors($sender);
                     break;
-            }*/
+            }
         });
         $form->setTitle("§l§6NETHER ARMOR RECIPE");
         $form->setContent("§dSelect The Which Nether Armor Piece Recipe You Want:");
@@ -921,36 +920,36 @@ class RecipesForm extends MenuForm
         return $form;
     }
 
-    public function armor9(Player $sender): Form
+    public function armor9($sender)
     {
 
 
         $form = new SimpleForm(function (Player $sender, int $data = null) {
-            /*$result = $data;
+            $result = $data;
             if ($result === null) {
                 return true;
             }
             switch ($result) {
                 case 0:
-                    $this->helmet9($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view helmet9");
                     break;
 
                 case 1:
-                    $this->chestplate9($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view chest9");
                     break;
 
                 case 2:
-                    $this->leggings9($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view leg9");
                     break;
 
                 case 3:
-                    $this->boots9($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view boot9");
                     break;
 
                 case 4:
                     $this->armors($sender);
                     break;
-            }*/
+            }
         });
         $form->setTitle("§l§6OAK ARMOR RECIPE");
         $form->setContent("§dSelect The Which Oak Armor Piece Recipe You Want:");
@@ -963,36 +962,36 @@ class RecipesForm extends MenuForm
         return $form;
     }
 
-    public function armor10(Player $sender): Form
+    public function armor10($sender)
     {
 
 
         $form = new SimpleForm(function (Player $sender, int $data = null) {
-            /*$result = $data;
+            $result = $data;
             if ($result === null) {
                 return true;
             }
             switch ($result) {
                 case 0:
-                    $this->helmet10($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view helmet10");
                     break;
 
                 case 1:
-                    $this->chestplate10($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view chest10");
                     break;
 
                 case 2:
-                    $this->leggings10($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view leg10");
                     break;
 
                 case 3:
-                    $this->boots10($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view boot10");
                     break;
 
                 case 4:
                     $this->armors($sender);
                     break;
-            }*/
+            }
         });
         $form->setTitle("§l§6ICE ARMOR RECIPE");
         $form->setContent("§dSelect The Which Ice Armor Piece Recipe You Want:");
@@ -1005,36 +1004,36 @@ class RecipesForm extends MenuForm
         return $form;
     }
 
-    public function armor11(Player $sender): Form
+    public function armor11($sender)
     {
 
 
         $form = new SimpleForm(function (Player $sender, int $data = null) {
-            /*$result = $data;
+            $result = $data;
             if ($result === null) {
                 return true;
             }
             switch ($result) {
                 case 0:
-                    $this->helmet11($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view helmet11");
                     break;
 
                 case 1:
-                    $this->chestplate11($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view chest11");
                     break;
 
                 case 2:
-                    $this->leggings11($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view leg11");
                     break;
 
                 case 3:
-                    $this->boots11($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view boot11");
                     break;
 
                 case 4:
                     $this->armors($sender);
                     break;
-            }*/
+            }
         });
         $form->setTitle("§l§6ASSASSIN ARMOR RECIPE");
         $form->setContent("§dSelect The Which Assassin Armor Piece Recipe You Want:");
@@ -1047,36 +1046,36 @@ class RecipesForm extends MenuForm
         return $form;
     }
 
-    public function armor12(Player $sender): Form
+    public function armor12($sender)
     {
 
 
         $form = new SimpleForm(function (Player $sender, int $data = null) {
-            /*$result = $data;
+            $result = $data;
             if ($result === null) {
                 return true;
             }
             switch ($result) {
                 case 0:
-                    $this->helmet12($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view helmet12");
                     break;
 
                 case 1:
-                    $this->chestplate12($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view chest12");
                     break;
 
                 case 2:
-                    $this->leggings12($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view leg12");
                     break;
 
                 case 3:
-                    $this->boots12($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view boot12");
                     break;
 
                 case 4:
                     $this->armors($sender);
                     break;
-            }*/
+            }
         });
         $form->setTitle("§l§6TANK ARMOR RECIPE");
         $form->setContent("§dSelect The Which Tank Armor Piece Recipe You Want:");
@@ -1089,36 +1088,36 @@ class RecipesForm extends MenuForm
         return $form;
     }
 
-    public function armor13(Player $sender): Form
+    public function armor13($sender)
     {
 
 
         $form = new SimpleForm(function (Player $sender, int $data = null) {
-            /*$result = $data;
+            $result = $data;
             if ($result === null) {
                 return true;
             }
             switch ($result) {
                 case 0:
-                    $this->helmet13($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view helmet13");
                     break;
 
                 case 1:
-                    $this->chestplate13($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view chest13");
                     break;
 
                 case 2:
-                    $this->leggings13($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view leg13");
                     break;
 
                 case 3:
-                    $this->boots13($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view boot13");
                     break;
 
                 case 4:
                     $this->armors($sender);
                     break;
-            }*/
+            }
         });
         $form->setTitle("§l§6WISE ARMOR RECIPE");
         $form->setContent("§dSelect The Which Wise Armor Piece Recipe You Want:");
@@ -1131,36 +1130,36 @@ class RecipesForm extends MenuForm
         return $form;
     }
 
-    public function armor14(Player $sender): Form
+    public function armor14($sender)
     {
 
 
         $form = new SimpleForm(function (Player $sender, int $data = null) {
-            /*$result = $data;
+            $result = $data;
             if ($result === null) {
                 return true;
             }
             switch ($result) {
                 case 0:
-                    $this->helmet14($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view helmet14");
                     break;
 
                 case 1:
-                    $this->chestplate14($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view chest14");
                     break;
 
                 case 2:
-                    $this->leggings14($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view leg14");
                     break;
 
                 case 3:
-                    $this->boots14($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view boot14");
                     break;
 
                 case 4:
                     $this->armors($sender);
                     break;
-            }*/
+            }
         });
         $form->setTitle("§l§6EMERALD ARMOR RECIPE");
         $form->setContent("§dSelect The Which Emerald Armor Piece Recipe You Want:");
@@ -1173,36 +1172,36 @@ class RecipesForm extends MenuForm
         return $form;
     }
 
-    public function armor15(Player $sender): Form
+    public function armor15($sender)
     {
 
 
         $form = new SimpleForm(function (Player $sender, int $data = null) {
-            /*$result = $data;
+            $result = $data;
             if ($result === null) {
                 return true;
             }
             switch ($result) {
                 case 0:
-                    $this->helmet15($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view helmet15");
                     break;
 
                 case 1:
-                    $this->chestplate15($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view chest15");
                     break;
 
                 case 2:
-                    $this->leggings15($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view leg15");
                     break;
 
                 case 3:
-                    $this->boots15($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view boot15");
                     break;
 
                 case 4:
                     $this->armors($sender);
                     break;
-            }*/
+            }
         });
         $form->setTitle("§l§6REDSTONE ARMOR RECIPE");
         $form->setContent("§dSelect The Which Redstone Armor Piece Recipe You Want:");
@@ -1215,36 +1214,36 @@ class RecipesForm extends MenuForm
         return $form;
     }
 
-    public function armor16(Player $sender): Form
+    public function armor16($sender)
     {
 
 
         $form = new SimpleForm(function (Player $sender, int $data = null) {
-            /*$result = $data;
+            $result = $data;
             if ($result === null) {
                 return true;
             }
             switch ($result) {
                 case 0:
-                    $this->helmet16($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view helmet16");
                     break;
 
                 case 1:
-                    $this->chestplate16($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view chest16");
                     break;
 
                 case 2:
-                    $this->leggings16($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view leg16");
                     break;
 
                 case 3:
-                    $this->boots16($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view boot16");
                     break;
 
                 case 4:
                     $this->armors($sender);
                     break;
-            }*/
+            }
         });
         $form->setTitle("§l§6UNSTABLE ARMOR RECIPE");
         $form->setContent("§dSelect The Which Unstable Armor Piece Recipe You Want:");
@@ -1257,36 +1256,36 @@ class RecipesForm extends MenuForm
         return $form;
     }
 
-    public function armor17(Player $sender): Form
+    public function armor17($sender)
     {
 
 
         $form = new SimpleForm(function (Player $sender, int $data = null) {
-            /*$result = $data;
+            $result = $data;
             if ($result === null) {
                 return true;
             }
             switch ($result) {
                 case 0:
-                    $this->helmet17($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view helmet17");
                     break;
 
                 case 1:
-                    $this->chestplate17($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view chest17");
                     break;
 
                 case 2:
-                    $this->leggings17($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view leg17");
                     break;
 
                 case 3:
-                    $this->boots17($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view boot17");
                     break;
 
                 case 4:
                     $this->armors($sender);
                     break;
-            }*/
+            }
         });
         $form->setTitle("§l§6SPIDER ARMOR RECIPE");
         $form->setContent("§dSelect The Which Spider Armor Piece Recipe You Want:");
@@ -1299,36 +1298,36 @@ class RecipesForm extends MenuForm
         return $form;
     }
 
-    public function armor18(Player $sender): Form
+    public function armor18($sender)
     {
 
 
         $form = new SimpleForm(function (Player $sender, int $data = null) {
-            /*$result = $data;
+            $result = $data;
             if ($result === null) {
                 return true;
             }
             switch ($result) {
                 case 0:
-                    $this->helmet18($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view helmet18");
                     break;
 
                 case 1:
-                    $this->chestplate18($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view chest18");
                     break;
 
                 case 2:
-                    $this->leggings18($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view leg18");
                     break;
 
                 case 3:
-                    $this->boots18($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view boot18");
                     break;
 
                 case 4:
                     $this->armors($sender);
                     break;
-            }*/
+            }
         });
         $form->setTitle("§l§6DIGGER ARMOR RECIPE");
         $form->setContent("§dSelect The Which Digger Armor Piece Recipe You Want:");
@@ -1341,36 +1340,36 @@ class RecipesForm extends MenuForm
         return $form;
     }
 
-    public function armor19(Player $sender): Form
+    public function armor19($sender)
     {
 
 
         $form = new SimpleForm(function (Player $sender, int $data = null) {
-            /*$result = $data;
+            $result = $data;
             if ($result === null) {
                 return true;
             }
             switch ($result) {
                 case 0:
-                    $this->helmet19($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view helmet19");
                     break;
 
                 case 1:
-                    $this->chestplate19($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view chest19");
                     break;
 
                 case 2:
-                    $this->leggings19($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view leg19");
                     break;
 
                 case 3:
-                    $this->boots19($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view boot19");
                     break;
 
                 case 4:
                     $this->armors($sender);
                     break;
-            }*/
+            }
         });
         $form->setTitle("§l§6TECHNO ARMOR RECIPE");
         $form->setContent("§dSelect The Which Techno Armor Piece Recipe You Want:");
@@ -1383,36 +1382,36 @@ class RecipesForm extends MenuForm
         return $form;
     }
 
-    public function armor20(Player $sender): Form
+    public function armor20($sender)
     {
 
 
         $form = new SimpleForm(function (Player $sender, int $data = null) {
-            /*$result = $data;
+            $result = $data;
             if ($result === null) {
                 return true;
             }
             switch ($result) {
                 case 0:
-                    $this->helmet20($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view helmet20");
                     break;
 
                 case 1:
-                    $this->chestplate20($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view chest20");
                     break;
 
                 case 2:
-                    $this->leggings20($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view leg20");
                     break;
 
                 case 3:
-                    $this->boots20($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view boot20");
                     break;
 
                 case 4:
                     $this->armors($sender);
                     break;
-            }*/
+            }
         });
         $form->setTitle("§l§6LIQUED ARMOR RECIPE");
         $form->setContent("§dSelect The Which Liqued Armor Piece Recipe You Want:");
@@ -1424,8 +1423,8 @@ class RecipesForm extends MenuForm
         $sender->sendForm($form);
         return $form;
     }
-
-    public function ore(Player $sender): Form
+    
+    public function ore($sender)
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
             /*$result = $data;
@@ -1479,8 +1478,8 @@ class RecipesForm extends MenuForm
         $sender->sendForm($form);
         return $form;
     }
-
-    public function sword(Player $sender): Form
+    
+    public function sword($sender)
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
             $result = $data;
@@ -1489,46 +1488,46 @@ class RecipesForm extends MenuForm
             }
             switch ($result) {
                 case 0:
-                    Server::getInstance()->dispatchCommand($sender, "invcraft view minion");
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view sword1");
                     break;
                 case 1:
-                    Server::getInstance()->dispatchCommand($sender, "invcraft view minion");
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view sword2");
                     break;
                 case 2:
-                    Server::getInstance()->dispatchCommand($sender, "invcraft view minion");
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view sword3");
                     break;
                 case 3:
-                    Server::getInstance()->dispatchCommand($sender, "invcraft view minion");
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view sword4");
                     break;
                 case 4:
-                    Server::getInstance()->dispatchCommand($sender, "invcraft view minion");
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view sword5");
                     break;
                 case 5:
-                    Server::getInstance()->dispatchCommand($sender, "invcraft view minion");
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view sword6");
                     break;
                 case 6:
-                    Server::getInstance()->dispatchCommand($sender, "invcraft view minion");
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view sword7");
                     break;
                 case 7:
-                    Server::getInstance()->dispatchCommand($sender, "invcraft view minion");
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view sword8");
                     break;
                 case 8:
-                    Server::getInstance()->dispatchCommand($sender, "invcraft view minion");
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view sword9");
                     break;
                 case 9:
-                    Server::getInstance()->dispatchCommand($sender, "invcraft view minion");
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view sword10");
                     break;
                 case 10:
-                    Server::getInstance()->dispatchCommand($sender, "invcraft view minion");
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view sword11");
                     break;
                 case 11:
-                    Server::getInstance()->dispatchCommand($sender, "invcraft view minion");
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view sword12");
                     break;
                 case 12:
-                    Server::getInstance()->dispatchCommand($sender, "invcraft view minion");
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view sword13");
                     break;
                 case 13:
-                    Server::getInstance()->dispatchCommand($sender, "invcraft view minion");
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view sword14");
                     break;
                 case 14:
                     $sender->sendForm(new RecipesForm());
@@ -1555,8 +1554,8 @@ class RecipesForm extends MenuForm
         $sender->sendForm($form);
         return $form;
     }
-
-    public function axe(Player $sender): Form
+    
+    public function axe($sender)
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
             $result = $data;
@@ -1565,22 +1564,22 @@ class RecipesForm extends MenuForm
             }
             switch ($result) {
                 case 0:
-                    Server::getInstance()->dispatchCommand($sender, "invcraft view minion");
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view axe1");
                     break;
                 case 1:
-                    Server::getInstance()->dispatchCommand($sender, "invcraft view minion");
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view axe2");
                     break;
                 case 2:
-                    Server::getInstance()->dispatchCommand($sender, "invcraft view minion");
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view axe3");
                     break;
                 case 3:
-                    Server::getInstance()->dispatchCommand($sender, "invcraft view minion");
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view axe4");
                     break;
                 case 4:
-                    Server::getInstance()->dispatchCommand($sender, "invcraft view minion");
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view axe5");
                     break;
                 case 5:
-                    Server::getInstance()->dispatchCommand($sender, "invcraft view minion");
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view axe6");
                     break;
                 case 6:
                     $sender->sendForm(new RecipesForm());
@@ -1599,8 +1598,8 @@ class RecipesForm extends MenuForm
         $sender->sendForm($form);
         return $form;
     }
-
-    public function hoe(Player $sender): Form
+    
+    public function hoe($sender)
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
             $result = $data;
@@ -1609,10 +1608,10 @@ class RecipesForm extends MenuForm
             }
             switch ($result) {
                 case 0:
-                    Server::getInstance()->dispatchCommand($sender, "invcraft view minion");
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view hoe1");
                     break;
                 case 1:
-                    Server::getInstance()->dispatchCommand($sender, "invcraft view minion");
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view hoe2");
                     break;
                 case 2:
                     $sender->sendForm(new RecipesForm());
@@ -1627,8 +1626,8 @@ class RecipesForm extends MenuForm
         $sender->sendForm($form);
         return $form;
     }
-
-    public function pickaxe(Player $sender): Form
+    
+    public function pickaxe($sender)
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
             $result = $data;
@@ -1637,28 +1636,28 @@ class RecipesForm extends MenuForm
             }
             switch ($result) {
                 case 0:
-                    Server::getInstance()->dispatchCommand($sender, "invcraft view minion");
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view pick1");
                     break;
                 case 1:
-                    Server::getInstance()->dispatchCommand($sender, "invcraft view minion");
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view pick2");
                     break;
                 case 2:
-                    Server::getInstance()->dispatchCommand($sender, "invcraft view minion");
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view pick3");
                     break;
                 case 3:
-                    Server::getInstance()->dispatchCommand($sender, "invcraft view minion");
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view pick4");
                     break;
                 case 4:
-                    Server::getInstance()->dispatchCommand($sender, "invcraft view minion");
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view pick5");
                     break;
                 case 5:
-                    Server::getInstance()->dispatchCommand($sender, "invcraft view minion");
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view pick6");
                     break;
                 case 6:
-                    Server::getInstance()->dispatchCommand($sender, "invcraft view minion");
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view pick7");
                     break;
                 case 7:
-                    Server::getInstance()->dispatchCommand($sender, "invcraft view minion");
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view pick8");
                     break;
                 case 8:
                     $sender->sendForm(new RecipesForm());
@@ -1679,60 +1678,46 @@ class RecipesForm extends MenuForm
         $sender->sendForm($form);
         return $form;
     }
-
-    public function items(Player $sender): Form
+    
+    public function items($sender)
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
-            /*if ($data === null) {
+            if ($data === null) {
                 return true;
             }
             switch ($data) {
                 case 0:
-                    $this->item6($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view item1");
                     break;
 
                 case 1:
-                    $this->item8($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view item2");
                     break;
 
                 case 2:
-                    $this->item9($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view item3");
                     break;
 
                 case 3:
-                    $this->item10($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view item4");
                     break;
 
                 case 4:
-                    $this->bucket1($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view item5");
                     break;
 
                 case 5:
-                    $this->bucket2($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view item6");
                     break;
 
                 case 6:
-                    $this->bucket2($sender);
-                    break;
-
-                case 7:
-                    $this->bucket2($sender);
-                    break;
-
-                case 8:
-                    $this->bucket2($sender);
-                    break;
-
-                case 9:
                     $sender->sendForm(new RecipesForm());
-            }*/
+                    break;
+            }
         });
         $form->setTitle("§l§6CUSTOM ITEMS RECIPES");
         $form->setContent("§bSelect The Which Item Recipe You Want:");
         $form->addButton("§l§dDRAGON'S BREATH\n§9»» §r§6Tap To View", 0, "textures/items/dragons_breath");
-        $form->addButton("§l§dSUPER SMELTER\n§9»» §r§6Tap To Get", 0, "textures/blocks/furnace_front_off");
-        $form->addButton("§l§dSUPER COMPACTER\n§9»» §r§6Tap To Get", 0, "textures/blocks/dispenser_front_horizontal");
-        $form->addButton("§l§dSUPER EXPANDER\n§9»» §r§6Tap To Get", 0, "textures/blocks/command_block");
         $form->addButton("§l§dINFINITE WATER\n§9»» §r§6Tap To Get", 0, "textures/items/bucket_water");
         $form->addButton("§l§dINFINITE LAVA\n§9»» §r§6Tap To Get", 0, "textures/items/bucket_lava");
         $form->addButton("§l§dPIGGY BANK\n§9»» §r§6Tap To Get", 0, "textures/items/other/piggy_bank");
@@ -1742,8 +1727,8 @@ class RecipesForm extends MenuForm
         $sender->sendForm($form);
         return $form;
     }
-
-    public function wand(Player $sender): Form
+    
+    public function wand($sender)
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
             $result = $data;
@@ -1778,7 +1763,7 @@ class RecipesForm extends MenuForm
         return $form;
     }
 
-    public function food(Player $sender): Form
+    public function food($sender)
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
             $result = $data;
@@ -1787,31 +1772,31 @@ class RecipesForm extends MenuForm
             }
             switch ($result) {
                 case 0:
-                    Server::getInstance()->dispatchCommand($sender, "invcraft view minion");
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view food1");
                     break;
                 case 1:
-                    Server::getInstance()->dispatchCommand($sender, "invcraft view minion");
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view food2");
                     break;
                 case 2:
-                    Server::getInstance()->dispatchCommand($sender, "invcraft view minion");
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view food3");
                     break;
                 case 3:
-                    Server::getInstance()->dispatchCommand($sender, "invcraft view minion");
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view food4");
                     break;
                 case 4:
-                    Server::getInstance()->dispatchCommand($sender, "invcraft view minion");
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view food5");
                     break;
                 case 5:
-                    Server::getInstance()->dispatchCommand($sender, "invcraft view minion");
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view food6");
                     break;
                 case 6:
-                    Server::getInstance()->dispatchCommand($sender, "invcraft view minion");
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view food7");
                     break;
                 case 7:
-                    Server::getInstance()->dispatchCommand($sender, "invcraft view minion");
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view food8");
                     break;
                 case 8:
-                    Server::getInstance()->dispatchCommand($sender, "invcraft view minion");
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view food9");
                     break;
                 case 9:
                     $sender->sendForm(new RecipesForm());

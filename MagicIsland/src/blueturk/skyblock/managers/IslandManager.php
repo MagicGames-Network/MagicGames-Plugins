@@ -41,8 +41,16 @@ class IslandManager
     {
         $array = SkyBlock::getInstance()->getConfig()->getNested($player->getName() . ".island" . ".this-partners");
         $array2 = SkyBlock::getInstance()->getConfig()->getNested($selectedPlayer . ".island" . ".other-partners");
-        unset($array[array_search($selectedPlayer, $array)]);
-        unset($array2[array_search($player->getName(), $array2)]);
+        
+        $arraySearch = array_search($selectedPlayer, $array);
+        if ($arraySearch !== false) {
+            unset($array[$arraySearch]);
+        }
+        $arraySearch2 = array_search($player->getName(), $array2);
+        if ($arraySearch2 !== false) {
+            unset($array2[$arraySearch2]);
+        }
+        
         SkyBlock::getInstance()->getConfig()->setNested($player->getName() . ".island" . ".this-partners", $array);
         SkyBlock::getInstance()->getConfig()->setNested($selectedPlayer . ".island" . ".other-partners", $array2);
         $player->sendMessage(SkyBlock::BT_MARK . "bYou unaffiliated the player!");

@@ -23,29 +23,25 @@ class IslandListener implements Listener
 {
     public function onJoin(PlayerJoinEvent $event): void
     {
-        $sender = $event->getPlayer();
-        if ($sender instanceof Player) {
-            $data = SkyBlock::getInstance()->getConfig();
-            if ($data->getNested($sender->getName() . "." . "island") !== null) {
-                IslandManager::teleportToIsland($sender);
-            }
+        $player = $event->getPlayer();
+        $data = SkyBlock::getInstance()->getConfig();
+        if ($data->getNested($player->getName() . "." . "island") !== null) {
+            IslandManager::teleportToIsland($player);
         }
     }
 
     public function onQuit(PlayerQuitEvent $event): void
     {
-        $sender = $event->getPlayer();
-        if ($sender instanceof Player) {
-            $data = SkyBlock::getInstance()->getConfig();
-            if ($data->getNested($sender->getName() . "." . "island") !== null) {
-                $world = Server::getInstance()->getWorldManager()->getWorldByName($sender->getName());
-                if (!$world instanceof World) {
-                    return;
-                }
+        $player = $event->getPlayer();
+        $data = SkyBlock::getInstance()->getConfig();
+        if ($data->getNested($player->getName() . "." . "island") !== null) {
+            $world = Server::getInstance()->getWorldManager()->getWorldByName($player->getName());
+            if (!$world instanceof World) {
+                return;
+            }
 
-                if (Server::getInstance()->getWorldManager()->isWorldLoaded($sender->getName())) {
-                    Server::getInstance()->getWorldManager()->unloadWorld($world);
-                }
+            if (Server::getInstance()->getWorldManager()->isWorldLoaded($player->getName())) {
+                Server::getInstance()->getWorldManager()->unloadWorld($world);
             }
         }
     }
@@ -71,7 +67,7 @@ class IslandListener implements Listener
                 }
                 return;
             }
-            
+
             if (in_array($player->getName(), $data->getNested($level . ".island" . ".this-partners"))) {
                 if ($data->getNested($level . ".island" . ".settings" . ".interact") === true) {
                     $event->uncancel();
