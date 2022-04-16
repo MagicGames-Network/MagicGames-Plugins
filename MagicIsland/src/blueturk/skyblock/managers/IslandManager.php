@@ -8,7 +8,7 @@ use pocketmine\player\Player;
 use blueturk\skyblock\SkyBlock;
 use blueturk\skyblock\forms\island\partner\PartnerRequestForm;
 
-class IslandManager
+class 	IslandManager
 {
     /**
      * @param Player $player
@@ -372,30 +372,39 @@ class IslandManager
             $islandPlayer->sendMessage(SkyBlock::BT_MARK . "bThe island you are on is being deleted..");
         }
 
-        $old = SkyBlock::getInstance()->getConfig()->getNested($player->getName() . ".island" . ".this-partners");
-        if ($old != null) {
-            foreach ($old as $value) {
-                $array = SkyBlock::getInstance()->getConfig()->getNested($value . ".island" . ".other-partners");
-                if ($array != null) {
-                    unset($array[array_search($player->getName(), $array)]);
-                    SkyBlock::getInstance()->getConfig()->setNested($value . ".island" . ".other-partners", $array);
-                } else {
-                    $array = SkyBlock::getInstance()->getConfig()->getNested($value . ".partners");
-                    unset($array[array_search($player->getName(), $array)]);
-                    SkyBlock::getInstance()->getConfig()->setNested($value . ".partners", $array);
-                }
-            }
-        }
-        $old2 = SkyBlock::getInstance()->getConfig()->getNested($player->getName() . ".island" . ".other-partners");
-        if ($old2 != null) {
-            foreach ($old2 as $value) {
-                $array = SkyBlock::getInstance()->getConfig()->getNested($value . ".island" . ".this-partners");
-                if ($array != null) {
-                    unset($array[array_search($player->getName(), $array)]);
-                    SkyBlock::getInstance()->getConfig()->setNested($value . ".island" . ".this-partners", $array);
-                }
-            }
-        }
+		$old = SkyBlock::getInstance()->getConfig()->getNested($player->getName() . ".island" . ".this-partners");
+		if ($old != null) {
+			foreach ($old as $value) {
+				$array = SkyBlock::getInstance()->getConfig()->getNested($value . ".island" . ".other-partners");
+				if ($array != null) {
+					$arraySearch = array_search($player->getName(), $array);
+					if($arraySearch !== false){
+						unset($array[$arraySearch]);
+					}
+					SkyBlock::getInstance()->getConfig()->setNested($value . ".island" . ".other-partners", $array);
+				} else {
+					$array = SkyBlock::getInstance()->getConfig()->getNested($value . ".partners");
+					$arraySearch2 = array_search($player->getName(), $array);
+					if($arraySearch2 !== false){
+						unset($array[$arraySearch2]);
+					}
+					SkyBlock::getInstance()->getConfig()->setNested($value . ".partners", $array);
+				}
+			}
+		}
+		$old2 = SkyBlock::getInstance()->getConfig()->getNested($player->getName() . ".island" . ".other-partners");
+		if ($old2 != null) {
+			foreach ($old2 as $value) {
+				$array = SkyBlock::getInstance()->getConfig()->getNested($value . ".island" . ".this-partners");
+				if ($array != null) {
+					$arraySearch3 = array_search($player->getName(), $array);
+					if($arraySearch3 !== false){
+						unset($array[$arraySearch3]);
+					}
+					SkyBlock::getInstance()->getConfig()->setNested($value . ".island" . ".this-partners", $array);
+				}
+			}
+		}
 
         Server::getInstance()->getWorldManager()->unloadWorld($world);
         $world = SkyBlock::getInstance()->getServer()->getDataPath() . "/worlds/" . $player->getName();
