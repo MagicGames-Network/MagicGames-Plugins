@@ -3,6 +3,7 @@
 namespace Pushkar\MagicCore\forms;
 
 use pocketmine\Server;
+use jojoe77777\FormAPI\Form;
 use dktapps\pmforms\FormIcon;
 use dktapps\pmforms\MenuForm;
 use pocketmine\player\Player;
@@ -93,7 +94,7 @@ class RecipesForm extends MenuForm
         });
     }
 
-    public function tools($sender)
+    public function tools(Player $sender): Form
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
             if ($data === null) {
@@ -142,7 +143,7 @@ class RecipesForm extends MenuForm
         return $form;
     }
 
-    public function helpme(Player $sender)
+    public function helpme(Player $sender): Form
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
             if ($data === null) {
@@ -162,7 +163,7 @@ class RecipesForm extends MenuForm
         return $form;
     }
     
-    public function minions($sender)
+    public function minions(Player $sender): Form
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
             if ($data === null) {
@@ -306,7 +307,7 @@ class RecipesForm extends MenuForm
         return $form;
     }
 
-    public function armors($sender)
+    public function armors(Player $sender): Form
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
             if ($data === null) {
@@ -425,7 +426,7 @@ class RecipesForm extends MenuForm
         return $form;
     }
 
-    public function eblocks($sender)
+    public function eblocks(Player $sender): Form
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
             if ($data === null) {
@@ -589,7 +590,7 @@ class RecipesForm extends MenuForm
         return $form;
     }
 
-    public function armor1($sender)
+    public function armor1(Player $sender): Form
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
             if ($data === null) {
@@ -628,7 +629,7 @@ class RecipesForm extends MenuForm
         return $form;
     }
     
-    public function armor2($sender)
+    public function armor2(Player $sender): Form
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
             $result = $data;
@@ -668,7 +669,7 @@ class RecipesForm extends MenuForm
         return $form;
     }
 
-    public function armor3($sender)
+    public function armor3(Player $sender): Form
     {
 
 
@@ -710,7 +711,7 @@ class RecipesForm extends MenuForm
         return $form;
     }
 
-    public function armor4($sender)
+    public function armor4(Player $sender): Form
     {
 
 
@@ -752,7 +753,7 @@ class RecipesForm extends MenuForm
         return $form;
     }
 
-    public function armor5($sender)
+    public function armor5(Player $sender): Form
     {
 
 
@@ -794,7 +795,7 @@ class RecipesForm extends MenuForm
         return $form;
     }
 
-    public function armor6($sender)
+    public function armor6(Player $sender): Form
     {
 
 
@@ -836,7 +837,7 @@ class RecipesForm extends MenuForm
         return $form;
     }
 
-    public function armor7($sender)
+    public function armor7(Player $sender): Form
     {
 
 
@@ -878,7 +879,7 @@ class RecipesForm extends MenuForm
         return $form;
     }
 
-    public function armor8($sender)
+    public function armor8(Player $sender): Form
     {
 
 
@@ -920,7 +921,7 @@ class RecipesForm extends MenuForm
         return $form;
     }
 
-    public function armor9($sender)
+    public function armor9(Player $sender): Form
     {
 
 
@@ -962,7 +963,7 @@ class RecipesForm extends MenuForm
         return $form;
     }
 
-    public function armor10($sender)
+    public function armor10(Player $sender): Form
     {
 
 
@@ -1004,7 +1005,7 @@ class RecipesForm extends MenuForm
         return $form;
     }
 
-    public function armor11($sender)
+    public function armor11(Player $sender): Form
     {
 
 
@@ -1046,7 +1047,7 @@ class RecipesForm extends MenuForm
         return $form;
     }
 
-    public function armor12($sender)
+    public function armor12(Player $sender): Form
     {
 
 
@@ -1088,7 +1089,7 @@ class RecipesForm extends MenuForm
         return $form;
     }
 
-    public function armor13($sender)
+    public function armor13(Player $sender): Form
     {
 
 
@@ -1130,7 +1131,7 @@ class RecipesForm extends MenuForm
         return $form;
     }
 
-    public function armor14($sender)
+    public function armor14(Player $sender): Form
     {
 
 
@@ -1172,7 +1173,7 @@ class RecipesForm extends MenuForm
         return $form;
     }
 
-    public function armor15($sender)
+    public function armor15(Player $sender): Form
     {
 
 
@@ -1214,7 +1215,7 @@ class RecipesForm extends MenuForm
         return $form;
     }
 
-    public function armor16($sender)
+    public function armor16(Player $sender): Form
     {
 
 
@@ -1256,7 +1257,7 @@ class RecipesForm extends MenuForm
         return $form;
     }
 
-    public function armor17($sender)
+    public function armor17(Player $sender): Form
     {
 
 
@@ -1298,7 +1299,7 @@ class RecipesForm extends MenuForm
         return $form;
     }
 
-    public function armor18($sender)
+    public function armor18(Player $sender): Form
     {
 
 
@@ -1340,7 +1341,7 @@ class RecipesForm extends MenuForm
         return $form;
     }
 
-    public function armor19($sender)
+    public function armor19(Player $sender): Form
     {
 
 
@@ -1382,7 +1383,7 @@ class RecipesForm extends MenuForm
         return $form;
     }
 
-    public function armor20($sender)
+    public function armor20(Player $sender): Form
     {
 
 
@@ -1424,7 +1425,7 @@ class RecipesForm extends MenuForm
         return $form;
     }
     
-    public function ore($sender)
+    public function ore(Player $sender): Form
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
             /*$result = $data;
@@ -1479,7 +1480,7 @@ class RecipesForm extends MenuForm
         return $form;
     }
     
-    public function sword($sender)
+    public function sword(Player $sender): Form
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
             $result = $data;
@@ -1555,7 +1556,7 @@ class RecipesForm extends MenuForm
         return $form;
     }
     
-    public function axe($sender)
+    public function axe(Player $sender): Form
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
             $result = $data;
@@ -1599,7 +1600,7 @@ class RecipesForm extends MenuForm
         return $form;
     }
     
-    public function hoe($sender)
+    public function hoe(Player $sender): Form
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
             $result = $data;
@@ -1627,7 +1628,7 @@ class RecipesForm extends MenuForm
         return $form;
     }
     
-    public function pickaxe($sender)
+    public function pickaxe(Player $sender): Form
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
             $result = $data;
@@ -1679,7 +1680,7 @@ class RecipesForm extends MenuForm
         return $form;
     }
     
-    public function items($sender)
+    public function items(Player $sender): Form
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
             if ($data === null) {
@@ -1728,7 +1729,7 @@ class RecipesForm extends MenuForm
         return $form;
     }
     
-    public function wand($sender)
+    public function wand(Player $sender): Form
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
             $result = $data;
@@ -1763,7 +1764,7 @@ class RecipesForm extends MenuForm
         return $form;
     }
 
-    public function food($sender)
+    public function food(Player $sender): Form
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
             $result = $data;
