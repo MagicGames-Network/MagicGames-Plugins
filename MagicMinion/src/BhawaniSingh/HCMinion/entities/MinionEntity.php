@@ -15,10 +15,12 @@ use pocketmine\entity\Human;
 use pocketmine\item\ItemIds;
 use pocketmine\player\Player;
 use pocketmine\nbt\tag\ListTag;
+use pocketmine\promise\Promise;
 use pocketmine\item\ItemFactory;
 use pocketmine\utils\TextFormat;
 use pocketmine\item\VanillaItems;
 use onebone\economyapi\EconomyAPI;
+use pocketmine\world\format\Chunk;
 use pocketmine\block\VanillaBlocks;
 use pocketmine\inventory\Inventory;
 use pocketmine\nbt\tag\CompoundTag;
@@ -57,7 +59,10 @@ abstract class MinionEntity extends Human
     protected MinionInventory $minionInventory;
     protected int $currentAction = self::ACTION_IDLE;
     protected int $currentActionTicks = 0;
+    
+    protected bool $isWorking = false;
     protected Block $target;
+
     private float $money = 0;
 
     protected EnchantmentInstance $fakeEnchant;
@@ -313,12 +318,14 @@ abstract class MinionEntity extends Human
             if (!$this->checkFull()) {
                 return $hasUpdate;
             }
-            $this->getTarget();
-            
-            ++$this->currentActionTicks;
 
-            $this->target = $this->getWorld()->getBlock($this->target->getPosition());
-            if (!$this->getWorld()->isChunkLoaded($this->target->getPosition()->x, $this->target->getPosition()->z)) {
+            ++$this->currentActionTicks;
+            if (!$this->isWorking) {
+                $this->getTarget();
+                $this->isWorking = true;
+            }
+
+            if (!$this->getWorld()->requestChunkPopulation($this->target->getPosition()->getX() >> Chunk::COORD_BIT_SIZE, $this->target->getPosition()->getZ() >> Chunk::COORD_BIT_SIZE, null) instanceof Promise) {
                 return false;
             }
             if (!$this->checkTarget()) {
@@ -348,7 +355,6 @@ abstract class MinionEntity extends Human
                         }
                         if ($this->isWorkFast() && $this->currentActionTicks === 2) {
                             $this->startWorking();
-                            $this->stopWorking();
                         }
                         $pk = new AnimatePacket();
                         $pk->action = AnimatePacket::ACTION_SWING_ARM;
@@ -549,7 +555,7 @@ abstract class MinionEntity extends Human
         $this->currentActionTicks = 0;
 
         $this->getWorld()->broadcastPacketToViewers($this->getPosition(), LevelEventPacket::create(LevelEvent::BLOCK_STOP_BREAK, 0, $this->target->getPosition()));
-        $this->target = VanillaBlocks::AIR();
+        $this->isWorking = false;
     }
 
     protected function isInventoryFull(): bool

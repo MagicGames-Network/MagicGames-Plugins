@@ -64,6 +64,14 @@ class IslandListener implements Listener
                 $event->uncancel();
                 return;
             }
+            $defaultWorld = Server::getInstance()->getWorldManager()->getDefaultWorld();
+            if ($defaultWorld instanceof World) {
+                if ($level = $defaultWorld->getFolderName()) {
+                    $event->uncancel();
+                }
+                return;
+            }
+            
             if (in_array($player->getName(), $data->getNested($level . ".island" . ".this-partners"))) {
                 if ($data->getNested($level . ".island" . ".settings" . ".interact") === true) {
                     $event->uncancel();
