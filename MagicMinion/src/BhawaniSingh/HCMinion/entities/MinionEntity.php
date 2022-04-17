@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace BhawaniSingh\HCMinion\entities;
 
+use pocketmine\Server;
+use pocketmine\nbt\NBT;
 use pocketmine\item\Item;
 use pocketmine\item\Armor;
 use muqsit\invmenu\InvMenu;
@@ -30,7 +32,9 @@ use BhawaniSingh\HCMinion\utils\Utils;
 use BhawaniSingh\HCMinion\BetterMinion;
 use muqsit\invmenu\type\InvMenuTypeIds;
 use pocketmine\item\StringToItemParser;
+use pocketmine\item\enchantment\ItemFlags;
 use pocketmine\entity\effect\EffectInstance;
+use pocketmine\item\enchantment\Enchantment;
 use pocketmine\data\bedrock\EnchantmentIdMap;
 use pocketmine\item\LegacyStringToItemParser;
 use pocketmine\event\entity\EntityDamageEvent;
@@ -56,7 +60,7 @@ abstract class MinionEntity extends Human
     protected MinionInventory $minionInventory;
     protected int $currentAction = self::ACTION_IDLE;
     protected int $currentActionTicks = 0;
-    
+
     protected bool $isWorking = false;
     protected Block $target;
 
@@ -71,15 +75,22 @@ abstract class MinionEntity extends Human
     {
         $nbt = parent::saveNBT();
 
-        if (isset($this->minionInventory)) {
-            $nbt->setTag('MinionInventory', new ListTag(array_map(function (Item $item): CompoundTag {
-                return $item->nbtSerialize();
-            }, $this->minionInventory->getContents())));
-        }
         if (isset($this->minionInformation)) {
             $nbt->setTag("MinionInformation", $this->minionInformation->nbtSerialize());
         }
-        $nbt->setFloat('Money', $this->money);
+        if (isset($this->minionInventory)) {
+            $nbt->setTag('MinionInventory', new ListTag(
+                array_map(
+                    fn (Item $item) => $item->nbtSerialize(),
+                    $this->minionInventory->getContents()
+                ),
+                NBT::TAG_Compound
+            ));
+        }
+        if (isset($this->money)) {
+            $nbt->setFloat('Money', $this->money);
+        }
+        
         return $nbt;
     }
 
@@ -417,20 +428,19 @@ abstract class MinionEntity extends Human
         $this->minionInformation = MinionInformation::nbtDeserialize($listTag);
         $this->minionInventory = new MinionInventory(15);
         $this->minionInventory->setSize($this->minionInformation->getLevel());
-        $this->money = $this->saveNBT()->getFloat('Money', 0);
+        $this->money = $nbt->getFloat('Money', 0);
 
         /** @phpstan-ignore-next-line */
         $this->fakeEnchant = new EnchantmentInstance(EnchantmentIdMap::getInstance()->fromId(BetterMinion::FAKE_ENCH_ID));
         $this->target = VanillaBlocks::AIR();
 
-        $invTag = $this->saveNBT()->getTag('MinionInventory');
+        $invTag = $nbt->getTag('MinionInventory');
         if ($invTag instanceof ListTag) {
-            $this->minionInventory->setContents(array_map(function (Tag $tag): Item {
-                if ($tag instanceof CompoundTag) {
-                    return Item::nbtDeserialize($tag);
-                }
-                return ItemFactory::getInstance()->get(BlockLegacyIds::STAINED_GLASS_PANE, 15);
-            }, $invTag->getValue()));
+            $this->minionInventory->setContents(array_map(
+                fn (CompoundTag $itemTag) => Item::nbtDeserialize($itemTag),
+                $invTag->getValue()
+            ));
+            $this->minionInventory->reorder();
         }
         $armor1 = ItemFactory::getInstance()->get(397, 3, 1);
         $color = new Color(192, 192, 192);
@@ -555,8 +565,6 @@ abstract class MinionEntity extends Human
 
         $this->getWorld()->broadcastPacketToViewers($this->getPosition(), LevelEventPacket::create(LevelEvent::BLOCK_STOP_BREAK, 0, $this->target->getPosition()));
         $this->isWorking = false;
-        
-        $this->saveNBT();
     }
 
     protected function isInventoryFull(): bool
