@@ -7,6 +7,7 @@ use pocketmine\player\Player;
 
 class PlayerQuestFinishEvent extends Event
 {
+
     private Player $player;
 
     private string $quest;
