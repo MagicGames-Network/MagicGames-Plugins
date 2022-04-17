@@ -5,6 +5,8 @@ namespace Quest\providers;
 use pocketmine\Server;
 use Quest\Quest;
 use SQLite3;
+use SQLite3Result;
+use SQLite3Stmt;
 
 class SQLiteProvider extends Provider
 {
@@ -23,6 +25,7 @@ class SQLiteProvider extends Provider
 
     public function addQuest(string $playerName,string $quest): void
     {
+		/** @var SQLite3Stmt $stmt */
         $stmt = $this->database->prepare("INSERT INTO quest (playerName, quest, progress) VALUES (:playerName, :quest, :progress)");
         $stmt->bindValue(":playerName",$playerName);
         $stmt->bindValue(":quest",$quest);
@@ -32,6 +35,7 @@ class SQLiteProvider extends Provider
 
     public function removeQuest(string $playerName): void
     {
+		/** @var SQLite3Stmt $stmt */
         $stmt = $this->database->prepare("DELETE FROM quest WHERE playerName=:playerName");
         $stmt->bindValue(":playerName",$playerName);
         $stmt->execute();
