@@ -12,6 +12,7 @@ class SkinCommand extends Command
     public function __construct()
     {
         parent::__construct("skin", "§eSkin Stealer");
+        $this->setPermission("skin.cmd");
     }
 
     public function execute(CommandSender $sender, string $commandLabel, array $args): mixed

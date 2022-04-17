@@ -39,6 +39,8 @@ use Pushkar\MagicCore\commands\CustomArmorCommand;
 use Pushkar\MagicCore\commands\InformationCommand;
 use Pushkar\MagicCore\commands\SocialmediaCommand;
 use Pushkar\MagicCore\commands\AnnouncementCommand;
+use Pushkar\MagicCore\commands\JerryCommand;
+use Pushkar\MagicCore\commands\SellUiCommand;
 
 final class CommandManager
 {
@@ -87,7 +89,9 @@ final class CommandManager
             "socialmedia" => new SocialmediaCommand(),
             "stafflist" => new StafflistCommand(),
             "totorials" => new TotorialsCommand(),
-            "xyz" => new XyzCommand()
+            "xyz" => new XyzCommand(),
+            "sellui" => new SellUiCommand(),
+            "jerry" => new JerryCommand()
         ];
     }
 }

@@ -19,18 +19,18 @@ class WarpForm extends MenuForm
             "§6§lWARPS",
             "",
             [
-                new MenuOption("§l§3PVP\n§l§9»» §r§oTap to open", new FormIcon("https://image.flaticon.com/icons/png/128/1496/1496125.png", FormIcon::IMAGE_TYPE_URL)),
-                new MenuOption("§l§3FOREST\n§l§9»» §r§oTap to open", new FormIcon("https://image.flaticon.com/icons/png/128/3277/3277595.png", FormIcon::IMAGE_TYPE_URL)),
-                new MenuOption("§l§3MINE\n§l§9»» §r§oTap to open", new FormIcon("https://image.flaticon.com/icons/png/128/4080/4080723.png", FormIcon::IMAGE_TYPE_URL)),
-                new MenuOption("§l§3FARM\n§l§9»» §r§oTap to open", new FormIcon("https://image.flaticon.com/icons/png/128/2921/2921855.png", FormIcon::IMAGE_TYPE_URL)),
-                new MenuOption("§l§3GRAVEYARD\n§l§9»» §r§oTap to open", new FormIcon("https://image.flaticon.com/icons/png/128/4321/4321459.png", FormIcon::IMAGE_TYPE_URL)),
-                new MenuOption("§l§3LIFT UI\n§l§9»» §r§oTap to open", new FormIcon("https://image.flaticon.com/icons/png/128/3321/3321009.png", FormIcon::IMAGE_TYPE_URL)),
-                new MenuOption("§l§3ISLAND\n§l§9»» §r§oTap to open", new FormIcon("https://image.flaticon.com/icons/png/128/4617/4617270.png", FormIcon::IMAGE_TYPE_URL)),
-                new MenuOption("§l§3HUB\n§l§9»» §r§oTap to open", new FormIcon("https://image.flaticon.com/icons/png/128/602/602182.png", FormIcon::IMAGE_TYPE_URL)),
-                new MenuOption("§l§3NETHER\n§l§9»» §r§oTap to open", new FormIcon("https://image.flaticon.com/icons/png/512/3643/3643525.png", FormIcon::IMAGE_TYPE_URL)),
-                new MenuOption("§l§3END\n§l§9»» §r§oTap to open", new FormIcon("https://image.flaticon.com/icons/png/128/1127/1127941.png", FormIcon::IMAGE_TYPE_URL)),
-                new MenuOption("§l§3CRATES\n§l§9»» §r§oTap to open", new FormIcon("https://image.flaticon.com/icons/png/512/1355/1355900.png", FormIcon::IMAGE_TYPE_URL)),
-                new MenuOption("§l§3LEADERBOARD\n§l§9»» §r§oTap to open", new FormIcon("https://image.flaticon.com/icons/png/128/1426/1426727.png", FormIcon::IMAGE_TYPE_URL))
+                new MenuOption("§l§3PVP\n§l§9»» §r§oTap to open", new FormIcon("https://cdn-icons-png.flaticon.com/128/1496/1496125.png", FormIcon::IMAGE_TYPE_URL)),
+                new MenuOption("§l§3FOREST\n§l§9»» §r§oTap to open", new FormIcon("https://cdn-icons-png.flaticon.com/128/3277/3277595.png", FormIcon::IMAGE_TYPE_URL)),
+                new MenuOption("§l§3MINE\n§l§9»» §r§oTap to open", new FormIcon("https://cdn-icons-png.flaticon.com/128/4080/4080723.png", FormIcon::IMAGE_TYPE_URL)),
+                new MenuOption("§l§3FARM\n§l§9»» §r§oTap to open", new FormIcon("https://cdn-icons-png.flaticon.com/128/2921/2921855.png", FormIcon::IMAGE_TYPE_URL)),
+                new MenuOption("§l§3GRAVEYARD\n§l§9»» §r§oTap to open", new FormIcon("https://cdn-icons-png.flaticon.com/128/4321/4321459.png", FormIcon::IMAGE_TYPE_URL)),
+                new MenuOption("§l§3LIFT UI\n§l§9»» §r§oTap to open", new FormIcon("https://cdn-icons-png.flaticon.com/128/3321/3321009.png", FormIcon::IMAGE_TYPE_URL)),
+                new MenuOption("§l§3ISLAND\n§l§9»» §r§oTap to open", new FormIcon("https://cdn-icons-png.flaticon.com/128/4617/4617270.png", FormIcon::IMAGE_TYPE_URL)),
+                new MenuOption("§l§3HUB\n§l§9»» §r§oTap to open", new FormIcon("https://cdn-icons-png.flaticon.com/128/602/602182.png", FormIcon::IMAGE_TYPE_URL)),
+                new MenuOption("§l§3NETHER\n§l§9»» §r§oTap to open", new FormIcon("https://cdn-icons-png.flaticon.com/512/3643/3643525.png", FormIcon::IMAGE_TYPE_URL)),
+                new MenuOption("§l§3END\n§l§9»» §r§oTap to open", new FormIcon("https://cdn-icons-png.flaticon.com/128/1127/1127941.png", FormIcon::IMAGE_TYPE_URL)),
+                new MenuOption("§l§3CRATES\n§l§9»» §r§oTap to open", new FormIcon("https://cdn-icons-png.flaticon.com/512/1355/1355900.png", FormIcon::IMAGE_TYPE_URL)),
+                new MenuOption("§l§3LEADERBOARD\n§l§9»» §r§oTap to open", new FormIcon("https://cdn-icons-png.flaticon.com/128/1426/1426727.png", FormIcon::IMAGE_TYPE_URL))
             ],
             function (Player $player, int $selected) use ($main): void {
                 switch ($selected) {

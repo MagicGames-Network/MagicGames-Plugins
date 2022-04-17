@@ -15,8 +15,8 @@ class SpeedCommand extends Command
     public function __construct()
     {
         parent::__construct("speed", "§eGet Speed :D");
+        $this->setPermission("speed.cmd");
     }
-
 
     public function execute(CommandSender $sender, string $commandLabel, array $args): mixed
     {

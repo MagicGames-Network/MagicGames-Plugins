@@ -9,12 +9,12 @@ use pocketmine\command\CommandSender;
 
 class VanishCommand extends Command
 {
-
     private array $vanish = [];
 
     public function __construct()
     {
         parent::__construct("vanish", "§eVanish Command");
+        $this->setPermission("vanish.cmd");
     }
 
     public function execute(CommandSender $sender, string $commandLabel, array $args): mixed

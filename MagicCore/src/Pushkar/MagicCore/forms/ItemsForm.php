@@ -3,6 +3,7 @@
 namespace Pushkar\MagicCore\forms;
 
 use pocketmine\Server;
+use Pushkar\MagicCore\Main;
 use jojoe77777\FormAPI\Form;
 use dktapps\pmforms\FormIcon;
 use dktapps\pmforms\MenuForm;
@@ -12,6 +13,7 @@ use pocketmine\item\ItemFactory;
 use jojoe77777\FormAPI\SimpleForm;
 use pocketmine\item\enchantment\ItemFlags;
 use pocketmine\item\enchantment\Enchantment;
+use pocketmine\data\bedrock\EnchantmentIdMap;
 use pocketmine\item\enchantment\EnchantmentInstance;
 use DaPigGuy\PiggyCustomEnchants\PiggyCustomEnchants;
 use DaPigGuy\PiggyCustomEnchants\CustomEnchantManager;
@@ -78,7 +80,7 @@ class ItemsForm extends MenuForm
                     break;
 
                 case 9:
-                    $this->wand($sender);
+                    $this->rune($sender);
                     break;
 
                 case 10:
@@ -1363,6 +1365,100 @@ class ItemsForm extends MenuForm
         $form->addButton("§l§dPIZZA\n§9»» §r§6Tap To View", 0, "textures/items/food/pizza");
         $form->addButton("§l§dSANDWICH\n§9»» §r§6Tap To View", 0, "textures/items/food/sandwich");
         $form->addButton("§l§dCUP CAKE\n§9»» §r§6Tap To View", 0, "textures/items/food/yellowcupcake");
+        $form->addButton("§l§aBACK\n§9»» §r§bTap To Go Back", 0, "textures/ui/icon_import");
+        $sender->sendForm($form);
+        return $form;
+    }
+    public function rune(Player $sender): Form
+    {
+        $form = new SimpleForm(function (Player $sender, int $data = null) {
+            $result = $data;
+            if ($result === null) {
+                return true;
+            }
+            switch ($result) {
+                case 0:
+                    $item = ItemFactory::getInstance()->get(1015, 0, 64);
+                    $item->addEnchantment($this->fakeEnchant);
+                    $item->setCustomName("§r§e§l HOT RUNE");
+                    $item->setLore(["§r§7Use This To Craft Custom Items.\n\n§r§l§eLEGENDARY"]);
+                    $inv = $sender->getInventory();
+                    $inv->addItem($item);
+                    break;
+
+                case 1:
+                    $item = ItemFactory::getInstance()->get(1016, 0, 64);
+                    $item->addEnchantment($this->fakeEnchant);
+                    $item->setCustomName("§r§e§l ICE RUNE");
+                    $item->setLore(["§r§7Use This To Craft Custom Items.\n\n§r§l§eLEGENDARY"]);
+                    $inv = $sender->getInventory();
+                    $inv->addItem($item);
+                    break;
+
+                case 2:
+                    $item = ItemFactory::getInstance()->get(1017, 0, 64);
+                    $item->addEnchantment($this->fakeEnchant);
+                    $item->setCustomName("§r§e§l LAVA RUNE");
+                    $item->setLore(["§r§7Use This To Craft Custom Items.\n\n§r§l§eLEGENDARY"]);
+                    $inv = $sender->getInventory();
+                    $inv->addItem($item);
+                    break;
+
+                case 3:
+                    $item = ItemFactory::getInstance()->get(1014, 0, 64);
+                    $item->addEnchantment($this->fakeEnchant);
+                    $item->setCustomName("§r§e§l HEART RUNE");
+                    $item->setLore(["§r§7Use This To Craft Custom Items.\n\n§r§l§eLEGENDARY"]);
+                    $inv = $sender->getInventory();
+                    $inv->addItem($item);
+                    break;
+                case 4:
+                    $item = ItemFactory::getInstance()->get(1021, 0, 64);
+                    $item->addEnchantment($this->fakeEnchant);
+                    $item->setCustomName("§r§e§l RAINBOW RUNE");
+                    $item->setLore(["§r§7Use This To Craft Custom Items.\n\n§r§l§eLEGENDARY"]);
+                    $inv = $sender->getInventory();
+                    $inv->addItem($item);
+                    break;
+                case 5:
+                    $item = ItemFactory::getInstance()->get(1027, 0, 64);
+                    $item->addEnchantment($this->fakeEnchant);
+                    $item->setCustomName("§r§e§l ZAP RUNE");
+                    $item->setLore(["§r§7Use This To Craft Custom Items.\n\n§r§l§eLEGENDARY"]);
+                    $inv = $sender->getInventory();
+                    $inv->addItem($item);
+                    break;
+                case 6:
+                    $item = ItemFactory::getInstance()->get(1013, 0, 64);
+                    $item->addEnchantment($this->fakeEnchant);
+                    $item->setCustomName("§r§e§l GOLDEN RUNE");
+                    $item->setLore(["§r§7Use This To Craft Custom Items.\n\n§r§l§eLEGENDARY"]);
+                    $inv = $sender->getInventory();
+                    $inv->addItem($item);
+                    break;
+                case 7:
+                    $item = ItemFactory::getInstance()->get(1023, 0, 64);
+                    $item->addEnchantment($this->fakeEnchant);
+                    $item->setCustomName("§r§e§l SNOW RUNE");
+                    $item->setLore(["§r§7Use This To Craft Custom Items.\n\n§r§l§eLEGENDARY"]);
+                    $inv = $sender->getInventory();
+                    $inv->addItem($item);
+                    break;
+                case 8:
+                    $sender->sendForm(new ItemsForm());
+                    break;
+            }
+        });
+        $form->setTitle("§l§6WANDS RECIPES");
+        $form->setContent("§bSelect The Recipe You Want To Craft:");
+        $form->addButton("§l§dHot\n§9»» §r§6Tap To View", 0, "textures/items/wand/builders_wand");
+        $form->addButton("§l§dice\n§9»» §r§6Tap To View", 0, "textures/items/wand/sell_wand");
+        $form->addButton("§l§dlava\n§9»» §r§6Tap To View", 0, "textures/items/wand/melt_wand");
+        $form->addButton("§l§dheart\n§9»» §r§6Tap To View", 0, "textures/items/wand/melt_wand");
+        $form->addButton("§l§drainbow\n§9»» §r§6Tap To View", 0, "textures/items/wand/melt_wand");
+        $form->addButton("§l§dzap\n§9»» §r§6Tap To View", 0, "textures/items/wand/melt_wand");
+        $form->addButton("§l§dgolden\n§9»» §r§6Tap To View", 0, "textures/items/wand/melt_wand");
+        $form->addButton("§l§dsnow\n§9»» §r§6Tap To View", 0, "textures/items/wand/melt_wand");
         $form->addButton("§l§aBACK\n§9»» §r§bTap To Go Back", 0, "textures/ui/icon_import");
         $sender->sendForm($form);
         return $form;

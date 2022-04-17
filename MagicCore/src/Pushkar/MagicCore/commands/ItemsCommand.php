@@ -12,6 +12,7 @@ class ItemsCommand extends Command
     public function __construct()
     {
         parent::__construct("items", "§eAdmins Items :)");
+        $this->setPermission("items.cmd");
     }
 
     public function execute(CommandSender $sender, string $commandLabel, array $args): mixed

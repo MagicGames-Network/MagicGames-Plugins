@@ -12,6 +12,7 @@ class InvClearCommand extends Command
     public function __construct()
     {
         parent::__construct("invclear", "§eClear Your Inventory");
+        $this->setPermission("soon.cmd");
     }
 
     public function execute(CommandSender $sender, string $commandLabel, array $args): mixed

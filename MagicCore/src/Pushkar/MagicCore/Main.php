@@ -103,16 +103,10 @@ class Main extends PluginBase implements Listener
     {
         if ($this->getConfig()->get("Crash-Rejoin") === true) {
             foreach ($this->getServer()->getOnlinePlayers() as $sender) {
-                $sender->sendMessage("§l§cDISCONNECTED FROM SERVER\n§r§bServer Is Restarting");
-                
-                $server = $this->getConfig()->get("Crash-Rejoin-Server");
-                if (!is_string($server)) {
-                    return;
-                }
-
-                $player = $sender->getName();
-                StarGateAtlantis::getInstance()->transferPlayer($sender, $server);
-                $this->getLogger()->info("§eSuccessfully Transfered Player ${player}");
+                $sender->sendMessage("§l§cSERVER RESTARTING");
+                $sender->transfer($this->getConfig()->get("IP"), $this->getConfig()->get("Port"));
+                $name = $sender->getName();
+                $this->getLogger()->info("§ePlayer ${name} Has Been Successfully Transfered");
             }
         }
     }

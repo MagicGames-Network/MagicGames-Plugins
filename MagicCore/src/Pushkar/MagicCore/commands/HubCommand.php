@@ -19,10 +19,12 @@ class HubCommand extends Command
     {
         if ($sender instanceof Player) {
             $defaultWorld = Server::getInstance()->getWorldManager()->getDefaultWorld();
-            if ($defaultWorld instanceof World) {
-                $sender->teleport($defaultWorld->getSafeSpawn());
-                $sender->sendTitle("§6Welcome To Hub", "§eMagic§6Games");
+            if (!$defaultWorld instanceof World) {
+                return false;
             }
+
+            $sender->teleport($defaultWorld->getSafeSpawn());
+            $sender->sendTitle("§6Welcome To Hub", "§eMagic§6Games");
             return true;
         }
         $sender->sendMessage("Use this command in-game");

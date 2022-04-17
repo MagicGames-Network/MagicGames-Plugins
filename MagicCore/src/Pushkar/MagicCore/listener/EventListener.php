@@ -14,9 +14,11 @@ use pocketmine\item\ItemFactory;
 use pocketmine\utils\TextFormat;
 use onebone\economyapi\EconomyAPI;
 use pocketmine\math\VoxelRayTrace;
+use pocketmine\block\BlockLegacyIds;
 use Pushkar\MagicCore\forms\StarForm;
 use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\console\ConsoleCommandSender;
+use pocketmine\event\player\PlayerChatEvent;
 use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\event\player\PlayerMoveEvent;
 use pocketmine\event\player\PlayerDeathEvent;
@@ -106,11 +108,13 @@ class EventListener implements Listener
         switch ($event->getAction()) {
             case PlayerInteractEvent::LEFT_CLICK_BLOCK:
                 if ($item->getId() === 1070 && $item->getCustomName() === "§r§aSkyblock Menu §7( Right Click )§r") {
+                    $event->cancel();
                     $sender->sendForm(new StarForm());;
                 }
                 break;
             case PlayerInteractEvent::RIGHT_CLICK_BLOCK:
                 if ($item->getId() === 1070 && $item->getCustomName() === "§r§aSkyblock Menu §7( Right Click )§r") {
+                    $event->cancel();
                     $sender->sendForm(new StarForm());
                 }
                 if (Main::getInstance()->getConfig()->get("Anvil-Ui") === true) {
@@ -342,18 +346,24 @@ class EventListener implements Listener
     public function onMove(PlayerMoveEvent $event): void
     {
         $player = $event->getPlayer();
-        $level = $player->getWorld();
-        if ($level->getBlock($player->getPosition())->getName() === "End Portal") {
-            Main::getInstance()->getServer()->dispatchCommand($player, Main::getInstance()->getConfig()->get("EndPortalCommand"));
+        $block = $player->getWorld()->getBlock($player->getPosition());
+        if ($block->getId() == BlockLegacyIds::END_PORTAL) {
+            Server::getInstance()->dispatchCommand($player, "join");
         }
-        if ($level->getBlock($player->getPosition())->getName() === "Portal") {
-            Main::getInstance()->getServer()->dispatchCommand($player, Main::getInstance()->getConfig()->get("PortalCommand"));
+        if ($block->getId() == BlockLegacyIds::PORTAL) {
+            Server::getInstance()->dispatchCommand($player, "hub");
         }
     }
 
-    /*public function onQuit(PlayerQuitEvent $event): void
+    public function onChat(PlayerChatEvent $event): void
     {
         $sender = $event->getPlayer();
-        $event->setQuitMessage(str_replace(["{name}"], [$sender->getName()], Main::getInstance()->getConfig()->get("left-message")));
-    }*/
+        $commandsConfig = Main::getInstance()->getConfig()->getAll();
+        if ($sender->hasPermission("emojis.chat")) {
+            foreach ($commandsConfig["TextReplacer"] as $var) {
+                $message = str_replace($var["Before"], $var["After"], $event->getMessage());
+                $event->setMessage($message);
+            }
+        }
+    }
 }

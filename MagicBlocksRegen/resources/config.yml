@@ -1,0 +1,73 @@
+---
+# Do not change this (Only for internal use)!
+config-version: 1.6
+
+# The time in seconds when the block will be replaced with the previous block.
+cooldown: 5
+
+# Dropped items will be automatically added to the player's inventory.
+# If the player inventory is full, the item will automatically be dropped near the player.
+auto-pickup: true
+
+# Default block to use as a replacement.
+# If the block has meta, you can use the format "id:meta".
+default-replace: "air"
+# List of blocks to be replaced.
+# If the block has a meta, you can use the format "id:meta".
+list-blocks:
+  - "16:0=bedrock"
+  - "14:0=bedrock"
+  - "15:0=bedrock"
+  - "56:0=bedrock"
+  - "129:0=bedrock"
+  - "21:0=bedrock"
+  - "73:0=bedrock"
+  - "74:0=bedrock"
+  - "59:7"
+  - "141:7"
+  - "142:7"
+  - "103:0"
+  - "86:0"
+  - "81:0"
+  - "127:9"
+  - "127:10"
+  - "127:11"
+  - "127:8"
+  - "115:3"
+  - "39:0"
+  - "40:0"
+  - "99:15"
+  - "100:15"
+  - "100:14"
+  - "99:14"
+  - "83:0"
+  - "467:0"
+  - "467:1"
+  - "467:2"
+  - "467:3"
+  - "467:4"
+  - "467:5"
+  - "3:0=bedrock"
+  - "12:0=bedrock"
+  - "87:0=bedrock"
+
+# Set this to true if you want to use the blacklisted-worlds settings.
+# If both enable-world-blacklist and disable-world-blacklist are set to the same setting,
+# block will be replaced for all worlds.
+enable-world-blacklist: false
+# If enable-world-blacklist is set to true, block will be replaced for all worlds,
+# except the worlds mentioned here.
+blacklisted-worlds:
+  - "blacklistedworld1"
+  - "blacklistedworld2"
+
+# Set this to true if you want to use the whitelisted-worlds settings.
+# If both enable-world-blacklist and disable-world-blacklist are set to the same setting,
+# block will not be replaced for all worlds.
+enable-world-whitelist: true
+# If enable-world-whitelist is set to true, block will not be replaced for all worlds,
+# except the worlds mentioned here.
+whitelisted-worlds:
+  - "MagicGames"
+  - "Mining"
+...

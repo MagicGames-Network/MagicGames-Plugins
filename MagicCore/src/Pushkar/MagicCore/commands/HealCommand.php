@@ -12,6 +12,7 @@ class HealCommand extends Command
     public function __construct()
     {
         parent::__construct("heal", "§eFill your health bar");
+        $this->setPermission("heal.cmd");
     }
 
     public function execute(CommandSender $sender, string $commandLabel, array $args): mixed

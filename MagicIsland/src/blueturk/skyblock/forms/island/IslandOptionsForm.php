@@ -18,6 +18,10 @@ class IslandOptionsForm extends MenuForm
     public function __construct(Player $player)
     {
         $visitStatus = SkyBlock::getInstance()->getConfig()->getNested("Visits." . $player->getName());
+        if (!is_bool($visitStatus)) {
+            return;
+        }
+        
         parent::__construct(
             SkyBlock::BT_TITLE . "Island",
             "",

@@ -1,0 +1,7 @@
+---
+name: MagicBlocksRegen
+main: aiptu\blockreplacer\BlockReplacer
+version: 1.6.0
+api: 4.0.0
+author: AIPTU
+...

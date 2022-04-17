@@ -10,6 +10,8 @@ permissions:
     default: op
   caui.cmd:
     default: op
+  soon.cmd:
+    default: op
   items.cmd:
     default: op
   feed.cmd:
@@ -81,7 +83,7 @@ permissions:
   ranklist.cmd:
      default: true
   size.cmd:
-     default: true
+     default: op
   fly.cmd:
-     default: true
+     default: op
   

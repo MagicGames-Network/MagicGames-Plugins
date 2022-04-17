@@ -10,12 +10,12 @@ use pocketmine\entity\effect\VanillaEffects;
 
 class VisionCommand extends Command
 {
-
     private array $vision;
 
     public function __construct()
     {
         parent::__construct("vision", "§eGet Vision :D");
+        $this->setPermission("vision.cmd");
     }
 
     public function execute(CommandSender $sender, string $commandLabel, array $args): mixed

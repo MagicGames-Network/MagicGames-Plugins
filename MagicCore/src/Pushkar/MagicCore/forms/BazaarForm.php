@@ -20,10 +20,10 @@ class BazaarForm extends MenuForm
         ], function (Player $player, int $selected): void {
             switch ($selected) {
                 case 0:
-                    Server::getInstance()->dispatchCommand($player, "sell hand");
+                    Server::getInstance()->dispatchCommand($player, "sellui");
                     break;
                 case 1:
-                    Server::getInstance()->dispatchCommand($player, "sell ore");
+                    Server::getInstance()->dispatchCommand($player, "shop");
                     break;
                 case 2:
                     Server::getInstance()->dispatchCommand($player, "sell all");

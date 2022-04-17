@@ -12,6 +12,7 @@ class FeedCommand extends Command
     public function __construct()
     {
         parent::__construct("feed", "§eFill your hunger bar");
+        $this->setPermission("feed.cmd");
     }
 
     public function execute(CommandSender $sender, string $commandLabel, array $args): mixed

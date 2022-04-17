@@ -60,14 +60,18 @@ class IslandListener implements Listener
                 $event->uncancel();
                 return;
             }
-            $defaultWorld = Server::getInstance()->getWorldManager()->getDefaultWorld();
-            if ($defaultWorld instanceof World) {
-                if ($level = $defaultWorld->getFolderName()) {
-                    $event->uncancel();
+            $worlds = ["MagicGames", "Mining", "Arena"];
+            foreach ($worlds as $world) {
+                $world = Server::getInstance()->getWorldManager()->getWorldByName($world);
+                if (!$world instanceof World) {
+                    continue;
                 }
-                return;
+                
+                if ($player->getPosition()->getWorld()->getFolderName() === $world->getFolderName()) {
+                    $event->uncancel();
+                    return;
+                }
             }
-
             if (in_array($player->getName(), $data->getNested($level . ".island" . ".this-partners"))) {
                 if ($data->getNested($level . ".island" . ".settings" . ".interact") === true) {
                     $event->uncancel();
@@ -122,6 +126,18 @@ class IslandListener implements Listener
                 $event->uncancel();
                 return;
             }
+            $worlds = ["MagicGames", "Mining", "Arena"];
+            foreach ($worlds as $world) {
+                $world = Server::getInstance()->getWorldManager()->getWorldByName($world);
+                if (!$world instanceof World) {
+                    continue;
+                }
+                
+                if ($player->getPosition()->getWorld()->getFolderName() === $world->getFolderName()) {
+                    $event->uncancel();
+                    return;
+                }
+            }
             if (in_array($player->getName(), $data->getNested($level . ".island" . ".this-partners"))) {
                 if ($data->getNested($level . ".island" . ".settings" . ".break") === true) {
                     $event->uncancel();
@@ -154,6 +170,18 @@ class IslandListener implements Listener
                 if (Server::getInstance()->isOp($player->getName())) {
                     $event->uncancel();
                     return;
+                }
+                $worlds = ["MagicGames", "Mining", "Arena"];
+                foreach ($worlds as $world) {
+                    $world = Server::getInstance()->getWorldManager()->getWorldByName($world);
+                    if (!$world instanceof World) {
+                        continue;
+                    }
+
+                    if ($player->getPosition()->getWorld()->getFolderName() === $world->getFolderName()) {
+                        $event->uncancel();
+                        return;
+                    }
                 }
                 if (in_array($player->getName(), $data->getNested($level . ".island" . ".this-partners"))) {
                     if ($data->getNested($level . ".island" . ".settings" . ".picking-up") === true) {

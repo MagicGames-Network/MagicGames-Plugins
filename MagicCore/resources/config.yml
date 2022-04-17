@@ -10,23 +10,12 @@ load-worlds:
  - "Arena"
  - "Mining"
  
-unregister-commands:
- - "stop"
- - "ver"
- - "version"
- - "about"
- 
-#Use {name} for player name 
-join-message: "§a[+] {name}"
-quit-message: "§c[-] {name}"
-#Server Name
-server-modt: "§l§eMAGICGAMES SKYBLOCK"
 #Tp To Hub When Join
-Hub-Spawn: true
+Hub-Spawn: false
 #Crash Rejoin
-Crash-Rejoin: false
+Crash-Rejoin: true
 Crash-Rejoin-Server: "lobby1"
-
+  
 ####################################################
 #Basic setup
 #
@@ -553,4 +542,41 @@ Anvil-Ui: true
 
 survivalserver.cmd: ""
 
-
+#Chat Replacer
+TextReplacer:
+  - Before: ":sword:"
+    After: ""
+  - Before: ":skull:"
+    After: ""
+  - Before: ":earth:"
+    After: ""
+  - Before: ":portal:"
+    After: ""
+  - Before: ":dice:"
+    After: ""
+  - Before: ":candy:"
+    After: ""
+  - Before: ":crown:"
+    After: ""
+  - Before: ":star:"
+    After: ""
+  - Before: ":diamond:"
+    After: ""
+  - Before: ":bruh:"
+    After: ""
+  - Before: ":hehe:"
+    After: ""
+  - Before: ":ooo:"
+    After: ""
+  - Before: ":cry:"
+    After: ""
+  - Before: ":stare:"
+    After: ""
+  - Before: ":happy:"
+    After: ""
+  - Before: ":angry:"
+    After: ""
+  - Before: ":hmm:"
+    After: ""
+  - Before: ":sus:"
+    After: ""
