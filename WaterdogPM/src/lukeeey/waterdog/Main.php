@@ -5,40 +5,26 @@ declare(strict_types=1);
 namespace lukeeey\waterdog;
 
 use ReflectionClass;
-use pocketmine\Server;
 use JsonMapper_Exception;
 use pocketmine\event\Listener;
-use pocketmine\scheduler\Task;
 use pocketmine\plugin\PluginBase;
 use pocketmine\network\mcpe\JwtUtils;
 use pocketmine\network\mcpe\JwtException;
 use pocketmine\player\XboxLivePlayerInfo;
-use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\event\player\PlayerLoginEvent;
 use pocketmine\network\PacketHandlingException;
 use pocketmine\network\mcpe\protocol\LoginPacket;
 use pocketmine\event\server\DataPacketReceiveEvent;
-use pocketmine\network\mcpe\raklib\RakLibInterface;
 use pocketmine\network\mcpe\handler\LoginPacketHandler;
 use pocketmine\network\mcpe\protocol\types\login\ClientData;
 
 class Main extends PluginBase implements Listener
 {
+    private array $cache = [];
+    
     public function onEnable(): void
     {
         $this->getServer()->getPluginManager()->registerEvents($this, $this);
-
-        $this->getScheduler()->scheduleRepeatingTask(new class extends Task
-        {
-            public function onRun(): void
-            {
-                foreach (Server::getInstance()->getNetwork()->getInterfaces() as $interface) {
-                    if ($interface instanceof RakLibInterface) {
-                        $interface->unblockAddress("172.18.0.1");
-                    }
-                }
-            }
-        }, 5);
     }
 
     public function onPreLogin(PlayerLoginEvent $event): void
