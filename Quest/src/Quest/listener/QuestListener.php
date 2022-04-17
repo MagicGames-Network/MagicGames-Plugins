@@ -66,6 +66,7 @@ class QuestListener implements Listener
         $player = $event->getPlayer();
         $quest = Quest::getInstance();
         $array = $event->getOutputs();
+		/** @var Item|null $item */
         $item = array_pop($array);
         $provider = $quest->getProvider();
         $questConfig = $quest->getQuest();
