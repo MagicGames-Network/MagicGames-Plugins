@@ -90,7 +90,7 @@ abstract class MinionEntity extends Human
         if (isset($this->money)) {
             $nbt->setFloat('Money', $this->money);
         }
-        
+
         return $nbt;
     }
 
@@ -436,9 +436,11 @@ abstract class MinionEntity extends Human
 
         $invTag = $nbt->getTag('MinionInventory');
         if ($invTag instanceof ListTag) {
+            /** @var array<CompoundTag> $itemTags */
+            $itemTags = $invTag->getValue();
             $this->minionInventory->setContents(array_map(
                 fn (CompoundTag $itemTag) => Item::nbtDeserialize($itemTag),
-                $invTag->getValue()
+                $itemTags
             ));
             $this->minionInventory->reorder();
         }
