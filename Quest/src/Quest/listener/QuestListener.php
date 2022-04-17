@@ -9,6 +9,7 @@ use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\event\block\BlockPlaceEvent;
 use pocketmine\event\inventory\CraftItemEvent;
 use pocketmine\event\Listener;
+use pocketmine\item\Item;
 use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\Server;
 use Quest\event\PlayerQuestChangedEvent;
