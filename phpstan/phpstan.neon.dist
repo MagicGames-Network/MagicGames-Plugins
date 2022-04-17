@@ -3,6 +3,8 @@ parameters:
     checkMissingIterableValueType: false
     reportUnmatchedIgnoredErrors: false
     ignoreErrors:
+        - '#Parameter \#1 \$enchantment of method pocketmine\\item\\Item::getEnchantment\(\) expects pocketmine\\item\\enchantment\\Enchantment, pocketmine\\item\\enchantment\\Enchantment\|null given.#'
+        - '#Parameter \#1 \$enchantment of method pocketmine\\item\\Item::hasEnchantment\(\) expects pocketmine\\item\\enchantment\\Enchantment, pocketmine\\item\\enchantment\\Enchantment\|null given.#'
         - '#Parameter \#[1234567890] \$title of method [a-zA-Z0-9\\_]+::setTitle\(\) expects string, mixed given.#'
         - '#Parameter \#[1234567890] \$content of method [a-zA-Z0-9\\_]+::setContent\(\) expects string, mixed given.#'
         - '#Parameter \#[1234567890] \$text of method [a-zA-Z0-9\\_]+::addButton\(\) expects string, mixed given.#'
@@ -14,6 +16,7 @@ parameters:
         - '#Only booleans are allowed in [a-zA-Z0-9\\_ ]+, [a-zA-Z0-9\\|,<>_ ]+ given.#'
     paths:
         - ../BurgerCustomArmor
+        - ../CosmicSpawners
         - ../MagicBankUI
         - ../MagicCore
         - ../MagicHealthDefense
