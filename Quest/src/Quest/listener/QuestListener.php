@@ -136,7 +136,7 @@ class QuestListener implements Listener
     }
     }
 
-    public function onQuestChanged(PlayerQuestChangedEvent $event){
+    public function onQuestChanged(PlayerQuestChangedEvent $event): void{
         $player = $event->getPlayer();
         $newQuest = $event->getNewQuest();
         if ($player->isOnline()){
@@ -144,7 +144,7 @@ class QuestListener implements Listener
         }
     }
 
-    public function onTagResolve(TagsResolveEvent $event){
+    public function onTagResolve(TagsResolveEvent $event): void{
         $player = $event->getPlayer();
         $tag = $event->getTag();
         $provider = Quest::getInstance()->getProvider();
