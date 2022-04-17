@@ -4,33 +4,33 @@ declare(strict_types=1);
 
 namespace DaPigGuy\PiggyCustomEnchants;
 
+use pocketmine\color\Color;
+use pocketmine\world\World;
+use pocketmine\utils\Config;
+use pocketmine\plugin\PluginBase;
+use pocketmine\block\BlockFactory;
+use pocketmine\nbt\tag\CompoundTag;
+use pocketmine\entity\effect\Effect;
+use pocketmine\entity\EntityFactory;
+use pocketmine\entity\EntityDataHelper;
+use pocketmine\data\bedrock\EffectIdMap;
+use DaPigGuy\PiggyCustomEnchants\entities\PiggyTNT;
+use DaPigGuy\PiggyCustomEnchants\blocks\PiggyObsidian;
+use DaPigGuy\PiggyCustomEnchants\entities\HomingArrow;
+use DaPigGuy\PiggyCustomEnchants\enchants\CustomEnchant;
+use DaPigGuy\PiggyCustomEnchants\entities\PiggyFireball;
+use DaPigGuy\PiggyCustomEnchants\entities\PigProjectile;
+use DaPigGuy\PiggyCustomEnchants\entities\BombardmentTNT;
+use DaPigGuy\PiggyCustomEnchants\entities\PiggyLightning;
+use DaPigGuy\PiggyCustomEnchants\entities\PiggyWitherSkull;
+use DaPigGuy\PiggyCustomEnchants\tasks\TickEnchantmentsTask;
+use DaPigGuy\PiggyCustomEnchants\libs\jojoe77777\FormAPI\Form;
+use DaPigGuy\PiggyCustomEnchants\commands\CustomEnchantsCommand;
+use DaPigGuy\PiggyCustomEnchants\enchants\ToggleableEnchantment;
+use DaPigGuy\PiggyCustomEnchants\tasks\CheckDisabledEnchantsTask;
 use DaPigGuy\PiggyCustomEnchants\libs\CortexPE\Commando\BaseCommand;
 use DaPigGuy\PiggyCustomEnchants\libs\CortexPE\Commando\PacketHooker;
 use DaPigGuy\PiggyCustomEnchants\libs\DaPigGuy\libPiggyUpdateChecker\libPiggyUpdateChecker;
-use DaPigGuy\PiggyCustomEnchants\blocks\PiggyObsidian;
-use DaPigGuy\PiggyCustomEnchants\commands\CustomEnchantsCommand;
-use DaPigGuy\PiggyCustomEnchants\enchants\CustomEnchant;
-use DaPigGuy\PiggyCustomEnchants\enchants\ToggleableEnchantment;
-use DaPigGuy\PiggyCustomEnchants\entities\BombardmentTNT;
-use DaPigGuy\PiggyCustomEnchants\entities\HomingArrow;
-use DaPigGuy\PiggyCustomEnchants\entities\PiggyFireball;
-use DaPigGuy\PiggyCustomEnchants\entities\PiggyLightning;
-use DaPigGuy\PiggyCustomEnchants\entities\PiggyTNT;
-use DaPigGuy\PiggyCustomEnchants\entities\PiggyWitherSkull;
-use DaPigGuy\PiggyCustomEnchants\entities\PigProjectile;
-use DaPigGuy\PiggyCustomEnchants\tasks\CheckDisabledEnchantsTask;
-use DaPigGuy\PiggyCustomEnchants\tasks\TickEnchantmentsTask;
-use DaPigGuy\PiggyCustomEnchants\libs\jojoe77777\FormAPI\Form;
-use pocketmine\block\BlockFactory;
-use pocketmine\color\Color;
-use pocketmine\data\bedrock\EffectIdMap;
-use pocketmine\entity\effect\Effect;
-use pocketmine\entity\EntityDataHelper;
-use pocketmine\entity\EntityFactory;
-use pocketmine\nbt\tag\CompoundTag;
-use pocketmine\plugin\PluginBase;
-use pocketmine\utils\Config;
-use pocketmine\world\World;
 
 class PiggyCustomEnchants extends PluginBase
 {
@@ -103,7 +103,7 @@ class PiggyCustomEnchants extends PluginBase
         $this->getServer()->getCommandMap()->register("piggycustomenchants", new CustomEnchantsCommand($this, "customenchants", "Manage Custom Enchants", ["ce", "customenchant"]));
 
         $this->getServer()->getPluginManager()->registerEvents(new EventListener($this), $this);
-        $this->getScheduler()->scheduleRepeatingTask(new TickEnchantmentsTask($this), 1);
+        $this->getScheduler()->scheduleRepeatingTask(new TickEnchantmentsTask($this), 20);
 
         libPiggyUpdateChecker::init($this);
         if ($this->getConfig()->get("remote-disable", true) === true) $this->getServer()->getAsyncPool()->submitTask(new CheckDisabledEnchantsTask());
