@@ -40,20 +40,24 @@ class SQLiteProvider extends Provider
         $stmt->bindValue(":playerName",$playerName);
         $stmt->execute();
     }
-
+	
     public function hasQuest(string $playerName): bool
     {
         $stmt = $this->database->prepare("SELECT * FROM quest WHERE playerName=:playerName");
         $stmt->bindValue(":playerName",$playerName);
         return !empty($stmt->execute()->fetchArray(SQLITE3_ASSOC));
     }
-
+	
+    /**
+	@return SQLite3Result|false
+	*/
     public function getQuestFromPlayer(string $playerName): array|string
     {
         return $this->database->query("SELECT * FROM quest WHERE playerName='{$playerName}'")->fetchArray(SQLITE3_ASSOC);
     }
 
     public function updateQuestFromPlayer(string $playerName, int $progress): void {
+		/** @var SQLite3Stmt $stmt */
         $stmt = $this->database->prepare("UPDATE quest SET progress=:progress WHERE playerName=:playerName");
         $stmt->bindValue(":playerName",$playerName);
         $stmt->bindValue(":progress",$progress);
