@@ -19,7 +19,7 @@ use Heisenburger69\BurgerSpawners\entities\SpawnerEntity;
 class MobSpawnerTile extends Spawnable
 {
     public const LOAD_RANGE = "LoadRange"; //Distance for player beyond which no mobs are spawned
-    public const ENTITY_ID = "EntityID"; //ID of the Entity
+    public const ENTITY_ID = "EntityId"; //ID of the Entity
     public const SPAWN_RANGE = "SpawnRange"; //Radius around the spawner in which the mob might spawn
     public const BASE_DELAY = "BaseDelay"; //Delay in ticks between spawning of mobs
     public const DELAY = "Delay"; //Current Delay in ticks before the next mob is spawned
@@ -188,6 +188,7 @@ class MobSpawnerTile extends Spawnable
     public function setEntityId(string $id): void
     {
         $this->getNBT()->setString(self::ENTITY_ID, $id);
+        $this->position->getWorld()->scheduleDelayedBlockUpdate($this->position, 20);
     }
 
     public function setEntityScale(float $scale): void
