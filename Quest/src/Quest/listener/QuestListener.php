@@ -28,8 +28,8 @@ class QuestListener implements Listener
         if (!$provider->hasQuest($player->getName())){
             $randomQuest = array_keys($questConfig->get("quests"));
             $randomQuest  = $randomQuest[array_rand($randomQuest)];
-            $provider->addQuest($player->getName(), $randomQuest);
-            (new PlayerQuestChangedEvent($player,$randomQuest))->call();
+            $provider->addQuest($player->getName(), (string)$randomQuest);
+            (new PlayerQuestChangedEvent($player,(string)$randomQuest))->call();
             $player->sendMessage("  §6§lNEW OBJECTIVE\n  §r§f" . $randomQuest);
         }
     }
@@ -51,8 +51,8 @@ class QuestListener implements Listener
                     $randomQuest = $randomQuest[array_rand($randomQuest)];
                     //if ($randomQuest === $provider->getQuestFromPlayer($player->getName())["quest"]) $randomQuest = array_rand(array_keys($questConfig->get("quests")));
                     $provider->removeQuest($player->getName());
-                    $provider->addQuest($player->getName(), $randomQuest);
-                    (new PlayerQuestChangedEvent($player,$randomQuest))->call();
+                    $provider->addQuest($player->getName(), (string)$randomQuest);
+                    (new PlayerQuestChangedEvent($player,(string)$randomQuest))->call();
                     $player->sendMessage("  §6§lNEW OBJECTIVE\n  §r§f" . $randomQuest);
                 } else {
                     $provider->updateQuestFromPlayer($player->getName(), $provider->getQuestFromPlayer($player->getName())["progress"] + 1);
@@ -79,8 +79,8 @@ class QuestListener implements Listener
                     $randomQuest = $randomQuest[array_rand($randomQuest)];
                     //if ($randomQuest === $provider->getQuestFromPlayer($player->getName())["quest"]) $randomQuest = array_rand(array_keys($questConfig->get("quests")));
                     $provider->removeQuest($player->getName());
-                    $provider->addQuest($player->getName(), $randomQuest);
-                    (new PlayerQuestChangedEvent($player,$randomQuest))->call();
+                    $provider->addQuest($player->getName(), (string)$randomQuest);
+                    (new PlayerQuestChangedEvent($player,(string)$randomQuest))->call();
                     $player->sendMessage("  §6§lNEW OBJECTIVE\n  §r§f" . $randomQuest);
                 } else {
                     $provider->updateQuestFromPlayer($player->getName(), $provider->getQuestFromPlayer($player->getName())["progress"] + $item->getCount());
@@ -106,8 +106,8 @@ class QuestListener implements Listener
                     $randomQuest = $randomQuest[array_rand($randomQuest)];
                     //if ($randomQuest === $provider->getQuestFromPlayer($player->getName())["quest"]) $randomQuest = array_rand(array_keys($questConfig->get("quests")));
                     $provider->removeQuest($player->getName());
-                    $provider->addQuest($player->getName(), $randomQuest);
-                    (new PlayerQuestChangedEvent($player,$randomQuest))->call();
+                    $provider->addQuest($player->getName(), (string)$randomQuest);
+                    (new PlayerQuestChangedEvent($player,(string)$randomQuest))->call();
                     $player->sendMessage("  §6§lNEW OBJECTIVE\n  §r§f" . $randomQuest);
                 } else {
                     $provider->updateQuestFromPlayer($player->getName(), $provider->getQuestFromPlayer($player->getName())["progress"] + 1);
@@ -140,7 +140,7 @@ class QuestListener implements Listener
         $player = $event->getPlayer();
         $newQuest = $event->getNewQuest();
         if ($player->isOnline()){
-            (new PlayerTagUpdateEvent($player, new ScoreTag("quest.quest",$newQuest)))->call();
+            (new PlayerTagUpdateEvent($player, new ScoreTag("quest.quest",(string)$newQuest)))->call();
         }
     }
 
