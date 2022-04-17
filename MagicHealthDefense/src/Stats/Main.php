@@ -27,7 +27,7 @@ class Main extends PluginBase implements Listener
     public function onEnable(): void
     {
         $this->getServer()->getPluginManager()->registerEvents($this, $this);
-        $this->getScheduler()->scheduleRepeatingTask(new ActionbarTask(), 20);
+        $this->getScheduler()->scheduleRepeatingTask(new ActionbarTask(), 100);
         self::$instance = $this;
         if (!file_exists($this->getDataFolder() . "data")) {
             mkdir($this->getDataFolder() . "data", 0777);
