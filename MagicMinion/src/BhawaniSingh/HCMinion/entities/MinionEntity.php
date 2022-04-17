@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace BhawaniSingh\HCMinion\entities;
 
-use pocketmine\Server;
 use pocketmine\item\Item;
 use pocketmine\item\Armor;
 use muqsit\invmenu\InvMenu;
@@ -31,9 +30,7 @@ use BhawaniSingh\HCMinion\utils\Utils;
 use BhawaniSingh\HCMinion\BetterMinion;
 use muqsit\invmenu\type\InvMenuTypeIds;
 use pocketmine\item\StringToItemParser;
-use pocketmine\item\enchantment\ItemFlags;
 use pocketmine\entity\effect\EffectInstance;
-use pocketmine\item\enchantment\Enchantment;
 use pocketmine\data\bedrock\EnchantmentIdMap;
 use pocketmine\item\LegacyStringToItemParser;
 use pocketmine\event\entity\EntityDamageEvent;
@@ -558,6 +555,8 @@ abstract class MinionEntity extends Human
 
         $this->getWorld()->broadcastPacketToViewers($this->getPosition(), LevelEventPacket::create(LevelEvent::BLOCK_STOP_BREAK, 0, $this->target->getPosition()));
         $this->isWorking = false;
+        
+        $this->saveNBT();
     }
 
     protected function isInventoryFull(): bool
