@@ -41,19 +41,19 @@ class IslandManager
     {
         $array = SkyBlock::getInstance()->getConfig()->getNested($player->getName() . ".island" . ".this-partners");
         $array2 = SkyBlock::getInstance()->getConfig()->getNested($selectedPlayer . ".island" . ".other-partners");
-        if($array !== null){
-        $arraySearch = array_search($selectedPlayer, $array);
-        if ($arraySearch !== false) {
-            unset($array[$arraySearch]);
+        if ($array !== null) {
+            $arraySearch = array_search($selectedPlayer, $array);
+            if ($arraySearch !== false) {
+                unset($array[$arraySearch]);
+            }
         }
+        if ($array2 !== null) {
+            $arraySearch2 = array_search($player->getName(), $array2);
+            if ($arraySearch2 !== false) {
+                unset($array2[$arraySearch2]);
+            }
         }
-        if($array2 !== null){
-        $arraySearch2 = array_search($player->getName(), $array2);
-        if ($arraySearch2 !== false) {
-            unset($array2[$arraySearch2]);
-        }
-        }
-        
+
         SkyBlock::getInstance()->getConfig()->setNested($player->getName() . ".island" . ".this-partners", $array);
         SkyBlock::getInstance()->getConfig()->setNested($selectedPlayer . ".island" . ".other-partners", $array2);
         $player->sendMessage(SkyBlock::BT_MARK . "bYou unaffiliated the player!");
@@ -71,7 +71,11 @@ class IslandManager
     {
         $requestPlayer = Server::getInstance()->getPlayerExact($requestPlayer);
         if ($requestPlayer instanceof Player) {
-            $array = SkyBlock::getInstance()->getConfig()->getNested($requestPlayer->getName() . ".island" . ".this-partners") ?? [];
+            $array = SkyBlock::getInstance()->getConfig()->getNested($requestPlayer->getName() . ".island" . ".this-partners");
+            if (!is_array($array)) {
+                $array = [];
+            }
+
             if (!in_array($player->getName(), $array)) {
                 array_push($array, $player->getName());
                 SkyBlock::getInstance()->getConfig()->setNested($requestPlayer->getName() . ".island" . ".this-partners", $array);
@@ -111,6 +115,10 @@ class IslandManager
                 return;
             }
             $array = SkyBlock::getInstance()->getConfig()->getNested($player->getName() . ".island" . ".this-partners");
+            if (!is_array($array)) {
+                $array = [];
+            }
+
             if (in_array($selectedPlayer->getName(), $array)) {
                 $player->sendMessage(SkyBlock::BT_MARK . "cThis player is already your partner!");
                 return;
@@ -129,6 +137,10 @@ class IslandManager
     public static function islandUnBanPlayer(Player $player, string $selectedPlayer): void
     {
         $array = SkyBlock::getInstance()->getConfig()->getNested($player->getName() . ".island" . ".banneds");
+        if (!is_array($array)) {
+            $array = [];
+        }
+
         unset($array[array_search($selectedPlayer, $array)]);
         SkyBlock::getInstance()->getConfig()->setNested($player->getName() . ".island" . ".banneds", $array);
         $player->sendMessage(SkyBlock::BT_MARK . "bYou've unbanned the player!");
@@ -147,6 +159,9 @@ class IslandManager
                 return;
             }
             $array = SkyBlock::getInstance()->getConfig()->getNested($player->getName() . ".island" . ".banneds");
+            if (!is_array($array)) {
+                $array = [];
+            }
 
             array_push($array, $selectedPlayer->getName());
             SkyBlock::getInstance()->getConfig()->setNested($player->getName() . ".island" . ".banneds", $array);
@@ -381,8 +396,8 @@ class IslandManager
                 $array = SkyBlock::getInstance()->getConfig()->getNested($value . ".island" . ".other-partners");
                 if ($array != null) {
                     $arraySearch = array_search($player->getName(), $array);
-                    if($arraySearch !== false){
-                    unset($array[$arraySearch]);
+                    if ($arraySearch !== false) {
+                        unset($array[$arraySearch]);
                     }
                     SkyBlock::getInstance()->getConfig()->setNested($value . ".island" . ".other-partners", $array);
                 }
@@ -394,8 +409,8 @@ class IslandManager
                 $array = SkyBlock::getInstance()->getConfig()->getNested($value . ".island" . ".this-partners");
                 if ($array != null) {
                     $arraySearch3 = array_search($player->getName(), $array);
-                    if($arraySearch3 !== false){
-                    unset($array[$arraySearch3]);
+                    if ($arraySearch3 !== false) {
+                        unset($array[$arraySearch3]);
                     }
                     SkyBlock::getInstance()->getConfig()->setNested($value . ".island" . ".this-partners", $array);
                 }
