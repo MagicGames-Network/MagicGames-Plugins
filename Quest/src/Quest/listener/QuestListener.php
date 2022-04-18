@@ -2,20 +2,20 @@
 
 namespace Quest\listener;
 
-use Ifera\ScoreHud\event\PlayerTagUpdateEvent;
+use Quest\Quest;
+use pocketmine\Server;
+use pocketmine\item\Item;
+use pocketmine\event\Listener;
 use Ifera\ScoreHud\scoreboard\ScoreTag;
-use pocketmine\console\ConsoleCommandSender;
+use Quest\event\PlayerQuestFinishEvent;
+use Quest\event\PlayerQuestChangedEvent;
+use Ifera\ScoreHud\event\TagsResolveEvent;
 use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\event\block\BlockPlaceEvent;
-use pocketmine\event\inventory\CraftItemEvent;
-use pocketmine\event\Listener;
-use pocketmine\item\Item;
+use pocketmine\console\ConsoleCommandSender;
 use pocketmine\event\player\PlayerJoinEvent;
-use pocketmine\Server;
-use Quest\event\PlayerQuestChangedEvent;
-use Quest\event\PlayerQuestFinishEvent;
-use Quest\Quest;
-use Ifera\ScoreHud\event\TagsResolveEvent;
+use Ifera\ScoreHud\event\PlayerTagUpdateEvent;
+use pocketmine\event\inventory\CraftItemEvent;
 
 class QuestListener implements Listener
 {
@@ -26,11 +26,11 @@ class QuestListener implements Listener
         $quest = Quest::getInstance();
         $provider = $quest->getProvider();
         $questConfig = $quest->getQuest();
-        if (!$provider->hasQuest($player->getName())){
+        if (!$provider->hasQuest($player->getName())) {
             $randomQuest = array_keys($questConfig->get("quests"));
             $randomQuest  = $randomQuest[array_rand($randomQuest)];
             $provider->addQuest($player->getName(), (string)$randomQuest);
-            (new PlayerQuestChangedEvent($player,(string)$randomQuest))->call();
+            (new PlayerQuestChangedEvent($player, (string)$randomQuest))->call();
             $player->sendMessage("  §6§lNEW OBJECTIVE\n  §r§f" . $randomQuest);
         }
     }
@@ -42,18 +42,18 @@ class QuestListener implements Listener
         $quest = Quest::getInstance();
         $provider = $quest->getProvider();
         $questConfig = $quest->getQuest();
-        if ($provider->hasQuest($player->getName()) and explode(" ",$provider->getQuestFromPlayer($player->getName())["quest"])[0] == "Break"){
+        if ($provider->hasQuest($player->getName()) && explode(" ", $provider->getQuestFromPlayer($player->getName())["quest"])[0] == "Break") {
 
             $questConfigg = $questConfig->get("quests")[$provider->getQuestFromPlayer($player->getName())["quest"]];
             if ($questConfigg["item"]["id"] === $block->getId()) {
                 if ($provider->getQuestFromPlayer($player->getName())["progress"] + 1 === $questConfig->get("quests")[$provider->getQuestFromPlayer($player->getName())["quest"]]["progress"]) {
-                    (new PlayerQuestFinishEvent($player,$provider->getQuestFromPlayer($player->getName())["quest"]))->call();
+                    (new PlayerQuestFinishEvent($player, $provider->getQuestFromPlayer($player->getName())["quest"]))->call();
                     $randomQuest = array_keys($questConfig->get("quests"));
                     $randomQuest = $randomQuest[array_rand($randomQuest)];
                     //if ($randomQuest === $provider->getQuestFromPlayer($player->getName())["quest"]) $randomQuest = array_rand(array_keys($questConfig->get("quests")));
                     $provider->removeQuest($player->getName());
                     $provider->addQuest($player->getName(), (string)$randomQuest);
-                    (new PlayerQuestChangedEvent($player,(string)$randomQuest))->call();
+                    (new PlayerQuestChangedEvent($player, (string)$randomQuest))->call();
                     $player->sendMessage("  §6§lNEW OBJECTIVE\n  §r§f" . $randomQuest);
                 } else {
                     $provider->updateQuestFromPlayer($player->getName(), $provider->getQuestFromPlayer($player->getName())["progress"] + 1);
@@ -67,22 +67,26 @@ class QuestListener implements Listener
         $player = $event->getPlayer();
         $quest = Quest::getInstance();
         $array = $event->getOutputs();
-		/** @var Item|null $item */
+
         $item = array_pop($array);
+        if (!$item instanceof Item) {
+            return;
+        }
+
         $provider = $quest->getProvider();
         $questConfig = $quest->getQuest();
-        if ($provider->hasQuest($player->getName()) and explode(" ",$provider->getQuestFromPlayer($player->getName())["quest"])[0] == "Craft"){
+        if ($provider->hasQuest($player->getName()) && explode(" ", $provider->getQuestFromPlayer($player->getName())["quest"])[0] == "Craft") {
             $questConfigg = $questConfig->get("quests")[$provider->getQuestFromPlayer($player->getName())["quest"]];
             if ($questConfigg["item"]["id"] === $item->getId()) {
                 if ($provider->getQuestFromPlayer($player->getName())["progress"] + $item->getCount() >= $questConfig->get("quests")[$provider->getQuestFromPlayer($player->getName())["quest"]]["progress"]) {
-                    (new PlayerQuestFinishEvent($player,$provider->getQuestFromPlayer($player->getName())["quest"]))->call();
+                    (new PlayerQuestFinishEvent($player, $provider->getQuestFromPlayer($player->getName())["quest"]))->call();
                     //TODO: Send Message
                     $randomQuest = array_keys($questConfig->get("quests"));
                     $randomQuest = $randomQuest[array_rand($randomQuest)];
                     //if ($randomQuest === $provider->getQuestFromPlayer($player->getName())["quest"]) $randomQuest = array_rand(array_keys($questConfig->get("quests")));
                     $provider->removeQuest($player->getName());
                     $provider->addQuest($player->getName(), (string)$randomQuest);
-                    (new PlayerQuestChangedEvent($player,(string)$randomQuest))->call();
+                    (new PlayerQuestChangedEvent($player, (string)$randomQuest))->call();
                     $player->sendMessage("  §6§lNEW OBJECTIVE\n  §r§f" . $randomQuest);
                 } else {
                     $provider->updateQuestFromPlayer($player->getName(), $provider->getQuestFromPlayer($player->getName())["progress"] + $item->getCount());
@@ -98,7 +102,7 @@ class QuestListener implements Listener
         $provider = $quest->getProvider();
         $block = $event->getBlock();
         $questConfig = $quest->getQuest();
-        if ($provider->hasQuest($player->getName()) and explode(" ",$provider->getQuestFromPlayer($player->getName())["quest"])[0] == "Place") {
+        if ($provider->hasQuest($player->getName()) && explode(" ", $provider->getQuestFromPlayer($player->getName())["quest"])[0] == "Place") {
             $questConfigg = $questConfig->get("quests")[$provider->getQuestFromPlayer($player->getName())["quest"]];
             if ($questConfigg["item"]["id"] === $block->getId()) {
                 if ($provider->getQuestFromPlayer($player->getName())["progress"] + 1 === $questConfig->get("quests")[$provider->getQuestFromPlayer($player->getName())["quest"]]["progress"]) {
@@ -109,7 +113,7 @@ class QuestListener implements Listener
                     //if ($randomQuest === $provider->getQuestFromPlayer($player->getName())["quest"]) $randomQuest = array_rand(array_keys($questConfig->get("quests")));
                     $provider->removeQuest($player->getName());
                     $provider->addQuest($player->getName(), (string)$randomQuest);
-                    (new PlayerQuestChangedEvent($player,(string)$randomQuest))->call();
+                    (new PlayerQuestChangedEvent($player, (string)$randomQuest))->call();
                     $player->sendMessage("  §6§lNEW OBJECTIVE\n  §r§f" . $randomQuest);
                 } else {
                     $provider->updateQuestFromPlayer($player->getName(), $provider->getQuestFromPlayer($player->getName())["progress"] + 1);
@@ -135,29 +139,29 @@ class QuestListener implements Listener
                 $command
             ));
             //TODO: Send Message
-    }
-    }
-
-    public function onQuestChanged(PlayerQuestChangedEvent $event): void{
-        $player = $event->getPlayer();
-        $newQuest = $event->getNewQuest();
-        if ($player->isOnline()){
-            (new PlayerTagUpdateEvent($player, new ScoreTag("quest.quest",(string)$newQuest)))->call();
         }
     }
 
-    public function onTagResolve(TagsResolveEvent $event): void{
+    public function onQuestChanged(PlayerQuestChangedEvent $event): void
+    {
+        $player = $event->getPlayer();
+        $newQuest = $event->getNewQuest();
+        if ($player->isOnline()) {
+            (new PlayerTagUpdateEvent($player, new ScoreTag("quest.quest", $newQuest)))->call();
+        }
+    }
+
+    public function onTagResolve(TagsResolveEvent $event): void
+    {
         $player = $event->getPlayer();
         $tag = $event->getTag();
         $provider = Quest::getInstance()->getProvider();
-        if ($tag->getName() === "quest.quest"){
-            if (is_string($provider->getQuestFromPlayer($player->getName()))){
+        if ($tag->getName() === "quest.quest") {
+            if (is_string($provider->getQuestFromPlayer($player->getName()))) {
                 $tag->setValue("No Quest");
-            }else{
+            } else {
                 $tag->setValue($provider->getQuestFromPlayer($player->getName())["quest"]);
             }
         }
     }
-
-
 }

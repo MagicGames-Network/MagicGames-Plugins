@@ -17,20 +17,13 @@ class PlayerQuestChangedEvent extends Event
         $this->newQuest = $newQuest;
     }
 
-    /**
-     * @return Player
-     */
     public function getPlayer(): Player
     {
         return $this->player;
     }
 
-    /**
-     * @return string
-     */
     public function getNewQuest(): string
     {
         return $this->newQuest;
     }
-
 }

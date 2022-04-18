@@ -9,11 +9,9 @@ use Quest\providers\SQLiteProvider;
 
 class Quest extends PluginBase
 {
-
-    private SQLiteProvider $provider;
-
     private static Quest $instance;
 
+    private SQLiteProvider $provider;
     private Config $quest;
 
     public function onLoad(): void
@@ -32,25 +30,16 @@ class Quest extends PluginBase
         $this->quest = new Config($this->getDataFolder()."quest.yml",Config::YAML);
     }
 
-    /**
-     * @return SQLiteProvider
-     */
     public function getProvider(): SQLiteProvider
     {
         return $this->provider;
     }
 
-    /**
-     * @return Quest
-     */
     public static function getInstance(): Quest
     {
         return self::$instance;
     }
 
-    /**
-     * @return Config
-     */
     public function getQuest(): Config
     {
         return $this->quest;

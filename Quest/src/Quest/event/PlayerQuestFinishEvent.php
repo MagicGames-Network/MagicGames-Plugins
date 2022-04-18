@@ -7,7 +7,6 @@ use pocketmine\player\Player;
 
 class PlayerQuestFinishEvent extends Event
 {
-
     private Player $player;
 
     private string $quest;
@@ -18,17 +17,11 @@ class PlayerQuestFinishEvent extends Event
         $this->quest = $quest;
     }
 
-    /**
-     * @return string
-     */
     public function getQuest(): string
     {
         return $this->quest;
     }
 
-    /**
-     * @return Player
-     */
     public function getPlayer(): Player
     {
         return $this->player;
