@@ -14,7 +14,6 @@ parameters:
         - '#Call to function in_array\(\) requires parameter \#3 to be set.#'
         - '#Call to function array_search\(\) requires parameter \#3 to be set.#'
         - '#Only booleans are allowed in [a-zA-Z0-9\\_ ]+, [a-zA-Z0-9\\|,<>_ ]+ given.#'
-		- '#Construct empty\(\) is not allowed. Use more strict comparison.#'
     paths:
         - ../BurgerCustomArmor
         - ../CosmicSpawners
