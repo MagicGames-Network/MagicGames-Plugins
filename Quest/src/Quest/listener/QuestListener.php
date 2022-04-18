@@ -157,7 +157,7 @@ class QuestListener implements Listener
         $tag = $event->getTag();
         $provider = Quest::getInstance()->getProvider();
         if ($tag->getName() === "quest.quest") {
-            if (is_string($provider->getQuestFromPlayer($player->getName()))) {
+            if (count($provider->getQuestFromPlayer($player->getName())) === 0) {
                 $tag->setValue("No Quest");
             } else {
                 $tag->setValue($provider->getQuestFromPlayer($player->getName())["quest"]);
