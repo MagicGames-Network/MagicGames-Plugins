@@ -2,6 +2,7 @@
 
 namespace blueturk\skyblock\forms\island;
 
+use pocketmine\Server;
 use dktapps\pmforms\MenuForm;
 use pocketmine\player\Player;
 use blueturk\skyblock\SkyBlock;
@@ -13,16 +14,13 @@ class IslandVisitAllOpenForm extends MenuForm
     public function __construct()
     {
         $options = [];
-        $visits = SkyBlock::getInstance()->getConfig()->getNested("Visits");
-        if (!is_array($visits)) {
-            $visits = [];
-        }
-
-        foreach ($visits as $item => $value) {
-            if ($value === true) {
-                $options[] = new MenuOption($item);
+        foreach (Server::getInstance()->getOnlinePlayers() as $player) {
+            $value = SkyBlock::getInstance()->getConfig()->getNested("Visits." . $player->getName());
+            if ($value) {
+                $options[] = new MenuOption($player->getName());
             }
         }
+
         parent::__construct(
             SkyBlock::BT_TITLE . "Players Open to Visit",
             "\n",
