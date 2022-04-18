@@ -4,17 +4,18 @@ declare(strict_types=1);
 
 namespace DaPigGuy\PiggyCustomEnchants\enchants\armor\boots;
 
-use DaPigGuy\PiggyCustomEnchants\enchants\CustomEnchant;
-use DaPigGuy\PiggyCustomEnchants\enchants\ReactiveEnchantment;
-use pocketmine\block\BlockFactory;
-use pocketmine\block\BlockLegacyIds;
+use pocketmine\item\Item;
 use pocketmine\block\Lava;
 use pocketmine\event\Event;
-use pocketmine\event\player\PlayerMoveEvent;
-use pocketmine\inventory\Inventory;
-use pocketmine\item\enchantment\Rarity;
-use pocketmine\item\Item;
 use pocketmine\player\Player;
+use pocketmine\block\BlockFactory;
+use pocketmine\block\VanillaBlocks;
+use pocketmine\inventory\Inventory;
+use pocketmine\block\BlockLegacyIds;
+use pocketmine\item\enchantment\Rarity;
+use pocketmine\event\player\PlayerMoveEvent;
+use DaPigGuy\PiggyCustomEnchants\enchants\CustomEnchant;
+use DaPigGuy\PiggyCustomEnchants\enchants\ReactiveEnchantment;
 
 class MagmaWalkerEnchant extends ReactiveEnchantment
 {
@@ -46,7 +47,7 @@ class MagmaWalkerEnchant extends ReactiveEnchantment
                         $b = $world->getBlock($player->getPosition()->add($x, -1, $z));
                         if ($world->getBlock($b->getPosition()->add(0, 1, 0))->getId() === BlockLegacyIds::AIR) {
                             if ($b instanceof Lava && $b->getMeta() === 0) {
-                                $world->setBlock($b->getPosition()->asVector3(), BlockFactory::getInstance()->get(BlockLegacyIds::OBSIDIAN, 15));
+                                $world->setBlock($b->getPosition()->asVector3(), VanillaBlocks::OBSIDIAN());
                             }
                         }
                     }

@@ -4,57 +4,59 @@ declare(strict_types=1);
 
 namespace DaPigGuy\PiggyCustomEnchants;
 
-use DaPigGuy\PiggyCustomEnchants\enchants\CustomEnchant;
-use DaPigGuy\PiggyCustomEnchants\enchants\CustomEnchantIds;
-use DaPigGuy\PiggyCustomEnchants\enchants\ReactiveEnchantment;
-use DaPigGuy\PiggyCustomEnchants\enchants\ToggleableEnchantment;
-use DaPigGuy\PiggyCustomEnchants\enchants\tools\DrillerEnchant;
-use DaPigGuy\PiggyCustomEnchants\entities\BombardmentTNT;
-use DaPigGuy\PiggyCustomEnchants\entities\PiggyTNT;
-use DaPigGuy\PiggyCustomEnchants\utils\ProjectileTracker;
-use DaPigGuy\PiggyCustomEnchants\utils\Utils;
-use pocketmine\block\BlockLegacyIds;
-use pocketmine\event\block\BlockBreakEvent;
-use pocketmine\event\entity\EntityBlockChangeEvent;
-use pocketmine\event\entity\EntityDamageByEntityEvent;
-use pocketmine\event\entity\EntityDamageEvent;
-use pocketmine\event\entity\EntityEffectAddEvent;
-use pocketmine\event\entity\EntityShootBowEvent;
-use pocketmine\event\entity\ProjectileHitBlockEvent;
-use pocketmine\event\entity\ProjectileLaunchEvent;
-use pocketmine\event\inventory\InventoryTransactionEvent;
+use pocketmine\item\Item;
+use pocketmine\item\ItemIds;
+use pocketmine\player\Player;
 use pocketmine\event\Listener;
-use pocketmine\event\player\PlayerDeathEvent;
-use pocketmine\event\player\PlayerInteractEvent;
-use pocketmine\event\player\PlayerItemHeldEvent;
+use pocketmine\item\VanillaItems;
+use pocketmine\inventory\Inventory;
+use pocketmine\block\BlockLegacyIds;
+use pocketmine\inventory\ArmorInventory;
+use pocketmine\inventory\PlayerInventory;
+use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\event\player\PlayerMoveEvent;
 use pocketmine\event\player\PlayerQuitEvent;
+use DaPigGuy\PiggyCustomEnchants\utils\Utils;
+use pocketmine\event\player\PlayerDeathEvent;
+use pocketmine\event\entity\EntityDamageEvent;
+use pocketmine\event\entity\EntityShootBowEvent;
+use pocketmine\event\player\PlayerInteractEvent;
+use pocketmine\event\player\PlayerItemHeldEvent;
+use pocketmine\event\server\DataPacketSendEvent;
+use pocketmine\event\entity\EntityEffectAddEvent;
+use pocketmine\event\entity\ProjectileLaunchEvent;
+use DaPigGuy\PiggyCustomEnchants\entities\PiggyTNT;
+use pocketmine\event\entity\EntityBlockChangeEvent;
 use pocketmine\event\player\PlayerToggleSneakEvent;
 use pocketmine\event\server\DataPacketReceiveEvent;
-use pocketmine\event\server\DataPacketSendEvent;
-use pocketmine\inventory\ArmorInventory;
 use pocketmine\inventory\CallbackInventoryListener;
-use pocketmine\inventory\Inventory;
-use pocketmine\inventory\PlayerInventory;
-use pocketmine\inventory\transaction\action\SlotChangeAction;
+use pocketmine\event\entity\ProjectileHitBlockEvent;
 use pocketmine\item\enchantment\EnchantmentInstance;
-use pocketmine\item\Item;
-use pocketmine\item\ItemIds;
-use pocketmine\item\VanillaItems;
-use pocketmine\network\mcpe\protocol\InventoryContentPacket;
-use pocketmine\network\mcpe\protocol\InventorySlotPacket;
-use pocketmine\network\mcpe\protocol\InventoryTransactionPacket;
+use pocketmine\event\entity\EntityDamageByEntityEvent;
+use DaPigGuy\PiggyCustomEnchants\enchants\CustomEnchant;
 use pocketmine\network\mcpe\protocol\MobEquipmentPacket;
 use pocketmine\network\mcpe\protocol\PlayerActionPacket;
-use pocketmine\network\mcpe\protocol\PlayerAuthInputPacket;
-use pocketmine\network\mcpe\protocol\types\inventory\ItemStackWrapper;
 use pocketmine\network\mcpe\protocol\types\PlayerAction;
+use DaPigGuy\PiggyCustomEnchants\entities\BombardmentTNT;
+use DaPigGuy\PiggyCustomEnchants\utils\ProjectileTracker;
+use pocketmine\event\inventory\InventoryTransactionEvent;
+use pocketmine\network\mcpe\protocol\InventorySlotPacket;
+use DaPigGuy\PiggyCustomEnchants\enchants\CustomEnchantIds;
+use pocketmine\network\mcpe\protocol\PlayerAuthInputPacket;
+use pocketmine\network\mcpe\protocol\InventoryContentPacket;
+use pocketmine\inventory\transaction\action\SlotChangeAction;
+use DaPigGuy\PiggyCustomEnchants\enchants\ReactiveEnchantment;
+use DaPigGuy\PiggyCustomEnchants\enchants\tools\DrillerEnchant;
+use DaPigGuy\PiggyCustomEnchants\enchants\ToggleableEnchantment;
+use pocketmine\network\mcpe\protocol\InventoryTransactionPacket;
+use pocketmine\network\mcpe\protocol\types\inventory\ItemStackWrapper;
 use pocketmine\network\mcpe\protocol\types\PlayerBlockActionWithBlockInfo;
-use pocketmine\player\Player;
 
 class EventListener implements Listener
 {
+    private array $lastMoveTime = [];
+
     public function __construct(private PiggyCustomEnchants $plugin)
     {
     }
@@ -234,15 +236,23 @@ class EventListener implements Listener
     public function onMove(PlayerMoveEvent $event): void
     {
         $player = $event->getPlayer();
-        if (!Utils::shouldTakeFallDamage($player)) {
-            if ($player->getWorld()->getBlock($player->getPosition()->floor()->subtract(0, 1, 0))->getId() !== BlockLegacyIds::AIR && Utils::getNoFallDamageDuration($player) <= 0) {
-                Utils::setShouldTakeFallDamage($player, true);
-            } else {
-                Utils::increaseNoFallDamageDuration($player);
-            }
+        if (!isset($this->lastMoveTime[$player->getUniqueId()->toString()])) {
+            $this->lastMoveTime[$player->getUniqueId()->toString()] = time();
+            return;
         }
-        if ($event->getFrom()->floor()->equals($event->getTo()->floor())) return;
-        ReactiveEnchantment::attemptReaction($player, $event);
+        
+        if ($this->lastMoveTime[$player->getUniqueId()->toString()] + 1 < time()) {
+            if (!Utils::shouldTakeFallDamage($player)) {
+                if (Utils::getNoFallDamageDuration($player) <= 0) {
+                    Utils::setShouldTakeFallDamage($player, true);
+                } else {
+                    Utils::increaseNoFallDamageDuration($player);
+                }
+            }
+            if ($event->getFrom()->floor()->equals($event->getTo()->floor())) return;
+            ReactiveEnchantment::attemptReaction($player, $event);
+            $this->lastMoveTime[$player->getUniqueId()->toString()] = time();
+        }
     }
 
     /**
@@ -251,6 +261,10 @@ class EventListener implements Listener
     public function onQuit(PlayerQuitEvent $event): void
     {
         $player = $event->getPlayer();
+
+        if (isset($this->lastMoveTime[$player->getUniqueId()->toString()])) {
+            unset($this->lastMoveTime[$player->getUniqueId()->toString()]);
+        }
         if (!$player->isClosed()) {
             foreach ($player->getInventory()->getContents() as $slot => $content) {
                 foreach ($content->getEnchantments() as $enchantmentInstance) {

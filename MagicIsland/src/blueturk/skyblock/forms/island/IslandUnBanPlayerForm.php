@@ -13,7 +13,12 @@ class IslandUnBanPlayerForm extends MenuForm
     public function __construct(Player $player)
     {
         $options = [];
-        foreach (SkyBlock::getInstance()->getConfig()->getNested($player->getName() . ".island" . ".banneds") as $item => $value) {
+        $bannedIslands = SkyBlock::getInstance()->getConfig()->getNested($player->getName() . ".island" . ".banneds");
+        if (!is_array($bannedIslands)) {
+            $bannedIslands = [];
+        }
+
+        foreach ($bannedIslands as $item => $value) {
             $options[] = new MenuOption($value);
         }
         parent::__construct(

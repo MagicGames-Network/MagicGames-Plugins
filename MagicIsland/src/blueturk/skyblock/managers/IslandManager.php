@@ -71,7 +71,7 @@ class IslandManager
     {
         $requestPlayer = Server::getInstance()->getPlayerExact($requestPlayer);
         if ($requestPlayer instanceof Player) {
-            $array = SkyBlock::getInstance()->getConfig()->getNested($requestPlayer->getName() . ".island" . ".this-partners");
+            $array = SkyBlock::getInstance()->getConfig()->getNested($requestPlayer->getName() . ".island" . ".this-partners") ?? [];
             if (!in_array($player->getName(), $array)) {
                 array_push($array, $player->getName());
                 SkyBlock::getInstance()->getConfig()->setNested($requestPlayer->getName() . ".island" . ".this-partners", $array);

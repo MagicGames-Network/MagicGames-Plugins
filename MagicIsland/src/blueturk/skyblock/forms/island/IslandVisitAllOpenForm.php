@@ -13,11 +13,14 @@ class IslandVisitAllOpenForm extends MenuForm
     public function __construct()
     {
         $options = [];
-        if (SkyBlock::getInstance()->getConfig()->getNested("Visits") != null) {
-            foreach (SkyBlock::getInstance()->getConfig()->getNested("Visits") as $item => $value) {
-                if ($value === true) {
-                    $options[] = new MenuOption($item);
-                }
+        $visits = SkyBlock::getInstance()->getConfig()->getNested("Visits");
+        if (!is_array($visits)) {
+            $visits = [];
+        }
+
+        foreach ($visits as $item => $value) {
+            if ($value === true) {
+                $options[] = new MenuOption($item);
             }
         }
         parent::__construct(
@@ -29,7 +32,7 @@ class IslandVisitAllOpenForm extends MenuForm
                 if (!$menuOption instanceof MenuOption) {
                     return;
                 }
-                
+
                 $selectedPlayer = $menuOption->getText();
                 IslandManager::islandVisit($player, $selectedPlayer);
             }

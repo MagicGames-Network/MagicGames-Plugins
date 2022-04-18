@@ -13,7 +13,12 @@ class PartnerRemoveForm extends MenuForm
     public function __construct(Player $player)
     {
         $options = [];
-        foreach (SkyBlock::getInstance()->getConfig()->getNested($player->getName() . ".island" . ".this-partners") as $item => $value) {
+        $partners = SkyBlock::getInstance()->getConfig()->getNested($player->getName() . ".island" . ".this-partners");
+        if (!is_array($partners)) {
+            $partners = [];
+        }
+
+        foreach ($partners as $item => $value) {
             $options[] = new MenuOption($value);
         }
         parent::__construct(

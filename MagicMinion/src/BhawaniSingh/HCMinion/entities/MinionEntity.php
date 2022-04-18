@@ -4,14 +4,12 @@ declare(strict_types=1);
 
 namespace BhawaniSingh\HCMinion\entities;
 
-use pocketmine\Server;
 use pocketmine\nbt\NBT;
 use pocketmine\item\Item;
 use pocketmine\item\Armor;
 use muqsit\invmenu\InvMenu;
 use pocketmine\block\Block;
 use pocketmine\color\Color;
-use pocketmine\nbt\tag\Tag;
 use pocketmine\entity\Human;
 use pocketmine\item\ItemIds;
 use pocketmine\player\Player;
@@ -32,9 +30,7 @@ use BhawaniSingh\HCMinion\utils\Utils;
 use BhawaniSingh\HCMinion\BetterMinion;
 use muqsit\invmenu\type\InvMenuTypeIds;
 use pocketmine\item\StringToItemParser;
-use pocketmine\item\enchantment\ItemFlags;
 use pocketmine\entity\effect\EffectInstance;
-use pocketmine\item\enchantment\Enchantment;
 use pocketmine\data\bedrock\EnchantmentIdMap;
 use pocketmine\item\LegacyStringToItemParser;
 use pocketmine\event\entity\EntityDamageEvent;
@@ -149,7 +145,8 @@ abstract class MinionEntity extends Human
                     $menu->getInventory()->setItem(52, ItemFactory::getInstance()->get(7, 0, 1)->setCustomName("§r§l§ePickup Minion\n\n§r§7Click To Pickup Your Minion\n§r§7To Move In New Location\n\n§r§l§dClick To Pickup"));
                     $menu->getInventory()->setItem(6, ItemFactory::getInstance()->get(ItemIds::GOLD_INGOT)->setCustomName("§r§e§lCOMMING SOON"));
                     $menu->getInventory()->setItem(5, ItemFactory::getInstance()->get(ItemIds::ENDER_EYE)->setCustomName("§r§l§eTOTAL UPGRADE AMOUNT\n§r§aLevel 1: §r§d0\n§r§aLevel 2: §r§d2000$\n§r§aLevel 3: §r§d4000$\n§r§aLevel 4: §r§d8000$\n§r§aLevel 5: §r§d10000$\n§r§aLevel 6: §r§d12500$\n§r§aLevel 7: §r§d15000$\n§r§aLevel 8: §r§d17500$\n§r§aLevel 9: §r§d20000$\n§r§aLevel 10: §r§d25000$\n§r§aLevel 11: §r§d30000$\n§r§aLevel 12: §r§d35000$\n§r§aLevel 13: §r§d40000$\n§r§aLevel 14: §r§d50000$\n§r§aLevel 15: §r§d100000$"));
-                    BetterMinion::getInstance()->getScheduler()->scheduleRepeatingTask($task = new ClosureTask(function () use ($menu): void {
+                    
+                    $taskHandler = BetterMinion::getInstance()->getScheduler()->scheduleRepeatingTask(new ClosureTask(function () use ($menu): void {
                         for ($i = 0; $i < 15; ++$i) {
                             $menu->getInventory()->setItem((int) (21 + ($i % 5) + (9 * floor($i / 5))), $this->getMinionInventory()->slotExists($i) ? $this->getMinionInventory()->getItem($i) : ItemFactory::getInstance()->get(BlockLegacyIds::STAINED_GLASS_PANE)->setCustomName(TextFormat::RESET . TextFormat::GOLD . 'Unlock At Level ' . TextFormat::AQUA . Utils::getRomanNumeral(($i + 1))));
                         }
@@ -304,8 +301,7 @@ abstract class MinionEntity extends Human
                         }
                     }));
                     $menu->send($damager);
-                    $menu->setInventoryCloseListener(function (Player $player, Inventory $inventory) use ($task): void {
-                        $taskHandler = $task->getHandler();
+                    $menu->setInventoryCloseListener(function (Player $player, Inventory $inventory) use ($taskHandler): void {
                         if ($taskHandler instanceof TaskHandler) {
                             $taskHandler->cancel();
                         }
