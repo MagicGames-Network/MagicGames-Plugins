@@ -42,7 +42,6 @@ class QuestListener implements Listener
         $quest = Quest::getInstance();
         $provider = $quest->getProvider();
         $questConfig = $quest->getQuest();
-		if (!empty($provider->getQuestFromPlayer($player->getName())["quest"]) and !empty($provider->getQuestFromPlayer($player->getName())["progress"])) {
         if ($provider->hasQuest($player->getName()) and explode(" ",$provider->getQuestFromPlayer($player->getName())["quest"])[0] == "Break"){
 
             $questConfigg = $questConfig->get("quests")[$provider->getQuestFromPlayer($player->getName())["quest"]];
@@ -60,7 +59,6 @@ class QuestListener implements Listener
                     $provider->updateQuestFromPlayer($player->getName(), $provider->getQuestFromPlayer($player->getName())["progress"] + 1);
                 }
             }
-		}
         }
     }
 
@@ -73,7 +71,6 @@ class QuestListener implements Listener
         $item = array_pop($array);
         $provider = $quest->getProvider();
         $questConfig = $quest->getQuest();
-		if (!empty($provider->getQuestFromPlayer($player->getName())["quest"]) and !empty($provider->getQuestFromPlayer($player->getName())["progress"])) {
         if ($provider->hasQuest($player->getName()) and explode(" ",$provider->getQuestFromPlayer($player->getName())["quest"])[0] == "Craft"){
             $questConfigg = $questConfig->get("quests")[$provider->getQuestFromPlayer($player->getName())["quest"]];
             if ($questConfigg["item"]["id"] === $item->getId()) {
@@ -91,7 +88,6 @@ class QuestListener implements Listener
                     $provider->updateQuestFromPlayer($player->getName(), $provider->getQuestFromPlayer($player->getName())["progress"] + $item->getCount());
                 }
             }
-		}
         }
     }
 
@@ -102,7 +98,6 @@ class QuestListener implements Listener
         $provider = $quest->getProvider();
         $block = $event->getBlock();
         $questConfig = $quest->getQuest();
-		if (!empty($provider->getQuestFromPlayer($player->getName())["quest"]) and !empty($provider->getQuestFromPlayer($player->getName())["progress"])) {
         if ($provider->hasQuest($player->getName()) and explode(" ",$provider->getQuestFromPlayer($player->getName())["quest"])[0] == "Place") {
             $questConfigg = $questConfig->get("quests")[$provider->getQuestFromPlayer($player->getName())["quest"]];
             if ($questConfigg["item"]["id"] === $block->getId()) {
@@ -119,7 +114,6 @@ class QuestListener implements Listener
                 } else {
                     $provider->updateQuestFromPlayer($player->getName(), $provider->getQuestFromPlayer($player->getName())["progress"] + 1);
                 }
-			}
             }
         }
     }
@@ -156,7 +150,6 @@ class QuestListener implements Listener
         $player = $event->getPlayer();
         $tag = $event->getTag();
         $provider = Quest::getInstance()->getProvider();
-		if (!empty($provider->getQuestFromPlayer($player->getName())["quest"])) {
         if ($tag->getName() === "quest.quest"){
             if (is_string($provider->getQuestFromPlayer($player->getName()))){
                 $tag->setValue("No Quest");
@@ -164,7 +157,6 @@ class QuestListener implements Listener
                 $tag->setValue($provider->getQuestFromPlayer($player->getName())["quest"]);
             }
         }
-		}
     }
 
 
