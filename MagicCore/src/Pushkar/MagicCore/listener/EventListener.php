@@ -173,7 +173,6 @@ class EventListener implements Listener
         $transaction = $event->getTransaction();
         foreach ($transaction->getActions() as $action) {
             $item = $action->getSourceItem();
-            $source = $transaction->getSource();
             if ($item->getId() === 399 && $item->getCustomName() === "§r§aSkyblock Menu §7( Right Click )§r") {
                 $event->cancel();
             }
@@ -236,9 +235,13 @@ class EventListener implements Listener
         }
     }
 
+    /** 
+     * @handleCancelled
+     * @priority LOWEST
+     */
     public function onBreak(BlockBreakEvent $event): void
     {
-        if (Main::getInstance()->getConfig()->get("pickup") === true) {
+        if (!$event->isCancelled() && Main::getInstance()->getConfig()->get("pickup") === true) {
             $sender = $event->getPlayer();
             if (!Main::getInstance()->shouldPickup($sender->getWorld()->getFolderName()))
                 return;
