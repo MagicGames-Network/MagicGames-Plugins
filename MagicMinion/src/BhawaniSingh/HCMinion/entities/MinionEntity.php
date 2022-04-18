@@ -302,9 +302,7 @@ abstract class MinionEntity extends Human
                     }));
                     $menu->send($damager);
                     $menu->setInventoryCloseListener(function (Player $player, Inventory $inventory) use ($taskHandler): void {
-                        if ($taskHandler instanceof TaskHandler) {
-                            $taskHandler->cancel();
-                        }
+                        $taskHandler->cancel();
                     });
                 }
             }
