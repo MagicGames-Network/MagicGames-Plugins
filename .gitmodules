@@ -29,3 +29,6 @@
 [submodule "phpstan/GroupsAPI"]
 	path = phpstan/GroupsAPI
 	url = https://github.com/alvin0319/GroupsAPI
+[submodule "phpstan/libPiggyEconomy"]
+	path = phpstan/libPiggyEconomy
+	url = https://github.com/DaPigGuy/libPiggyEconomy
