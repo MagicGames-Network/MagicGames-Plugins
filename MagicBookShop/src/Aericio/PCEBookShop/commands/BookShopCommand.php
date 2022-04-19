@@ -41,13 +41,10 @@ class BookShopCommand extends BaseCommand
                         if ($data) {
                             $economyProvider = PCEBookShop::getInstance()->getEconomyProvider();
                             if ($economyProvider->myMoney($player) < $cost) {
-                                $player->sendMessage(PCEBookShop::getInstance()->getMessage("command.insufficient-funds", ["{AMOUNT}" => round($cost - $economyProvider->myMoney($player), 2, PHP_ROUND_HALF_DOWN)]));
+                                $player->sendMessage(PCEBookShop::getInstance()->getMessage("command.insufficient-funds", ["{AMOUNT}" => round($cost - (int)$economyProvider->myMoney($player), 2, PHP_ROUND_HALF_DOWN)]));
                                 return;
                             }
                             $item = ItemFactory::getInstance()->get(ItemIds::BOOK);
-                            if (!$item instanceof Item){
-                                return;
-                            }
                             $item->setCustomName(TextFormat::RESET . PCEBookShop::getInstance()->getMessage("item.name", ["{COLOR_RARITY}" => Utils::getColorFromRarity($type), "{ENCHANTMENT}" => $name]) . TextFormat::RESET);
                             $item->setLore([PCEBookShop::getInstance()->getMessage("item.lore")]);
                             $item->getNamedTag()->setInt("ceshop", $type);
