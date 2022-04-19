@@ -14,6 +14,7 @@ use onebone\economyapi\EconomyAPI;
 use DaPigGuy\PiggyCustomEnchants\CustomEnchantManager;
 use pocketmine\plugin\PluginBase;
 use pocketmine\utils\Config;
+use pocketmine\Server;
 
 class PCEBookShop extends PluginBase
 {
