@@ -28,6 +28,7 @@ parameters:
         - ../MagicQuest
         - ../PurePerms
         - ../SellAll
+		- ../MagicBookShop
     excludePaths:
         analyse:
             - ../BurgerCustomArmor/src/Heisenburger69/BurgerCustomArmor/Abilities/AbilityUtils.php
