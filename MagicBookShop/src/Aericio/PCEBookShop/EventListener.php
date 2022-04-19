@@ -38,9 +38,6 @@ class EventListener implements Listener
             $enchant = $enchants[array_rand($enchants)];
             if ($enchant instanceof CustomEnchant) {
                 $item = ItemFactory::getInstance()->get(ItemIds::ENCHANTED_BOOK);
-                if (!$item instanceof Item){
-                    return;
-                }
                 $item->setCustomName(TextFormat::RESET . $this->plugin->getMessage("item.unused-name") . TextFormat::RESET);
                 $item->setLore(array(TextFormat::EOL . "§eDescription:§f " . $enchant->getDescription() . TextFormat::EOL . "§eType:§f " . Utils::TYPE_NAMES[$enchant->getItemType()] . TextFormat::EOL . "§eRarity:§f " . Utils::RARITY_NAMES[$enchant->getRarity()]. TextFormat::EOL . "§e---------------"));
                 $item->addEnchantment(new EnchantmentInstance($enchant, $this->plugin->getRandomWeightedElement($enchant->getMaxLevel())));
