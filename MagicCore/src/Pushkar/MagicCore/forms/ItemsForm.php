@@ -1378,7 +1378,7 @@ class ItemsForm extends MenuForm
             }
             switch ($result) {
                 case 0:
-                    $item = ItemFactory::getInstance()->get(1015, 0, 64);
+                    $item = ItemFactory::getInstance()->get(1015, 0, 1);
                     $item->addEnchantment($this->fakeEnchant);
                     $item->setCustomName("§r§e§l HOT RUNE");
                     $item->setLore(["§r§7Use This To Craft Custom Items.\n\n§r§l§eLEGENDARY"]);
@@ -1387,7 +1387,7 @@ class ItemsForm extends MenuForm
                     break;
 
                 case 1:
-                    $item = ItemFactory::getInstance()->get(1016, 0, 64);
+                    $item = ItemFactory::getInstance()->get(1016, 0, 1);
                     $item->addEnchantment($this->fakeEnchant);
                     $item->setCustomName("§r§e§l ICE RUNE");
                     $item->setLore(["§r§7Use This To Craft Custom Items.\n\n§r§l§eLEGENDARY"]);
@@ -1396,7 +1396,7 @@ class ItemsForm extends MenuForm
                     break;
 
                 case 2:
-                    $item = ItemFactory::getInstance()->get(1017, 0, 64);
+                    $item = ItemFactory::getInstance()->get(1017, 0, 1);
                     $item->addEnchantment($this->fakeEnchant);
                     $item->setCustomName("§r§e§l LAVA RUNE");
                     $item->setLore(["§r§7Use This To Craft Custom Items.\n\n§r§l§eLEGENDARY"]);
@@ -1405,7 +1405,7 @@ class ItemsForm extends MenuForm
                     break;
 
                 case 3:
-                    $item = ItemFactory::getInstance()->get(1014, 0, 64);
+                    $item = ItemFactory::getInstance()->get(1014, 0, 1);
                     $item->addEnchantment($this->fakeEnchant);
                     $item->setCustomName("§r§e§l HEART RUNE");
                     $item->setLore(["§r§7Use This To Craft Custom Items.\n\n§r§l§eLEGENDARY"]);
@@ -1413,7 +1413,7 @@ class ItemsForm extends MenuForm
                     $inv->addItem($item);
                     break;
                 case 4:
-                    $item = ItemFactory::getInstance()->get(1021, 0, 64);
+                    $item = ItemFactory::getInstance()->get(1021, 0, 1);
                     $item->addEnchantment($this->fakeEnchant);
                     $item->setCustomName("§r§e§l RAINBOW RUNE");
                     $item->setLore(["§r§7Use This To Craft Custom Items.\n\n§r§l§eLEGENDARY"]);
@@ -1421,7 +1421,7 @@ class ItemsForm extends MenuForm
                     $inv->addItem($item);
                     break;
                 case 5:
-                    $item = ItemFactory::getInstance()->get(1027, 0, 64);
+                    $item = ItemFactory::getInstance()->get(1027, 0, 1);
                     $item->addEnchantment($this->fakeEnchant);
                     $item->setCustomName("§r§e§l ZAP RUNE");
                     $item->setLore(["§r§7Use This To Craft Custom Items.\n\n§r§l§eLEGENDARY"]);
@@ -1429,7 +1429,7 @@ class ItemsForm extends MenuForm
                     $inv->addItem($item);
                     break;
                 case 6:
-                    $item = ItemFactory::getInstance()->get(1013, 0, 64);
+                    $item = ItemFactory::getInstance()->get(1013, 0, 1);
                     $item->addEnchantment($this->fakeEnchant);
                     $item->setCustomName("§r§e§l GOLDEN RUNE");
                     $item->setLore(["§r§7Use This To Craft Custom Items.\n\n§r§l§eLEGENDARY"]);
@@ -1437,7 +1437,7 @@ class ItemsForm extends MenuForm
                     $inv->addItem($item);
                     break;
                 case 7:
-                    $item = ItemFactory::getInstance()->get(1023, 0, 64);
+                    $item = ItemFactory::getInstance()->get(1023, 0, 1);
                     $item->addEnchantment($this->fakeEnchant);
                     $item->setCustomName("§r§e§l SNOW RUNE");
                     $item->setLore(["§r§7Use This To Craft Custom Items.\n\n§r§l§eLEGENDARY"]);

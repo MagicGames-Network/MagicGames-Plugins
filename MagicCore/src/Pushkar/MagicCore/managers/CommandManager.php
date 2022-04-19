@@ -41,6 +41,8 @@ use Pushkar\MagicCore\commands\SocialmediaCommand;
 use Pushkar\MagicCore\commands\AnnouncementCommand;
 use Pushkar\MagicCore\commands\JerryCommand;
 use Pushkar\MagicCore\commands\SellUiCommand;
+use Pushkar\MagicCore\commands\ProfileCommand;
+use Pushkar\MagicCore\commands\EmojiCommand;
 
 final class CommandManager
 {
@@ -91,7 +93,9 @@ final class CommandManager
             "totorials" => new TotorialsCommand(),
             "xyz" => new XyzCommand(),
             "sellui" => new SellUiCommand(),
-            "jerry" => new JerryCommand()
+            "jerry" => new JerryCommand(),
+            "emoji" => new EmojiCommand(),
+            "profile" => new ProfileCommand()
         ];
     }
 }

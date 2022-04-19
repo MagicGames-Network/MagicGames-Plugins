@@ -34,10 +34,6 @@ class Main extends PluginBase implements Listener
 
     public array $skin = [];
 
-    public string $pickupfullInvPopup;
-    public string $pickupmode;
-    public array $pickupaffectedWorlds;
-
     public function onLoad(): void
     {
         self::$instance = $this;
@@ -83,10 +79,6 @@ class Main extends PluginBase implements Listener
 
         $this->reloadConfig();
 
-        $this->pickupfullInvPopup = $this->getConfig()->get('pickup-full-inventory', '');
-        $this->pickupmode = $this->getConfig()->get('pickupmode', 'blacklist');
-        $this->pickupaffectedWorlds = $this->getConfig()->get('pickupworlds', []);
-
         CommandManager::initalize();
         Server::getInstance()->getPluginManager()->registerEvents(new EventListener(), $this);
     }
@@ -111,22 +103,6 @@ class Main extends PluginBase implements Listener
         }
     }
     
-    /**
-     * @param string $level
-     * @return bool
-     */
-    public function shouldPickup(string $level): bool
-    {
-        if (strtolower($this->pickupmode) == 'blacklist') {
-            if (in_array($level, $this->pickupaffectedWorlds))
-                return false;
-        } elseif (strtolower($this->pickupmode) == 'whitelist') {
-            if (!in_array($level, $this->pickupaffectedWorlds))
-                return false;
-        }
-        return true;
-    }
-
     public function naturalMoneyLoss(Player $sender, float $senderMoney): void
     {
         if (!$this->getConfig()->get("LoseMoneyNaturally")) return;

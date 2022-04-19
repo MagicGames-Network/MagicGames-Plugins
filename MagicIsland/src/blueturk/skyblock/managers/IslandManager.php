@@ -255,7 +255,7 @@ class IslandManager
         }
 
         $player->teleport($world->getSpawnLocation());
-        $player->sendMessage(SkyBlock::BT_MARK . "bYou've been teleported to Adana!");
+        $player->sendMessage(SkyBlock::BT_MARK . "bYou've been teleported to your island!");
     }
 
     /**

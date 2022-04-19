@@ -2,6 +2,7 @@
 
 namespace Pushkar\MagicCore\commands;
 
+use Pushkar\MagicCore\Main;
 use pocketmine\player\Player;
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
@@ -21,6 +22,7 @@ class VisionCommand extends Command
     public function execute(CommandSender $sender, string $commandLabel, array $args): mixed
     {
         if ($sender instanceof Player) {
+          if ($sender->hasPermission("vision.cmd")){
             if (isset($this->vision[$sender->getName()])) {
                 unset($this->vision[$sender->getName()]);
                 $sender->getEffects()->remove(VanillaEffects::NIGHT_VISION());
@@ -30,6 +32,9 @@ class VisionCommand extends Command
             $this->vision[$sender->getName()] = 0;
             $sender->getEffects()->add(new EffectInstance(VanillaEffects::NIGHT_VISION(), 600 * 100, 3));
             $sender->sendMessage("§aVision: On");
+          } else {
+            $sender->sendMessage(Main::PREFIX . "You Don't Have Permission");
+          }
             return true;
         }
         return false;

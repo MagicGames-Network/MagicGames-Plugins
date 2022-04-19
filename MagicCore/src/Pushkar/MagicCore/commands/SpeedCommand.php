@@ -2,6 +2,7 @@
 
 namespace Pushkar\MagicCore\commands;
 
+use Pushkar\MagicCore\Main;
 use pocketmine\player\Player;
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
@@ -21,6 +22,7 @@ class SpeedCommand extends Command
     public function execute(CommandSender $sender, string $commandLabel, array $args): mixed
     {
         if ($sender instanceof Player) {
+          if ($sender->hasPermission("speed.cmd")){
             if (isset($this->speed[$sender->getName()])) {
                 unset($this->speed[$sender->getName()]);
                 $sender->getEffects()->remove(VanillaEffects::SPEED());
@@ -30,6 +32,9 @@ class SpeedCommand extends Command
             $this->speed[$sender->getName()] = 0;
             $sender->getEffects()->add(new EffectInstance(VanillaEffects::SPEED(), 600 * 100, 3));
             $sender->sendMessage("§aSpeed: On");
+          } else {
+            $sender->sendMessage(Main::PREFIX . "You Don't Have Permission");
+          }
             return true;
         }
         return false;

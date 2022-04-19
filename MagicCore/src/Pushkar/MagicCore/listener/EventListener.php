@@ -173,7 +173,7 @@ class EventListener implements Listener
         $transaction = $event->getTransaction();
         foreach ($transaction->getActions() as $action) {
             $item = $action->getSourceItem();
-            if ($item->getId() === 399 && $item->getCustomName() === "§r§aSkyblock Menu §7( Right Click )§r") {
+            if ($item->getId() === 1070 && $item->getCustomName() === "§r§aSkyblock Menu §7( Right Click )§r") {
                 $event->cancel();
             }
         }
@@ -200,12 +200,8 @@ class EventListener implements Listener
             }
         }
         if ($event->getCause() === EntityDamageEvent::CAUSE_VOID) {
-            $defaultWorld = Main::getInstance()->getServer()->getWorldManager()->getDefaultWorld();
-            if (!$defaultWorld instanceof World) {
-                return;
-            }
-
-            $entity->teleport($defaultWorld->getSafeSpawn());
+            $defaultWorld = $entity->getWorld()->getSpawnLocation();
+            $entity->teleport($defaultWorld);
             $senderMoney = EconomyAPI::getInstance()->myMoney($entity);
             if (is_bool($senderMoney)) {
                 return;
@@ -235,34 +231,9 @@ class EventListener implements Listener
         }
     }
 
-    /** 
-     * @handleCancelled
-     * @priority LOWEST
-     */
     public function onBreak(BlockBreakEvent $event): void
     {
-        if (!$event->isCancelled() && Main::getInstance()->getConfig()->get("pickup") === true) {
-            $sender = $event->getPlayer();
-            if (!Main::getInstance()->shouldPickup($sender->getWorld()->getFolderName()))
-                return;
-            // Send items to player
-            $drops = $event->getDrops();
-            foreach ($drops as $key => $drop) {
-                if ($sender->getInventory()->canAddItem($drop)) {
-                    $sender->getInventory()->addItem($drop);
-                    unset($drops[$key]);
-                } else {
-                    if (Main::getInstance()->pickupfullInvPopup != '') {
-                        $sender->sendPopup(TextFormat::colorize(Main::getInstance()->pickupfullInvPopup));
-                    }
-                }
-            }
-            $event->setDrops($drops);
-            // Send xp to player
-            $xpDrops = $event->getXpDropAmount();
-            $sender->getXpManager()->addXp($xpDrops);
-            $event->setXpDropAmount(0);
-        }
+      #Nothing lol
     }
 
     public function onDeath(PlayerDeathEvent $event): void
@@ -355,18 +326,6 @@ class EventListener implements Listener
         }
         if ($block->getId() == BlockLegacyIds::PORTAL) {
             Server::getInstance()->dispatchCommand($player, "hub");
-        }
-    }
-
-    public function onChat(PlayerChatEvent $event): void
-    {
-        $sender = $event->getPlayer();
-        $commandsConfig = Main::getInstance()->getConfig()->getAll();
-        if ($sender->hasPermission("emojis.chat")) {
-            foreach ($commandsConfig["TextReplacer"] as $var) {
-                $message = str_replace($var["Before"], $var["After"], $event->getMessage());
-                $event->setMessage($message);
-            }
         }
     }
 }

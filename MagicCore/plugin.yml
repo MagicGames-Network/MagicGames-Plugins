@@ -6,6 +6,8 @@ author: ["Pushkar", "Bynamless"]
 description: Core v4.0.0 Made For MagicGames
 
 permissions:
+  nick.cmd:
+    default: op
   repair.cmd:
     default: op
   caui.cmd:

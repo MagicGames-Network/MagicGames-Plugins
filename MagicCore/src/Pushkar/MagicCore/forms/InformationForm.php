@@ -8,10 +8,12 @@ use dktapps\pmforms\MenuForm;
 use pocketmine\player\Player;
 use dktapps\pmforms\MenuOption;
 use jojoe77777\FormAPI\SimpleForm;
+use onebone\economyapi\EconomyAPI;
+use _64FF00\PurePerms\PurePerms;
+use pocketmine\Server;
 
 class InformationForm extends MenuForm
 {
-
     public function __construct()
     {
         parent::__construct(Main::getInstance()->getConfig()->get("TITLE-MENU"), Main::getInstance()->getConfig()->get("CONTENT-MENU"), [
@@ -752,5 +754,42 @@ class InformationForm extends MenuForm
         $form->setContent("§c§lWARNING!\n§r§7you are not allowed to eSM-BTN-ONEdit this message on the config also u cant edit this page!\n\n§b§lINFO:\n§r§7report any bug/error to ItzFabn the creator of this plugin also please apologize if this plugin still bugging/error...");
         $form->addButton("§8§lCOMING SOON\n§r§8Tap for more info");
         $sender->sendForm($form);
+    }
+     public function emojis(Player $sender): void
+    {
+        $form = new SimpleForm(function (Player $sender, $data) {
+            $result = $data;
+            if ($result == null) {
+            }
+            switch ($result) {
+                case 0;
+                    break;
+            }
+        });
+        $form->setTitle("§l§3EMOJIS");
+        $form->setContent("§dHello §e" . $sender->getName() . "\n§dWelcome To MagicGames Emojis\n§dAvailability: §aFree For All Right Now\n\n§b:sword: = \n\n§b:skull: = \n\n§b:earth: = \n\n§b:portal: = \n\n§b:dice: = \n\n§b:candy: = \n\n§b:crown: = \n\n§b:star: = \n\n§b:diamond: \n\n§b:bruh: = \n\n§b:hehe: = \n\n§b:ooo: = \n\n§b:cry: = \n\n§b:stare: = \n\n§b:happy: = \n\n§b:angry: = \n\n§b:hmm: = \n\n§b:sus: = ");
+        $form->addButton("§l§cEXIT\n§l§9»» §r§oTap To Exit", 1, "https://cdn-icons-png.flaticon.com/128/929/929416.png");
+        $sender->sendForm($form);
+    }
+    
+     public function profile(Player $player): void
+    {
+        $form = new SimpleForm(function (Player $player, $data) {
+            $result = $data;
+            if ($result == null) {
+            }
+            switch ($result) {
+                case 0:
+                    Server::getInstance()->dispatchCommand($player, "skills");
+                    break;
+                case 1:
+                    break;
+            }
+        });
+        $form->setTitle("§l§3PROFILE");
+        $form->setContent("§dHello §e" . $player->getName() . "\n\n§dWelcome To MagicGames Profile, Here You Can See Your Profile And Stats\n\n§bName: §a" . $player->getName() . "\n§bRank: §a" . Server::getInstance()->getPluginManager()->getPlugin("PurePerms")->getUserDataMgr()->getData($player)["group"] . "\n§bMoney: §a" . EconomyAPI::getInstance()->myMoney($player) . "\n§bPing: §a" . $player->getNetworkSession()->getPing() . "\n§bPosition: §a" . (int) $player->getPosition()->getX() . " " . (int) $player->getPosition()->getY() . " " . (int) $player->getPosition()->getZ() . "\n§bWorld: §a" . $player->getWorld()->getFolderName() . "\n§bHealth: §a" . (int) $player->getHealth() . "§a/" . $player->getMaxHealth() . "");
+        $form->addButton("§l§3YOUR SKILLS\n§l§9»» §r§oTap To Open", 1, "https://cdn-icons-png.flaticon.com/128/2091/2091418.png");
+        $form->addButton("§l§cEXIT\n§l§9»» §r§oTap To Exit", 1, "https://cdn-icons-png.flaticon.com/128/2698/2698776.png");
+        $player->sendForm($form);
     }
 }

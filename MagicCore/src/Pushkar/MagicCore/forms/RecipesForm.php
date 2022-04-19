@@ -17,9 +17,10 @@ class RecipesForm extends MenuForm
         parent::__construct("§l§6RECIPES BOOK", "§bUse Only Custom Crafting Table To Craft Things, Do /customtable", [
             new MenuOption("§l§eMINION RECIPES\n§9»» §r§6Tap To Open", new FormIcon("https://cdn-icons-png.flaticon.com/128/891/891978.png", FormIcon::IMAGE_TYPE_URL)),
             new MenuOption("§l§eARMOR RECIPES\n§9»» §r§6Tap To Open", new FormIcon("https://cdn-icons-png.flaticon.com/128/361/361761.png", FormIcon::IMAGE_TYPE_URL)),
-            new MenuOption("§l§eSWORD RECIPES\n§9»» §r§6Tap To Open", new FormIcon("https://cdn-icons-png.flaticon.com/128/2466/2466942.png", FormIcon::IMAGE_TYPE_URL)),
-            new MenuOption("§l§eAXE RECIPES\n§9»» §r§6Tap To Open", new FormIcon("https://cdn-icons-png.flaticon.com/128/6769/6769130.png", FormIcon::IMAGE_TYPE_URL)),
-            new MenuOption("§l§ePICKAXE RECIPES\n§9»» §r§6Tap To Open", new FormIcon("https://i.imgur.com/l4cLq8v.png", FormIcon::IMAGE_TYPE_URL)),
+            new MenuOption("§l§eSWORD RECIPES\n§9»» §r§6Tap To Open", new FormIcon("https://i.imgur.com/EEaIm1N.png", FormIcon::IMAGE_TYPE_URL)),
+            new MenuOption("§l§eAXE RECIPES\n§9»» §r§6Tap To Open", new FormIcon("https://i.imgur.com/PcovRG3.png", FormIcon::IMAGE_TYPE_URL)),
+            new MenuOption("§l§ePICKAXE RECIPES\n§9»» §r§6Tap To Open", new FormIcon("https://i.imgur.com/Ao5AHLx.png", FormIcon::IMAGE_TYPE_URL)),
+            new MenuOption("§l§eRUNES RECIPES\n§9»» §r§6Tap To Open", new FormIcon("https://i.imgur.com/PEqPR8j.png", FormIcon::IMAGE_TYPE_URL)),
             new MenuOption("§l§eITEMS RECIPES\n§9»» §r§6Tap To Open", new FormIcon("https://cdn-icons-png.flaticon.com/128/487/487551.png", FormIcon::IMAGE_TYPE_URL)),
             new MenuOption("§l§eENCHANTED ITEMS\n§9»» §r§6Tap To Open", new FormIcon("https://cdn-icons-png.flaticon.com/128/3556/3556661.png", FormIcon::IMAGE_TYPE_URL)),
             new MenuOption("§l§eFOOD RECIPES\n§9»» §r§6Tap To Open", new FormIcon("https://cdn-icons-png.flaticon.com/128/2921/2921822.png", FormIcon::IMAGE_TYPE_URL)),
@@ -29,7 +30,7 @@ class RecipesForm extends MenuForm
             new MenuOption("§l§eORE GENERATOR\n§9»» §r§6Tap To Open", new FormIcon("https://cdn-icons-png.flaticon.com/128/4831/4831062.png", FormIcon::IMAGE_TYPE_URL)),
             new MenuOption("§l§eCUSTOM CRAFTING TABLE\n§9»» §r§6Tap To Open", new FormIcon("textures/blocks/crafting_table_top", FormIcon::IMAGE_TYPE_PATH)),
             new MenuOption("§l§dHELP\n§9»» §r§6Tap To Open\n§9»» §r§6Tap To Open", new FormIcon("https://cdn-icons-png.flaticon.com/128/2476/2476231.png", FormIcon::IMAGE_TYPE_URL)),
-            new MenuOption("§l§cClose\n§9»» §r§cTap To Close", new FormIcon("textures/blocks/obsidian", FormIcon::IMAGE_TYPE_PATH))
+            new MenuOption("§l§cClose\n§9»» §r§cTap To Close", new FormIcon("https://cdn-icons-png.flaticon.com/128/929/929416.png", FormIcon::IMAGE_TYPE_URL))
         ], function (Player $sender, int $selected): void {
             switch ($selected) {
                 case 0:
@@ -51,29 +52,29 @@ class RecipesForm extends MenuForm
                 case 4:
                     $this->pickaxe($sender);
                     break;
-
+                    
                 case 5:
-                    $this->items($sender);
+                    $this->runes($sender);
                     break;
 
                 case 6:
-                    $this->eblocks($sender);
+                    $this->items($sender);
                     break;
 
                 case 7:
-                    $this->food($sender);
+                    $this->eblocks($sender);
                     break;
 
                 case 8:
-                    $this->hoe($sender);
+                    $this->food($sender);
                     break;
 
                 case 9:
-                    $sender->sendTitle("§r§l§eCOMMING SOON");
+                    $this->hoe($sender);
                     break;
 
                 case 10:
-                    $sender->sendTitle("§r§l§eCOMMING SOON");
+                    $this->wand($sender);
                     break;
 
                 case 11:
@@ -81,10 +82,14 @@ class RecipesForm extends MenuForm
                     break;
 
                 case 12:
-                    Server::getInstance()->dispatchCommand($sender, "customtable");
+                    $this->ore($sender);
                     break;
 
                 case 13:
+                    Server::getInstance()->dispatchCommand($sender, "customtable");
+                    break;
+
+                case 14:
                     $this->helpme($sender);
                     break;
 
@@ -1428,43 +1433,43 @@ class RecipesForm extends MenuForm
     public function ore(Player $sender): Form
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
-            /*$result = $data;
+            $result = $data;
             if ($result === null) {
                 return true;
             }
             switch ($result) {
                 case 0:
-                    $this->ore1($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view ore1");
                     break;
 
                 case 1:
-                    $this->ore2($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view ore2");
                     break;
 
                 case 2:
-                    $this->ore3($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view ore3");
                     break;
 
                 case 3:
-                    $this->ore4($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view ore4");
                     break;
 
                 case 4:
-                    $this->ore5($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view ore5");
                     break;
 
                 case 5:
-                    $this->ore6($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view ore6");
                     break;
 
                 case 6:
-                    $this->ore7($sender);
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view ore7");
                     break;
 
                 case 7:
                     $sender->sendForm(new RecipesForm());
                     break;
-            }*/
+            }
         });
         $form->setTitle("§l§6ORE SPAWNER RECIPES");
         $form->setContent("§bSelect The Which Ore Spawner Recipe You Want:");
@@ -1738,15 +1743,15 @@ class RecipesForm extends MenuForm
             }
             switch ($result) {
                 case 0:
-                    Server::getInstance()->dispatchCommand($sender, "invcraft view minion");
+                    $sender->sendTitle("§r§l§eCOMMING SOON");
                     break;
 
                 case 1:
-                    Server::getInstance()->dispatchCommand($sender, "invcraft view minion");
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view wand2");
                     break;
 
                 case 2:
-                    Server::getInstance()->dispatchCommand($sender, "invcraft view minion");
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view wand3");
                     break;
 
                 case 3:
@@ -1815,6 +1820,65 @@ class RecipesForm extends MenuForm
         $form->addButton("§l§dPIZZA\n§9»» §r§6Tap To View", 0, "textures/items/food/pizza");
         $form->addButton("§l§dSANDWICH\n§9»» §r§6Tap To View", 0, "textures/items/food/sandwich");
         $form->addButton("§l§dCUP CAKE\n§9»» §r§6Tap To View", 0, "textures/items/food/yellowcupcake");
+        $form->addButton("§l§aBACK\n§9»» §r§bTap To Go Back", 0, "textures/ui/icon_import");
+        $sender->sendForm($form);
+        return $form;
+    }
+    public function runes(Player $sender): Form
+    {
+        $form = new SimpleForm(function (Player $sender, int $data = null) {
+            $result = $data;
+            if ($result === null) {
+                return true;
+            }
+            switch ($result) {
+                case 0:
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view rune1");
+                    break;
+                    
+                case 1:
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view rune2");
+                    break;
+                    
+                case 2:
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view rune3");
+                    break;
+                    
+                case 3:
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view rune4");
+                    break;
+                    
+                case 4:
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view rune5");
+                    break;
+                    
+                case 5:
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view rune6");
+                    break;
+                    
+                case 6:
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view rune7");
+                    break;
+                    
+                case 7:
+                    Server::getInstance()->dispatchCommand($sender, "invcraft view rune8");
+                    break;
+
+                case 8:
+                    $sender->sendForm(new RecipesForm());
+                    break;
+            }
+        });
+        $form->setTitle("§l§6RUNES RECIPES");
+        $form->setContent("§bSelect The Recipe You Want To Craft:");
+        $form->addButton("§l§dHOT RUNE\n§9»» §r§6Tap To View", 0, "textures/items/runes/hot_rune");
+        $form->addButton("§l§dICE RUNE\n§9»» §r§6Tap To View", 0, "textures/items/runes/ice_rune");
+        $form->addButton("§l§dLAVA RUNE\n§9»» §r§6Tap To View", 0, "textures/items/runes/lava_rune");
+        $form->addButton("§l§dHEART RUNE\n§9»» §r§6Tap To View", 0, "textures/items/runes/hearts_rune");
+        $form->addButton("§l§dRAINBOW RUNE\n§9»» §r§6Tap To View", 0, "textures/items/runes/rainbow_rune");
+        $form->addButton("§l§dZAP RUNE\n§9»» §r§6Tap To View", 0, "textures/items/runes/zap_rune");
+        $form->addButton("§l§dGOLDEN RUNE\n§9»» §r§6Tap To View", 0, "textures/items/runes/golden_rune");
+        $form->addButton("§l§dSNOW RUNE\n§9»» §r§6Tap To View", 0, "textures/items/runes/snow_rune");
         $form->addButton("§l§aBACK\n§9»» §r§bTap To Go Back", 0, "textures/ui/icon_import");
         $sender->sendForm($form);
         return $form;
