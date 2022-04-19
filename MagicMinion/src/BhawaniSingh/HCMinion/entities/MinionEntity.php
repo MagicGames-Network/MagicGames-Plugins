@@ -591,7 +591,7 @@ abstract class MinionEntity extends Human
         $minionItem->addEnchantment($this->fakeEnchant);
         $minionItem->getNamedTag()->setTag("MinionInformation", $this->minionInformation->nbtSerialize());
         $this->getWorld()->dropItem($this->getPosition(), $minionItem);
-        $this->flagForDespawn();
+        $this->close();
     }
 
     abstract protected function getTool(string $tool, bool $isNetheriteTool): ?Item;
