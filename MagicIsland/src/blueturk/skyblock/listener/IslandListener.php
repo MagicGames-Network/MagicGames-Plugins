@@ -186,9 +186,6 @@ class IslandListener implements Listener
         $viewers = $inventory->getViewers();
         foreach ($viewers as $player) {
             $level = $player->getWorld();
-			if(!$level instanceof World){
-				return;
-			}
 			$levelName = $level->getFolderName();
             $data = SkyBlock::getInstance()->getConfig();
             if ($data->getNested($levelName . ".island") != null) {
