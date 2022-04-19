@@ -15,6 +15,7 @@ use DaPigGuy\PiggyCustomEnchants\CustomEnchantManager;
 use pocketmine\plugin\PluginBase;
 use pocketmine\utils\Config;
 use pocketmine\Server;
+use pocketmine\lang\Translatable;
 
 class PCEBookShop extends PluginBase
 {
@@ -42,7 +43,8 @@ class PCEBookShop extends PluginBase
 
         foreach (CustomEnchantManager::getEnchantments() as $enchants) {
             $excluded = $this->getConfig()->get("excluded-enchants", []);
-            if (!in_array($enchants->getId(), $excluded) && !in_array(strtolower(Server::getInstance()->getLanguage()->translateString($enchants->getName())), $excluded)) {
+			$enchantName = $enchants->getName() instanceof Translatable ? Server::getInstance()->getLanguage()->translate($enchants->getName()) : Server::getInstance()->getLanguage()->translateString($enchants->getName());
+            if (!in_array($enchants->getId(), $excluded) && !in_array(strtolower($enchantName), $excluded)) {
                 $this->enchantments[$enchants->getRarity()][] = $enchants;
             }
         }
