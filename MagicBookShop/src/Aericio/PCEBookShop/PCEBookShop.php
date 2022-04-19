@@ -41,7 +41,7 @@ class PCEBookShop extends PluginBase
 
         foreach (CustomEnchantManager::getEnchantments() as $enchants) {
             $excluded = $this->getConfig()->get("excluded-enchants", []);
-            if (!in_array($enchants->getId(), $excluded) && !in_array(strtolower((string)$enchants->getName()), $excluded)) {
+            if (!in_array($enchants->getId(), $excluded) && !in_array(strtolower(Server::getInstance()->getLanguage()->translate($enchants->getName())), $excluded)) {
                 $this->enchantments[$enchants->getRarity()][] = $enchants;
             }
         }
