@@ -1,0 +1,138 @@
+---
+world:
+ - "MagicGames"
+ - "Mining"
+
+#coal
+"coal": true
+
+#iron
+"iron": true
+
+#gold
+"gold": true
+
+#diamond
+"diamond": true
+
+#emerald
+"emerald": true
+
+#lazuli
+"lazuli": true
+
+#redstone
+"redstone": true
+
+#stone
+"stone": true
+
+#netherrack
+"netherrack": true
+
+#wheat
+"wheat": true
+
+#carrot
+"carrot": true
+
+#potato
+"potato": true
+
+#melon
+"melon": true
+
+#punpkin
+"punpkin": true
+
+#cacto
+"cacto": true
+
+#cocoa bin
+"cocoa": true
+
+#fungus
+"fungus": true
+
+#brown mushroom
+"brown": true
+
+#red mushroom
+"red": true
+
+#mushroom stem
+"stem": true
+
+#red mushroom block
+"redblock": true
+
+#brown mushroom block
+"brownblock": true
+
+#sugarcane
+"cane": true
+
+#oak wood
+"oak": true
+
+#spruce wood
+"spruce": true
+
+#birch wood
+"birch": true
+
+#jungle wood
+"jungle": true
+
+#acacia wood
+"acacia": true
+
+#dark oak wood
+"darkoak": true
+
+#dirt
+"dirt": true
+
+#sand
+"sand": true
+
+#cobblestone
+"cobblestone": false
+
+whitelist-block:
+  - "16:0"
+  - "14:0"
+  - "15:0"
+  - "56:0"
+  - "129:0"
+  - "21:0"
+  - "73:0"
+  - "74:0"
+  - "59:7"
+  - "141:7"
+  - "142:7"
+  - "103:0"
+  - "86:0"
+  - "81:0"
+  - "127:9"
+  - "127:10"
+  - "127:11"
+  - "127:8"
+  - "115:3"
+  - "39:0"
+  - "40:0"
+  - "99:15"
+  - "100:15"
+  - "100:14"
+  - "99:14"
+  - "83:0"
+  - "467:0"
+  - "467:1"
+  - "467:2"
+  - "467:3"
+  - "467:4"
+  - "467:5"
+  - "3:0"
+  - "12:0"
+  - "87:0"
+...
