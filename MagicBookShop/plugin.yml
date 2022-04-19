@@ -1,5 +1,5 @@
 ---
-name: PCEBookShop
+name: MagicCEBookShop
 main: Aericio\PCEBookShop\PCEBookShop
 version: 1.0.5
 api:

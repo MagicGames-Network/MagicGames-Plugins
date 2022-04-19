@@ -4,11 +4,11 @@ command:
   inventory-full: "{RED}Your inventory is full."
 item:
   unused-name: "{YELLOW}Enchanted Book"
-  name: "{COLOR_RARITY}{ENCHANTMENT} Custom Enchants Book"
-  lore: "Tap the ground to get a random custom enchantment."
+  name: "{RESET}{COLOR_RARITY}{ENCHANTMENT} Custom Enchants Book"
+  lore: "{RESET}Tap the ground to get a random custom enchantment."
 menu:
-  title: "{GREEN}PCEBookShop - Menu"
-  button: "{RARITY_COLOR}{ENCHANTMENT}{NEWLINE}{RESET}Cost: ${AMOUNT}"
+  title: "{GREEN}Custom Enchanment Shop"
+  button: "§3» {RARITY_COLOR}{ENCHANTMENT} §3«{NEWLINE}{RESET}§5XP Levels: §3{AMOUNT}"
   confirmation:
     title: "{GREEN}PCEBookShop - Purchase Confirmation"
     content: "Are you sure you want to purchase {RARITY_COLOR}{ENCHANTMENT} Custom Enchant Book for ${AMOUNT}?"

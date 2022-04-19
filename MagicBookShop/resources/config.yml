@@ -8,10 +8,10 @@ economy:
 
 cost:
   # If you are using xp provider, 1 = 1 level of experience.
-  common: 1000
-  uncommon: 2500
-  rare: 5000
-  mythic: 10000
+  common: 10
+  uncommon: 18
+  rare: 25
+  mythic: 30
 
 chance:
   # Gamma for weighting levels. Higher gamma = lower change of high-level books.

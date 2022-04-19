@@ -39,9 +39,8 @@ class BookShopCommand extends BaseCommand
                 $form = new ModalForm(function (Player $player, ?bool $data) use ($cost, $name, $type): void {
                     if ($data !== null) {
                         if ($data) {
-                            $economyProvider = PCEBookShop::getInstance()->getEconomyProvider();
-                            if ($economyProvider->myMoney($player) < $cost) {
-                                $player->sendMessage(PCEBookShop::getInstance()->getMessage("command.insufficient-funds", ["{AMOUNT}" => round($cost - (int)$economyProvider->myMoney($player), 2, PHP_ROUND_HALF_DOWN)]));
+                            if ($player->getXpManager()->getXpLevel() < $cost) {
+                                $player->sendMessage(PCEBookShop::getInstance()->getMessage("command.insufficient-funds", ["{AMOUNT}" => round($cost - (int)$player->getXpManager()->getXpLevel(), 2, PHP_ROUND_HALF_DOWN)]));
                                 return;
                             }
                             $item = ItemFactory::getInstance()->get(ItemIds::BOOK);
@@ -50,7 +49,7 @@ class BookShopCommand extends BaseCommand
                             $item->getNamedTag()->setInt("ceshop", $type);
                             $inventory = $player->getInventory();
                             if ($inventory->canAddItem($item)) {
-                                $economyProvider->reduceMoney($player, $cost);
+                                $player->getXpManager()->setXpLevel($player->getXpManager()->getXpLevel() - $cost);
                                 $inventory->addItem($item);
                                 return;
                             }
@@ -68,10 +67,13 @@ class BookShopCommand extends BaseCommand
             }
         });
         $form->setTitle(PCEBookShop::getInstance()->getMessage("menu.title"));
+        $form->setContent("§bHello, §e$name\n\n§bHere You Can Get Custom Enchanment Books\n\n§bTap The Book Ground To Get Random Custom Enchanment");
         foreach (Utils::RARITY_NAMES as $rarity => $name) {
             $cost = PCEBookShop::getInstance()->getConfig()->getNested('cost.' . strtolower($name));
-            $form->addButton(PCEBookShop::getInstance()->getMessage("menu.button", ["{RARITY_COLOR}" => Utils::getColorFromRarity($rarity), "{ENCHANTMENT}" => $name, "{AMOUNT}" => round($cost, 2, PHP_ROUND_HALF_DOWN)]));
+            $form->addButton(PCEBookShop::getInstance()->getMessage("menu.button", ["{RARITY_COLOR}" => Utils::getColorFromRarity($rarity), "{ENCHANTMENT}" => $name, "{AMOUNT}" => round($cost, 2, PHP_ROUND_HALF_DOWN)]), 1, "https://i.imgur.com/QtRFgth.png");
+
         }
+        
         $player->sendForm($form);
     }
 
