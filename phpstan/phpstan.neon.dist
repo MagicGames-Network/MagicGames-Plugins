@@ -26,6 +26,7 @@ parameters:
         - ../MagicSkills
         - ../MagicTags
         - ../MagicQuest
+        - ../PurePerms
         - ../SellAll
     excludePaths:
         analyse:

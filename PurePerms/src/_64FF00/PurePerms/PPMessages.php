@@ -1,63 +1,42 @@
 <?php
 
-namespace _64FF00\PurePerms;              
+namespace _64FF00\PurePerms;
 
-use pocketmine\utils\Config;                                                    
+use pocketmine\utils\Config;
 
 class PPMessages
 {
-    /*
-        PurePerms by 64FF00 (Twitter: @64FF00)
-
-          888  888    .d8888b.      d8888  8888888888 8888888888 .d8888b.   .d8888b.
-          888  888   d88P  Y88b    d8P888  888        888       d88P  Y88b d88P  Y88b
-        888888888888 888          d8P 888  888        888       888    888 888    888
-          888  888   888d888b.   d8P  888  8888888    8888888   888    888 888    888
-          888  888   888P "Y88b d88   888  888        888       888    888 888    888
-        888888888888 888    888 8888888888 888        888       888    888 888    888
-          888  888   Y88b  d88P       888  888        888       Y88b  d88P Y88b  d88P
-          888  888    "Y8888P"        888  888        888        "Y8888P"   "Y8888P"
-    */
-
-    /** @var $language */
-    private string $language;
-    /** @var Config $messages */
+    private PurePerms $plugin;
     private Config $messages;
+
+    private string $language;
     private array $langList = [];
 
-    /**
-     * @param PurePerms $plugin
-     */
     public function __construct(PurePerms $plugin)
     {
         $this->plugin = $plugin;
+
         $this->registerLanguages();
         $this->loadMessages();
     }
 
-    public function registerLanguages()
+    public function registerLanguages(): void
     {
         $result = [];
-        foreach($this->plugin->getResources() as $resource)
-        {
-            if(mb_strpos($resource, "messages-") !== false) $result[] = substr($resource, -6, -4);
+        foreach ($this->plugin->getResources() as $resource) {
+            if (mb_strpos($resource, "messages-") !== false) {
+                $result[] = substr($resource, -6, -4);
+            }
         }
         $this->langList = $result;
     }
 
-    /**
-     * @param $node
-     * @param array ...$vars
-     * @return mixed|null
-     */
-    public function getMessage($node, ...$vars)
+    public function getMessage(string $node, array ...$vars): mixed
     {
         $msg = $this->messages->getNested($node);
-        if($msg != null)
-        {
+        if ($msg != null) {
             $number = 0;
-            foreach($vars as $v)
-            {           
+            foreach ($vars as $v) {
                 $msg = str_replace("%var$number%", $v, $msg);
                 $number++;
             }
@@ -66,46 +45,37 @@ class PPMessages
         return null;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getVersion() : string
+    public function getVersion(): string
     {
         $version = $this->messages->get("messages-version");
         return $version;
     }
 
-    public function loadMessages()
-    {       
+    public function loadMessages(): void
+    {
         $defaultLang = $this->plugin->getConfigValue("default-language");
-        foreach($this->langList as $langName)
-        {
-            if(strtolower($defaultLang) == $langName)
-            {
+        foreach ($this->langList as $langName) {
+            if (strtolower($defaultLang) == $langName) {
                 $this->language = $langName;
             }
         }
-        
-        if(!isset($this->language))
-        {
+
+        if (!isset($this->language)) {
             $this->plugin->getLogger()->warning("Language resource " . $defaultLang . " not found. Using default language resource by " . $this->plugin->getDescription()->getAuthors()[0]);
             $this->language = "en";
         }
-        
+
         $this->plugin->saveResource("messages-" . $this->language . ".yml");
-        $this->messages = new Config($this->plugin->getDataFolder() . "messages-" . $this->language . ".yml", Config::YAML, [
-        ]);
+        $this->messages = new Config($this->plugin->getDataFolder() . "messages-" . $this->language . ".yml", Config::YAML, []);
         $this->plugin->getLogger()->info("Setting default language to '" . $defaultLang . "'");
-        if(version_compare($this->getVersion(), $this->plugin->getPPVersion()) === -1)
-        {
+        if (version_compare($this->getVersion(), $this->plugin->getPPVersion()) === -1) {
             $this->plugin->saveResource("messages-" . $this->language . ".yml", true);
-            $this->messages = new Config($this->plugin->getDataFolder() . "messages-" . $this->language . ".yml", Config::YAML, [
-            ]);
+            $this->messages = new Config($this->plugin->getDataFolder() . "messages-" . $this->language . ".yml", Config::YAML, []);
         }
     }
-    
-    public function reloadMessages()
+
+    public function reloadMessages(): void
     {
         $this->messages->reload();
-    }    
+    }
 }
