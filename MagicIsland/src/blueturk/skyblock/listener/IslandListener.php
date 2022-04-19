@@ -201,8 +201,8 @@ class IslandListener implements Listener
                     return;
                 }
                 $worlds = ["MagicGames", "Mining", "Arena"];
-            foreach($worlds as $world){
-            $world = Server::getInstance()->getWorldManager()->getWorldByName($world);
+            foreach($worlds as $worldd){
+            $world = Server::getInstance()->getWorldManager()->getWorldByName($worldd);
 				if(!$world instanceof World){
 					return;
 				}
@@ -212,8 +212,8 @@ class IslandListener implements Listener
                     return;
                     }
                 }
-                if (in_array($player->getName(), $data->getNested($level . ".island" . ".this-partners"))) {
-                    if ($data->getNested($level . ".island" . ".settings" . ".picking-up") === true) {
+                if (in_array($player->getName(), $data->getNested($levelName . ".island" . ".this-partners"))) {
+                    if ($data->getNested($levelName . ".island" . ".settings" . ".picking-up") === true) {
                         $event->uncancel();
                         return;
                     }
