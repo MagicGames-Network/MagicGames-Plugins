@@ -189,10 +189,10 @@ class IslandListener implements Listener
 			if(!$level instanceof World){
 				return;
 			}
-			$level = $level->getFolderName();
+			$levelName = $level->getFolderName();
             $data = SkyBlock::getInstance()->getConfig();
-            if ($data->getNested($level . ".island") != null) {
-                if ($level === $player->getName()) {
+            if ($data->getNested($levelName . ".island") != null) {
+                if ($levelName === $player->getName()) {
                     $event->uncancel();
                     return;
                 }
@@ -203,6 +203,10 @@ class IslandListener implements Listener
                 $worlds = ["MagicGames", "Mining", "Arena"];
             foreach($worlds as $world){
             $world = Server::getInstance()->getWorldManager()->getWorldByName($world);
+				if(!$world instanceof World){
+					return;
+				}
+				
                 if ($player->getPosition()->getWorld()->getFolderName() === $world->getFolderName()) {
                     $event->uncancel();
                     return;
