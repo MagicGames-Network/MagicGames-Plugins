@@ -18,7 +18,8 @@
          "onebone\\economyapi\\": "onebone/economyapi",
          "Ifera\\ScoreHud\\": "ScoreHud/src/Ifera/ScoreHud",
          "poggit\\libasynql\\": "libasynql/libasynql/src/poggit/libasynql",
-         "alvin0319\\GroupsAPI\\": "GroupsAPI/src/alvin0319/GroupsAPI"
+         "alvin0319\\GroupsAPI\\": "GroupsAPI/src/alvin0319/GroupsAPI",
+		 "DaPigGuy\\libPiggyEconomy\\": "libPiggyEconomy/src/DaPigGuy/libPiggyEconomy"
       }
    }
 }
