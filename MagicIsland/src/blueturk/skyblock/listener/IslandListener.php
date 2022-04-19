@@ -63,6 +63,10 @@ class IslandListener implements Listener
             $worlds = ["MagicGames", "Mining", "Arena"];
             foreach($worlds as $world){
             $world = Server::getInstance()->getWorldManager()->getWorldByName($world);
+			if(!$world instanceof World){
+				return;
+			}
+				
                 if ($player->getPosition()->getWorld()->getFolderName() === $world->getFolderName()) {
                     $event->uncancel();
                     return;
@@ -138,6 +142,9 @@ class IslandListener implements Listener
             $worlds = ["MagicGames", "Mining", "Arena"];
             foreach($worlds as $world){
             $world = Server::getInstance()->getWorldManager()->getWorldByName($world);
+				if(!$world instanceof World){
+					return;
+				}
                 if ($player->getPosition()->getWorld()->getFolderName() === $world->getFolderName()) {
                     $event->uncancel();
                     return;
@@ -178,7 +185,11 @@ class IslandListener implements Listener
 
         $viewers = $inventory->getViewers();
         foreach ($viewers as $player) {
-            $level = $player->getWorld()->getFolderName();
+            $level = $player->getWorld();
+			if(!$level instanceof World){
+				return;
+			}
+			$level = $level->getFolderName();
             $data = SkyBlock::getInstance()->getConfig();
             if ($data->getNested($level . ".island") != null) {
                 if ($level === $player->getName()) {
