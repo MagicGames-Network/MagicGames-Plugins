@@ -1,0 +1,37 @@
+
+# PurePerms by 64FF00 (xktiverz@gmail.com, @64ff00 for Twitter)
+
+# 제 블로그 이외에 허락없이 마음대로 플러그인 배포하실 시에는 바로 한국어 파일 삭제 조치하고 공유 중단합니다
+
+---
+# Set default data provider for PurePerms
+# - json (JSON Database)
+# - mysql (MYSQL Database) (Temporarily removed)
+# - sqlite3 (SQLITe3 Database)
+data-provider: json
+
+disable-op: false
+
+# Set the default language for PurePerms
+# - en
+# English message resource by @64FF00 and @Samueljh1 (GitHub)
+default-language: en
+
+# Setting this option will allow you to use per-world permissions
+# - true / false
+enable-multiworld-perms: false
+
+# MySQL Settings (Only configure this if you are going to use MySQL data provider)
+mysql-settings:
+  host: "PurePerms-FTW.loveyou.all"
+  port: 3306
+  user: "YourUsernameGoesHere"
+  password: "YourPasswordGoesHere"
+  db: "YourDBNameGoesHere"
+  
+# Special thanks to @jazzwhistle for helping me with this cool feature! #JAZZWHISTLE-FTW
+# Ranks that can only be set on console
+# Also, users with a superadmin-rank can only have their rank changed on console
+# - array
+superadmin-ranks: ["OP"]
+...
