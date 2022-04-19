@@ -26,12 +26,7 @@ class PCEBookShop extends PluginBase
 
     /** @var array */
     public array $enchantments = [];
-
-    /**
-     * @throws HookAlreadyRegistered
-     * @throws MissingProviderDependencyException
-     * @throws UnknownProviderException
-     */
+	
     public function onEnable(): void
     {
         self::$instance = $this;
