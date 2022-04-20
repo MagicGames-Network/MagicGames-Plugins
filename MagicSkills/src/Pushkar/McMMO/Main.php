@@ -63,11 +63,7 @@ class Main extends PluginBase implements Listener
         //EntityFactory::register(FloatingText::class, true);
         self::$instance = $this;
 
-        if (!$this->getServer()->getPluginManager()->getPlugin("EconomyAPI") instanceof EconomyAPI) {
-            $this->getServer()->getPluginManager()->disablePlugin($this);
-            return;
-        }
-        $this->eco = $this->getServer()->getPluginManager()->getPlugin("EconomyAPI");
+        $this->eco = EconomyAPI::getInstance();
     }
 
     public function onCommand(CommandSender $sender, Command $command, String $label, array $args): bool

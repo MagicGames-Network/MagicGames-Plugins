@@ -20,20 +20,20 @@ class FlyCommand extends Command
     public function execute(CommandSender $sender, string $commandLabel, array $args): mixed
     {
         if ($sender instanceof Player) {
-          if ($sender->hasPermission("fly.cmd")){
-            if (isset($this->fly[$sender->getName()])) {
-                unset($this->fly[$sender->getName()]);
-                $sender->setFlying(false);
-                $sender->sendMessage("§l§eMAGICGAMES > §r§bFlying Disabled");
-                return true;
+            if ($sender->hasPermission("fly.cmd")) {
+                if (isset($this->fly[$sender->getName()])) {
+                    unset($this->fly[$sender->getName()]);
+                    $sender->setFlying(false);
+                    $sender->sendMessage("§l§eMAGICGAMES > §r§bFlying Disabled");
+                    return true;
+                }
+                $this->fly[$sender->getName()] = 0;
+                $sender->setFlying(true);
+                $sender->sendMessage("§l§eMAGICGAMES > §r§bFlying Enabled");
+            } else {
+                $sender->sendMessage(Main::PREFIX . "You Don't Have Permission");
             }
-            $this->fly[$sender->getName()] = 0;
-            $sender->setFlying(true);
-            $sender->sendMessage("§l§eMAGICGAMES > §r§bFlying Enabled");
-          } else {
-            $sender->sendMessage(Main::PREFIX . "You Don't Have Permission");
-          }
-          return true;
+            return true;
         }
         return false;
     }

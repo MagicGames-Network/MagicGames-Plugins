@@ -17,8 +17,6 @@ use DaPigGuy\PiggyCustomEnchants\utils\Utils;
 
 class BookShopCommand extends BaseCommand
 {
-
-
     public function onRun(CommandSender $sender, string $aliasUsed, array $args): void
     {
         if (!$sender instanceof Player) {

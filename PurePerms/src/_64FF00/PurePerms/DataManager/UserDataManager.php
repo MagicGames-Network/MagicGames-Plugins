@@ -42,7 +42,6 @@ class UserDataManager
             $this->setGroup($player, $defaultGroup, $worldName);
             return $defaultGroup;
         }
-
         return $group;
     }
 

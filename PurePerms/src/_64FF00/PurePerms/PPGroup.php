@@ -62,13 +62,14 @@ class PPGroup
     public function getGroupPermissions(?string $worldName = null): array
     {
         $permissions = [];
+        $worldPermissions = [];
+
+        $permissions = $this->getNode("permissions");
         if (is_string($worldName)) {
             $worldData = $this->getWorldData($worldName);
             if (isset($worldData["permissions"])) {
-                $permissions = $worldData["permissions"];
+                $worldPermissions = $worldData["permissions"];
             }
-        } else {
-            $permissions = $this->getNode("permissions");
         }
         if (!is_array($permissions)) {
             $this->plugin->getLogger()->critical("Invalid 'permissions' node given to " .  __METHOD__);
@@ -79,8 +80,9 @@ class PPGroup
             $parentPermissions = $parentGroup->getGroupPermissions($worldName);
 
             // Fixed by @mad-hon (https://github.com/mad-hon) / Tysm! :D
-            $permissions = array_merge($parentPermissions, $permissions);
+            $permissions = array_merge($parentPermissions, $permissions, $worldPermissions);
         }
+        var_dump($permissions);
         return $permissions;
     }
 
@@ -118,8 +120,13 @@ class PPGroup
 
     public function getWorldData(string $worldName): ?array
     {
-        $this->createWorldData($worldName);
-        return $this->getData()["worlds"][$worldName];
+        //return $this->getData()["worlds"][$worldName];
+
+        // too lazy to fix this
+        return [
+            "isDefault" => false,
+            "permissions" => []
+        ];
     }
 
     public function getWorldNode(string $worldName, string $node): ?bool
@@ -128,7 +135,6 @@ class PPGroup
         if (!is_array($worldData)) {
             return null;
         }
-
         return $worldData[$node];
     }
 

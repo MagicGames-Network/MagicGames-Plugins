@@ -18,13 +18,13 @@ class HealCommand extends Command
     public function execute(CommandSender $sender, string $commandLabel, array $args): mixed
     {
         if ($sender instanceof Player) {
-          if ($sender->hasPermission("fly.cmd")){
-            $sender->setHealth(20);
-            $sender->sendMessage(Main::PREFIX . "Gods Healed You");
-          } else {
-            $sender->sendMessage(Main::PREFIX . "You Don't Have Permission");
-          }
-          return true;
+            if ($sender->hasPermission("fly.cmd")) {
+                $sender->setHealth(20);
+                $sender->sendMessage(Main::PREFIX . "Gods Healed You");
+            } else {
+                $sender->sendMessage(Main::PREFIX . "You Don't Have Permission");
+            }
+            return true;
         }
         $sender->sendMessage("Use this command in-game");
         return false;

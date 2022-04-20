@@ -126,7 +126,7 @@ class PurePerms extends PluginBase
         if (isset($groupsData[$groupName])) {
             return self::ALREADY_EXISTS;
         }
-        
+
         $groupsData[$groupName] = [
             "alias" => "",
             "isDefault" => false,
@@ -183,8 +183,6 @@ class PurePerms extends PluginBase
         } else {
             if (count($defaultGroups) > 1) {
                 $this->getLogger()->warning($this->getMessage("logger_messages.getDefaultGroup_01"));
-            } else {
-                $this->getLogger()->warning($this->getMessage("logger_messages.getDefaultGroup_02"));
             }
             $this->getLogger()->info($this->getMessage("logger_messages.getDefaultGroup_03"));
 
@@ -232,9 +230,9 @@ class PurePerms extends PluginBase
         return $this->groups;
     }
 
-    public function getMessage(string $node, string ...$vars): mixed
+    public function getMessage(string $node, mixed ...$vars): mixed
     {
-        return $this->messages->getMessage($node, $vars);
+        return $this->messages->getMessage($node, ...$vars);
     }
 
     public function getOnlinePlayersInGroup(PPGroup $group): array
@@ -255,12 +253,11 @@ class PurePerms extends PluginBase
     {
         $group = $this->userDataMgr->getGroup($player, $worldName);
         if (!$group instanceof PPGroup) {
-            return [];
+            $groupPerms = [];
         }
 
         $groupPerms = $group->getGroupPermissions($worldName);
         $userPerms = $this->userDataMgr->getUserPermissions($player, $worldName);
-
         return array_merge($groupPerms, $userPerms);
     }
 
@@ -406,9 +403,7 @@ class PurePerms extends PluginBase
     public function updatePermissions(IPlayer $player, ?string $worldName = null): void
     {
         if ($player instanceof Player) {
-            if ($this->getConfigValue("enable-multiworld-perms") == null) {
-                return;
-            } elseif ($worldName == null) {
+            if ($worldName == null) {
                 $worldName = $player->getWorld()->getFolderName();
             }
             $permissions = [];
@@ -420,9 +415,9 @@ class PurePerms extends PluginBase
                     }
                 } else {
                     $isNegative = substr($permission, 0, 1) === "-";
-                    if ($isNegative)
+                    if ($isNegative) {
                         $permission = substr($permission, 1);
-
+                    }
                     $permissions[$permission] = !$isNegative;
                 }
             }
@@ -450,7 +445,7 @@ class PurePerms extends PluginBase
     public function unregisterPlayer(Player $player): void
     {
         $this->getLogger()->debug($this->getMessage("logger_messages.unregisterPlayer", $player->getName()));
-        
+
         $uniqueId = $this->getValidUUID($player);
         if (isset($this->attachments[$uniqueId])) {
             $player->removeAttachment($this->attachments[$uniqueId]);

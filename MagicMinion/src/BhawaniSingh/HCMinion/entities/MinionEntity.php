@@ -55,7 +55,7 @@ abstract class MinionEntity extends Human
     protected MinionInformation $minionInformation;
     protected MinionInventory $minionInventory;
     protected int $currentAction = self::ACTION_IDLE;
-    protected int $currentActionTicks = 0;
+    protected int $currentActionSeconds = 0;
 
     protected bool $isWorking = false;
     protected Block $target;
@@ -145,7 +145,7 @@ abstract class MinionEntity extends Human
                     $menu->getInventory()->setItem(52, ItemFactory::getInstance()->get(7, 0, 1)->setCustomName("§r§l§ePickup Minion\n\n§r§7Click To Pickup Your Minion\n§r§7To Move In New Location\n\n§r§l§dClick To Pickup"));
                     $menu->getInventory()->setItem(6, ItemFactory::getInstance()->get(ItemIds::GOLD_INGOT)->setCustomName("§r§e§lCOMMING SOON"));
                     $menu->getInventory()->setItem(5, ItemFactory::getInstance()->get(ItemIds::ENDER_EYE)->setCustomName("§r§l§eTOTAL UPGRADE AMOUNT\n§r§aLevel 1: §r§d0\n§r§aLevel 2: §r§d2000$\n§r§aLevel 3: §r§d4000$\n§r§aLevel 4: §r§d8000$\n§r§aLevel 5: §r§d10000$\n§r§aLevel 6: §r§d12500$\n§r§aLevel 7: §r§d15000$\n§r§aLevel 8: §r§d17500$\n§r§aLevel 9: §r§d20000$\n§r§aLevel 10: §r§d25000$\n§r§aLevel 11: §r§d30000$\n§r§aLevel 12: §r§d35000$\n§r§aLevel 13: §r§d40000$\n§r§aLevel 14: §r§d50000$\n§r§aLevel 15: §r§d100000$"));
-                    
+
                     $taskHandler = BetterMinion::getInstance()->getScheduler()->scheduleRepeatingTask(new ClosureTask(function () use ($menu): void {
                         for ($i = 0; $i < 15; ++$i) {
                             $menu->getInventory()->setItem((int) (21 + ($i % 5) + (9 * floor($i / 5))), $this->getMinionInventory()->slotExists($i) ? $this->getMinionInventory()->getItem($i) : ItemFactory::getInstance()->get(BlockLegacyIds::STAINED_GLASS_PANE)->setCustomName(TextFormat::RESET . TextFormat::GOLD . 'Unlock At Level ' . TextFormat::AQUA . Utils::getRomanNumeral(($i + 1))));
@@ -172,13 +172,11 @@ abstract class MinionEntity extends Human
                                     $player->removeCurrentWindow();
                                     if (!$this->getMinionInformation()->getUpgrade()->isAutoSmelt()) {
                                         $this->getMinionInformation()->getUpgrade()->setAutoSmelt(true);
-                                        $this->stopWorking();
 
                                         $player->sendMessage("§aAuto Smelter upgrade enabled!");
                                         break;
                                     }
                                     $this->getMinionInformation()->getUpgrade()->setAutoSmelt(false);
-                                    $this->stopWorking();
 
                                     $player->sendMessage("§cAuto Smelter upgrade disabled!");
                                     break;
@@ -196,13 +194,11 @@ abstract class MinionEntity extends Human
                                     $player->removeCurrentWindow();
                                     if (!$this->getMinionInformation()->getUpgrade()->isSuperCompacter()) {
                                         $this->getMinionInformation()->getUpgrade()->setSuperCompacter(true);
-                                        $this->stopWorking();
 
                                         $player->sendMessage("§aSuper Compacter upgrade enabled!");
                                         break;
                                     }
                                     $this->getMinionInformation()->getUpgrade()->setSuperCompacter(false);
-                                    $this->stopWorking();
 
                                     $player->sendMessage("§cSuper Compacter upgrade disabled!");
                                     break;
@@ -215,13 +211,11 @@ abstract class MinionEntity extends Human
                                     $player->removeCurrentWindow();
                                     if (!$this->getMinionInformation()->getUpgrade()->isSuperExpander()) {
                                         $this->getMinionInformation()->getUpgrade()->setSuperExpander(true);
-                                        $this->stopWorking();
 
                                         $player->sendMessage("§aSuper Expander upgrade enabled!");
                                         break;
                                     }
                                     $this->getMinionInformation()->getUpgrade()->setSuperExpander(false);
-                                    $this->stopWorking();
 
                                     $player->sendMessage("§cSuper Expander upgrade disabled!");
                                     break;
@@ -313,7 +307,9 @@ abstract class MinionEntity extends Human
     public function entityBaseTick(int $tickDiff = 1): bool
     {
         $hasUpdate = parent::entityBaseTick($tickDiff);
-        if (!$this->closed && !$this->isFlaggedForDespawn() && isset($this->minionInformation)) {
+
+        // to do
+        if ($this->ticksLived % 20 === 0 && !$this->closed && !$this->isFlaggedForDespawn() && isset($this->minionInformation)) {
             if ($this->ticksLived % 60 === 0) {
                 $this->updateTarget();
             }
@@ -321,7 +317,7 @@ abstract class MinionEntity extends Human
                 return $hasUpdate;
             }
 
-            ++$this->currentActionTicks;
+            ++$this->currentActionSeconds;
             if (!$this->isWorking) {
                 $this->getTarget();
                 $this->isWorking = true;
@@ -330,7 +326,7 @@ abstract class MinionEntity extends Human
             // this will force the server to wait for the results so that it doesn't crash when chunk is unloaded
             /** @phpstan-ignore-next-line */
             if (!$this->getWorld()->requestChunkPopulation($this->target->getPosition()->getX() >> Chunk::COORD_BIT_SIZE, $this->target->getPosition()->getZ() >> Chunk::COORD_BIT_SIZE, null) instanceof Promise) {
-                return false;
+                return $hasUpdate;
             }
             if (!$this->checkTarget()) {
                 $this->stopWorking();
@@ -339,25 +335,25 @@ abstract class MinionEntity extends Human
 
             switch ($this->currentAction) {
                 case self::ACTION_IDLE:
-                    if ($this->currentActionTicks >= 60) { //TODO: Customize
+                    if ($this->currentActionSeconds >= 3) { //TODO: Customize
                         $this->currentAction = self::ACTION_TURNING;
-                        $this->currentActionTicks = 0;
+                        $this->currentActionSeconds = 0;
                     }
                     break;
                 case self::ACTION_TURNING:
                     $this->lookAt($this->target->getPosition());
-                    if ($this->currentActionTicks === 5) {
+                    if ($this->currentActionSeconds === 1) {
                         $this->currentAction = self::ACTION_WORKING;
-                        $this->currentActionTicks = 0;
+                        $this->currentActionSeconds = 0;
                     }
                     break;
                 case self::ACTION_WORKING:
                     $isPlacing = $this->target->getId() === BlockLegacyIds::AIR;
                     if (!$isPlacing) {
-                        if ($this->currentActionTicks === 1) {
+                        if ($this->currentActionSeconds === 1) {
                             $this->getWorld()->broadcastPacketToViewers($this->target->getPosition(), LevelEventPacket::create(LevelEvent::BLOCK_START_BREAK, (int) (65535 / 60), $this->target->getPosition()));
                         }
-                        if ($this->isWorkFast() && $this->currentActionTicks === 2) {
+                        if ($this->isWorkFast()) {
                             $this->startWorking();
                         }
                         $pk = new AnimatePacket();
@@ -367,7 +363,7 @@ abstract class MinionEntity extends Human
                     } else {
                         $this->getWorld()->broadcastPacketToViewers($this->target->getPosition(), LevelEventPacket::create(LevelEvent::BLOCK_STOP_BREAK, 0, $this->target->getPosition()));
                     }
-                    if ($this->currentActionTicks === 60) {
+                    if ($this->currentActionSeconds === 3) {
                         $this->startWorking();
                         $this->stopWorking();
                         if (!$this->checkFull()) {
@@ -383,7 +379,6 @@ abstract class MinionEntity extends Human
                     break;
             }
         }
-
         return $hasUpdate;
     }
 
@@ -487,24 +482,30 @@ abstract class MinionEntity extends Human
         return null;
     }
 
-    /**
-     * @return Item|null
-     */
-    protected function getCompactedTarget(): ?Item
+    protected function compactItem(Item $item): ?Item
     {
         $contents = file_get_contents(BetterMinion::getInstance()->getDataFolder() . 'compacts.json');
         if (!is_string($contents)) {
             return null;
         }
+        if (!$item->getCount() > 9) {
+            return null;
+        }
 
-        $compactedItems = json_decode($contents, true);
-        foreach ($compactedItems as $input => $output) {
-            $realInput = StringToItemParser::getInstance()->parse($input);
-            $realOutput = StringToItemParser::getInstance()->parse($output);
-            foreach ($this->getRealDrops() as $drop) {
-                if ($realInput instanceof Item && $realOutput instanceof Item) {
-                    if ($realInput->equals($drop, true)) {
-                        return $realOutput;
+        $compactItems = json_decode($contents, true);
+        foreach ($compactItems as $input => $output) {
+            $realInput =  StringToItemParser::getInstance()->parse($input) ?? LegacyStringToItemParser::getInstance()->parse($input);
+            $realOutput = StringToItemParser::getInstance()->parse($output) ?? LegacyStringToItemParser::getInstance()->parse($output);
+
+            if ($realInput instanceof Item && $realOutput instanceof Item) {
+                if ($item->equals($realInput)) {
+                    foreach ($this->getMinionInventory()->getContents() as $index => $i) {
+                        if ($realOutput->equals($i) && $this->getMinionInventory()->canAddItem($realOutput)) {
+                            $item->setCount($item->getCount() - 9);
+                            $this->getMinionInventory()->setItem($index, $item);
+                            $this->getMinionInventory()->addItem($realOutput);
+                        }
+                        return $item;
                     }
                 }
             }
@@ -518,10 +519,6 @@ abstract class MinionEntity extends Human
         if ($this->getMinionInformation()->getUpgrade()->isAutoSmelt()) {
             $drops = [$this->getSmeltedTarget()];
         }
-        if ($this->getMinionInformation()->getUpgrade()->isSuperCompacter()) {
-            $drops = [$this->getCompactedTarget()];
-        }
-
         return $drops;
     }
 
@@ -548,6 +545,10 @@ abstract class MinionEntity extends Human
                     if ($this->getMinionInventory()->canAddItem($thing)) {
                         $this->getMinionInventory()->addItem($thing);
                         $this->getMinionInformation()->incrementResourcesCollected();
+
+                        if ($this->getMinionInformation()->getUpgrade()->isSuperCompacter()) {
+                            $this->compactItem($thing);
+                        }
                     }
                 }
             }
@@ -557,7 +558,7 @@ abstract class MinionEntity extends Human
     protected function stopWorking(): void
     {
         $this->currentAction = self::ACTION_IDLE;
-        $this->currentActionTicks = 0;
+        $this->currentActionSeconds = 0;
 
         $this->getWorld()->broadcastPacketToViewers($this->getPosition(), LevelEventPacket::create(LevelEvent::BLOCK_STOP_BREAK, 0, $this->target->getPosition()));
         $this->isWorking = false;

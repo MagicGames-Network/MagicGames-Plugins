@@ -24,7 +24,6 @@ class EventListener implements Listener
 
     public function onPlayerInteractEvent(PlayerInteractEvent $event): void
     {
-
         $item = $event->getItem();
         $player = $event->getPlayer();
         if ($item->getId() !== ItemIds::BOOK) return;

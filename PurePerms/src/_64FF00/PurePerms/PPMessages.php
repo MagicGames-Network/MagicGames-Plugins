@@ -31,7 +31,7 @@ class PPMessages
         $this->langList = $result;
     }
 
-    public function getMessage(string $node, array ...$vars): mixed
+    public function getMessage(string $node, mixed ...$vars): mixed
     {
         $msg = $this->messages->getNested($node);
         if ($msg != null) {

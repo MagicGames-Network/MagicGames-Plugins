@@ -36,7 +36,6 @@ class JsonProvider implements ProviderInterface
         if (!isset($this->getGroupsData()[$groupName]) || !is_array($this->getGroupsData()[$groupName])) {
             return [];
         }
-
         return $this->getGroupsData()[$groupName];
     }
 
@@ -86,7 +85,7 @@ class JsonProvider implements ProviderInterface
     {
         $userConfig = $this->getPlayerConfig($player);
         if (is_array($userConfig)) {
-            return [];
+            return $userConfig;
         }
         
         return $userConfig->getAll();
@@ -104,7 +103,6 @@ class JsonProvider implements ProviderInterface
         $this->groups->set($groupName, $tempGroupData);
         $this->groups->save();
     }
-
 
     public function setGroupsData(array $tempGroupsData): void
     {

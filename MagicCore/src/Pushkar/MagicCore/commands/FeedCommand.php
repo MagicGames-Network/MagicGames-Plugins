@@ -19,13 +19,13 @@ class FeedCommand extends Command
     {
         if ($sender instanceof Player) {
             $sender->getHungerManager()->setFood(20);
-          if ($sender->hasPermission("feed.cmd")){
-            $sender->getHungerManager()->setSaturation(20);
-            $sender->sendMessage(Main::PREFIX . "Gods Feeded You");
-            return true;
-          } else {
-            $sender->sendMessage(Main::PREFIX . "You Don't Have Permission");
-          }
+            if ($sender->hasPermission("feed.cmd")) {
+                $sender->getHungerManager()->setSaturation(20);
+                $sender->sendMessage(Main::PREFIX . "Gods Feeded You");
+                return true;
+            } else {
+                $sender->sendMessage(Main::PREFIX . "You Don't Have Permission");
+            }
         }
         $sender->sendMessage("Use this command in-game");
         return false;
