@@ -16,10 +16,9 @@ use DaPigGuy\PiggyCustomEnchants\CustomEnchantManager;
 
 class PCEBookShop extends PluginBase
 {
+    private static PCEBookShop $instance;
 
     private Config $messages;
-
-    private static PCEBookShop $instance;
 
     public EconomyAPI $economyProvider;
 

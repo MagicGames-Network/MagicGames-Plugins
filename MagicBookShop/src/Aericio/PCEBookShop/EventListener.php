@@ -15,7 +15,6 @@ use DaPigGuy\PiggyCustomEnchants\enchants\CustomEnchant;
 
 class EventListener implements Listener
 {
-
     private PCEBookShop $plugin;
 
     public function __construct(PCEBookShop $plugin)
@@ -33,7 +32,7 @@ class EventListener implements Listener
             $event->cancel();
             $nbt = $item->getNamedTag()->getInt("ceshop");
             $enchants = $this->plugin->getEnchantmentsByRarity($nbt);
-            if (!count($enchants) === 0) {
+            if (count($enchants) !== 0) {
                 $enchant = $enchants[array_rand($enchants)];
                 if ($enchant instanceof CustomEnchant) {
                     $item = ItemFactory::getInstance()->get(ItemIds::ENCHANTED_BOOK);
