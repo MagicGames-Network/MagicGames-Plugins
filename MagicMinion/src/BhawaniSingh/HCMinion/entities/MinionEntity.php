@@ -497,16 +497,14 @@ abstract class MinionEntity extends Human
             $realInput =  StringToItemParser::getInstance()->parse($input) ?? LegacyStringToItemParser::getInstance()->parse($input);
             $realOutput = StringToItemParser::getInstance()->parse($output) ?? LegacyStringToItemParser::getInstance()->parse($output);
 
-            if ($realInput instanceof Item && $realOutput instanceof Item) {
-                if ($item->equals($realInput)) {
-                    foreach ($this->getMinionInventory()->getContents() as $index => $i) {
-                        if ($realOutput->equals($i) && $this->getMinionInventory()->canAddItem($realOutput)) {
-                            $item->setCount($item->getCount() - 9);
-                            $this->getMinionInventory()->setItem($index, $item);
-                            $this->getMinionInventory()->addItem($realOutput);
-                        }
-                        return $item;
+            if ($item->equals($realInput)) {
+                foreach ($this->getMinionInventory()->getContents() as $index => $i) {
+                    if ($realOutput->equals($i) && $this->getMinionInventory()->canAddItem($realOutput)) {
+                        $item->setCount($item->getCount() - 9);
+                        $this->getMinionInventory()->setItem($index, $item);
+                        $this->getMinionInventory()->addItem($realOutput);
                     }
+                    return $item;
                 }
             }
         }

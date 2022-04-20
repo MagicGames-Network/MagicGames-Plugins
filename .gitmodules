@@ -26,3 +26,6 @@
 [submodule "phpstan/libPiggyEconomy"]
 	path = phpstan/libPiggyEconomy
 	url = https://github.com/DaPigGuy/libPiggyEconomy
+[submodule "phpstan/PiggyCustomEnchants"]
+	path = phpstan/PiggyCustomEnchants
+	url = https://github.com/DaPigGuy/PiggyCustomEnchants/

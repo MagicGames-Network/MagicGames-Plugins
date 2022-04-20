@@ -254,9 +254,10 @@ class PurePerms extends PluginBase
         $group = $this->userDataMgr->getGroup($player, $worldName);
         if (!$group instanceof PPGroup) {
             $groupPerms = [];
+        } else {
+            $groupPerms = $group->getGroupPermissions($worldName);
         }
 
-        $groupPerms = $group->getGroupPermissions($worldName);
         $userPerms = $this->userDataMgr->getUserPermissions($player, $worldName);
         return array_merge($groupPerms, $userPerms);
     }
