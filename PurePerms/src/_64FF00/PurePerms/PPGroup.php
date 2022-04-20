@@ -82,7 +82,6 @@ class PPGroup
             // Fixed by @mad-hon (https://github.com/mad-hon) / Tysm! :D
             $permissions = array_merge($parentPermissions, $permissions, $worldPermissions);
         }
-        var_dump($permissions);
         return $permissions;
     }
 
