@@ -5,9 +5,6 @@
 	path = phpstan/StarGate-Atlantis
 	url = https://github.com/Alemiz112/StarGate-Atlantis
 	branch = pmmp-4
-[submodule "phpstan/PiggyCustomEnchants"]
-	path = phpstan/PiggyCustomEnchants
-	url = https://github.com/DaPigGuy/PiggyCustomEnchants/
 [submodule "phpstan/pmforms"]
 	path = phpstan/pmforms
 	url = https://github.com/dktapps-pm-pl/pmforms
@@ -26,9 +23,6 @@
 [submodule "phpstan/libasynql"]
 	path = phpstan/libasynql
 	url = https://github.com/poggit/libasynql
-[submodule "phpstan/GroupsAPI"]
-	path = phpstan/GroupsAPI
-	url = https://github.com/alvin0319/GroupsAPI
 [submodule "phpstan/libPiggyEconomy"]
 	path = phpstan/libPiggyEconomy
 	url = https://github.com/DaPigGuy/libPiggyEconomy
