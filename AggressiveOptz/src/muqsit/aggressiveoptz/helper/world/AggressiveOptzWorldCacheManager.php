@@ -42,9 +42,9 @@ final class AggressiveOptzWorldCacheManager
 		}
 	}
 
-	private function onWorldLoad(World $world): void
+	private function onWorldLoad(World $world): AggressiveOptzWorldCache
 	{
-		$this->worlds[$world->getId()] = new AggressiveOptzWorldCache($world);
+		return $this->worlds[$world->getId()] = new AggressiveOptzWorldCache($world);
 	}
 
 	private function onWorldUnload(World $world): void
@@ -66,6 +66,9 @@ final class AggressiveOptzWorldCacheManager
 
 	public function get(World $world): AggressiveOptzWorldCache
 	{
-		return $this->worlds[$world->getId()];
+		if (isset($this->worlds[$world->getId()])) {
+			return $this->worlds[$world->getId()];
+		}
+		return $this->onWorldLoad($world);
 	}
 }

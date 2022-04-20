@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace muqsit\aggressiveoptz\helper\world;
 
+use pocketmine\Server;
 use pocketmine\world\World;
 
 final class AggressiveOptzWorldCache
@@ -16,6 +17,9 @@ final class AggressiveOptzWorldCache
 
 	public function __construct(World $world)
 	{
+		if (!$world->isLoaded()) {
+			Server::getInstance()->getWorldManager()->loadWorld($world->getFolderName());
+		}
 		foreach ($world->getLoadedChunks() as $chunk_hash => $_) {
 			World::getXZ($chunk_hash, $chunkX, $chunkZ);
 			$this->onChunkLoad($chunkX, $chunkZ);
