@@ -18,7 +18,6 @@ use pocketmine\block\BlockLegacyIds;
 use Pushkar\MagicCore\forms\StarForm;
 use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\console\ConsoleCommandSender;
-use pocketmine\event\player\PlayerChatEvent;
 use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\event\player\PlayerMoveEvent;
 use pocketmine\event\player\PlayerDeathEvent;

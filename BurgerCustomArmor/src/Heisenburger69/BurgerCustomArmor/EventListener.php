@@ -18,7 +18,6 @@ use pocketmine\event\inventory\InventoryTransactionEvent;
 use Heisenburger69\BurgerCustomArmor\Utils\EquipmentUtils;
 use pocketmine\inventory\transaction\action\SlotChangeAction;
 use Heisenburger69\BurgerCustomArmor\ArmorSets\CustomArmorSet;
-use Heisenburger69\BurgerCustomArmor\Events\CustomSetEquippedEvent;
 use Heisenburger69\BurgerCustomArmor\Events\CustomSetUnequippedEvent;
 use Heisenburger69\BurgerCustomArmor\Abilities\Togglable\TogglableAbility;
 use Heisenburger69\BurgerCustomArmor\Abilities\Reactive\Defensive\DefensiveAbility;
