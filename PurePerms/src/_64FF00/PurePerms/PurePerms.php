@@ -184,7 +184,7 @@ class PurePerms extends PluginBase
             if (count($defaultGroups) > 1) {
                 $this->getLogger()->warning($this->getMessage("logger_messages.getDefaultGroup_01"));
             }
-            $this->getLogger()->info($this->getMessage("logger_messages.getDefaultGroup_03"));
+            //$this->getLogger()->info($this->getMessage("logger_messages.getDefaultGroup_03"));
 
             foreach ($this->getGroups() as $tempGroup) {
                 if (count($tempGroup->getParentGroups()) === 0) {
@@ -200,14 +200,13 @@ class PurePerms extends PluginBase
     {
         if (!isset($this->groups[$groupName])) {
             foreach ($this->groups as $group) {
-                if ($group->getAlias() === $groupName)
+                if ($group->getAlias() === $groupName) {
                     return $group;
+                }
             }
             $this->getLogger()->debug($this->getMessage("logger_messages.getGroup_01", $groupName));
             return null;
         }
-
-        /** @var PPGroup $group */
         $group = $this->groups[$groupName];
 
         /** @phpstan-ignore-next-line */
@@ -215,7 +214,6 @@ class PurePerms extends PluginBase
             $this->getLogger()->warning($this->getMessage("logger_messages.getGroup_02", $groupName));
             return null;
         }
-
         return $group;
     }
 

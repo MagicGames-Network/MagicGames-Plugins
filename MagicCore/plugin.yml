@@ -6,86 +6,86 @@ author: ["Pushkar", "Bynamless"]
 description: Core v4.0.0 Made For MagicGames
 
 permissions:
-  nick.cmd:
-    default: op
-  repair.cmd:
-    default: op
-  caui.cmd:
-    default: op
-  soon.cmd:
-    default: op
-  items.cmd:
-    default: op
-  feed.cmd:
-    default: op
-  heal.cmd:
-    default: op
-  skin.cmd:
-    default: op
-  vanish.cmd:
-    default: op
-  unvanish.cmd:
-    default: op
-  ci.cmd:
-    default: op
-  speed.cmd:
-     default: op
-  vision.cmd:
-     default: op
-  hub.cmd:
-     default: 
-  id.cmd:
+   nick.cmd:
+      default: op
+   repair.cmd:
+      default: op
+   caui.cmd:
+      default: op
+   soon.cmd:
+      default: op
+   items.cmd:
+      default: op
+   feed.cmd:
+      default: op
+   heal.cmd:
+      default: op
+   skin.cmd:
+      default: op
+   vanish.cmd:
+      default: op
+   unvanish.cmd:
+      default: op
+   ci.cmd:
+      default: op
+   speed.cmd:
+      default: op
+   vision.cmd:
+      default: op
+   size.cmd:
+      default: op
+   fly.cmd:
+      default: op
+   hub.cmd:
      default: true
-  invclear.cmd:
+   id.cmd:
      default: true
-  hide.cmd:
+   invclear.cmd:
      default: true
-  bazaar.cmd:
+   hide.cmd:
      default: true
-  diana.cmd: 
+   bazaar.cmd:
      default: true
-  warp.cmd:
+   diana.cmd: 
      default: true
-  liftui.cmd:
+   warp.cmd:
      default: true
-  xyz.cmd:
+   liftui.cmd:
      default: true
-  settings.cmd:
+   xyz.cmd:
      default: true
-  servers.cmd:
+   settings.cmd:
      default: true
-  enchantui.cmd:
+   servers.cmd:
      default: true
-  tutorial.:
+   enchantui.cmd:
      default: true
-  stafflist.cmd:
+   tutorial.:
      default: true
-  rules.cmd:
+   stafflist.cmd:
      default: true
-  features.cmd:
+   rules.cmd:
      default: true
-  changelog.cmd:
+   features.cmd:
      default: true
-  event.cmd:
+   changelog.cmd:
      default: true
-  announcement.cmd:
+   event.cmd:
      default: true
-  socialmedia.cmd:
+   announcement.cmd:
      default: true
-  tutorial.cmd:
+   socialmedia.cmd:
      default: true
-  rankshop.cmd:
+   tutorial.cmd:
      default: true
-  recipe.cmd:
+   rankshop.cmd:
      default: true
-  discord.cmd:
+   recipe.cmd:
      default: true
-  information.cmd:
+   discord.cmd:
      default: true
-  ranklist.cmd:
+   information.cmd:
      default: true
-  size.cmd:
-     default: op
-  fly.cmd:
-     default: op
+   ranklist.cmd:
+     default: true
   

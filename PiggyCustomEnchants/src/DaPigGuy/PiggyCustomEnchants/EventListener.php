@@ -10,7 +10,6 @@ use pocketmine\player\Player;
 use pocketmine\event\Listener;
 use pocketmine\item\VanillaItems;
 use pocketmine\inventory\Inventory;
-use pocketmine\block\BlockLegacyIds;
 use pocketmine\inventory\ArmorInventory;
 use pocketmine\inventory\PlayerInventory;
 use pocketmine\event\block\BlockBreakEvent;

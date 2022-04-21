@@ -31,7 +31,7 @@ class UserDataManager
 
     public function getGroup(IPlayer $player, ?string $worldName = null): ?PPGroup
     {
-        $groupName = $worldName !== null ? $this->getWorldData($player, $worldName)["group"] : $this->getNode($player, "group");
+        $groupName = /*$worldName !== null ? $this->getWorldData($player, $worldName)["group"] : */$this->getNode($player, "group");
         $group = $this->plugin->getGroup($groupName);
         // TODO: ...
         if (!$group instanceof PPGroup) {

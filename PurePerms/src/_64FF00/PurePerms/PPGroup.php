@@ -79,7 +79,6 @@ class PPGroup
         foreach ($this->getParentGroups() as $parentGroup) {
             $parentPermissions = $parentGroup->getGroupPermissions($worldName);
 
-            // Fixed by @mad-hon (https://github.com/mad-hon) / Tysm! :D
             $permissions = array_merge($parentPermissions, $permissions, $worldPermissions);
         }
         return $permissions;

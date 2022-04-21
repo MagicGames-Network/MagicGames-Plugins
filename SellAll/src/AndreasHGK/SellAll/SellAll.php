@@ -24,10 +24,13 @@ class SellAll extends PluginBase
     public array $messageValues;
     public array $settingValues;
 
-    public function onEnable(): void
+    public function onLoad(): void
     {
         self::$instance = $this;
+    }
 
+    public function onEnable(): void
+    {
         @mkdir($this->getDataFolder());
         $this->saveDefaultConfig();
         $this->configValues = $this->getConfig()->getAll();
