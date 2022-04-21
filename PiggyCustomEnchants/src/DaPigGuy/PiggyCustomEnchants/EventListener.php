@@ -240,14 +240,14 @@ class EventListener implements Listener
             return;
         }
         
-        if ($this->lastMoveTime[$player->getUniqueId()->toString()] + 1 < time()) {
-            if (!Utils::shouldTakeFallDamage($player)) {
+        if ($this->lastMoveTime[$player->getUniqueId()->toString()] + 2 < time()) {
+            /*if (!Utils::shouldTakeFallDamage($player)) {
                 if (Utils::getNoFallDamageDuration($player) <= 0) {
                     Utils::setShouldTakeFallDamage($player, true);
                 } else {
                     Utils::increaseNoFallDamageDuration($player);
                 }
-            }
+            }*/
             if ($event->getFrom()->floor()->equals($event->getTo()->floor())) return;
             ReactiveEnchantment::attemptReaction($player, $event);
             $this->lastMoveTime[$player->getUniqueId()->toString()] = time();
