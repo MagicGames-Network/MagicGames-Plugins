@@ -27,6 +27,8 @@ parameters:
         - ../MagicQuest
         - ../PurePerms
         - ../SellAll
+        - ../SellWands
+        - ../SmeltWands
         - ../MagicBookShop
     excludePaths:
         analyse:

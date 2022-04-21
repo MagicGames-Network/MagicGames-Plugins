@@ -1,0 +1,15 @@
+name: SmeltWands
+main: NgLamVN\SmeltWands\SmeltWands
+authors: ["NgLamVN", "AGTHARN"]
+api: 4.0.0
+version: 1.0.0
+
+commands:
+  smeltwand:
+    description: "GIVE SMELT WAND"
+    usage: "/smeltwand <player>"
+    permission: "swand.give"
+
+permissions:
+  swand.give:
+    default: op
