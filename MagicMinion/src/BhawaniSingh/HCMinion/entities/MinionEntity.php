@@ -647,7 +647,7 @@ abstract class MinionEntity extends Human
                         $this->getMinionInformation()->incrementResourcesCollected();
 
                         if ($this->getMinionInformation()->getUpgrade()->isSuperCompacter()) {
-                            $this->compactItems($thing);
+                            $this->compactItems();
                         }
                     }
                 }
