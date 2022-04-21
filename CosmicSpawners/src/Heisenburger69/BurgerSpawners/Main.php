@@ -70,9 +70,6 @@ class Main extends PluginBase
         }
     }
 
-    /**
-     * @return array|null
-     */
     public function getRegisteredEntities(): ?array
     {
         $reflectionProperty = new ReflectionProperty(EntityFactory::class, 'saveNames');

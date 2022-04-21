@@ -6,7 +6,6 @@ use pocketmine\item\Pickaxe;
 use pocketmine\entity\Living;
 use pocketmine\player\Player;
 use pocketmine\event\Listener;
-use pocketmine\item\ItemBlock;
 use pocketmine\scheduler\ClosureTask;
 use pocketmine\utils\TextFormat as C;
 use pocketmine\event\block\BlockPlaceEvent;
@@ -141,9 +140,6 @@ class EventListener implements Listener
         if ($item instanceof Pickaxe) {
             return;
         }
-        if ($item instanceof ItemBlock && $item->getNamedTag()->getTag(MobSpawnerTile::ENTITY_ID) == null) {
-            return;
-        }
 
         $player = $event->getPlayer();
         $vec3 = $event->getBlock()->getPosition()->asVector3();
@@ -166,21 +162,15 @@ class EventListener implements Listener
             return;
         }
 
-        $nbt = $item->getNamedTag();
-
         $disabledWorlds = ConfigManager::getArray("spawner-stacking-disabled-worlds");
         if (is_array($disabledWorlds)) {
             if (in_array($level->getFolderName(), $disabledWorlds)) {
                 return;
             }
         }
-
-
-        if ($nbt->getTag(MobSpawnerTile::ENTITY_ID) !== null) {
-            if (ConfigManager::getToggle("allow-spawner-stacking")) {
-                Forms::sendSpawnerForm($tile, $player);
-                $event->cancel();
-            }
+        if (ConfigManager::getToggle("allow-spawner-stacking")) {
+            Forms::sendSpawnerForm($tile, $player);
+            $event->cancel();
         }
     }
 

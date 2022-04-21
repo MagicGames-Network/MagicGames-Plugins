@@ -18,8 +18,10 @@ use Heisenburger69\BurgerSpawners\entities\SpawnerEntity;
 
 class MobSpawnerTile extends Spawnable
 {
-    public const LOAD_RANGE = "LoadRange"; //Distance for player beyond which no mobs are spawned
     public const ENTITY_ID = "EntityId"; //ID of the Entity
+    public const TAG_ENTITY_IDENTIFIER = "EntityIdentifier";
+    public const TAG_DISPLAY_ENTITY_SCALE = "DisplayEntityScale";
+    public const LOAD_RANGE = "LoadRange"; //Distance for player beyond which no mobs are spawned
     public const SPAWN_RANGE = "SpawnRange"; //Radius around the spawner in which the mob might spawn
     public const BASE_DELAY = "BaseDelay"; //Delay in ticks between spawning of mobs
     public const DELAY = "Delay"; //Current Delay in ticks before the next mob is spawned
@@ -208,8 +210,9 @@ class MobSpawnerTile extends Spawnable
 
     private function baseData(CompoundTag $nbt): void
     {
-        $nbt->setString("EntityId", $this->getNBT()->getString(self::ENTITY_ID));
         $nbt->setString(self::ENTITY_ID, $this->getNBT()->getString(self::ENTITY_ID));
+        $nbt->setString(self::TAG_ENTITY_IDENTIFIER, Utils::getEntityNameFromID($this->getEntityId()));
+        $nbt->setFloat(self::TAG_DISPLAY_ENTITY_SCALE, 1.0);
         $nbt->setInt(self::DELAY, $this->getNBT()->getInt(self::DELAY));
         $nbt->setInt(self::LOAD_RANGE, $this->getNBT()->getInt(self::LOAD_RANGE));
         $nbt->setInt(self::SPAWN_RANGE, $this->getNBT()->getInt(self::SPAWN_RANGE));
