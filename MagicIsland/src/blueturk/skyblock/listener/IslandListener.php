@@ -61,17 +61,17 @@ class IslandListener implements Listener
                 return;
             }
             $worlds = ["MagicGames", "Mining", "Arena"];
-            foreach($worlds as $world){
-            $world = Server::getInstance()->getWorldManager()->getWorldByName($world);
-			if(!$world instanceof World){
-				return;
-			}
-				
+            foreach ($worlds as $world) {
+                $world = Server::getInstance()->getWorldManager()->getWorldByName($world);
+                if (!$world instanceof World) {
+                    return;
+                }
+
                 if ($player->getPosition()->getWorld()->getFolderName() === $world->getFolderName()) {
                     $event->uncancel();
                     return;
-                    }
                 }
+            }
             if (in_array($player->getName(), $data->getNested($level . ".island" . ".this-partners"))) {
                 if ($data->getNested($level . ".island" . ".settings" . ".interact") === true) {
                     $event->uncancel();
@@ -126,7 +126,7 @@ class IslandListener implements Listener
                         $player->getInventory()->addItem($drop);
                         unset($drops[$key]);
                     } else {
-                            $player->sendPopup("§l§eINVENTORY FULL");
+                        $player->sendPopup("§l§eINVENTORY FULL");
                     }
                 }
                 $event->setDrops($drops);
@@ -140,16 +140,16 @@ class IslandListener implements Listener
                 return;
             }
             $worlds = ["MagicGames", "Mining", "Arena"];
-            foreach($worlds as $world){
-            $world = Server::getInstance()->getWorldManager()->getWorldByName($world);
-				if(!$world instanceof World){
-					return;
-				}
+            foreach ($worlds as $world) {
+                $world = Server::getInstance()->getWorldManager()->getWorldByName($world);
+                if (!$world instanceof World) {
+                    return;
+                }
                 if ($player->getPosition()->getWorld()->getFolderName() === $world->getFolderName()) {
                     $event->uncancel();
                     return;
-                    }
                 }
+            }
             if (in_array($player->getName(), $data->getNested($level . ".island" . ".this-partners"))) {
                 if ($data->getNested($level . ".island" . ".settings" . ".break") === true) {
                     $event->uncancel();
@@ -159,7 +159,7 @@ class IslandListener implements Listener
                             $player->getInventory()->addItem($drop);
                             unset($drops[$key]);
                         } else {
-                                $player->sendPopup("§l§eINVENTORY FULL");
+                            $player->sendPopup("§l§eINVENTORY FULL");
                         }
                     }
                     $event->setDrops($drops);
@@ -186,7 +186,7 @@ class IslandListener implements Listener
         $viewers = $inventory->getViewers();
         foreach ($viewers as $player) {
             $level = $player->getWorld();
-			$levelName = $level->getFolderName();
+            $levelName = $level->getFolderName();
             $data = SkyBlock::getInstance()->getConfig();
             if ($data->getNested($levelName . ".island") != null) {
                 if ($levelName === $player->getName()) {
@@ -198,15 +198,15 @@ class IslandListener implements Listener
                     return;
                 }
                 $worlds = ["MagicGames", "Mining", "Arena"];
-            foreach($worlds as $worldd){
-            $world = Server::getInstance()->getWorldManager()->getWorldByName($worldd);
-				if(!$world instanceof World){
-					return;
-				}
-				
-                if ($player->getPosition()->getWorld()->getFolderName() === $world->getFolderName()) {
-                    $event->uncancel();
-                    return;
+                foreach ($worlds as $worldd) {
+                    $world = Server::getInstance()->getWorldManager()->getWorldByName($worldd);
+                    if (!$world instanceof World) {
+                        return;
+                    }
+
+                    if ($player->getPosition()->getWorld()->getFolderName() === $world->getFolderName()) {
+                        $event->uncancel();
+                        return;
                     }
                 }
                 if (in_array($player->getName(), $data->getNested($levelName . ".island" . ".this-partners"))) {

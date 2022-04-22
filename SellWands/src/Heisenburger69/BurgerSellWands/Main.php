@@ -11,6 +11,7 @@ use pocketmine\player\Player;
 use pocketmine\event\Listener;
 use pocketmine\nbt\tag\IntTag;
 use pocketmine\world\Position;
+use AndreasHGK\SellAll\SellAll;
 use pocketmine\command\Command;
 use pocketmine\block\tile\Chest;
 use pocketmine\item\ItemFactory;
@@ -110,17 +111,17 @@ class Main extends PluginBase implements Listener
 
             $chest = $world->getTile(new Position($x, $y, $z, $world));
             if ($chest instanceof Chest) {
+                $sellPrices = SellAll::getInstance()->getConfig()->getAll();
                 $inv = $chest->getInventory()->getContents();
                 $revenue = 0;
-                $prices = $this->cfg->get("prices");
-
+                
                 /** @var Item $item */
                 foreach ($inv as $item) {
-                    if (isset($prices[$item->getId() . ":" . $item->getMeta()])) {
-                        $revenue = $revenue + ($item->getCount() * $prices[$item->getId() . ":" . $item->getMeta()]);
+                    if (isset($sellPrices[$item->getId() . ":" . $item->getMeta()])) {
+                        $revenue = $revenue + ($item->getCount() * $sellPrices[$item->getId() . ":" . $item->getMeta()]);
                         $chest->getInventory()->remove($item);
-                    } elseif (isset($prices[$item->getId()])) {
-                        $revenue = $revenue + ($item->getCount() * $prices[$item->getId()]);
+                    } elseif (isset($sellPrices[$item->getId()])) {
+                        $revenue = $revenue + ($item->getCount() * $sellPrices[$item->getId()]);
                         $chest->getInventory()->remove($item);
                     }
                 }
