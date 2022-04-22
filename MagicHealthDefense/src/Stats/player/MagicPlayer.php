@@ -4,6 +4,7 @@ namespace Stats\player;
 
 use Stats\Main;
 use pocketmine\world\World;
+use pocketmine\math\Vector3;
 use pocketmine\player\Player;
 use pocketmine\event\player\PlayerDeathEvent;
 use pocketmine\event\entity\EntityRegainHealthEvent;
@@ -115,5 +116,13 @@ class MagicPlayer extends Player
     public function setMaxHealth(int $amount): void
     {
         $this->stats["MaxHealth"] = $amount;
+    }
+
+    public function teleport(Vector3 $pos, ?float $yaw = 0, ?float $pitch = 0): bool
+    {
+        if (parent::teleport($pos, $yaw, $pitch)) {
+            return true;
+        }
+        return false;
     }
 }
