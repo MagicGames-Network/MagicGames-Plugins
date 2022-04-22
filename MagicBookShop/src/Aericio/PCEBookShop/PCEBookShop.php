@@ -4,27 +4,31 @@ declare(strict_types=1);
 
 namespace Aericio\PCEBookShop;
 
-use pocketmine\Server;
-use pocketmine\utils\Config;
-use pocketmine\lang\Translatable;
-use pocketmine\plugin\PluginBase;
-use onebone\economyapi\EconomyAPI;
-use CortexPE\Commando\PacketHooker;
-use Aericio\PCEBookShop\utils\Utils;
 use Aericio\PCEBookShop\commands\BookShopCommand;
+use Aericio\PCEBookShop\utils\Utils;
+use CortexPE\Commando\exception\HookAlreadyRegistered;
+use CortexPE\Commando\PacketHooker;
+use DaPigGuy\libPiggyEconomy\exceptions\MissingProviderDependencyException;
+use DaPigGuy\libPiggyEconomy\exceptions\UnknownProviderException;
 use DaPigGuy\PiggyCustomEnchants\CustomEnchantManager;
+use onebone\economyapi\EconomyAPI;
+use pocketmine\plugin\PluginBase;
+use pocketmine\utils\Config;
+use pocketmine\Server;
+use pocketmine\lang\Translatable;
 
 class PCEBookShop extends PluginBase
 {
-    private static PCEBookShop $instance;
 
     private Config $messages;
+
+    private static PCEBookShop $instance;
 
     public EconomyAPI $economyProvider;
 
     /** @var array */
     public array $enchantments = [];
-
+	
     public function onEnable(): void
     {
         self::$instance = $this;
@@ -39,7 +43,7 @@ class PCEBookShop extends PluginBase
 
         foreach (CustomEnchantManager::getEnchantments() as $enchants) {
             $excluded = $this->getConfig()->get("excluded-enchants", []);
-            $enchantName = $enchants->getName() instanceof Translatable ? Server::getInstance()->getLanguage()->translate($enchants->getName()) : Server::getInstance()->getLanguage()->translateString($enchants->getName());
+			$enchantName = $enchants->getName() instanceof Translatable ? Server::getInstance()->getLanguage()->translate($enchants->getName()) : Server::getInstance()->getLanguage()->translateString($enchants->getName());
             if (!in_array($enchants->getId(), $excluded) && !in_array(strtolower($enchantName), $excluded)) {
                 $this->enchantments[$enchants->getRarity()][] = $enchants;
             }
@@ -58,10 +62,13 @@ class PCEBookShop extends PluginBase
 
     public function getEnchantmentsByRarity(int $rarity): array
     {
-        if (isset($this->enchantments[$rarity])) {
-            return $this->enchantments[$rarity];
+        if(!isset($this->enchantments[$rarity])){
+            return [];
         }
-        return [];
+        if(count($this->enchantments[$rarity]) === 0){
+            return [];
+        }
+        return $this->enchantments[$rarity];
     }
 
     /**
@@ -76,4 +83,5 @@ class PCEBookShop extends PluginBase
     {
         return self::$instance;
     }
+
 }
