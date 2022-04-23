@@ -11,7 +11,6 @@ use pocketmine\event\player\PlayerLoginEvent;
 
 class Main extends PluginBase implements Listener
 {
-    /** @var string[] */
     private array $toAlert = [];
 
     public function onEnable(): void
