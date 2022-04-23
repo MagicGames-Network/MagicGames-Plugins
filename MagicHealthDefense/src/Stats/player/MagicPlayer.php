@@ -117,12 +117,4 @@ class MagicPlayer extends Player
     {
         $this->stats["MaxHealth"] = $amount;
     }
-
-    public function teleport(Vector3 $pos, ?float $yaw = 0.0, ?float $pitch = 0.0): bool
-    {
-        if (parent::teleport($pos, $yaw, $pitch)) {
-            return true;
-        }
-        return false;
-    }
 }
