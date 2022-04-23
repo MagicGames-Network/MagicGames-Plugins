@@ -62,7 +62,7 @@ class BeaconBlock extends Transparent
             $radius = 10 + (10 * $level);
             $effectDuration = 20 * (9 + (2 * $level));
 
-            foreach (Server::getInstance()->getOnlinePlayers() as $p) {
+            foreach ($this->position->getWorld()->getPlayers() as $p) {
                 if ($p->getPosition()->distance($this->getPosition()) < $radius) {
                     foreach ([$primary, $secondary] as $effectId) {
                         if ($effectId !== 0) {
