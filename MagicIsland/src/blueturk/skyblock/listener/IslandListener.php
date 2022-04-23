@@ -60,8 +60,8 @@ class IslandListener implements Listener
 
         foreach ($partnerIslands as $islandName) {
             $world = Server::getInstance()->getWorldManager()->getWorldByName($islandName);
-            if ($world instanceof World && count($world->getPlayers()) > 0 && Server::getInstance()->getWorldManager()->isWorldLoaded($islandName)) {
-                Server::getInstance()->getWorldManager()->unloadWorld($islandName);
+            if ($world instanceof World && count($world->getPlayers()) === 0 && Server::getInstance()->getWorldManager()->isWorldLoaded($islandName)) {
+                Server::getInstance()->getWorldManager()->unloadWorld($world);
             }
         }
     }

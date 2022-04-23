@@ -148,7 +148,7 @@ class MobSpawnerTile extends Spawnable
     public function readSaveData(CompoundTag $nbt): void
     {
         if (($tag = $nbt->getTag(self::TAG_ENTITY_ID)) !== null) {
-            $this->setEntityId($tag->getValue());
+            $this->setEntityId((int)$tag->getValue());
         }
         if (($tag = $nbt->getTag(self::TAG_SPAWN_COUNT)) !== null) {
             $this->spawnCount = (int)$tag->getValue();
