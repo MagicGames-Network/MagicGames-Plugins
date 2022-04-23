@@ -88,7 +88,7 @@ class CraftMenu extends BaseMenu
 			return $transaction->continue()->then(function () {
 				$recipe_data = $this->makeRecipeData();
 				foreach ($this->getLoader()->getRecipes() as $recipe) {
-					if ($recipe->isSame($recipe_data)) {
+					if ($recipe->isEnough($recipe_data)) {
 						if ($recipe->getMode() == $this->getMode()) {
 							$this->setResult($recipe->getResultItem());
 							$this->correct_recipe = $recipe;
@@ -102,7 +102,7 @@ class CraftMenu extends BaseMenu
 		$recipe_data = $this->makeRecipeData($slot, $nextitem);
 		foreach ($this->getLoader()->getRecipes() as $recipe) {
 			if ($recipe->getMode() == $this->getMode()) {
-				if ($recipe->isSame($recipe_data)) {
+				if ($recipe->isEnough($recipe_data)) {
 					$this->setResult($recipe->getResultItem());
 					$this->correct_recipe = $recipe;
 					return $transaction->continue();
