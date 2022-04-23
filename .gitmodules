@@ -29,3 +29,9 @@
 [submodule "phpstan/PiggyCustomEnchants"]
 	path = phpstan/PiggyCustomEnchants
 	url = https://github.com/DaPigGuy/PiggyCustomEnchants/
+[submodule "phpstan/PortableCrafting"]
+	path = phpstan/PortableCrafting
+	url = https://github.com/Muqsit/PortableCrafting
+[submodule "phpstan/FI-Utils"]
+	path = phpstan/FI-Utils
+	url = https://github.com/JinodkDevTeam/FI-Utils
