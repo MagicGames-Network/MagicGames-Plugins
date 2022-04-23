@@ -53,7 +53,7 @@ class BankUI extends PluginBase implements Listener
             function () {
                 $this->dailyInterest();
             }
-        ), 1100);
+        ), 432000);
     }
 
     public function dailyInterest(): void
