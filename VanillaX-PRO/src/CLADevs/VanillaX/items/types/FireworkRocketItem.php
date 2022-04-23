@@ -40,7 +40,7 @@ class FireworkRocketItem extends Item
             $entity->spawnToAll();
         }
         Session::playSound($player, "firework.launch");
-        if ($player->isSurvival() || $player->isAdventure()) $this->pop();
+        if ($player->isSurvival()) $this->pop();
         return parent::onInteractBlock($player, $blockReplace, $blockClicked, $face, $clickVector);
     }
 
