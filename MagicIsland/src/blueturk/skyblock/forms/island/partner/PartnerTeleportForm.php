@@ -13,7 +13,7 @@ class PartnerTeleportForm extends MenuForm
     public function __construct(Player $player)
     {
         $options = [];
-        if (SkyBlock::getInstance()->getConfig()->getNested($player->getName()) != null) {
+        if (SkyBlock::getInstance()->getConfig()->getNested($player->getName()) !== null) {
             if (SkyBlock::getInstance()->getConfig()->getNested($player->getName() . ".island") === null) {
                 if (SkyBlock::getInstance()->getConfig()->getNested($player->getName() . ".partners") != null) {
                     foreach (SkyBlock::getInstance()->getConfig()->getNested($player->getName() . ".partners") as $item => $value) {

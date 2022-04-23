@@ -5,7 +5,6 @@ namespace CLADevs\VanillaX\entities;
 use Closure;
 use pocketmine\world\World;
 use pocketmine\entity\Entity;
-use CLADevs\VanillaX\utils\Utils;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\entity\EntityFactory;
 use pocketmine\utils\SingletonTrait;
@@ -13,9 +12,6 @@ use const pocketmine\BEDROCK_DATA_PATH;
 use pocketmine\entity\EntityDataHelper;
 use pocketmine\data\bedrock\EntityLegacyIds;
 use CLADevs\VanillaX\entities\utils\EntityInfo;
-use CLADevs\VanillaX\utils\item\NonAutomaticCallItemTrait;
-use CLADevs\VanillaX\entities\utils\EntityCustomRegisterClosure;
-use CLADevs\VanillaX\entities\utils\villager\VillagerProfession;
 
 class EntityManager
 {

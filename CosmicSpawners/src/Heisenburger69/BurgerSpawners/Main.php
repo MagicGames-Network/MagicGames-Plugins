@@ -37,7 +37,7 @@ use Heisenburger69\BurgerSpawners\commands\SpawnEggCommand;
 
 class Main extends PluginBase
 {
-    public const PREFIX = C::BOLD . C::AQUA . "ANTI-SEX_" . C::LIGHT_PURPLE . "Spawners" . "> " . C::RESET;
+    public const PREFIX = "§d(§bSpawner§d)§e > §b";
 
     public static Main $instance;
 

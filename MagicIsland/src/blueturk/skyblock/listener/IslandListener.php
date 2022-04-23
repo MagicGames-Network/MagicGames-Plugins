@@ -25,7 +25,7 @@ class IslandListener implements Listener
     {
         $player = $event->getPlayer();
         $data = SkyBlock::getInstance()->getConfig();
-        if ($data->getNested($player->getName() . "." . "island") !== null) {
+        if ($data->getNested($player->getName() . ".island") !== null) {
             IslandManager::teleportToIsland($player);
         }
     }
@@ -34,14 +34,34 @@ class IslandListener implements Listener
     {
         $player = $event->getPlayer();
         $data = SkyBlock::getInstance()->getConfig();
-        if ($data->getNested($player->getName() . "." . "island") !== null) {
-            $world = Server::getInstance()->getWorldManager()->getWorldByName($player->getName());
-            if (!$world instanceof World) {
-                return;
-            }
 
-            if (Server::getInstance()->getWorldManager()->isWorldLoaded($player->getName())) {
-                Server::getInstance()->getWorldManager()->unloadWorld($world);
+        $partnerIslands = [];
+        if ($data->getNested($player->getName()) !== null) {
+            if ($data->getNested($player->getName() . ".island") !== null) {
+                $world = Server::getInstance()->getWorldManager()->getWorldByName($player->getName());
+                if (!$world instanceof World) {
+                    return;
+                }
+
+                if (Server::getInstance()->getWorldManager()->isWorldLoaded($player->getName())) {
+                    Server::getInstance()->getWorldManager()->unloadWorld($world);
+                }
+                if (SkyBlock::getInstance()->getConfig()->getNested($player->getName() . ".island" . ".other-partners") != null) {
+                    foreach (SkyBlock::getInstance()->getConfig()->getNested($player->getName() . ".island" . ".other-partners") as $item => $value) {
+                        $partnerIslands[] = $value;
+                    }
+                }
+            } elseif (SkyBlock::getInstance()->getConfig()->getNested($player->getName() . ".partners") != null) {
+                foreach (SkyBlock::getInstance()->getConfig()->getNested($player->getName() . ".partners") as $item => $value) {
+                    $partnerIslands[] = $value;
+                }
+            }
+        }
+
+        foreach ($partnerIslands as $islandName) {
+            $world = Server::getInstance()->getWorldManager()->getWorldByName($islandName);
+            if ($world instanceof World && count($world->getPlayers()) > 0 && Server::getInstance()->getWorldManager()->isWorldLoaded($islandName)) {
+                Server::getInstance()->getWorldManager()->unloadWorld($islandName);
             }
         }
     }

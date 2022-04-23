@@ -6,6 +6,7 @@ use pocketmine\item\Pickaxe;
 use pocketmine\entity\Living;
 use pocketmine\player\Player;
 use pocketmine\event\Listener;
+use pocketmine\world\format\Chunk;
 use pocketmine\scheduler\ClosureTask;
 use pocketmine\utils\TextFormat as C;
 use pocketmine\event\block\BlockPlaceEvent;
@@ -24,7 +25,6 @@ use pocketmine\event\entity\EntityDamageByEntityEvent;
 use Heisenburger69\BurgerSpawners\tiles\MobSpawnerTile;
 use Heisenburger69\BurgerSpawners\entities\SpawnerEntity;
 use Heisenburger69\BurgerSpawners\events\SpawnerStackEvent;
-use pocketmine\world\format\Chunk;
 
 class EventListener implements Listener
 {

@@ -2,10 +2,10 @@ name: PiggyCustomEnchants
 main: DaPigGuy\PiggyCustomEnchants\PiggyCustomEnchants
 version: 3.0.1
 api: 4.2.0
-mcpe-protocol: [ 486 ]
 load: POSTWORLD
 author: DaPigGuy
 website: "https://github.com/DaPigGuy/PiggyCustomEnchants/"
+
 permissions:
   piggycustomenchants:
     default: false

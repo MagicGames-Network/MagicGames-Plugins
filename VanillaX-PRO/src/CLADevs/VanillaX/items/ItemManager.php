@@ -4,12 +4,7 @@ namespace CLADevs\VanillaX\items;
 
 use pocketmine\Server;
 use pocketmine\item\Item;
-use pocketmine\world\World;
 use pocketmine\item\ItemIds;
-use pocketmine\math\Vector3;
-use pocketmine\entity\Entity;
-use pocketmine\item\SpawnEgg;
-use pocketmine\entity\Location;
 use pocketmine\item\ItemFactory;
 use CLADevs\VanillaX\utils\Utils;
 use pocketmine\item\ItemIdentifier;
