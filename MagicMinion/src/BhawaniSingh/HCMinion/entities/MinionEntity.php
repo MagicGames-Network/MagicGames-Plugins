@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace BhawaniSingh\HCMinion\entities;
 
 use pocketmine\nbt\NBT;
+use pocketmine\block\Air;
 use pocketmine\item\Item;
 use pocketmine\item\Armor;
 use muqsit\invmenu\InvMenu;
@@ -23,12 +24,12 @@ use pocketmine\utils\TextFormat;
 use pocketmine\item\VanillaItems;
 use onebone\economyapi\EconomyAPI;
 use pocketmine\world\format\Chunk;
+use pocketmine\block\BlockToolType;
 use pocketmine\block\VanillaBlocks;
 use pocketmine\inventory\Inventory;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\block\BlockLegacyIds;
 use pocketmine\scheduler\ClosureTask;
-use pocketmine\scheduler\TaskHandler;
 use BhawaniSingh\HCMinion\utils\Utils;
 use BhawaniSingh\HCMinion\BetterMinion;
 use muqsit\invmenu\type\InvMenuTypeIds;
@@ -361,7 +362,7 @@ abstract class MinionEntity extends Human
                 $this->getNetworkProperties()->clearDirtyProperties();
             }
 
-            $this->checkBlockIntersections();
+            //$this->checkBlockIntersections();
 
             if ($this->location->y <= World::Y_MIN - 16 && $this->isAlive()) {
                 $ev = new EntityDamageEvent($this, EntityDamageEvent::CAUSE_VOID, 10);
@@ -450,9 +451,9 @@ abstract class MinionEntity extends Human
                         }
                         break;
                     case self::ACTION_WORKING:
-                        $isPlacing = $this->target->getId() === BlockLegacyIds::AIR;
+                        $isPlacing = $this->target instanceof Air;
                         if (!$isPlacing) {
-                            if ($this->currentActionSeconds === 1) {
+                            if ($this->currentActionSeconds === 1 && $this->broadcastPlaceBreak()) {
                                 $this->getWorld()->broadcastPacketToViewers($this->target->getPosition(), LevelEventPacket::create(LevelEvent::BLOCK_START_BREAK, (int) (65535 / 60), $this->target->getPosition()));
                             }
                             if ($this->isWorkFast()) {
@@ -461,8 +462,10 @@ abstract class MinionEntity extends Human
                             $pk = new AnimatePacket();
                             $pk->action = AnimatePacket::ACTION_SWING_ARM;
                             $pk->actorRuntimeId = $this->getId();
-                            $this->getWorld()->broadcastPacketToViewers($this->getPosition(), $pk);
-                        } else {
+                            if ($this->broadcastPlaceBreak()) {
+                                $this->getWorld()->broadcastPacketToViewers($this->getPosition(), $pk);
+                            }
+                        } elseif ($this->broadcastPlaceBreak()) {
                             $this->getWorld()->broadcastPacketToViewers($this->target->getPosition(), LevelEventPacket::create(LevelEvent::BLOCK_STOP_BREAK, 0, $this->target->getPosition()));
                         }
                         if ($this->currentActionSeconds === 2) {
@@ -630,14 +633,14 @@ abstract class MinionEntity extends Human
 
     protected function checkTarget(): bool
     {
-        return $this->target->getId() === BlockLegacyIds::AIR || ($this->target->getId() === $this->getMinionInformation()->getType()->getTargetId() && $this->target->getMeta() === $this->getMinionInformation()->getType()->getTargetMeta());
+        return $this->target instanceof Air || ($this->target->getId() === $this->getMinionInformation()->getType()->getTargetId() && $this->target->getMeta() === $this->getMinionInformation()->getType()->getTargetMeta());
     }
 
     protected function startWorking(): void
     {
         $this->getWorld()->addParticle($this->target->getPosition()->add(0.5, 0.5, 0.5), new BlockBreakParticle($this->target));
-        $this->getWorld()->setBlock($this->target->getPosition(), $this->target->getId() === BlockLegacyIds::AIR ? $this->getMinionInformation()->getType()->toBlock() : VanillaBlocks::AIR());
-        if ($this->target->getId() !== BlockLegacyIds::AIR) {
+        $this->getWorld()->setBlock($this->target->getPosition(), $this->target instanceof Air ? $this->getMinionInformation()->getType()->toBlock() : VanillaBlocks::AIR());
+        if (!$this->target instanceof Air) {
             $drops = $this->getTargetDrops();
             foreach ($drops as $drop) {
                 for ($i = 1; $i <= $drop->getCount(); ++$i) {
@@ -660,7 +663,9 @@ abstract class MinionEntity extends Human
         $this->currentAction = self::ACTION_IDLE;
         $this->currentActionSeconds = 0;
 
-        $this->getWorld()->broadcastPacketToViewers($this->getPosition(), LevelEventPacket::create(LevelEvent::BLOCK_STOP_BREAK, 0, $this->target->getPosition()));
+        if ($this->broadcastPlaceBreak()) {
+            $this->getWorld()->broadcastPacketToViewers($this->getPosition(), LevelEventPacket::create(LevelEvent::BLOCK_STOP_BREAK, 0, $this->target->getPosition()));
+        }
         $this->isWorking = false;
     }
 
@@ -682,7 +687,9 @@ abstract class MinionEntity extends Human
 
     private function destroy(): void
     {
-        $this->getWorld()->broadcastPacketToViewers($this->getPosition(), LevelEventPacket::create(LevelEvent::BLOCK_STOP_BREAK, 0, $this->target->getPosition()));
+        if ($this->broadcastPlaceBreak()) {
+            $this->getWorld()->broadcastPacketToViewers($this->getPosition(), LevelEventPacket::create(LevelEvent::BLOCK_STOP_BREAK, 0, $this->target->getPosition()));
+        }
         foreach ($this->getMinionInventory()->getContents() as $content) {
             $this->getWorld()->dropItem($this->getPosition(), $content);
         }
@@ -695,7 +702,19 @@ abstract class MinionEntity extends Human
         $this->close();
     }
 
-    abstract protected function getTool(string $tool, bool $isNetheriteTool): ?Item;
+    protected function getTool(string $tool, bool $isNetheriteTool): ?Item
+    {
+        $tools = [
+            BlockToolType::NONE => $isNetheriteTool ? ItemFactory::getInstance()->get(745) : StringToItemParser::getInstance()->parse($tool . ' Pickaxe'),
+            BlockToolType::SHOVEL => $isNetheriteTool ? ItemFactory::getInstance()->get(744) : StringToItemParser::getInstance()->parse($tool . ' Shovel'),
+            BlockToolType::PICKAXE => $isNetheriteTool ? ItemFactory::getInstance()->get(745) : StringToItemParser::getInstance()->parse($tool . ' Pickaxe'),
+            BlockToolType::AXE => $isNetheriteTool ? ItemFactory::getInstance()->get(746) : StringToItemParser::getInstance()->parse($tool . ' Axe'),
+            BlockToolType::HOE => $isNetheriteTool ? ItemFactory::getInstance()->get(747) : StringToItemParser::getInstance()->parse($tool . ' Hoe'),
+            BlockToolType::SHEARS => ItemFactory::getInstance()->get(ItemIds::SHEARS),
+        ];
+
+        return $tools[$this->getMinionInformation()->getType()->toBlock()->getBreakInfo()->getToolType()];
+    }
 
     private function checkFull(): bool
     {
@@ -763,6 +782,11 @@ abstract class MinionEntity extends Human
     protected function getMinionRange(): int
     {
         return $this->getMinionInformation()->getUpgrade()->isSuperExpander() ? 3 : 2;
+    }
+
+    protected function broadcastPlaceBreak(): bool
+    {
+        return true;
     }
 
     protected function isWorkFast(): bool

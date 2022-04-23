@@ -4,44 +4,16 @@ declare(strict_types=1);
 
 namespace BhawaniSingh\HCMinion\entities\types;
 
-use pocketmine\item\Item;
-use pocketmine\block\Block;
+use pocketmine\block\Air;
 use pocketmine\block\Crops;
-use pocketmine\item\ItemIds;
+use pocketmine\block\Farmland;
 use pocketmine\item\ItemFactory;
 use pocketmine\block\VanillaBlocks;
-use pocketmine\block\BlockLegacyIds;
-use pocketmine\item\StringToItemParser;
 use BhawaniSingh\HCMinion\entities\MinionEntity;
 use pocketmine\world\particle\BlockBreakParticle;
 
 class FarmingMinion extends MinionEntity
 {
-    protected function updateTarget(): void
-    {
-        for ($x = -$this->getMinionRange(); $x <= $this->getMinionRange(); ++$x) {
-            for ($z = -$this->getMinionRange(); $z <= $this->getMinionRange(); ++$z) {
-                if ($x === 0 && $z === 0) {
-                    continue;
-                }
-                if (mt_rand(0, 1) === 0) {
-                    $farmland = $this->getWorld()->getBlock($this->getPosition()->add($x, -1, $z));
-                    if (!$this->isFarmland($farmland)) {
-                        $this->getWorld()->setBlock($farmland->getPosition(), VanillaBlocks::FARMLAND());
-                        return;
-                    }
-
-                    $block = $this->getWorld()->getBlock($this->getPosition()->add($x, 0, $z));
-                    if ($block instanceof Crops) {
-                        $block->setAge($block->getAge() + 3 < 7 ? $block->getAge() + 3 : 7);
-                        return;
-                    }
-                    $this->getWorld()->setBlock($block->getPosition(), $this->getMinionInformation()->getType()->toBlock());
-                }
-            }
-        }
-    }
-
     protected function getTarget(): void
     {
         $blocks = [];
@@ -50,30 +22,35 @@ class FarmingMinion extends MinionEntity
                 if ($x === 0 && $z === 0) {
                     continue;
                 }
-                $farmland = $this->getWorld()->getBlock($this->getPosition()->add($x, -1, $z));
-                $block = $this->getWorld()->getBlock($this->getPosition()->add($x, 0, $z));
-                if (!$block instanceof Crops) {
-                    continue;
-                }
 
-                if ($block->getId() === $this->getMinionInformation()->getType()->getTargetId() && $block->getMeta() === $this->getMinionInformation()->getType()->getTargetMeta() && $block->getAge() >= 7 && $this->isFarmland($farmland)) {
+                $block = $this->getWorld()->getBlock($this->getPosition()->add($x, 0, $z));
+                if ($block instanceof Air || ($block->getId() === $this->getMinionInformation()->getType()->getTargetId() && $block->getMeta() === $this->getMinionInformation()->getType()->getTargetMeta())) {
                     $blocks[] = $block;
                 }
             }
         }
         if (count($blocks) > 0) {
             $this->target = $blocks[array_rand($blocks)];
+            return;
         }
-    }
-
-    protected function checkTarget(): bool
-    {
-        return ($this->target->getId() !== BlockLegacyIds::AIR && $this->isFarmland($this->getWorld()->getBlock($this->target->getPosition()->add(0, -1, 0)))) || parent::checkTarget();
+        $this->stopWorking();
     }
 
     protected function startWorking(): void
     {
-        if ($this->target->getId() !== BlockLegacyIds::AIR && $this->target instanceof Crops && $this->target->getAge() === 7) {
+        if (!$this->target instanceof Crops) {
+            $farmland = $this->getWorld()->getBlock($this->target->getPosition()->add(0, -1, 0));
+            if (!$farmland instanceof Farmland) {
+                $this->getWorld()->setBlock($farmland->getPosition(), VanillaBlocks::FARMLAND());
+                return;
+            }
+            if ($this->target instanceof Air) {
+                $this->getWorld()->setBlock($this->target->getPosition(), $this->getMinionInformation()->getType()->toBlock());
+            }
+        } elseif ($this->target->getAge() === 7) {
+            $this->getWorld()->addParticle($this->target->getPosition()->add(0.5, 0.5, 0.5), new BlockBreakParticle($this->target));
+            $this->getWorld()->setBlock($this->target->getPosition(), VanillaBlocks::AIR());
+
             $drops = $this->getTargetDrops();
             foreach ($drops as $drop) {
                 for ($i = 1; $i <= $drop->getCount(); ++$i) {
@@ -84,23 +61,14 @@ class FarmingMinion extends MinionEntity
                     }
                 }
             }
-        }
-
-        $farmland = $this->getWorld()->getBlock($this->target->getPosition()->add(0, -1, 0));
-        if ($this->isFarmland($farmland)) {
-            $this->getWorld()->addParticle($this->target->getPosition()->add(0.5, 0.5, 0.5), new BlockBreakParticle($this->target));
-            $this->getWorld()->setBlock($this->target->getPosition(), $this->target->getId() === BlockLegacyIds::AIR ? $this->getMinionInformation()->getType()->toBlock() : VanillaBlocks::AIR());
+        } else {
+            $this->target->setAge($this->target->getAge() + 1);
         }
     }
 
-    private function isFarmland(Block $block): bool
+    protected function broadcastPlaceBreak(): bool
     {
-        return $block->getId() === ItemIds::FARMLAND;
-    }
-
-    protected function getTool(string $tool, bool $isNetheriteTool): ?Item
-    {
-        return $isNetheriteTool ? ItemFactory::getInstance()->get(747) : StringToItemParser::getInstance()->parse($tool . ' Hoe');
+        return false;
     }
 
     protected function isWorkFast(): bool
