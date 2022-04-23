@@ -16,7 +16,6 @@ use pocketmine\item\ItemIdentifier;
 use const pocketmine\BEDROCK_DATA_PATH;
 use pocketmine\item\StringToItemParser;
 use pocketmine\inventory\CreativeInventory;
-use CLADevs\VanillaX\entities\EntityManager;
 use CLADevs\VanillaX\items\types\HorseArmorItem;
 use CLADevs\VanillaX\items\utils\RecipeItemTrait;
 use CLADevs\VanillaX\utils\item\NonCreativeItemTrait;
@@ -56,7 +55,7 @@ class ItemManager
         }
 
         /** Spawn Egg */
-        foreach (EntityManager::getInstance()->getEntityInfoMap() as $key => $info) {
+        /*foreach (EntityManager::getInstance()->getEntityInfoMap() as $key => $info) {
             $legacyId = $info->getLegacyId();
 
             if ($key === $legacyId && ($info->isMonster() || $info->isNeutral() || $info->isPassive())) {
@@ -71,7 +70,7 @@ class ItemManager
                 };
                 self::register($class);
             }
-        }
+        }*/
         $this->initializeCreativeItems();
     }
 

@@ -34,24 +34,24 @@ class EntityManager
 
     public function startup(): void
     {
-        VillagerProfession::init();
+        //VillagerProfession::init();
 
-        foreach (["object", "projectile", "boss", "passive", "neutral", "monster"] as $type) {
-            Utils::callDirectory("entities/$type", function (string $namespace) use ($type): void {
-                $implements = class_implements($namespace);
-
-                if (!isset($implements[NonAutomaticCallItemTrait::class])) {
-                    $closure = null;
-
-                    if (isset($implements[EntityCustomRegisterClosure::class])) {
-                        /** @var EntityCustomRegisterClosure $namespace */
-                        $closure = $namespace::getRegisterClosure();
-                    }
-                    /** @var VanillaEntity $namespace */
-                    $this->registerEntity($namespace, $type, [$namespace::getNetworkTypeId()], null, $closure);
-                }
-            });
-        }
+        //foreach (["object", "projectile", "boss", "passive", "neutral", "monster"] as $type) {
+        //    Utils::callDirectory("entities/$type", function (string $namespace) use ($type): void {
+        //        $implements = class_implements($namespace);
+        //
+        //        if (!isset($implements[NonAutomaticCallItemTrait::class])) {
+        //            $closure = null;
+        //
+        //            if (isset($implements[EntityCustomRegisterClosure::class])) {
+        //                /** @var EntityCustomRegisterClosure $namespace */
+        //                $closure = $namespace::getRegisterClosure();
+        //            }
+        //            /** @var VanillaEntity $namespace */
+        //            $this->registerEntity($namespace, $type, [$namespace::getNetworkTypeId()], null, $closure);
+        //        }
+        //    });
+        //}
     }
 
     public function registerEntity(string $namespace, string $type = "none", array $saveNames = [], ?int $legacyId = null, ?Closure $closure = null): void
