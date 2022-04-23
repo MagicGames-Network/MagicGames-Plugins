@@ -384,10 +384,10 @@ abstract class MinionEntity extends Human
             // █░░ █ █░█ █ █▄░█ █▀▀
             // █▄▄ █ ▀▄▀ █ █░▀█ █▄█
 
-            if ($this->isAlive()) {
-                /*if ($this->effectManager->tick($tickDiff)) {
+            /*if ($this->isAlive()) {
+                if ($this->effectManager->tick($tickDiff)) {
                     $hasUpdate = true;
-                }*/
+                }
 
                 if ($this->isInsideOfSolid()) {
                     $hasUpdate = true;
@@ -395,13 +395,13 @@ abstract class MinionEntity extends Human
                     $this->attack($ev);
                 }
 
-                /*if ($this->doAirSupplyTick($tickDiff)) {
+                if ($this->doAirSupplyTick($tickDiff)) {
                     $hasUpdate = true;
-                }*/
+                }
             }
             if ($this->attackTime > 0) {
                 $this->attackTime -= $tickDiff;
-            }
+            }*/
 
             // █░█ █░█ █▀▄▀█ ▄▀█ █▄░█
             // █▀█ █▄█ █░▀░█ █▀█ █░▀█
