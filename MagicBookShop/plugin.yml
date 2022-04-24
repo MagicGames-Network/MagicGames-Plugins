@@ -2,8 +2,7 @@
 name: MagicCEBookShop
 main: Aericio\PCEBookShop\PCEBookShop
 version: 1.0.5
-api:
-- 4.0.0
+api: 4.0.0
 author: Aericio/AceDaDev(Modified)
 
 permissions:

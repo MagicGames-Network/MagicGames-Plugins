@@ -118,10 +118,10 @@ class EventListener implements Listener
                 return;
             }
             if (ConfigManager::getToggle("allow-spawner-stacking")) {
-                if ($item->getNamedTag()->getTag(MobSpawnerTile::ENTITY_ID) !== null && $item->getNamedTag()->getTag(MobSpawnerTile::ENTITY_ID)->getValue() === $tile->getEntityId()) {
+                if ($item->getNamedTag()->getTag(MobSpawnerTile::ENTITY_ID) !== null && $item->getNamedTag()->getTag(MobSpawnerTile::ENTITY_ID)->getValue() === $tile->entityId) {
                     ($spawnerEvent = new SpawnerStackEvent($player, $tile, 1))->call();
                     if ($spawnerEvent->isCancelled()) return;
-                    $tile->setCount($tile->getCount() + 1);
+                    $tile->setSpawnCount($tile->spawnCount + 1);
                     $player->getInventory()->setItemInHand($item->setCount($item->getCount() - 1));
                     $event->cancel();
                 }

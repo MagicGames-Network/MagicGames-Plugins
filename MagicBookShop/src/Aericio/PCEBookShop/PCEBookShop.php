@@ -6,6 +6,7 @@ namespace Aericio\PCEBookShop;
 
 use pocketmine\Server;
 use pocketmine\utils\Config;
+use pocketmine\scheduler\Task;
 use pocketmine\lang\Translatable;
 use pocketmine\plugin\PluginBase;
 use onebone\economyapi\EconomyAPI;
@@ -36,13 +37,19 @@ class PCEBookShop extends PluginBase
         if (!PacketHooker::isRegistered()) PacketHooker::register($this);
         $this->getServer()->getCommandMap()->register("ceshop", new BookShopCommand($this, "cebuy", "Custom Enchantments Shop", ["ceshop", "cebuy"]));
 
-        foreach (CustomEnchantManager::getEnchantments() as $enchants) {
-            $excluded = $this->getConfig()->get("excluded-enchants", []);
-            $enchantName = $enchants->getName() instanceof Translatable ? Server::getInstance()->getLanguage()->translate($enchants->getName()) : Server::getInstance()->getLanguage()->translateString($enchants->getName());
-            if (!in_array($enchants->getId(), $excluded) && !in_array(strtolower($enchantName), $excluded)) {
-                $this->enchantments[$enchants->getRarity()][] = $enchants;
+        $this->getScheduler()->scheduleDelayedTask(new class extends Task
+        {
+            public function onRun(): void
+            {
+                foreach (CustomEnchantManager::getEnchantments() as $enchants) {
+                    $excluded = PCEBookShop::getInstance()->getConfig()->get("excluded-enchants", []);
+                    $enchantName = $enchants->getName() instanceof Translatable ? Server::getInstance()->getLanguage()->translate($enchants->getName()) : Server::getInstance()->getLanguage()->translateString($enchants->getName());
+                    if (!in_array($enchants->getId(), $excluded) && !in_array(strtolower($enchantName), $excluded)) {
+                        PCEBookShop::getInstance()->enchantments[$enchants->getRarity()][] = $enchants;
+                    }
+                }
             }
-        }
+        }, 100);
     }
 
     public function getMessage(string $key, array $tags = []): string

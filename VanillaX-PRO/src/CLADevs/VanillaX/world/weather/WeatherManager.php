@@ -30,7 +30,7 @@ class WeatherManager
 
     public function startup(): void
     {
-        if (!Setting::getInstance()->isWeatherEnabled()) {
+        /*if (!Setting::getInstance()->isWeatherEnabled()) {
             return;
         }
         foreach (Server::getInstance()->getWorldManager()->getWorlds() as $world) {
@@ -67,7 +67,7 @@ class WeatherManager
                 }
                 $weather->saveData();
             }
-        }), 20);
+        }), 20);*/
     }
 
     public function addWeather(World $world): void

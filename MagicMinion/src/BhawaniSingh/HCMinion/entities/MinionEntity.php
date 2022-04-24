@@ -162,6 +162,10 @@ abstract class MinionEntity extends Human
                             '§r§6Resources Collected: ' . TextFormat::WHITE . $this->getMinionInformation()->getResourcesCollected(),
                         ]));
                     }), 20);
+                    $menu->setInventoryCloseListener(function (Player $player, Inventory $inventory) use ($taskHandler): void {
+                        $taskHandler->cancel();
+                    });
+                    
                     $menu->setListener(InvMenu::readonly(function (DeterministicInvMenuTransaction $transaction): void {
                         $player = $transaction->getPlayer();
                         $itemClicked = $transaction->getItemClicked();
@@ -314,9 +318,6 @@ abstract class MinionEntity extends Human
                         }
                     }));
                     $menu->send($damager);
-                    $menu->setInventoryCloseListener(function (Player $player, Inventory $inventory) use ($taskHandler): void {
-                        $taskHandler->cancel();
-                    });
                 }
             }
         }

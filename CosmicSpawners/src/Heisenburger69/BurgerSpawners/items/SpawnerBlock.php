@@ -28,7 +28,7 @@ class SpawnerBlock extends PMSpawner
 
         $tile = $this->getPosition()->getWorld()->getTile($this->getPosition());
         if ($tile instanceof MobSpawnerTile) {
-            if ($tile->getEntityId() == 0 and $item->getNamedTag()->getTag(MobSpawnerTile::ENTITY_ID) !== null) {
+            if ($tile->entityId == "0" && $item->getNamedTag()->getTag(MobSpawnerTile::ENTITY_ID) !== null) {
                 $tile->setEntityId($item->getNamedTag()->getTag(MobSpawnerTile::ENTITY_ID)->getValue());
                 if ($player instanceof Player) {
                     (new SpawnerPlaceEvent($player, $tile))->call();
@@ -61,9 +61,9 @@ class SpawnerBlock extends PMSpawner
             $tile = $this->getPosition()->getWorld()->getTile($this->getPosition()->asVector3());
             if ($tile instanceof MobSpawnerTile) {
                 $nbt = new CompoundTag();
-                $count = $tile->getCount();
+                $count = $tile->spawnCount;
                 $spawner = ItemFactory::getInstance()->get(ItemIds::MOB_SPAWNER, 0, $count, $nbt);
-                $spawner->setCustomName(C::RESET . Utils::getEntityNameFromID($tile->getEntityId()) . " Spawner");
+                $spawner->setCustomName(C::RESET . Utils::getEntityNameFromID($tile->entityId) . " Spawner");
                 $this->getPosition()->getWorld()->dropItem($this->getPosition()->add(0.5, 0.5, 0.5), $spawner);
     
                 (new SpawnerBreakEvent($player, $tile))->call();
@@ -95,10 +95,10 @@ class SpawnerBlock extends PMSpawner
         $tile = $this->getPosition()->getWorld()->getTile($this->getPosition()->asVector3());
         if ($tile instanceof MobSpawnerTile) {
             $nbt = new CompoundTag();
-            $nbt->setInt(MobSpawnerTile::ENTITY_ID, (int) $tile->getEntityId());
-            $count = $tile->getCount();
+            $nbt->setInt(MobSpawnerTile::ENTITY_ID, (int) $tile->entityId);
+            $count = $tile->spawnCount;
             $spawner = ItemFactory::getInstance()->get(ItemIds::MOB_SPAWNER, 0, $count, $nbt);
-            $spawner->setCustomName(C::RESET . Utils::getEntityNameFromID($tile->getEntityId()) . " Spawner");
+            $spawner->setCustomName(C::RESET . Utils::getEntityNameFromID($tile->entityId) . " Spawner");
             $this->getPosition()->getWorld()->dropItem($this->getPosition()->add(0.5, 8, 0.5), $spawner);
             return true;
         }
