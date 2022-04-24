@@ -7,6 +7,7 @@ namespace BhawaniSingh\HCMinion\commands\subcommands;
 use pocketmine\Server;
 use pocketmine\item\Item;
 use pocketmine\player\Player;
+use pocketmine\item\ItemFactory;
 use pocketmine\utils\TextFormat;
 use CortexPE\Commando\BaseSubCommand;
 use pocketmine\command\CommandSender;
@@ -18,11 +19,14 @@ use pocketmine\item\LegacyStringToItemParser;
 use BhawaniSingh\HCMinion\minions\MinionUpgrade;
 use BhawaniSingh\HCMinion\minions\MinionInformation;
 use BhawaniSingh\HCMinion\commands\arguments\TypeArgument;
+use pocketmine\data\bedrock\EnchantmentIdMap;
+use pocketmine\item\enchantment\EnchantmentInstance;
 
 class GiveCommand extends BaseSubCommand
 {
     public function onRun(CommandSender $sender, string $aliasUsed, array $args): void
-    {
+    {   
+        $this->fakeEnchant = new EnchantmentInstance(EnchantmentIdMap::getInstance()->fromId(BetterMinion::FAKE_ENCH_ID));
         if (!$sender->hasPermission('minion.commands')) {
             $sender->sendMessage("You don't have permission to use this command!");
             return;
@@ -53,16 +57,16 @@ class GiveCommand extends BaseSubCommand
             $level = 1;
             $resourcesCollect = 0;
 
-            $item = LegacyStringToItemParser::getInstance()->parse((string) BetterMinion::getInstance()->getConfig()->get('minion-item'));
-
-            $item->setCustomName(TextFormat::RESET . TextFormat::YELLOW . $minionType->getTargetName() . ' Minion I');
+            $item = ItemFactory::getInstance()->get(1098, 0, 1);
+            $item->addEnchantment($this->fakeEnchant);
+            $item->setCustomName(TextFormat::RESET . TextFormat::YELLOW . $minionType->getTargetName() . ' Minion I')->setLore(["§r§7Place this minion and it will\n§r§7start generating and mining blocks!\n§r§7Requires an open area to spawn\n§r§7blocks. Minions also work when you are offline!\n\n§r§eType: §b" . $minionType->getTargetName() . "\n§r§eLevel: §bI\n§r§eResources Collected: §b0"]);
             $item->getNamedTag()->setTag('MinionInformation', (new MinionInformation($player->getName(), $minionType, $minionUpgrade, $level, $resourcesCollect))->nbtSerialize());
             if (!$player->getInventory()->canAddItem($item)) {
                 $sender->sendMessage('Player\'s inventory is full');
                 return;
             }
             $player->getInventory()->addItem($item);
-            $player->sendMessage('Successfully got you a minion');
+            $player->sendMessage("§8(§b!§8) §7Successfully Got You A §e" . $minionType->getTargetName() . "§7 Minion");
         } catch (\InvalidArgumentException $exception) {
             $player->sendMessage("That item can't be found");
             return;
