@@ -7,6 +7,7 @@ namespace BhawaniSingh\HCMinion;
 use pocketmine\item\Item;
 use pocketmine\event\Listener;
 use pocketmine\entity\Location;
+use pocketmine\item\ItemFactory;
 use pocketmine\nbt\tag\ListTag;
 use BhawaniSingh\HCMinion\utils\Utils;
 use pocketmine\event\player\PlayerQuitEvent;
@@ -26,8 +27,8 @@ class EventListener implements Listener
         $block = $event->getBlock();
         $player = $event->getPlayer();
         if ($event->getAction() === PlayerInteractEvent::RIGHT_CLICK_BLOCK) {
-            $mItem = LegacyStringToItemParser::getInstance()->parse((string) BetterMinion::getInstance()->getConfig()->get('minion-item'));
-
+            #$mItem = LegacyStringToItemParser::getInstance()->parse((string) BetterMinion::getInstance()->getConfig()->get('minion-item'));
+            $mItem = ItemFactory::getInstance()->get(1098, 0, 1);
             if ($item->getId() === $mItem->getId() && $item->getMeta() === $mItem->getMeta()) {
                 if ($item->getNamedTag()->getTag('MinionInformation') instanceof ListTag) {
                     $event->cancel();
