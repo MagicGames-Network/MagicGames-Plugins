@@ -44,8 +44,8 @@ class MobSpawnerTile extends Spawnable
         if ($range === 0) { //Patch for outdated configs without "spawn-range" entry
             $range = 8;
         }
-        if (!isset($this->loadRange)) {
-            $this->loadRange = $range;
+        if (!isset($this->spawnRange)) {
+            $this->spawnRange = $range;
         }
 
         $base = (int)ConfigManager::getValue("base-spawn-rate");
