@@ -11,8 +11,6 @@ use pocketmine\player\Player;
 use dktapps\pmforms\MenuOption;
 use pocketmine\item\ItemFactory;
 use jojoe77777\FormAPI\SimpleForm;
-use pocketmine\item\enchantment\ItemFlags;
-use pocketmine\item\enchantment\Enchantment;
 use pocketmine\data\bedrock\EnchantmentIdMap;
 use pocketmine\item\enchantment\EnchantmentInstance;
 use DaPigGuy\PiggyCustomEnchants\PiggyCustomEnchants;
@@ -25,7 +23,8 @@ class ItemsForm extends MenuForm
 
     public function __construct()
     {
-        $this->fakeEnchant = new EnchantmentInstance(new Enchantment("Glow", 1, ItemFlags::ALL, ItemFlags::NONE, 1));
+        /** @phpstan-ignore-next-line */
+        $this->fakeEnchant = new EnchantmentInstance(EnchantmentIdMap::getInstance()->fromId(Main::FAKE_ENCH_ID));
         
         parent::__construct("§l§6RECIPES BOOK", "§bUse Only Custom Crafting Table To Craft Things, Do /customtable", [
             new MenuOption("§l§eMINION RECIPES\n§9»» §r§6Tap To Open", new FormIcon("https://cdn-icons-png.flaticon.com/128/891/891978.png", FormIcon::IMAGE_TYPE_URL)),

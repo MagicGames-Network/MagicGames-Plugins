@@ -15,18 +15,27 @@ use BhawaniSingh\HCMinion\BetterMinion;
 use pocketmine\item\StringToItemParser;
 use BhawaniSingh\HCMinion\minions\MinionType;
 use CortexPE\Commando\args\RawStringArgument;
+use pocketmine\data\bedrock\EnchantmentIdMap;
 use pocketmine\item\LegacyStringToItemParser;
 use BhawaniSingh\HCMinion\minions\MinionUpgrade;
 use BhawaniSingh\HCMinion\minions\MinionInformation;
-use BhawaniSingh\HCMinion\commands\arguments\TypeArgument;
-use pocketmine\data\bedrock\EnchantmentIdMap;
 use pocketmine\item\enchantment\EnchantmentInstance;
+use BhawaniSingh\HCMinion\commands\arguments\TypeArgument;
 
 class GiveCommand extends BaseSubCommand
 {
+    private EnchantmentInstance $fakeEnchant;
+
+    public function __construct(string $name, string $description = "", array $aliases = [])
+    {
+        parent::__construct($name, $description, $aliases);
+
+        /** @phpstan-ignore-next-line */
+        $this->fakeEnchant = new EnchantmentInstance(EnchantmentIdMap::getInstance()->fromId(BetterMinion::FAKE_ENCH_ID));
+    }
+    
     public function onRun(CommandSender $sender, string $aliasUsed, array $args): void
     {   
-        $this->fakeEnchant = new EnchantmentInstance(EnchantmentIdMap::getInstance()->fromId(BetterMinion::FAKE_ENCH_ID));
         if (!$sender->hasPermission('minion.commands')) {
             $sender->sendMessage("You don't have permission to use this command!");
             return;

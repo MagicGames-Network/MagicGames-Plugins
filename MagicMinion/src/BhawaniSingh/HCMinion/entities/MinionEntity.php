@@ -28,7 +28,6 @@ use pocketmine\block\BlockToolType;
 use pocketmine\block\VanillaBlocks;
 use pocketmine\inventory\Inventory;
 use pocketmine\nbt\tag\CompoundTag;
-use pocketmine\block\BlockLegacyIds;
 use pocketmine\scheduler\ClosureTask;
 use BhawaniSingh\HCMinion\utils\Utils;
 use BhawaniSingh\HCMinion\BetterMinion;
@@ -162,9 +161,6 @@ abstract class MinionEntity extends Human
                             '§r§6Resources Collected: ' . TextFormat::WHITE . $this->getMinionInformation()->getResourcesCollected(),
                         ]));
                     }), 20);
-                    $menu->setInventoryCloseListener(function (Player $player, Inventory $inventory) use ($taskHandler): void {
-                        $taskHandler->cancel();
-                    });
                     
                     $menu->setListener(InvMenu::readonly(function (DeterministicInvMenuTransaction $transaction): void {
                         $player = $transaction->getPlayer();
@@ -318,6 +314,9 @@ abstract class MinionEntity extends Human
                         }
                     }));
                     $menu->send($damager);
+                    $menu->setInventoryCloseListener(function (Player $player, Inventory $inventory) use ($taskHandler): void {
+                        $taskHandler->cancel();
+                    });
                 }
             }
         }
