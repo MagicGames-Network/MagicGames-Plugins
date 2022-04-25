@@ -180,14 +180,20 @@ class EventListener implements Listener
             ItemIds::LEATHER_BOOTS, ItemIds::GOLD_BOOTS, ItemIds::IRON_BOOTS, ItemIds::CHAIN_BOOTS, ItemIds::DIAMOND_BOOTS => ArmorInventory::SLOT_FEET,
             ItemIds::LEATHER_LEGGINGS, ItemIds::GOLD_LEGGINGS, ItemIds::IRON_LEGGINGS, ItemIds::CHAIN_LEGGINGS, ItemIds::DIAMOND_LEGGINGS => ArmorInventory::SLOT_LEGS,
             ItemIds::LEATHER_CHESTPLATE, ItemIds::GOLD_CHESTPLATE, ItemIds::IRON_CHESTPLATE, ItemIds::CHAIN_CHESTPLATE, ItemIds::DIAMOND_CHESTPLATE => ArmorInventory::SLOT_CHEST,
-            ItemIds::LEATHER_HELMET, ItemIds::GOLD_HELMET, ItemIds::IRON_HELMET, ItemIds::CHAIN_HELMET, ItemIds::DIAMOND_HELMET => ArmorInventory::SLOT_HEAD
+            ItemIds::LEATHER_HELMET, ItemIds::GOLD_HELMET, ItemIds::IRON_HELMET, ItemIds::CHAIN_HELMET, ItemIds::DIAMOND_HELMET => ArmorInventory::SLOT_HEAD,
+            default => -1
         };
         $targetItem = match ($index) {
             ArmorInventory::SLOT_FEET => $inventory->getBoots(),
             ArmorInventory::SLOT_LEGS => $inventory->getLeggings(),
             ArmorInventory::SLOT_CHEST => $inventory->getChestplate(),
-            ArmorInventory::SLOT_HEAD => $inventory->getHelmet()
+            ArmorInventory::SLOT_HEAD => $inventory->getHelmet(),
+            default => -1
         };
+
+        if ($index === -1 || $targetItem === -1) {
+            return;
+        }
 
         EquipmentUtils::updateSetUsage($player);
 
