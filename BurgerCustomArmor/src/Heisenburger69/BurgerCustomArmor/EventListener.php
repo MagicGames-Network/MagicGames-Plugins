@@ -177,16 +177,16 @@ class EventListener implements Listener
 
         $sourceItem = $event->getItem();
         $index = match ($sourceItem->getId()) {
-            ItemIds::LEATHER_BOOTS, ItemIds::GOLD_BOOTS, ItemIds::IRON_BOOTS, ItemIds::CHAIN_BOOTS, ItemIds::DIAMOND_BOOTS => 100,
-            ItemIds::LEATHER_LEGGINGS, ItemIds::GOLD_LEGGINGS, ItemIds::IRON_LEGGINGS, ItemIds::CHAIN_LEGGINGS, ItemIds::DIAMOND_LEGGINGS => 101,
-            ItemIds::LEATHER_CHESTPLATE, ItemIds::GOLD_CHESTPLATE, ItemIds::IRON_CHESTPLATE, ItemIds::CHAIN_CHESTPLATE, ItemIds::DIAMOND_CHESTPLATE => 102,
-            ItemIds::LEATHER_HELMET, ItemIds::GOLD_HELMET, ItemIds::IRON_HELMET, ItemIds::CHAIN_HELMET, ItemIds::DIAMOND_HELMET => 103
+            ItemIds::LEATHER_BOOTS, ItemIds::GOLD_BOOTS, ItemIds::IRON_BOOTS, ItemIds::CHAIN_BOOTS, ItemIds::DIAMOND_BOOTS => ArmorInventory::SLOT_FEET,
+            ItemIds::LEATHER_LEGGINGS, ItemIds::GOLD_LEGGINGS, ItemIds::IRON_LEGGINGS, ItemIds::CHAIN_LEGGINGS, ItemIds::DIAMOND_LEGGINGS => ArmorInventory::SLOT_LEGS,
+            ItemIds::LEATHER_CHESTPLATE, ItemIds::GOLD_CHESTPLATE, ItemIds::IRON_CHESTPLATE, ItemIds::CHAIN_CHESTPLATE, ItemIds::DIAMOND_CHESTPLATE => ArmorInventory::SLOT_CHEST,
+            ItemIds::LEATHER_HELMET, ItemIds::GOLD_HELMET, ItemIds::IRON_HELMET, ItemIds::CHAIN_HELMET, ItemIds::DIAMOND_HELMET => ArmorInventory::SLOT_HEAD
         };
         $targetItem = match ($index) {
-            100 => $inventory->getBoots(),
-            101 => $inventory->getLeggings(),
-            102 => $inventory->getChestplate(),
-            103 => $inventory->getHelmet()
+            ArmorInventory::SLOT_FEET => $inventory->getBoots(),
+            ArmorInventory::SLOT_LEGS => $inventory->getLeggings(),
+            ArmorInventory::SLOT_CHEST => $inventory->getChestplate(),
+            ArmorInventory::SLOT_HEAD => $inventory->getHelmet()
         };
 
         EquipmentUtils::updateSetUsage($player);
