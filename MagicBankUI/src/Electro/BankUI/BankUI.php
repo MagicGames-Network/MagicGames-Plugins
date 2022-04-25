@@ -457,7 +457,7 @@ class BankUI extends PluginBase implements Listener
         });
 
         $form->setTitle("§6»§2TRANSACTION MENU§6«");
-        if (!isset($this->playersTransactions[$player]) || $this->playersTransactions[$player->getName()] === 0) {
+        if (!isset($this->playersTransactions[$player->getName()]) || $this->playersTransactions[$player->getName()] === 0) {
             $form->setContent("You have not made any transactions yet");
         } else {
             $form->setContent($this->playersTransactions[$player->getName()]);
