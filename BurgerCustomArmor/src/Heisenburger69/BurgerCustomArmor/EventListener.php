@@ -4,6 +4,7 @@ namespace Heisenburger69\BurgerCustomArmor;
 
 use pocketmine\item\Armor;
 use pocketmine\nbt\tag\Tag;
+use pocketmine\item\ItemIds;
 use pocketmine\player\Player;
 use pocketmine\event\Listener;
 use pocketmine\scheduler\ClosureTask;
@@ -12,6 +13,7 @@ use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\event\player\PlayerQuitEvent;
 use pocketmine\event\entity\EntityDamageEvent;
 use pocketmine\event\inventory\CraftItemEvent;
+use pocketmine\event\player\PlayerItemUseEvent;
 use Heisenburger69\BurgerCustomArmor\Utils\Utils;
 use pocketmine\event\entity\EntityDamageByEntityEvent;
 use pocketmine\event\inventory\InventoryTransactionEvent;
@@ -168,6 +170,58 @@ class EventListener implements Listener
         }
     }
 
+    public function onItemUse(PlayerItemUseEvent $event): void
+    {
+        $player = $event->getPlayer();
+        $inventory = $player->getArmorInventory();
+
+        $sourceItem = $event->getItem();
+        $index = match ($sourceItem->getId()) {
+            ItemIds::LEATHER_BOOTS, ItemIds::GOLD_BOOTS, ItemIds::IRON_BOOTS, ItemIds::CHAIN_BOOTS, ItemIds::DIAMOND_BOOTS => 100,
+            ItemIds::LEATHER_LEGGINGS, ItemIds::GOLD_LEGGINGS, ItemIds::IRON_LEGGINGS, ItemIds::CHAIN_LEGGINGS, ItemIds::DIAMOND_LEGGINGS => 101,
+            ItemIds::LEATHER_CHESTPLATE, ItemIds::GOLD_CHESTPLATE, ItemIds::IRON_CHESTPLATE, ItemIds::CHAIN_CHESTPLATE, ItemIds::DIAMOND_CHESTPLATE => 102,
+            ItemIds::LEATHER_HELMET, ItemIds::GOLD_HELMET, ItemIds::IRON_HELMET, ItemIds::CHAIN_HELMET, ItemIds::DIAMOND_HELMET => 103
+        };
+        $targetItem = match ($index) {
+            100 => $inventory->getBoots(),
+            101 => $inventory->getLeggings(),
+            102 => $inventory->getChestplate(),
+            103 => $inventory->getHelmet()
+        };
+
+        EquipmentUtils::updateSetUsage($player);
+
+        $nbt = $sourceItem->getNamedTag()->getTag("burgercustomarmor");
+        $oldNbt = $targetItem->getNamedTag()->getTag("burgercustomarmor");
+        if ($nbt === null || ($oldNbt !== null && $nbt->getValue() === $oldNbt->getValue())) {
+            return;
+        }
+
+        if ($inventory->getItem($index) instanceof Armor) {
+            $setName = $nbt->getValue();
+            if (!isset($this->plugin->using[$setName]) || !is_string($setName)) {
+                return;
+            }
+            $fullSetWorn = false;
+            if (EquipmentUtils::canUseSet($player, $setName)) {
+                $fullSetWorn = true;
+            }
+            EquipmentUtils::removeUsingSet($player, $targetItem, $setName);
+            $armorSet = $this->plugin->customSets[$setName];
+            if (!$armorSet instanceof CustomArmorSet) {
+                return;
+            }
+            if ($fullSetWorn) {
+                ($event = new CustomSetUnequippedEvent($player, $armorSet))->call();
+                foreach ($armorSet->getAbilities() as $ability) {
+                    if ($ability instanceof TogglableAbility) {
+                        $ability->off($player);
+                    }
+                }
+            }
+        }
+    }
+
     public function onEquip(InventoryTransactionEvent $event): void
     {
         $transaction = $event->getTransaction();
@@ -181,14 +235,14 @@ class EventListener implements Listener
                 $sourceItem = $action->getSourceItem();
 
                 if ($inventory instanceof ArmorInventory) {
-                    EquipmentUtils::updateSetUsage($transaction->getSource());
-                    
+                    EquipmentUtils::updateSetUsage($player);
+
                     $nbt = $sourceItem->getNamedTag()->getTag("burgercustomarmor");
                     $oldNbt = $targetItem->getNamedTag()->getTag("burgercustomarmor");
                     if ($nbt === null || ($oldNbt !== null && $nbt->getValue() === $oldNbt->getValue())) {
                         return;
                     }
-                    
+
                     if ($inventory->getItem($action->getSlot()) instanceof Armor) {
                         $setName = $nbt->getValue();
                         if (!isset($this->plugin->using[$setName]) || !is_string($setName)) {

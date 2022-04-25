@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace BhawaniSingh\HCMinion\entities;
 
+use Closure;
 use pocketmine\nbt\NBT;
 use pocketmine\block\Air;
 use pocketmine\item\Item;
@@ -60,7 +61,9 @@ abstract class MinionEntity extends Human
     protected int $currentAction = self::ACTION_IDLE;
     protected int $currentActionSeconds = 0;
 
+    protected bool $isViewingInv = false;
     protected bool $isWorking = false;
+
     protected Block $target;
 
     private float $money = 0;
@@ -148,19 +151,6 @@ abstract class MinionEntity extends Human
                     $menu->getInventory()->setItem(52, ItemFactory::getInstance()->get(1104, 0, 1)->setCustomName("§r§l§ePICKUP MINION\n\n§r§7Click To Pickup Your Minion\n§r§7To Move In New Location\n\n§r§dClick To Pickup"));
                     $menu->getInventory()->setItem(6, ItemFactory::getInstance()->get(ItemIds::GOLD_INGOT)->setCustomName("§r§e§lCOMMING SOON"));
                     $menu->getInventory()->setItem(5, ItemFactory::getInstance()->get(ItemIds::ENDER_EYE)->setCustomName("§r§l§eTOTAL UPGRADE AMOUNT\n§r§aLevel 1: §r§d0\n§r§aLevel 2: §r§d1000$\n§r§aLevel 3: §r§d2000$\n§r§aLevel 4: §r§d4000$\n§r§aLevel 5: §r§d8000$\n§r§aLevel 6: §r§d12000$\n§r§aLevel 7: §r§d15000$\n§r§aLevel 8: §r§d17500$\n§r§aLevel 9: §r§d20000$\n§r§aLevel 10: §r§d22000$\n§r§aLevel 11: §r§d25000$\n§r§aLevel 12: §r§d27000$\n§r§aLevel 13: §r§d30000$\n§r§aLevel 14: §r§d35000$\n§r§aLevel 15: §r§d40000$"));
-
-                    $taskHandler = BetterMinion::getInstance()->getScheduler()->scheduleRepeatingTask(new ClosureTask(function () use ($menu): void {
-                        for ($i = 0; $i < 15; ++$i) {
-                            $menu->getInventory()->setItem((int) (21 + ($i % 5) + (9 * floor($i / 5))), $this->getMinionInventory()->slotExists($i) ? $this->getMinionInventory()->getItem($i) : ItemFactory::getInstance()->get(1080, 0, 1)->setCustomName(TextFormat::RESET . TextFormat::GOLD . 'Unlock At Level ' . TextFormat::AQUA . Utils::getRomanNumeral(($i + 1))));
-                        }
-                        $types = ['Mining', 'Farming', 'Lumberjack', 'Slaying', 'Fishing'];
-                        $menu->getInventory()->setItem(4, ItemFactory::getInstance()->get(ItemIds::SKULL, 3)->setCustomName(TextFormat::RESET . TextFormat::BOLD . TextFormat::YELLOW . $this->getMinionInformation()->getType()->getTargetName() . ' Minion ' . Utils::getRomanNumeral($this->getMinionInformation()->getLevel()))->setLore([
-                            '§r§6Type: ' . TextFormat::WHITE . $types[$this->getMinionInformation()->getType()->getActionType()],
-                            '§r§6Target: ' . TextFormat::WHITE . $this->getMinionInformation()->getType()->getTargetName(),
-                            '§r§6Level: ' . TextFormat::WHITE . $this->getMinionInformation()->getLevel(),
-                            '§r§6Resources Collected: ' . TextFormat::WHITE . $this->getMinionInformation()->getResourcesCollected(),
-                        ]));
-                    }), 20);
                     
                     $menu->setListener(InvMenu::readonly(function (DeterministicInvMenuTransaction $transaction): void {
                         $player = $transaction->getPlayer();
@@ -313,9 +303,21 @@ abstract class MinionEntity extends Human
                             $action->getInventory()->setItem((int) (21 + ($i % 5) + (9 * floor($i / 5))), $this->getMinionInventory()->slotExists($i) ? $this->getMinionInventory()->getItem($i) : ItemFactory::getInstance()->get(1080, 0, 1)->setCustomName(TextFormat::RESET . TextFormat::GOLD . 'Unlock At Level ' . TextFormat::AQUA . Utils::getRomanNumeral(($i + 1))));
                         }
                     }));
-                    $menu->send($damager);
-                    $menu->setInventoryCloseListener(function (Player $player, Inventory $inventory) use ($taskHandler): void {
-                        $taskHandler->cancel();
+                    $menu->setInventoryCloseListener(function (Player $player, Inventory $inventory): void {
+                        $this->isViewingInv = false;
+                    });
+                    $menu->send($damager, null, function () use ($menu): void {
+                        $this->isViewingInv = true;
+                        for ($i = 0; $i < 15; ++$i) {
+                            $menu->getInventory()->setItem((int) (21 + ($i % 5) + (9 * floor($i / 5))), $this->getMinionInventory()->slotExists($i) ? $this->getMinionInventory()->getItem($i) : ItemFactory::getInstance()->get(1080, 0, 1)->setCustomName(TextFormat::RESET . TextFormat::GOLD . 'Unlock At Level ' . TextFormat::AQUA . Utils::getRomanNumeral(($i + 1))));
+                        }
+                        $types = ['Mining', 'Farming', 'Lumberjack', 'Slaying', 'Fishing'];
+                        $menu->getInventory()->setItem(4, ItemFactory::getInstance()->get(ItemIds::SKULL, 3)->setCustomName(TextFormat::RESET . TextFormat::BOLD . TextFormat::YELLOW . $this->getMinionInformation()->getType()->getTargetName() . ' Minion ' . Utils::getRomanNumeral($this->getMinionInformation()->getLevel()))->setLore([
+                            '§r§6Type: ' . TextFormat::WHITE . $types[$this->getMinionInformation()->getType()->getActionType()],
+                            '§r§6Target: ' . TextFormat::WHITE . $this->getMinionInformation()->getType()->getTargetName(),
+                            '§r§6Level: ' . TextFormat::WHITE . $this->getMinionInformation()->getLevel(),
+                            '§r§6Resources Collected: ' . TextFormat::WHITE . $this->getMinionInformation()->getResourcesCollected(),
+                        ]));
                     });
                 }
             }
@@ -412,7 +414,7 @@ abstract class MinionEntity extends Human
             // █▀▄▀█ █ █▄░█ █ █▀█ █▄░█  █▀▀ █▄░█ ▀█▀ █ ▀█▀ █▄█
             // █░▀░█ █ █░▀█ █ █▄█ █░▀█  ██▄ █░▀█ ░█░ █ ░█░ ░█░
 
-            if (!$this->closed && !$this->isFlaggedForDespawn() && isset($this->minionInformation)) {
+            if (!$this->closed && !$this->isFlaggedForDespawn() && isset($this->minionInformation) && !$this->isViewingInv) {
                 if ($this->ticksLived % 60 === 0) {
                     $this->updateTarget();
                 }
