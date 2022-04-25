@@ -108,50 +108,8 @@ abstract class MinionEntity extends Human
                 }
                 if ($damager->getName() === $this->getMinionInformation()->getOwner()) {
                     $menu = InvMenu::create(InvMenuTypeIds::TYPE_DOUBLE_CHEST);
-
                     $menu->setName("§r§l§eMINION INVENTORY");
-                    $menu->getInventory()->setContents(array_fill(0, 54, ItemFactory::getInstance()->get(1081, 0, 1)->setCustomName(TextFormat::RESET)));
 
-                    // Auto Smelter
-                    if ($this->canUseAutoSmelt()) {
-                        $furnaceItem = VanillaBlocks::FURNACE()->asItem();
-                        $menu->getInventory()->setItem(19, $furnaceItem->setCustomName('§r§l§eAuto Smelter §l§7(' . ($this->getMinionInformation()->getUpgrade()->isAutoSmelt() ? "§r§l§aEnabled" : "§r§l§cDisabled") . '§l§7)')->setLore(["§r§7Automatically Smelts Items That\n§r§7The Minion Produces"]));
-                    } else {
-                        $menu->getInventory()->setItem(19, ItemFactory::getInstance()->get(1101, 0, 1)->setCustomName("§r§cYou need to upgrade your minion to level " . MinionUpgrade::AUTO_SMELT_LEVEL . " to use the Auto Smelter!"));
-                    }
-
-                    // Auto Seller
-                    if ($this->canUseAutoSell()) {
-                        $hopper = VanillaBlocks::HOPPER()->asItem();
-                        $menu->getInventory()->setItem(28, $hopper->setCustomName('§r§l§eAuto Seller §l§7(' . ($this->getMinionInformation()->getUpgrade()->isAutoSell() ? "§r§l§aEnabled" : "§r§l§cDisabled") . '§l§7)')->setLore(["§r§7Sell Automatically Resources When\n§r§7The Minion's Storage Is Full", "§r§l§dTotal Money: §f" . $this->money]));
-                    } else {
-                        $menu->getInventory()->setItem(28, ItemFactory::getInstance()->get(1101, 0, 1)->setCustomName("§r§cYou need to upgrade your minion to level " . MinionUpgrade::AUTO_SELL_LEVEL . " to use the Auto Seller!"));
-                    }
-
-                    // Super Compacter
-                    if ($this->canUseCompacter()) {
-                        $dispenser = ItemFactory::getInstance()->get(23, 0, 1);
-                        $menu->getInventory()->setItem(37, $dispenser->setCustomName('§r§l§eCompacter §l§7(' . ($this->getMinionInformation()->getUpgrade()->isSuperCompacter() ? "§r§l§aEnabled" : "§r§l§cDisabled") . '§l§7)')->setLore(["§r§7Automatically Convert Items Into\n§r§7Block From This Upgrade"]));
-                    } else {
-                        $menu->getInventory()->setItem(37, ItemFactory::getInstance()->get(1101, 0, 1)->setCustomName("§r§cYou need to upgrade your minion to level " . MinionUpgrade::SUPER_COMPACTER_LEVEL . " to use the Super Compacter!"));
-                    }
-
-                    // Super Expander
-                    if ($this->canUseExpander()) {
-                        $commandBlock = ItemFactory::getInstance()->get(137, 0, 1);
-                        $commandBlock->addEnchantment($this->fakeEnchant);
-
-                        $menu->getInventory()->setItem(46, $commandBlock->setCustomName('§r§l§eExpander §l§7(' . ($this->getMinionInformation()->getUpgrade()->isSuperExpander() ? "§r§l§aEnabled" : "§r§l§cDisabled") . '§l§7)')->setLore(["§r§7Increases The Minion Range\n§r§7By One Block To High Blocks"]));
-                    } else {
-                        $menu->getInventory()->setItem(46, ItemFactory::getInstance()->get(1101, 0, 1)->setCustomName("§r§cYou need to upgrade your minion to level " . MinionUpgrade::SUPER_EXPANDER_LEVEL . " to use the Super Expander!"));
-                    }
-                    
-                    $menu->getInventory()->setItem(48, ItemFactory::getInstance()->get(1103, 0, 1)->setCustomName("§r§l§eCOLLECT ITEMS\n\n§r§7Click To Collect All Items From\n§r§7Your Minion Inventory To Your\n§r§7Inventory.\n\n§r§dClick To Collect"));
-                    $menu->getInventory()->setItem(50, ItemFactory::getInstance()->get(1102, 0, 1)->setCustomName("§r§l§eUPGRADE MINION\n\n§r§7Click To Upgrade Your Minion\n§r§7Level 1 To High Levels For\n§r§7Open Inventory Slots.\n\n§r§dClick To Upgrade")->setLore([$this->getMinionInformation()->getLevel() < 15 ? "§r§l§6AMOUNT: §r§e" . TextFormat::GREEN . $this->getLevelUpCost() . "$" : TextFormat::LIGHT_PURPLE . "Reached Max Level"]));
-                    $menu->getInventory()->setItem(52, ItemFactory::getInstance()->get(1104, 0, 1)->setCustomName("§r§l§ePICKUP MINION\n\n§r§7Click To Pickup Your Minion\n§r§7To Move In New Location\n\n§r§dClick To Pickup"));
-                    $menu->getInventory()->setItem(6, ItemFactory::getInstance()->get(ItemIds::GOLD_INGOT)->setCustomName("§r§e§lCOMMING SOON"));
-                    $menu->getInventory()->setItem(5, ItemFactory::getInstance()->get(ItemIds::ENDER_EYE)->setCustomName("§r§l§eTOTAL UPGRADE AMOUNT\n§r§aLevel 1: §r§d0\n§r§aLevel 2: §r§d1000$\n§r§aLevel 3: §r§d2000$\n§r§aLevel 4: §r§d4000$\n§r§aLevel 5: §r§d8000$\n§r§aLevel 6: §r§d12000$\n§r§aLevel 7: §r§d15000$\n§r§aLevel 8: §r§d17500$\n§r§aLevel 9: §r§d20000$\n§r§aLevel 10: §r§d22000$\n§r§aLevel 11: §r§d25000$\n§r§aLevel 12: §r§d27000$\n§r§aLevel 13: §r§d30000$\n§r§aLevel 14: §r§d35000$\n§r§aLevel 15: §r§d40000$"));
-                    
                     $menu->setListener(InvMenu::readonly(function (DeterministicInvMenuTransaction $transaction): void {
                         $player = $transaction->getPlayer();
                         $itemClicked = $transaction->getItemClicked();
@@ -308,9 +266,12 @@ abstract class MinionEntity extends Human
                     });
                     $menu->send($damager, null, function () use ($menu): void {
                         $this->isViewingInv = true;
+
+                        $menu->getInventory()->setContents(array_fill(0, 54, ItemFactory::getInstance()->get(1081, 0, 1)->setCustomName(TextFormat::RESET)));
                         for ($i = 0; $i < 15; ++$i) {
                             $menu->getInventory()->setItem((int) (21 + ($i % 5) + (9 * floor($i / 5))), $this->getMinionInventory()->slotExists($i) ? $this->getMinionInventory()->getItem($i) : ItemFactory::getInstance()->get(1080, 0, 1)->setCustomName(TextFormat::RESET . TextFormat::GOLD . 'Unlock At Level ' . TextFormat::AQUA . Utils::getRomanNumeral(($i + 1))));
                         }
+                        
                         $types = ['Mining', 'Farming', 'Lumberjack', 'Slaying', 'Fishing'];
                         $menu->getInventory()->setItem(4, ItemFactory::getInstance()->get(ItemIds::SKULL, 3)->setCustomName(TextFormat::RESET . TextFormat::BOLD . TextFormat::YELLOW . $this->getMinionInformation()->getType()->getTargetName() . ' Minion ' . Utils::getRomanNumeral($this->getMinionInformation()->getLevel()))->setLore([
                             '§r§6Type: ' . TextFormat::WHITE . $types[$this->getMinionInformation()->getType()->getActionType()],
@@ -318,6 +279,46 @@ abstract class MinionEntity extends Human
                             '§r§6Level: ' . TextFormat::WHITE . $this->getMinionInformation()->getLevel(),
                             '§r§6Resources Collected: ' . TextFormat::WHITE . $this->getMinionInformation()->getResourcesCollected(),
                         ]));
+
+                        // Auto Smelter
+                        if ($this->canUseAutoSmelt()) {
+                            $furnaceItem = VanillaBlocks::FURNACE()->asItem();
+                            $menu->getInventory()->setItem(19, $furnaceItem->setCustomName('§r§l§eAuto Smelter §l§7(' . ($this->getMinionInformation()->getUpgrade()->isAutoSmelt() ? "§r§l§aEnabled" : "§r§l§cDisabled") . '§l§7)')->setLore(["§r§7Automatically Smelts Items That\n§r§7The Minion Produces"]));
+                        } else {
+                            $menu->getInventory()->setItem(19, ItemFactory::getInstance()->get(1101, 0, 1)->setCustomName("§r§cYou need to upgrade your minion to level " . MinionUpgrade::AUTO_SMELT_LEVEL . " to use the Auto Smelter!"));
+                        }
+
+                        // Auto Seller
+                        if ($this->canUseAutoSell()) {
+                            $hopper = VanillaBlocks::HOPPER()->asItem();
+                            $menu->getInventory()->setItem(28, $hopper->setCustomName('§r§l§eAuto Seller §l§7(' . ($this->getMinionInformation()->getUpgrade()->isAutoSell() ? "§r§l§aEnabled" : "§r§l§cDisabled") . '§l§7)')->setLore(["§r§7Sell Automatically Resources When\n§r§7The Minion's Storage Is Full", "§r§l§dTotal Money: §f" . $this->money]));
+                        } else {
+                            $menu->getInventory()->setItem(28, ItemFactory::getInstance()->get(1101, 0, 1)->setCustomName("§r§cYou need to upgrade your minion to level " . MinionUpgrade::AUTO_SELL_LEVEL . " to use the Auto Seller!"));
+                        }
+
+                        // Super Compacter
+                        if ($this->canUseCompacter()) {
+                            $dispenser = ItemFactory::getInstance()->get(23, 0, 1);
+                            $menu->getInventory()->setItem(37, $dispenser->setCustomName('§r§l§eCompacter §l§7(' . ($this->getMinionInformation()->getUpgrade()->isSuperCompacter() ? "§r§l§aEnabled" : "§r§l§cDisabled") . '§l§7)')->setLore(["§r§7Automatically Convert Items Into\n§r§7Block From This Upgrade"]));
+                        } else {
+                            $menu->getInventory()->setItem(37, ItemFactory::getInstance()->get(1101, 0, 1)->setCustomName("§r§cYou need to upgrade your minion to level " . MinionUpgrade::SUPER_COMPACTER_LEVEL . " to use the Super Compacter!"));
+                        }
+
+                        // Super Expander
+                        if ($this->canUseExpander()) {
+                            $commandBlock = ItemFactory::getInstance()->get(137, 0, 1);
+                            $commandBlock->addEnchantment($this->fakeEnchant);
+
+                            $menu->getInventory()->setItem(46, $commandBlock->setCustomName('§r§l§eExpander §l§7(' . ($this->getMinionInformation()->getUpgrade()->isSuperExpander() ? "§r§l§aEnabled" : "§r§l§cDisabled") . '§l§7)')->setLore(["§r§7Increases The Minion Range\n§r§7By One Block To High Blocks"]));
+                        } else {
+                            $menu->getInventory()->setItem(46, ItemFactory::getInstance()->get(1101, 0, 1)->setCustomName("§r§cYou need to upgrade your minion to level " . MinionUpgrade::SUPER_EXPANDER_LEVEL . " to use the Super Expander!"));
+                        }
+
+                        $menu->getInventory()->setItem(48, ItemFactory::getInstance()->get(1103, 0, 1)->setCustomName("§r§l§eCOLLECT ITEMS\n\n§r§7Click To Collect All Items From\n§r§7Your Minion Inventory To Your\n§r§7Inventory.\n\n§r§dClick To Collect"));
+                        $menu->getInventory()->setItem(50, ItemFactory::getInstance()->get(1102, 0, 1)->setCustomName("§r§l§eUPGRADE MINION\n\n§r§7Click To Upgrade Your Minion\n§r§7Level 1 To High Levels For\n§r§7Open Inventory Slots.\n\n§r§dClick To Upgrade")->setLore([$this->getMinionInformation()->getLevel() < 15 ? "§r§l§6AMOUNT: §r§e" . TextFormat::GREEN . $this->getLevelUpCost() . "$" : TextFormat::LIGHT_PURPLE . "Reached Max Level"]));
+                        $menu->getInventory()->setItem(52, ItemFactory::getInstance()->get(1104, 0, 1)->setCustomName("§r§l§ePICKUP MINION\n\n§r§7Click To Pickup Your Minion\n§r§7To Move In New Location\n\n§r§dClick To Pickup"));
+                        $menu->getInventory()->setItem(6, ItemFactory::getInstance()->get(ItemIds::GOLD_INGOT)->setCustomName("§r§e§lCOMMING SOON"));
+                        $menu->getInventory()->setItem(5, ItemFactory::getInstance()->get(ItemIds::ENDER_EYE)->setCustomName("§r§l§eTOTAL UPGRADE AMOUNT\n§r§aLevel 1: §r§d0\n§r§aLevel 2: §r§d1000$\n§r§aLevel 3: §r§d2000$\n§r§aLevel 4: §r§d4000$\n§r§aLevel 5: §r§d8000$\n§r§aLevel 6: §r§d12000$\n§r§aLevel 7: §r§d15000$\n§r§aLevel 8: §r§d17500$\n§r§aLevel 9: §r§d20000$\n§r§aLevel 10: §r§d22000$\n§r§aLevel 11: §r§d25000$\n§r§aLevel 12: §r§d27000$\n§r§aLevel 13: §r§d30000$\n§r§aLevel 14: §r§d35000$\n§r§aLevel 15: §r§d40000$"));
                     });
                 }
             }
@@ -696,7 +697,7 @@ abstract class MinionEntity extends Human
             $this->getWorld()->dropItem($this->getPosition(), $content);
         }
         $minionItem = ItemFactory::getInstance()->get(1098, 0, 1);
-        $minionItem->setCustomName(TextFormat::RESET . TextFormat::YELLOW . $this->getMinionInformation()->getType()->getTargetName() . ' Minion ' . Utils::getRomanNumeral($this->getMinionInformation()->getLevel()))->setLore(["§r§7Place this minion and it will\n§r§7start generating and mining blocks!\n§r§7Requires an open area to spawn\n§r§7blocks. Minions also work when you are offline!\n\n§r§eType: §b" . $this->getMinionInformation()->getType()->getTargetName() . "\n§r§eLevel: §b". Utils::getRomanNumeral($this->getMinionInformation()->getLevel()) . "\n§r§eResources Collected: §b" . $this->getMinionInformation()->getResourcesCollected() . ""]);
+        $minionItem->setCustomName(TextFormat::RESET . TextFormat::YELLOW . $this->getMinionInformation()->getType()->getTargetName() . ' Minion ' . Utils::getRomanNumeral($this->getMinionInformation()->getLevel()))->setLore(["§r§7Place this minion and it will\n§r§7start generating and mining blocks!\n§r§7Requires an open area to spawn\n§r§7blocks. Minions also work when you are offline!\n\n§r§eType: §b" . $this->getMinionInformation()->getType()->getTargetName() . "\n§r§eLevel: §b" . Utils::getRomanNumeral($this->getMinionInformation()->getLevel()) . "\n§r§eResources Collected: §b" . $this->getMinionInformation()->getResourcesCollected() . ""]);
         $minionItem->addEnchantment($this->fakeEnchant);
         $minionItem->getNamedTag()->setTag("MinionInformation", $this->minionInformation->nbtSerialize());
         $this->getWorld()->dropItem($this->getPosition(), $minionItem);

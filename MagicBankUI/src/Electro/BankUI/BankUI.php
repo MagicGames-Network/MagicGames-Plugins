@@ -457,7 +457,7 @@ class BankUI extends PluginBase implements Listener
         });
 
         $form->setTitle("§6»§2TRANSACTION MENU§6«");
-        if ($this->playersTransactions[$player->getName()] === 0) {
+        if (!isset($this->playersTransactions[$player]) || $this->playersTransactions[$player->getName()] === 0) {
             $form->setContent("You have not made any transactions yet");
         } else {
             $form->setContent($this->playersTransactions[$player->getName()]);
@@ -477,7 +477,7 @@ class BankUI extends PluginBase implements Listener
 
         $form->setTitle("§l" . $player . "'s Transactions");
         if ($this->getServer()->getPlayerExact($player) instanceof Player) {
-            if ($this->playersTransactions[$player] === 0) {
+            if (!isset($this->playersTransactions[$player]) || $this->playersTransactions[$player] === 0) {
                 $form->setContent($player . " has not made any transactions yet");
             } else {
                 $form->setContent($this->playersTransactions[$player]);
@@ -498,7 +498,7 @@ class BankUI extends PluginBase implements Listener
 
     public function addMoney(string $player, float $amount): void
     {
-        if ($this->getServer()->getPlayerExact($player) instanceof Player) {
+        if ($this->getServer()->getPlayerExact($player) instanceof Player && isset($this->playersMoney[$player])) {
             $this->playersMoney[$player] = $this->playersMoney[$player] + $amount;
         } else {
             $playerBankMoney = new Config($this->getDataFolder() . "Players/" . $player . ".yml", Config::YAML);
@@ -509,7 +509,7 @@ class BankUI extends PluginBase implements Listener
 
     public function takeMoney(string $player, float $amount): void
     {
-        if ($this->getServer()->getPlayerExact($player) instanceof Player) {
+        if ($this->getServer()->getPlayerExact($player) instanceof Player && isset($this->playersMoney[$player])) {
             $this->playersMoney[$player] = $this->playersMoney[$player] - $amount;
         } else {
             $playerBankMoney = new Config($this->getDataFolder() . "Players/" . $player . ".yml", Config::YAML);
@@ -520,7 +520,7 @@ class BankUI extends PluginBase implements Listener
 
     public function setMoney(string $player, float $amount): void
     {
-        if ($this->getServer()->getPlayerExact($player) instanceof Player) {
+        if ($this->getServer()->getPlayerExact($player) instanceof Player && isset($this->playersMoney[$player])) {
             $this->playersMoney[$player] = $amount;
         } else {
             $playerBankMoney = new Config($this->getDataFolder() . "Players/" . $player . ".yml", Config::YAML);
@@ -531,7 +531,7 @@ class BankUI extends PluginBase implements Listener
 
     public function getMoney(string $player): float
     {
-        if ($this->getServer()->getPlayerExact($player) instanceof Player) {
+        if ($this->getServer()->getPlayerExact($player) instanceof Player && isset($this->playersMoney[$player])) {
             return $this->playersMoney[$player];
         } else {
             $playerBankMoney = new Config($this->getDataFolder() . "Players/" . $player . ".yml", Config::YAML);
@@ -543,7 +543,7 @@ class BankUI extends PluginBase implements Listener
 
     public function addTransaction(string $player, string $message): void
     {
-        if ($this->getServer()->getPlayerExact($player) instanceof Player) {
+        if ($this->getServer()->getPlayerExact($player) instanceof Player && isset($this->playersTransactions[$player])) {
             if ($this->playersTransactions[$player] === 0) {
                 $this->playersTransactions[$player] = date("§b[d/m/y]") . "§e - " . $message . "\n";
             } else {

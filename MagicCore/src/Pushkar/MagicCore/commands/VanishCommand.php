@@ -21,20 +21,20 @@ class VanishCommand extends Command
     public function execute(CommandSender $sender, string $commandLabel, array $args): mixed
     {
         if ($sender instanceof Player) {
-          if ($sender->hasPermission("vanish.cmd")){
-            if (isset($this->vanish[$sender->getName()])) {
-                $sender->sendMessage(TextFormat::GRAY . "You are now vanished.");
-                $sender->setInvisible(true);
+            if ($sender->hasPermission("vanish.cmd")) {
+                if (!isset($this->vanish[$sender->getName()])) {
+                    $sender->sendMessage(TextFormat::GRAY . "You are now vanished.");
+                    $sender->setInvisible(true);
+                    $this->vanish[$sender->getName()] = 1;
+                    
+                    return true;
+                }
+                $sender->sendMessage(TextFormat::GRAY . "You are now un-vanished.");
+                $sender->setInvisible(false);
                 unset($this->vanish[$sender->getName()]);
                 return true;
             }
-            $sender->sendMessage(TextFormat::GRAY . "You are now un vanished.");
-            $sender->setInvisible(false);
-            $this->vanish[$sender->getName()] = 1;
-        } else {
             $sender->sendMessage(Main::PREFIX . "You Don't Have Permission");
-          }
-            return true;
         }
         return false;
     }
