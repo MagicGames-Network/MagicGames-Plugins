@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace BhawaniSingh\HCMinion;
 
+use BhawaniSingh\HCMinion\providers\SQLiteProvider;
 use muqsit\invmenu\InvMenu;
 use pocketmine\world\World;
 use pocketmine\entity\Entity;
@@ -38,6 +39,8 @@ class BetterMinion extends PluginBase
     public static $minions = [MiningMinion::class, FarmingMinion::class, LumberjackMinion::class];
     /** @var string[] */
     public $isRemove = [];
+
+	private SQLiteProvider $provider;
 
     public const FAKE_ENCH_ID = -1;
 
@@ -80,7 +83,17 @@ class BetterMinion extends PluginBase
         }
         EnchantmentIdMap::getInstance()->register(self::FAKE_ENCH_ID, new Enchantment("Glow", 1, ItemFlags::ALL, ItemFlags::NONE, 1));
 
+		$this->provider = new SQLiteProvider();
+
         $this->getServer()->getCommandMap()->register('Minion', new MinionCommand($this, 'minion', 'MagicMinion Main Command'));
         $this->getServer()->getPluginManager()->registerEvents(new EventListener(), $this);
     }
+
+	/**
+	 * @return SQLiteProvider
+	 */
+	public function getProvider(): SQLiteProvider
+	{
+		return $this->provider;
+	}
 }

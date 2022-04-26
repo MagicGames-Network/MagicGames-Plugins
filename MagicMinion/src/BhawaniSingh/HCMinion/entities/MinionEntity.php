@@ -696,6 +696,8 @@ abstract class MinionEntity extends Human
         foreach ($this->getMinionInventory()->getContents() as $content) {
             $this->getWorld()->dropItem($this->getPosition(), $content);
         }
+		$minionData = BetterMinion::getInstance()->getProvider()->getMinionDataFromPlayer($this->getMinionInformation()->getOwner());
+		BetterMinion::getInstance()->getProvider()->updateMinionData($this->getMinionInformation()->getOwner(),$minionData["minionCount"] - 1);
         $minionItem = ItemFactory::getInstance()->get(1098, 0, 1);
         $minionItem->setCustomName(TextFormat::RESET . TextFormat::YELLOW . $this->getMinionInformation()->getType()->getTargetName() . ' Minion ' . Utils::getRomanNumeral($this->getMinionInformation()->getLevel()))->setLore(["§r§7Place this minion and it will\n§r§7start generating and mining blocks!\n§r§7Requires an open area to spawn\n§r§7blocks. Minions also work when you are offline!\n\n§r§eType: §b" . $this->getMinionInformation()->getType()->getTargetName() . "\n§r§eLevel: §b" . Utils::getRomanNumeral($this->getMinionInformation()->getLevel()) . "\n§r§eResources Collected: §b" . $this->getMinionInformation()->getResourcesCollected() . ""]);
         $minionItem->addEnchantment($this->fakeEnchant);
