@@ -15,23 +15,23 @@ parameters:
         - '#Call to function array_search\(\) requires parameter \#3 to be set.#'
         - '#Only booleans are allowed in [a-zA-Z0-9\\_ ]+, [a-zA-Z0-9\\|,<>_ ]+ given.#'
     paths:
-        - ../BlankFix
-        - ../BurgerCustomArmor
-        - ../CosmicSpawners
-        - ../MagicBankUI
-        - ../MagicBookShop
-        - ../MagicCommandSpy
-        - ../MagicCore
-        - ../MagicHealthDefense
-        - ../MagicIsland
-        - ../MagicMinion
-        - ../MagicPortalsPE
-        - ../MagicSkills
-        - ../MagicQuest
-        - ../PurePerms
-        - ../SellAll
-        - ../SellWands
-        - ../SmeltWands
+        - ../../BlankFix
+        - ../../BurgerCustomArmor
+        - ../../CosmicSpawners
+        - ../../MagicBankUI
+        - ../../MagicBookShop
+        - ../../MagicCommandSpy
+        - ../../MagicCore
+        - ../../MagicHealthDefense
+        - ../../MagicIsland
+        - ../../MagicMinion
+        - ../../MagicPortalsPE
+        - ../../MagicSkills
+        - ../../MagicQuest
+        - ../../PurePerms
+        - ../../SellAll
+        - ../../SellWands
+        - ../../SmeltWands
     excludePaths:
         analyse:
-            - ../BurgerCustomArmor/src/Heisenburger69/BurgerCustomArmor/Abilities/AbilityUtils.php
+            - ../../BurgerCustomArmor/src/Heisenburger69/BurgerCustomArmor/Abilities/AbilityUtils.php

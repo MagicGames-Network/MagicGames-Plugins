@@ -1,37 +1,30 @@
-[submodule "phpstan/PurePerms"]
-	path = phpstan/PurePerms
-	url = https://github.com/vecnavium-pm-pl/PurePerms
-[submodule "phpstan/StarGate-Atlantis"]
-	path = phpstan/StarGate-Atlantis
-	url = https://github.com/Alemiz112/StarGate-Atlantis
-	branch = pmmp-4
-[submodule "phpstan/pmforms"]
-	path = phpstan/pmforms
+[submodule ".github/phpstan/pmforms"]
+	path = .github/phpstan/pmforms
 	url = https://github.com/dktapps-pm-pl/pmforms
-[submodule "phpstan/FormAPI"]
-	path = phpstan/FormAPI
+[submodule ".github/phpstan/StarGate-Atlantis"]
+	path = .github/phpstan/StarGate-Atlantis
+	url = https://github.com/Alemiz112/StarGate-Atlantis
+[submodule ".github/phpstan/FormAPI"]
+	path = .github/phpstan/FormAPI
 	url = https://github.com/DaPigGuy/FormAPI-4.0.0
-[submodule "phpstan/InvMenu"]
-	path = phpstan/InvMenu
+[submodule ".github/phpstan/InvMenu"]
+	path = .github/phpstan/InvMenu
 	url = https://github.com/Muqsit/InvMenu
-[submodule "phpstan/Commando"]
-	path = phpstan/Commando
+[submodule ".github/phpstan/Commando"]
+	path = .github/phpstan/Commando
 	url = https://github.com/CortexPE/Commando
-[submodule "phpstan/ScoreHud"]
-	path = phpstan/ScoreHud
+[submodule ".github/phpstan/ScoreHud"]
+	path = .github/phpstan/ScoreHud
 	url = https://github.com/Ifera/ScoreHud
-[submodule "phpstan/libasynql"]
-	path = phpstan/libasynql
+[submodule ".github/phpstan/libasynql"]
+	path = .github/phpstan/libasynql
 	url = https://github.com/poggit/libasynql
-[submodule "phpstan/libPiggyEconomy"]
-	path = phpstan/libPiggyEconomy
-	url = https://github.com/DaPigGuy/libPiggyEconomy
-[submodule "phpstan/PiggyCustomEnchants"]
-	path = phpstan/PiggyCustomEnchants
+[submodule ".github/phpstan/PiggyCustomEnchants"]
+	path = .github/phpstan/PiggyCustomEnchants
 	url = https://github.com/DaPigGuy/PiggyCustomEnchants/
-[submodule "phpstan/PortableCrafting"]
-	path = phpstan/PortableCrafting
+[submodule ".github/phpstan/PortableCrafting"]
+	path = .github/phpstan/PortableCrafting
 	url = https://github.com/Muqsit/PortableCrafting
-[submodule "phpstan/FI-Utils"]
-	path = phpstan/FI-Utils
+[submodule ".github/phpstan/FI-Utils"]
+	path = .github/phpstan/FI-Utils
 	url = https://github.com/JinodkDevTeam/FI-Utils

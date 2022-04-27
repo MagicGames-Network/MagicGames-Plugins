@@ -3,7 +3,7 @@
   "type": "library",
   "description": "",
   "require-dev": {
-    "pocketmine/pocketmine-mp": "4.3.0"
+    "pocketmine/pocketmine-mp": "4.3.1"
   },
   "repositories": [
     {
