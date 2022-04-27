@@ -2,15 +2,14 @@
 
 namespace BhawaniSingh\HCMinion\providers;
 
-use BhawaniSingh\HCMinion\BetterMinion;
-use RuntimeException;
 use SQLite3;
 use SQLite3Stmt;
 use SQLite3Result;
+use RuntimeException;
+use BhawaniSingh\HCMinion\BetterMinion;
 
 class SQLiteProvider extends Provider
 {
-
 	private SQLite3 $database;
 
 	public function __construct()
@@ -35,12 +34,12 @@ class SQLiteProvider extends Provider
 
 	public function getMinionDataFromPlayer(string $playerName): array
 	{
-		$result = $this->database->prepare("SELECT * FROM minion WHERE playerName=:playerName");
-		if (!$result instanceof SQLite3Result){
+		$result = $this->database->query("SELECT * FROM minion WHERE playerName=:playerName");
+		if (!$result instanceof SQLite3Result) {
 			return [];
 		}
 		$fetch = $result->fetchArray(SQLITE3_ASSOC);
-		if (!is_array($fetch)){
+		if (!is_array($fetch)) {
 			return [];
 		}
 
@@ -62,17 +61,17 @@ class SQLiteProvider extends Provider
 	public function hasMinionData(string $playerName): bool
 	{
 		$stmt = $this->database->prepare("SELECT * FROM minion WHERE playerName=:playerName");
-		if (!$stmt instanceof SQLite3Stmt){
+		if (!$stmt instanceof SQLite3Stmt) {
 			return false;
 		}
 		$stmt->bindValue(":playerName", $playerName);
 
 		$execute = $stmt->execute();
-		if (!$execute instanceof SQLite3Result){
+		if (!$execute instanceof SQLite3Result) {
 			return false;
 		}
 		$array = $execute->fetchArray(SQLITE3_ASSOC);
-		if (!is_array($array)){
+		if (!is_array($array)) {
 			return false;
 		}
 

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace BhawaniSingh\HCMinion;
 
-use BhawaniSingh\HCMinion\providers\SQLiteProvider;
 use muqsit\invmenu\InvMenu;
 use pocketmine\world\World;
 use pocketmine\entity\Entity;
@@ -26,6 +25,7 @@ use pocketmine\data\bedrock\EnchantmentIdMap;
 use CortexPE\Commando\PacketHooker as Commando;
 use BhawaniSingh\HCMinion\entities\MinionEntity;
 use BhawaniSingh\HCMinion\commands\MinionCommand;
+use BhawaniSingh\HCMinion\providers\SQLiteProvider;
 use BhawaniSingh\HCMinion\entities\objects\Farmland;
 use BhawaniSingh\HCMinion\entities\types\MiningMinion;
 use BhawaniSingh\HCMinion\entities\types\FarmingMinion;
@@ -40,7 +40,7 @@ class BetterMinion extends PluginBase
     /** @var string[] */
     public $isRemove = [];
 
-	private SQLiteProvider $provider;
+    private SQLiteProvider $provider;
 
     public const FAKE_ENCH_ID = -1;
 
@@ -83,17 +83,17 @@ class BetterMinion extends PluginBase
         }
         EnchantmentIdMap::getInstance()->register(self::FAKE_ENCH_ID, new Enchantment("Glow", 1, ItemFlags::ALL, ItemFlags::NONE, 1));
 
-		$this->provider = new SQLiteProvider();
+        $this->provider = new SQLiteProvider();
 
         $this->getServer()->getCommandMap()->register('Minion', new MinionCommand($this, 'minion', 'MagicMinion Main Command'));
         $this->getServer()->getPluginManager()->registerEvents(new EventListener(), $this);
     }
 
-	/**
-	 * @return SQLiteProvider
-	 */
-	public function getProvider(): SQLiteProvider
-	{
-		return $this->provider;
-	}
+    /**
+     * @return SQLiteProvider
+     */
+    public function getProvider(): SQLiteProvider
+    {
+        return $this->provider;
+    }
 }
