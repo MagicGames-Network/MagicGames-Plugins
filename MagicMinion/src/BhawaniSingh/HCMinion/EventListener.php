@@ -35,7 +35,7 @@ class EventListener implements Listener
 				}
 				$minionData = BetterMinion::getInstance()->getProvider()->getMinionDataFromPlayer($player->getName());
 
-				if (!$minionData["minionCount"] + 1 > 24) {
+				if (!$minionData["minionCount"] >= 24) {
 					BetterMinion::getInstance()->getProvider()->updateMinionData($player->getName(), $minionData["minionCount"] + 1);
 					$event->cancel();
 
