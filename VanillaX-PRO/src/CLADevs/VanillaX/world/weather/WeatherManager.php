@@ -72,7 +72,7 @@ class WeatherManager
 
     public function addWeather(World $world): void
     {
-        $this->weathers[strtolower($world->getFolderName())] = new Weather($world);
+        //$this->weathers[strtolower($world->getFolderName())] = new Weather($world);
     }
 
     public function removeWeather(World $world): void
