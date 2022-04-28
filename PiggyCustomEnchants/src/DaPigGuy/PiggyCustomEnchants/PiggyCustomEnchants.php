@@ -103,7 +103,7 @@ class PiggyCustomEnchants extends PluginBase
         $this->getServer()->getCommandMap()->register("piggycustomenchants", new CustomEnchantsCommand($this, "customenchants", "Manage Custom Enchants", ["ce", "customenchant"]));
 
         $this->getServer()->getPluginManager()->registerEvents(new EventListener($this), $this);
-        $this->getScheduler()->scheduleRepeatingTask(new TickEnchantmentsTask($this), 40);
+        $this->getScheduler()->scheduleRepeatingTask(new TickEnchantmentsTask($this), 50);
 
         //libPiggyUpdateChecker::init($this);
         if ($this->getConfig()->get("remote-disable", true) === true) $this->getServer()->getAsyncPool()->submitTask(new CheckDisabledEnchantsTask());

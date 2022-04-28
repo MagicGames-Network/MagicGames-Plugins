@@ -13,6 +13,7 @@ class Main extends PluginBase implements Listener
 
     public function onEnable(): void
     {
+        $this->saveResource("config.yml");
         $this->saveResource("profanity_filter.wlist");
         $this->getServer()->getPluginManager()->registerEvents($this, $this);
 
@@ -26,7 +27,7 @@ class Main extends PluginBase implements Listener
     public function onChat(PlayerChatEvent $event): void
     {
         $player = $event->getPlayer();
-        if (strlen($event->getMessage()) >= 35) {
+        if (strlen($event->getMessage()) >= 30) {
             $player->sendMessage("§7(§d!§7) §cYou Can't Type More Than 35 Letters At Once!");
             $event->cancel();
             return;
