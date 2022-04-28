@@ -11,12 +11,12 @@ use pocketmine\event\Listener;
 use pocketmine\world\Position;
 use pocketmine\world\Explosion;
 use pocketmine\item\ItemFactory;
-use pocketmine\utils\TextFormat;
 use onebone\economyapi\EconomyAPI;
 use pocketmine\math\VoxelRayTrace;
 use pocketmine\block\BlockLegacyIds;
 use Pushkar\MagicCore\forms\StarForm;
 use pocketmine\event\block\BlockBreakEvent;
+use pocketmine\event\block\BlockPlaceEvent;
 use pocketmine\console\ConsoleCommandSender;
 use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\event\player\PlayerMoveEvent;
@@ -38,6 +38,8 @@ class EventListener implements Listener
         $item = ItemFactory::getInstance()->get(1070, 0, 1);
         $item->setCustomName("§r§aSkyblock Menu §7( Right Click )§r");
         $item->setLore(["§r§7View All Of Your Skyblock Progress Including Your Skills,\n§7Collections, Recipes And More!\n\n§r§eClick To Open!"]);
+        $sender->getHungerManager()->setFood(20);
+        $sender->getHungerManager()->setSaturation(20);
         $sender->getInventory()->setItem(8, $item);
         if ($sender->isConnected()) {
             $name = $sender->getName();
@@ -53,7 +55,6 @@ class EventListener implements Listener
             if (Main::getInstance()->getConfig()->get("onJoin-FlyReset") === true) {
                 if ($sender->isCreative()) return;
                 $sender->setAllowFlight(false);
-                $sender->sendMessage(Main::getInstance()->getConfig()->get("fly-disabled"));
             }
         }
         $ainv = $sender->getArmorInventory();
@@ -150,9 +151,7 @@ class EventListener implements Listener
                     $explosion->explodeB();
                 }
                 if ($item->getNamedTag()->getTag("leaping_sword") !== null) {
-                    $a = mt_rand(1, 4);
-                    $b = mt_rand(1, 4);
-                    $sender->setMotion(new Vector3($a, 1, $b));
+                    $sender->setMotion(new Vector3(mt_rand(1, 3), mt_rand(1, 3), mt_rand(1, 3)));
                 }
                 if ($item->getNamedTag()->getTag("profile") !== null) {
                     Server::getInstance()->dispatchCommand($sender, "profile");
@@ -191,7 +190,7 @@ class EventListener implements Listener
                 if ($damager instanceof Player) {
                     if ($damager->isCreative()) return;
                     if ($damager->getAllowFlight() === true) {
-                        $damager->sendMessage(Main::PREFIX . TextFormat::DARK_RED . "Flight mode disabled due to combat");
+                        $damager->sendMessage(Main::PREFIX . "Flight mode disabled due to combat");
                         $damager->setAllowFlight(false);
                         $damager->setFlying(false);
                     }
@@ -202,10 +201,7 @@ class EventListener implements Listener
             $defaultWorld = $entity->getWorld()->getSpawnLocation();
             $entity->teleport($defaultWorld);
             $senderMoney = EconomyAPI::getInstance()->myMoney($entity);
-            if (is_bool($senderMoney)) {
-                return;
-            }
-
+            $event->cancel();
             if (Main::getInstance()->getConfig()->get("Void-Money-Lose") === true) {
                 switch (Main::getInstance()->getConfig()->get("Type")) {
                     case "all":
@@ -226,13 +222,12 @@ class EventListener implements Listener
                         break;
                 }
             }
-            $event->cancel();
         }
     }
 
     public function onBreak(BlockBreakEvent $event): void
     {
-      #Nothing lol
+        #Nothing lol
     }
 
     public function onDeath(PlayerDeathEvent $event): void
@@ -325,6 +320,17 @@ class EventListener implements Listener
         }
         if ($block->getId() == BlockLegacyIds::PORTAL) {
             Server::getInstance()->dispatchCommand($player, "hub");
+        }
+    }
+
+    public function onPlace(BlockPlaceEvent $event): void
+    {
+        $player = $event->getPlayer();
+        $item = $event->getItem();
+        $block = $event->getBlock();
+        if ($item->getNamedTag()->getTag("enchantedblock") !== null) {
+            $event->cancel();
+            $player->sendMessage(" §eYou Can't Place Enchanted Blocks On Ground");
         }
     }
 }

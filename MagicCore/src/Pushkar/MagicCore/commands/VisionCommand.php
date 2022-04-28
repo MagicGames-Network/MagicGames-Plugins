@@ -22,20 +22,19 @@ class VisionCommand extends Command
     public function execute(CommandSender $sender, string $commandLabel, array $args): mixed
     {
         if ($sender instanceof Player) {
-          if ($sender->hasPermission("vision.cmd")){
-            if (isset($this->vision[$sender->getName()])) {
-                unset($this->vision[$sender->getName()]);
-                $sender->getEffects()->remove(VanillaEffects::NIGHT_VISION());
-                $sender->sendMessage("§aVision: Off");
+            if ($sender->hasPermission("vision.cmd")) {
+                if (isset($this->vision[$sender->getName()])) {
+                    unset($this->vision[$sender->getName()]);
+                    $sender->getEffects()->remove(VanillaEffects::NIGHT_VISION());
+                    $sender->sendMessage(" §aVision: Off");
+                    return true;
+                }
+                $this->vision[$sender->getName()] = 0;
+                $sender->getEffects()->add(new EffectInstance(VanillaEffects::NIGHT_VISION(), 600 * 100, 3));
+                $sender->sendMessage(" §aVision: On");
                 return true;
             }
-            $this->vision[$sender->getName()] = 0;
-            $sender->getEffects()->add(new EffectInstance(VanillaEffects::NIGHT_VISION(), 600 * 100, 3));
-            $sender->sendMessage("§aVision: On");
-          } else {
             $sender->sendMessage(Main::PREFIX . "You Don't Have Permission");
-          }
-            return true;
         }
         return false;
     }

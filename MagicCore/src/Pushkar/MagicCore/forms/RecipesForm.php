@@ -14,7 +14,7 @@ class RecipesForm extends MenuForm
 {
     public function __construct()
     {
-        parent::__construct("§l§6RECIPES BOOK", "§bUse Only Custom Crafting Table To Craft Things, Do /customtable", [
+        parent::__construct("§l§6RECIPES BOOK", "§bUse Only Custom Crafting Table To Craft Things, Do /invcraft", [
             new MenuOption("§l§eMINION RECIPES\n§9»» §r§6Tap To Open", new FormIcon("https://cdn-icons-png.flaticon.com/128/891/891978.png", FormIcon::IMAGE_TYPE_URL)),
             new MenuOption("§l§eARMOR RECIPES\n§9»» §r§6Tap To Open", new FormIcon("https://cdn-icons-png.flaticon.com/128/361/361761.png", FormIcon::IMAGE_TYPE_URL)),
             new MenuOption("§l§eSWORD RECIPES\n§9»» §r§6Tap To Open", new FormIcon("https://i.imgur.com/EEaIm1N.png", FormIcon::IMAGE_TYPE_URL)),
@@ -86,7 +86,7 @@ class RecipesForm extends MenuForm
                     break;
 
                 case 13:
-                    Server::getInstance()->dispatchCommand($sender, "customtable");
+                    Server::getInstance()->dispatchCommand($sender, "invcraft");
                     break;
 
                 case 14:

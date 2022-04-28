@@ -9,7 +9,6 @@ use pocketmine\player\Player;
 use dktapps\pmforms\MenuOption;
 use jojoe77777\FormAPI\SimpleForm;
 use onebone\economyapi\EconomyAPI;
-use _64FF00\PurePerms\PurePerms;
 use pocketmine\Server;
 
 class InformationForm extends MenuForm
@@ -755,7 +754,7 @@ class InformationForm extends MenuForm
         $form->addButton("§8§lCOMING SOON\n§r§8Tap for more info");
         $sender->sendForm($form);
     }
-     public function emojis(Player $sender): void
+    public function emojis(Player $sender): void
     {
         $form = new SimpleForm(function (Player $sender, $data) {
             $result = $data;
@@ -771,8 +770,8 @@ class InformationForm extends MenuForm
         $form->addButton("§l§cEXIT\n§l§9»» §r§oTap To Exit", 1, "https://cdn-icons-png.flaticon.com/128/929/929416.png");
         $sender->sendForm($form);
     }
-    
-     public function profile(Player $player): void
+
+    public function profile(Player $player): void
     {
         $form = new SimpleForm(function (Player $player, $data) {
             $result = $data;
@@ -786,10 +785,9 @@ class InformationForm extends MenuForm
                     break;
             }
         });
-		$purePerms = Server::getInstance()->getPluginManager()->getPlugin("PurePerms");
-		 if(!$purePerms instanceof PurePerms){
-			 return;
-		 }
+        /** @var \_64FF00\PurePerms\PurePerms $purePerms */
+        $purePerms = Server::getInstance()->getPluginManager()->getPlugin("PurePerms");
+
         $form->setTitle("§l§3PROFILE");
         $form->setContent("§dHello §e" . $player->getName() . "\n\n§dWelcome To MagicGames Profile, Here You Can See Your Profile And Stats\n\n§bName: §a" . $player->getName() . "\n§bRank: §a" . $purePerms->getUserDataMgr()->getData($player)["group"] . "\n§bMoney: §a" . EconomyAPI::getInstance()->myMoney($player) . "\n§bPing: §a" . $player->getNetworkSession()->getPing() . "\n§bPosition: §a" . (int) $player->getPosition()->getX() . " " . (int) $player->getPosition()->getY() . " " . (int) $player->getPosition()->getZ() . "\n§bWorld: §a" . $player->getWorld()->getFolderName() . "\n§bHealth: §a" . (int) $player->getHealth() . "§a/" . $player->getMaxHealth() . "");
         $form->addButton("§l§3YOUR SKILLS\n§l§9»» §r§oTap To Open", 1, "https://cdn-icons-png.flaticon.com/128/2091/2091418.png");

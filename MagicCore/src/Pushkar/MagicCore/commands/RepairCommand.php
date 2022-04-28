@@ -14,22 +14,21 @@ class RepairCommand extends Command
     {
         parent::__construct("repair", "§eRepair Your Items");
         $this->setPermission("repair.cmd");
-        
     }
 
     public function execute(CommandSender $sender, string $commandLabel, array $args): mixed
     {
         if ($sender instanceof Player) {
-          if ($sender->hasPermission("repair.cmd")){
-            $item = $sender->getInventory()->getItemInHand();
-            if ($item instanceof Durable) {
-                $item->setDamage(0);
-                $sender->getInventory()->setItemInHand($item);
-                $sender->sendMessage("§e§lMAGICGAMES > §r§bRepaired Your Item");
+            if ($sender->hasPermission("repair.cmd")) {
+                $item = $sender->getInventory()->getItemInHand();
+                if ($item instanceof Durable) {
+                    $item->setDamage(0);
+                    $sender->getInventory()->setItemInHand($item);
+                    $sender->sendMessage(" §eRepaired Your Item");
+                }
+            } else {
+                $sender->sendMessage(Main::PREFIX . "You Don't Have Permission");
             }
-          } else {
-            $sender->sendMessage(Main::PREFIX . "You Don't Have Permission");
-          }
             return true;
         }
         $sender->sendMessage("Use this command in-game");

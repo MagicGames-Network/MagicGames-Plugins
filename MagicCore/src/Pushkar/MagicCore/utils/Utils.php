@@ -10,6 +10,6 @@ final class Utils
     {
         $sender->setDisplayName($sender->getName());
         $sender->setNameTag($sender->getName());
-        $sender->sendMessage("§eYour nickname has been resetted!");
+        $sender->sendMessage("§8(§b!§8) §7Your nickname has been reset!");
     }
 }

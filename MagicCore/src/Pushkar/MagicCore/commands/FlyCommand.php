@@ -13,7 +13,7 @@ class FlyCommand extends Command
 
     public function __construct()
     {
-        parent::__construct("fly", "§eFly In Air Lol");
+        parent::__construct("fly", "§eFly");
         $this->setPermission("fly.cmd");
     }
 
@@ -24,12 +24,12 @@ class FlyCommand extends Command
                 if (isset($this->fly[$sender->getName()])) {
                     unset($this->fly[$sender->getName()]);
                     $sender->setFlying(false);
-                    $sender->sendMessage("§l§eMAGICGAMES > §r§bFlying Disabled");
+                    $sender->sendMessage(" §eYour Fly Disabled Now!");
                     return true;
                 }
                 $this->fly[$sender->getName()] = 0;
                 $sender->setFlying(true);
-                $sender->sendMessage("§l§eMAGICGAMES > §r§bFlying Enabled");
+                $sender->sendMessage(" §eYour Fly Enabled Now!");
             } else {
                 $sender->sendMessage(Main::PREFIX . "You Don't Have Permission");
             }

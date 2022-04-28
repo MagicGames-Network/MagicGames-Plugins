@@ -26,7 +26,7 @@ use Pushkar\MagicCore\managers\CommandManager;
 
 class Main extends PluginBase implements Listener
 {
-    public const PREFIX = "§e§lMAGICGAMES >§r§b ";
+    public const PREFIX = " §e";
     public const VERSION = "v4.0.0";
     public const FAKE_ENCH_ID = -1;
 
@@ -59,10 +59,12 @@ class Main extends PluginBase implements Listener
         $pmmpversion = $cmdMap->getCommand("version");
         $pmmpver = $cmdMap->getCommand("ver");
         $pmmpabout = $cmdMap->getCommand("about");
+        $pmmpclear = $cmdMap->getCommand("clear");
 
         $pmmpversion instanceof Command ? $cmdMap->unregister($pmmpversion) : null;
         $pmmpabout instanceof Command ? $cmdMap->unregister($pmmpabout) : null;
         $pmmpver instanceof Command ? $cmdMap->unregister($pmmpver) : null;
+        $pmmpclear instanceof Command ? $cmdMap->unregister($pmmpclear) : null;
 
         //$this->getServer()->getNetwork()->setName($this->getConfig()->get("server-modt"));
         EnchantmentIdMap::getInstance()->register(self::FAKE_ENCH_ID, new Enchantment("Glow", 1, ItemFlags::ALL, ItemFlags::NONE, 1));
@@ -93,9 +95,10 @@ class Main extends PluginBase implements Listener
 
     public function onDisable(): void
     {
+        Server::getInstance()->broadcastMessage("§l§e§k!!!§r §l§cSERVER RESTARTING §e§k!!!");
         if ($this->getConfig()->get("Crash-Rejoin") === true) {
             foreach ($this->getServer()->getOnlinePlayers() as $sender) {
-                $sender->sendMessage("§l§cSERVER RESTARTING");
+                $sender->sendTitle("§cServer Restarting");
                 $sender->transfer($this->getConfig()->get("IP"), $this->getConfig()->get("Port"));
                 $name = $sender->getName();
                 $this->getLogger()->info("§ePlayer ${name} Has Been Successfully Transfered");

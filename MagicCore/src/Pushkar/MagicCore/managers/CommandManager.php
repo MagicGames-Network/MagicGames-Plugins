@@ -15,34 +15,34 @@ use Pushkar\MagicCore\commands\SizeCommand;
 use Pushkar\MagicCore\commands\SkinCommand;
 use Pushkar\MagicCore\commands\WarpCommand;
 use Pushkar\MagicCore\commands\DianaCommand;
+use Pushkar\MagicCore\commands\EmojiCommand;
 use Pushkar\MagicCore\commands\EventCommand;
 use Pushkar\MagicCore\commands\ItemsCommand;
+use Pushkar\MagicCore\commands\JerryCommand;
 use Pushkar\MagicCore\commands\RulesCommand;
 use Pushkar\MagicCore\commands\SpeedCommand;
 use Pushkar\MagicCore\commands\BazaarCommand;
 use Pushkar\MagicCore\commands\LiftuiCommand;
 use Pushkar\MagicCore\commands\RepairCommand;
+use Pushkar\MagicCore\commands\SellUiCommand;
 use Pushkar\MagicCore\commands\VanishCommand;
 use Pushkar\MagicCore\commands\VisionCommand;
 use Pushkar\MagicCore\commands\DiscordCommand;
 use Pushkar\MagicCore\commands\EnchantCommand;
+use Pushkar\MagicCore\commands\ProfileCommand;
 use Pushkar\MagicCore\commands\RecipesCommand;
 use Pushkar\MagicCore\commands\ServersCommand;
 use Pushkar\MagicCore\commands\FeaturesCommand;
 use Pushkar\MagicCore\commands\InvClearCommand;
 use Pushkar\MagicCore\commands\RanklistCommand;
+use Pushkar\MagicCore\commands\RankshopCommand;
 use Pushkar\MagicCore\commands\SettingsCommand;
 use Pushkar\MagicCore\commands\ChangelogCommand;
 use Pushkar\MagicCore\commands\StafflistCommand;
 use Pushkar\MagicCore\commands\TotorialsCommand;
-use Pushkar\MagicCore\commands\CustomArmorCommand;
 use Pushkar\MagicCore\commands\InformationCommand;
 use Pushkar\MagicCore\commands\SocialmediaCommand;
 use Pushkar\MagicCore\commands\AnnouncementCommand;
-use Pushkar\MagicCore\commands\JerryCommand;
-use Pushkar\MagicCore\commands\SellUiCommand;
-use Pushkar\MagicCore\commands\ProfileCommand;
-use Pushkar\MagicCore\commands\EmojiCommand;
 
 final class CommandManager
 {
@@ -63,7 +63,6 @@ final class CommandManager
             "vanish" => new VanishCommand(),
             "warp" => new WarpCommand(),
             "hide" => new HideCommand(),
-            "caui" => new CustomArmorCommand(),
             "hub" => new HubCommand(),
             "items" => new ItemsCommand(),
             "diana" => new DianaCommand(),
@@ -95,6 +94,7 @@ final class CommandManager
             "sellui" => new SellUiCommand(),
             "jerry" => new JerryCommand(),
             "emoji" => new EmojiCommand(),
+            "rankshop" => new RankshopCommand(),
             "profile" => new ProfileCommand()
         ];
     }

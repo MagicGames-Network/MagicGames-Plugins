@@ -2,10 +2,9 @@
 
 namespace Pushkar\MagicCore\commands;
 
+use pocketmine\player\Player;
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
-use pocketmine\player\Player;
-use Pushkar\MagicCore\forms\ServersForm;
 
 class ServersCommand extends Command
 {
@@ -18,7 +17,8 @@ class ServersCommand extends Command
     public function execute(CommandSender $sender, string $commandLabel, array $args): mixed
     {
         if ($sender instanceof Player) {
-            $sender->sendForm(new ServersForm($sender));
+            //$sender->sendForm(new ServersForm($sender));
+            $sender->sendMessage(" §7Comming Soon");
             return true;
         }
         return false;

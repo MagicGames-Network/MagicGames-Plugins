@@ -17,7 +17,7 @@ class IDCommand extends Command
     public function execute(CommandSender $sender, string $commandLabel, array $args): mixed
     {
         if ($sender instanceof Player) {
-            $sender->sendMessage(Main::PREFIX . "§aID: §9{$sender->getInventory()->getItemInHand()->getId()}:{$sender->getInventory()->getItemInHand()->getMeta()}");
+            $sender->sendMessage(Main::PREFIX . "§aID: §b{$sender->getInventory()->getItemInHand()->getId()}:{$sender->getInventory()->getItemInHand()->getMeta()}");
             return true;
         }
         $sender->sendMessage("Use this command in-game");
