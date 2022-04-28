@@ -37,7 +37,7 @@ class EventListener implements Listener
 				}
 				$minionData = BetterMinion::getInstance()->getProvider()->getMinionDataFromPlayer($player->getName());
 
-				if (!$minionData["minionCount"] >= 16) {
+				if (!$minionData["minionCount"] >= BetterMinion::MINION_LIMIT) {
 					BetterMinion::getInstance()->getProvider()->updateMinionData($player->getName(), $minionData["minionCount"] + 1);
 					$event->cancel();
 
@@ -69,7 +69,10 @@ class EventListener implements Listener
 					
 					$item->pop();
 					$player->getInventory()->setItemInHand($item);
+					$player->sendMessage("§8(§b!§8) §7Minion placed! You have " . $minionData["minionCount"] . "/" . BetterMinion::MINION_LIMIT . "minions!");
+					return;
 				}
+				$player->sendMessage("§8(§b!§8) §7You can't have more than 16 minions! You have " . $minionData["minionCount"] . "/" . BetterMinion::MINION_LIMIT . "minions!");
 			}
 		}
 	}

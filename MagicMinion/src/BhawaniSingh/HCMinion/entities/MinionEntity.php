@@ -102,7 +102,7 @@ abstract class MinionEntity extends Human
             $damager = $source->getDamager();
             if ($damager instanceof Player) {
                 if (isset(BetterMinion::getInstance()->isRemove[$damager->getName()])) {
-                    $damager->sendMessage('Successfully removed ' . $this->getMinionInformation()->getOwner() . "'s minion");
+                    $damager->sendMessage('§8(§b!§8) §7Successfully removed ' . $this->getMinionInformation()->getOwner() . "'s minion");
                     $this->destroy();
                     return;
                 }
