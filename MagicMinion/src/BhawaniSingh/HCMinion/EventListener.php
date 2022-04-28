@@ -5,11 +5,13 @@ declare(strict_types=1);
 namespace BhawaniSingh\HCMinion;
 
 use pocketmine\item\Item;
+use pocketmine\entity\Skin;
 use pocketmine\event\Listener;
 use pocketmine\entity\Location;
 use pocketmine\nbt\tag\ListTag;
 use pocketmine\item\ItemFactory;
 use BhawaniSingh\HCMinion\utils\Utils;
+use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\event\player\PlayerQuitEvent;
 use pocketmine\item\LegacyStringToItemParser;
 use BhawaniSingh\HCMinion\entities\MinionEntity;
@@ -26,8 +28,8 @@ class EventListener implements Listener
 		$item = $event->getItem();
 		$block = $event->getBlock();
 		$player = $event->getPlayer();
+
 		if ($event->getAction() === PlayerInteractEvent::RIGHT_CLICK_BLOCK) {
-			#$mItem = LegacyStringToItemParser::getInstance()->parse((string) BetterMinion::getInstance()->getConfig()->get('minion-item'));
 			$mItem = ItemFactory::getInstance()->get(1098, 0, 1);
 			if ($item->getId() === $mItem->getId() && $item->getMeta() === $mItem->getMeta() && $item->getNamedTag()->getTag('MinionInformation') instanceof ListTag) {
 				if (!BetterMinion::getInstance()->getProvider()->hasMinionData($player->getName())) {
@@ -35,7 +37,7 @@ class EventListener implements Listener
 				}
 				$minionData = BetterMinion::getInstance()->getProvider()->getMinionDataFromPlayer($player->getName());
 
-				if (!$minionData["minionCount"] >= 24) {
+				if (!$minionData["minionCount"] >= 16) {
 					BetterMinion::getInstance()->getProvider()->updateMinionData($player->getName(), $minionData["minionCount"] + 1);
 					$event->cancel();
 
@@ -56,10 +58,15 @@ class EventListener implements Listener
 
 					$entityType = BetterMinion::$minions[$minionInformation->getType()->getActionType()];
 
-					/** @var MinionEntity $entity */
-					$entity = new $entityType($entityPos, $player->getSkin(), $nbt);
+					$skinData = Utils::createSkin(BetterMinion::getInstance()->getDataFolder() . "minion.png");
+					//$geometryArray = Utils::createGeometryData(file_get_contents(BetterMinion::getInstance()->getDataFolder() . "minion.json"));
 
+					$skin = new Skin($player->getSkin()->getSkinId(), $skinData/*, "", $geometryArray[0], $geometryArray[1]*/);
+
+					/** @var MinionEntity $entity */
+					$entity = new $entityType($entityPos, $skin, $nbt);
 					$entity->spawnToAll();
+					
 					$item->pop();
 					$player->getInventory()->setItemInHand($item);
 				}
@@ -67,10 +74,11 @@ class EventListener implements Listener
 		}
 	}
 
-	public function onQuit(PlayerQuitEvent $event): void
+	public function onPlayerQuit(PlayerQuitEvent $event): void
 	{
 		$player = $event->getPlayer();
-		if (isset(BetterMinion::getInstance()->isRemove[$player->getName()]))
+		if (isset(BetterMinion::getInstance()->isRemove[$player->getName()])) {
 			unset(BetterMinion::getInstance()->isRemove[$player->getName()]);
+		}
 	}
 }

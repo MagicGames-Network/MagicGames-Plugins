@@ -50,6 +50,8 @@ class BetterMinion extends PluginBase
         $this->saveDefaultConfig();
         $this->saveResource('smelts.json');
         $this->saveResource('compacts.json');
+        $this->saveResource('minion.png');
+        $this->saveResource('minion.json');
     }
 
     public function onEnable(): void
@@ -89,9 +91,6 @@ class BetterMinion extends PluginBase
         $this->getServer()->getPluginManager()->registerEvents(new EventListener(), $this);
     }
 
-    /**
-     * @return SQLiteProvider
-     */
     public function getProvider(): SQLiteProvider
     {
         return $this->provider;

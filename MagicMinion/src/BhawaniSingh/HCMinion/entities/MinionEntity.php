@@ -331,7 +331,7 @@ abstract class MinionEntity extends Human
      *
      * @see PLEASE READ MESSAGE IN METHOD BEFORE DOING ANYTHING TO THIS!
      */
-    public function entityBaseTick(int $notTickDiff = 1): bool
+    public function entityBaseTick(int $tickDiff = 1): bool
     {
         // █▀█ █░░ █▀▀ ▄▀█ █▀ █▀▀   █▀█ █▀▀ ▄▀█ █▀▄
         // █▀▀ █▄▄ ██▄ █▀█ ▄█ ██▄   █▀▄ ██▄ █▀█ █▄▀
@@ -344,148 +344,104 @@ abstract class MinionEntity extends Human
         // The minion has also been stripped off of non necessary methods.
 
         $hasUpdate = false;
-        $tickDiff = 20;
 
-        $this->ticksLived += $notTickDiff;
+        $this->ticksLived += $tickDiff;
         Timings::$livingEntityBaseTick->startTiming();
-        if ($this->ticksLived % 20 === 0) {
-            // █▀▀ █▄░█ ▀█▀ █ ▀█▀ █▄█
-            // ██▄ █░▀█ ░█░ █ ░█░ ░█░
 
-            if ($this->justCreated) {
-                $this->justCreated = false;
-                if (!$this->isAlive()) {
-                    $this->kill();
-                }
+        // █▀▀ █▄░█ ▀█▀ █ ▀█▀ █▄█
+        // ██▄ █░▀█ ░█░ █ ░█░ ░█░
+
+        if ($this->justCreated) {
+            $this->justCreated = false;
+            if (!$this->isAlive()) {
+                $this->kill();
+            }
+        }
+
+        $changedProperties = $this->getDirtyNetworkData();
+        if (count($changedProperties) > 0) {
+            $this->sendData(null, $changedProperties);
+            $this->getNetworkProperties()->clearDirtyProperties();
+        }
+
+        if ($this->location->y <= World::Y_MIN - 16 && $this->isAlive()) {
+            $this->destroy();
+            $hasUpdate = true;
+        }
+
+        if ($this->noDamageTicks > 0) {
+            $this->noDamageTicks = 0;
+        }
+
+        // █▀▄▀█ █ █▄░█ █ █▀█ █▄░█  █▀▀ █▄░█ ▀█▀ █ ▀█▀ █▄█
+        // █░▀░█ █ █░▀█ █ █▄█ █░▀█  ██▄ █░▀█ ░█░ █ ░█░ ░█░
+
+        if (!$this->closed && !$this->isFlaggedForDespawn() && isset($this->minionInformation) && !$this->isViewingInv) {
+            if ($this->ticksLived % 60 === 0) {
+                $this->updateTarget();
+            }
+            if (!$this->checkFull()) {
+                return $hasUpdate;
             }
 
-            $changedProperties = $this->getDirtyNetworkData();
-            if (count($changedProperties) > 0) {
-                $this->sendData(null, $changedProperties);
-                $this->getNetworkProperties()->clearDirtyProperties();
+            ++$this->currentActionSeconds;
+            if (!$this->isWorking) {
+                $this->getTarget();
+                $this->isWorking = true;
             }
 
-            //$this->checkBlockIntersections();
-
-            if ($this->location->y <= World::Y_MIN - 16 && $this->isAlive()) {
-                $ev = new EntityDamageEvent($this, EntityDamageEvent::CAUSE_VOID, 10);
-                $this->attack($ev);
-                $hasUpdate = true;
+            $this->getWorld()->requestChunkPopulation($this->target->getPosition()->getX() >> Chunk::COORD_BIT_SIZE, $this->target->getPosition()->getZ() >> Chunk::COORD_BIT_SIZE, null);
+            if (!$this->checkTarget()) {
+                $this->stopWorking();
+                return $hasUpdate;
             }
 
-            /*if ($this->isOnFire() && $this->doOnFireTick($tickDiff)) {
-                $hasUpdate = true;
-            }*/
-
-            if ($this->noDamageTicks > 0) {
-                $this->noDamageTicks -= $tickDiff;
-                if ($this->noDamageTicks < 0) {
-                    $this->noDamageTicks = 0;
-                }
-            }
-
-            // █░░ █ █░█ █ █▄░█ █▀▀
-            // █▄▄ █ ▀▄▀ █ █░▀█ █▄█
-
-            /*if ($this->isAlive()) {
-                if ($this->effectManager->tick($tickDiff)) {
-                    $hasUpdate = true;
-                }
-
-                if ($this->isInsideOfSolid()) {
-                    $hasUpdate = true;
-                    $ev = new EntityDamageEvent($this, EntityDamageEvent::CAUSE_SUFFOCATION, 1);
-                    $this->attack($ev);
-                }
-
-                if ($this->doAirSupplyTick($tickDiff)) {
-                    $hasUpdate = true;
-                }
-            }
-            if ($this->attackTime > 0) {
-                $this->attackTime -= $tickDiff;
-            }*/
-
-            // █░█ █░█ █▀▄▀█ ▄▀█ █▄░█
-            // █▀█ █▄█ █░▀░█ █▀█ █░▀█
-
-            //$this->hungerManager->tick($tickDiff);
-            //$this->xpManager->tick($tickDiff);
-
-            // █▀▄▀█ █ █▄░█ █ █▀█ █▄░█  █▀▀ █▄░█ ▀█▀ █ ▀█▀ █▄█
-            // █░▀░█ █ █░▀█ █ █▄█ █░▀█  ██▄ █░▀█ ░█░ █ ░█░ ░█░
-
-            if (!$this->closed && !$this->isFlaggedForDespawn() && isset($this->minionInformation) && !$this->isViewingInv) {
-                if ($this->ticksLived % 60 === 0) {
-                    $this->updateTarget();
-                }
-                if (!$this->checkFull()) {
-                    return $hasUpdate;
-                }
-
-                ++$this->currentActionSeconds;
-                if (!$this->isWorking) {
-                    $this->getTarget();
-                    $this->isWorking = true;
-                }
-
-                // this will force the server to wait for the results so that it doesn't crash when chunk is unloaded
-                /** @phpstan-ignore-next-line */
-                if (!$this->getWorld()->requestChunkPopulation($this->target->getPosition()->getX() >> Chunk::COORD_BIT_SIZE, $this->target->getPosition()->getZ() >> Chunk::COORD_BIT_SIZE, null) instanceof Promise) {
-                    return $hasUpdate;
-                }
-                if (!$this->checkTarget()) {
-                    $this->stopWorking();
-                    return $hasUpdate;
-                }
-
-                switch ($this->currentAction) {
-                    case self::ACTION_IDLE:
-                        if ($this->currentActionSeconds >= 2) { //TODO: Customize
-                            $this->currentAction = self::ACTION_TURNING;
-                            $this->currentActionSeconds = 0;
+            switch ($this->currentAction) {
+                case self::ACTION_IDLE:
+                    if ($this->currentActionSeconds >= 2) { //TODO: Customize
+                        $this->currentAction = self::ACTION_TURNING;
+                        $this->currentActionSeconds = 0;
+                    }
+                    break;
+                case self::ACTION_TURNING:
+                    $this->lookAt($this->target->getPosition());
+                    if ($this->currentActionSeconds === 1) {
+                        $this->currentAction = self::ACTION_WORKING;
+                        $this->currentActionSeconds = 0;
+                    }
+                    break;
+                case self::ACTION_WORKING:
+                    $isPlacing = $this->target instanceof Air;
+                    if (!$isPlacing) {
+                        if ($this->currentActionSeconds === 1 && $this->broadcastPlaceBreak()) {
+                            $this->getWorld()->broadcastPacketToViewers($this->target->getPosition(), LevelEventPacket::create(LevelEvent::BLOCK_START_BREAK, (int) (65535 / 60), $this->target->getPosition()));
                         }
-                        break;
-                    case self::ACTION_TURNING:
-                        $this->lookAt($this->target->getPosition());
-                        if ($this->currentActionSeconds === 1) {
-                            $this->currentAction = self::ACTION_WORKING;
-                            $this->currentActionSeconds = 0;
-                        }
-                        break;
-                    case self::ACTION_WORKING:
-                        $isPlacing = $this->target instanceof Air;
-                        if (!$isPlacing) {
-                            if ($this->currentActionSeconds === 1 && $this->broadcastPlaceBreak()) {
-                                $this->getWorld()->broadcastPacketToViewers($this->target->getPosition(), LevelEventPacket::create(LevelEvent::BLOCK_START_BREAK, (int) (65535 / 60), $this->target->getPosition()));
-                            }
-                            if ($this->isWorkFast()) {
-                                $this->startWorking();
-                            }
-                            $pk = new AnimatePacket();
-                            $pk->action = AnimatePacket::ACTION_SWING_ARM;
-                            $pk->actorRuntimeId = $this->getId();
-                            if ($this->broadcastPlaceBreak()) {
-                                $this->getWorld()->broadcastPacketToViewers($this->getPosition(), $pk);
-                            }
-                        } elseif ($this->broadcastPlaceBreak()) {
-                            $this->getWorld()->broadcastPacketToViewers($this->target->getPosition(), LevelEventPacket::create(LevelEvent::BLOCK_STOP_BREAK, 0, $this->target->getPosition()));
-                        }
-                        if ($this->currentActionSeconds === 2) {
+                        if ($this->isWorkFast()) {
                             $this->startWorking();
-                            $this->stopWorking();
-                            if (!$this->checkFull()) {
-                                return $hasUpdate;
-                            }
                         }
-                        break;
-                    case self::ACTION_CANT_WORK:
-                        if (!$this->isInventoryFull()) {
-                            $this->currentAction = self::ACTION_IDLE;
-                            $this->setNameTag($this->getMinionInformation()->getType()->getTargetName() . " Minion");
+                        $pk = new AnimatePacket();
+                        $pk->action = AnimatePacket::ACTION_SWING_ARM;
+                        $pk->actorRuntimeId = $this->getId();
+                        if ($this->broadcastPlaceBreak()) {
+                            $this->getWorld()->broadcastPacketToViewers($this->getPosition(), $pk);
                         }
-                        break;
-                }
+                    } elseif ($this->broadcastPlaceBreak()) {
+                        $this->getWorld()->broadcastPacketToViewers($this->target->getPosition(), LevelEventPacket::create(LevelEvent::BLOCK_STOP_BREAK, 0, $this->target->getPosition()));
+                    }
+                    if ($this->currentActionSeconds === 2) {
+                        $this->startWorking();
+                        $this->stopWorking();
+                        if (!$this->checkFull()) {
+                            return $hasUpdate;
+                        }
+                    }
+                    break;
+                case self::ACTION_CANT_WORK:
+                    if (!$this->isInventoryFull()) {
+                        $this->currentAction = self::ACTION_IDLE;
+                        $this->setNameTag($this->getMinionInformation()->getType()->getTargetName() . " Minion");
+                    }
+                    break;
             }
         }
         Timings::$livingEntityBaseTick->stopTiming();
@@ -696,13 +652,18 @@ abstract class MinionEntity extends Human
         foreach ($this->getMinionInventory()->getContents() as $content) {
             $this->getWorld()->dropItem($this->getPosition(), $content);
         }
+
+        if (!BetterMinion::getInstance()->getProvider()->hasMinionData($this->getMinionInformation()->getOwner())) {
+			BetterMinion::getInstance()->getProvider()->createMinionData($this->getMinionInformation()->getOwner());
+		}
         $minionData = BetterMinion::getInstance()->getProvider()->getMinionDataFromPlayer($this->getMinionInformation()->getOwner());
-        BetterMinion::getInstance()->getProvider()->updateMinionData($this->getMinionInformation()->getOwner(), $minionData["minionCount"] - 1);
-        
+        BetterMinion::getInstance()->getProvider()->updateMinionData($this->getMinionInformation()->getOwner(), $minionData["minionCount"] <= 0 ? 0 : $minionData["minionCount"] - 1);
+
         $minionItem = ItemFactory::getInstance()->get(1098, 0, 1);
         $minionItem->setCustomName(TextFormat::RESET . TextFormat::YELLOW . $this->getMinionInformation()->getType()->getTargetName() . ' Minion ' . Utils::getRomanNumeral($this->getMinionInformation()->getLevel()))->setLore(["§r§7Place this minion and it will\n§r§7start generating and mining blocks!\n§r§7Requires an open area to spawn\n§r§7blocks. Minions also work when you are offline!\n\n§r§eType: §b" . $this->getMinionInformation()->getType()->getTargetName() . "\n§r§eLevel: §b" . Utils::getRomanNumeral($this->getMinionInformation()->getLevel()) . "\n§r§eResources Collected: §b" . $this->getMinionInformation()->getResourcesCollected() . ""]);
         $minionItem->addEnchantment($this->fakeEnchant);
         $minionItem->getNamedTag()->setTag("MinionInformation", $this->minionInformation->nbtSerialize());
+        
         $this->getWorld()->dropItem($this->getPosition(), $minionItem);
         $this->close();
     }

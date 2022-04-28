@@ -22,19 +22,19 @@ class SQLiteProvider extends Provider
 
 	public function createMinionData(string $playerName): void
 	{
-		$stmt = $this->database->prepare("INSERT INTO minion (playerName, minionCount) VALUE (:playerName, :minionCount)");
+		$stmt = $this->database->prepare("INSERT INTO minion (playerName, minionCount) VALUES (:playerName, :minionCount)");
 		if (!$stmt instanceof SQLite3Stmt) {
 			return;
 		}
 
 		$stmt->bindValue(":playerName", $playerName);
-		$stmt->bindValue("minionCount", 0);
+		$stmt->bindValue(":minionCount", 0);
 		$stmt->execute();
 	}
 
 	public function getMinionDataFromPlayer(string $playerName): array
 	{
-		$result = $this->database->query("SELECT * FROM minion WHERE playerName=:playerName");
+		$result = $this->database->query("SELECT * FROM minion WHERE playerName='{$playerName}'");
 		if (!$result instanceof SQLite3Result) {
 			return [];
 		}

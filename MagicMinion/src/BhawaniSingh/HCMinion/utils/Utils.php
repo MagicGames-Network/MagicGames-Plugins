@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace BhawaniSingh\HCMinion\utils;
 
+use GdImage;
 use pocketmine\math\Vector3;
 use pocketmine\nbt\tag\ListTag;
 use pocketmine\nbt\tag\FloatTag;
@@ -61,5 +62,42 @@ class Utils
                 new FloatTag($yaw),
                 new FloatTag($pitch)
             ]));
+    }
+
+    public static function createSkin(string $path): string
+    {
+        $img = @imagecreatefrompng($path);
+        if (!$img instanceof GdImage) {
+            return '';
+        }
+
+        $bytes = '';
+        $lc = @getimagesize($path);
+        if (!is_array($lc)) {
+            return '';
+        }
+
+        $l = (int)$lc[1];
+        for ($y = 0; $y < $l; $y++) {
+            for ($x = 0; $x < 64; $x++) {
+                $rgba = @imagecolorat($img, $x, $y);
+                $a = ((~($rgba >> 24)) << 1) & 0xff;
+                $r = ($rgba >> 16) & 0xff;
+                $g = ($rgba >> 8) & 0xff;
+                $b = $rgba & 0xff;
+                $bytes .= chr($r) . chr($g) . chr($b) . chr($a);
+            }
+        }
+        @imagedestroy($img);
+        return $bytes;
+    }
+
+    public static function createGeometryData(string $pureGeometryData): array
+    {
+        foreach (json_decode($pureGeometryData, true) as $geometryName => $geometryData) {
+            if (strpos($geometryName, "geometry.") === 0) {
+                return [$geometryName, json_encode([$geometryName => $geometryData])];
+            }
+        }
     }
 }
