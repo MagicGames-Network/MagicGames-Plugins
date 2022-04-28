@@ -7,12 +7,12 @@ enabled: true
 #false = disable
 #everything under is auto generated
 blocks:
-  anvil: false
+  anvil: true
   beacon: true
   bell: true
   brewing_stand: true
   chain: true
-  enchanting_table: false
+  enchanting_table: true
   fire: true
   hopper: false
   jukebox: true

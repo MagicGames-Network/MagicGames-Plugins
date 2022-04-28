@@ -51,7 +51,7 @@ class BetterMinion extends PluginBase
         $this->saveResource('smelts.json');
         $this->saveResource('compacts.json');
         $this->saveResource('minion.png');
-        $this->saveResource('minion.json');
+        //$this->saveResource('minion.json');
     }
 
     public function onEnable(): void

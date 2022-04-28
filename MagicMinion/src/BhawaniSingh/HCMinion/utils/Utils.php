@@ -99,5 +99,6 @@ class Utils
                 return [$geometryName, json_encode([$geometryName => $geometryData])];
             }
         }
+        return [];
     }
 }

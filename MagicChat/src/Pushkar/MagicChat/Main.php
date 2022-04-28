@@ -2,13 +2,10 @@
 
 namespace Pushkar\MagicChat;
 
-use pocketmine\utils\Config;
 use pocketmine\event\Listener;
 use pocketmine\command\Command;
 use pocketmine\plugin\PluginBase;
 use pocketmine\event\player\PlayerChatEvent;
-use pocketmine\event\server\DataPacketSendEvent;
-use pocketmine\network\mcpe\protocol\TextPacket;
 
 class Main extends PluginBase implements Listener
 {
