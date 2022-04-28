@@ -199,8 +199,12 @@ class EventListener implements Listener
         }
         if ($event->getCause() === EntityDamageEvent::CAUSE_VOID) {
             $defaultWorld = $entity->getWorld()->getSpawnLocation();
-            $entity->teleport($defaultWorld);
             $senderMoney = EconomyAPI::getInstance()->myMoney($entity);
+            if (!is_float($senderMoney)) {
+                return;
+            }
+
+            $entity->teleport($defaultWorld);
             $event->cancel();
             if (Main::getInstance()->getConfig()->get("Void-Money-Lose") === true) {
                 switch (Main::getInstance()->getConfig()->get("Type")) {
