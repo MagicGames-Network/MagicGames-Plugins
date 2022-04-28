@@ -21,7 +21,7 @@ class VanishCommand extends Command
     {
         if ($sender instanceof Player) {
             if ($sender->hasPermission("vanish.cmd")) {
-                if (isset($this->vanish[$sender->getName()])) {
+                if (!isset($this->vanish[$sender->getName()])) {
                     $sender->sendMessage(Main::PREFIX . "You are now vanished.");
                     $sender->setInvisible(true);
                     $sender->setSilent(true);
