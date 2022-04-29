@@ -3,38 +3,26 @@
 namespace AGTHARN\MagicWorldRegen;
 
 use pocketmine\block\Block;
-use pocketmine\block\Grass;
 use pocketmine\world\World;
-use pocketmine\utils\Config;
 use pocketmine\event\Listener;
 use pocketmine\world\Position;
-use pocketmine\block\ItemFrame;
-use pocketmine\item\FlintSteel;
-use pocketmine\item\TieredTool;
 use pocketmine\promise\Promise;
-use pocketmine\item\PaintingItem;
 use pocketmine\plugin\PluginBase;
 use pocketmine\block\BlockFactory;
 use pocketmine\world\format\Chunk;
 use pocketmine\block\VanillaBlocks;
 use pocketmine\block\BlockLegacyIds;
 use pocketmine\scheduler\ClosureTask;
-use pocketmine\event\player\PlayerInteractEvent;
-use pocketmine\event\player\PlayerBucketEmptyEvent;
-use pocketmine\event\block\{BlockPlaceEvent, BlockBreakEvent};
+use pocketmine\event\block\BlockBreakEvent;
 
 class Main extends PluginBase implements Listener
 {
-	private Config $config;
-
 	private array $blockStates = [];
 	private int $blockIterator = 0;
 
 	public function onEnable(): void
 	{
 		$this->getServer()->getPluginManager()->registerEvents($this, $this);
-		$this->saveResource("config.yml");
-		$this->config = new Config($this->getDataFolder() . "config.yml", Config::YAML);
 
 		$file = $this->getDataFolder() . "data.json";
 		if (is_file($file)) {
@@ -103,9 +91,12 @@ class Main extends PluginBase implements Listener
 		return true;
 	}
 
+	/** 
+	 * @handleCancelled
+	 */
 	public function onBlockBreak(BlockBreakEvent $event): void
 	{
-		$whiteList = $this->config->get("world");
+		$whiteList = ["Mining"];
 
 		if (in_array($event->getPlayer()->getWorld()->getFolderName(), $whiteList)) {
 			$event->cancel();
@@ -151,49 +142,6 @@ class Main extends PluginBase implements Listener
 
 			if (!$match) {
 				$event->uncancel();
-			}
-		}
-	}
-
-	public function onBlockPlace(BlockPlaceEvent $event): void
-	{
-		$block = $event->getBlock();
-		$player = $event->getPlayer();
-		$world = $block->getPosition()->getWorld();
-
-		$whiteList = $this->config->get("world");
-		if (in_array($world->getFolderName(), $whiteList)) {
-			if (!$player->hasPermission("mwr.admin.bypass")) {
-				$event->cancel();
-			}
-		}
-	}
-
-	public function onPlayerBucketEmpty(PlayerBucketEmptyEvent $event): void
-	{
-		$player = $event->getPlayer();
-
-		$whiteList = $this->config->get("world");
-		if (in_array($player->getWorld()->getFolderName(), $whiteList)) {
-			if (!$player->hasPermission("mwr.admin.bypass")) {
-				$event->cancel();
-			}
-		}
-	}
-
-	public function onPlayerInteract(PlayerInteractEvent $event): void
-	{
-		$player = $event->getPlayer();
-		$item = $event->getItem();
-		$block = $event->getBlock();
-		$world = $player->getWorld()->getFolderName();
-
-		$whiteList = $this->config->get("world");
-		if (in_array($world, $whiteList)) {
-			if ($item instanceof PaintingItem || $item instanceof FlintSteel || $block instanceof ItemFrame || ($item instanceof TieredTool && $block instanceof Grass)) {
-				if (!$player->hasPermission("mwr.admin.bypass")) {
-					$event->cancel();
-				}
 			}
 		}
 	}

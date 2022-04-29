@@ -4,10 +4,15 @@
 namespace blueturk\skyblock\listener;
 
 use pocketmine\Server;
+use pocketmine\block\Grass;
 use pocketmine\world\World;
 use pocketmine\player\Player;
 use pocketmine\event\Listener;
 use blueturk\skyblock\SkyBlock;
+use pocketmine\block\ItemFrame;
+use pocketmine\item\FlintSteel;
+use pocketmine\item\TieredTool;
+use pocketmine\item\PaintingItem;
 use pocketmine\inventory\Inventory;
 use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\event\block\BlockPlaceEvent;
@@ -18,6 +23,7 @@ use blueturk\skyblock\managers\IslandManager;
 use pocketmine\event\entity\EntityDamageEvent;
 use pocketmine\event\player\PlayerInteractEvent;
 use pocketmine\event\entity\EntityItemPickupEvent;
+use pocketmine\event\player\PlayerBucketEmptyEvent;
 
 class IslandListener implements Listener
 {
@@ -66,10 +72,16 @@ class IslandListener implements Listener
         }
     }
 
-    /** @priority LOWEST */
+    /** 
+     * @priority LOWEST 
+     * @handleCancelled
+     */
     public function onInteract(PlayerInteractEvent $event): void
     {
         $player = $event->getPlayer();
+        $item = $event->getItem();
+        $block = $event->getBlock();
+
         $level = $player->getWorld()->getFolderName();
         $data = SkyBlock::getInstance()->getConfig();
 
@@ -77,7 +89,7 @@ class IslandListener implements Listener
 
         $worlds = ["MagicGames", "Mining", "Arena"];
         foreach ($worlds as $world) {
-            if ($level === $world) {
+            if ($level === $world && (!$item instanceof PaintingItem || !$item instanceof FlintSteel || !$block instanceof ItemFrame || (!$item instanceof TieredTool && !$block instanceof Grass))) {
                 $event->uncancel();
                 return;
             }
@@ -92,7 +104,6 @@ class IslandListener implements Listener
                 return;
             }
 
-
             if (in_array($player->getName(), $data->getNested($level . ".island" . ".this-partners"))) {
                 if ($data->getNested($level . ".island" . ".settings" . ".interact") === true) {
                     $event->uncancel();
@@ -105,7 +116,10 @@ class IslandListener implements Listener
         }
     }
 
-    /** @priority LOWEST */
+    /** 
+     * @priority LOWEST 
+     * @handleCancelled
+     */
     public function onPlaced(BlockPlaceEvent $event): void
     {
         $player = $event->getPlayer();
@@ -134,7 +148,10 @@ class IslandListener implements Listener
         }
     }
 
-    /** @priority LOWEST */
+    /** 
+     * @priority LOWEST 
+     * @handleCancelled
+     */
     public function onBreak(BlockBreakEvent $event): void
     {
         $player = $event->getPlayer();
@@ -212,17 +229,13 @@ class IslandListener implements Listener
                     return;
                 }
                 $worlds = ["Mining"];
-                foreach ($worlds as $worldd) {
-                    $world = Server::getInstance()->getWorldManager()->getWorldByName($worldd);
-                    if (!$world instanceof World) {
-                        return;
-                    }
-
-                    if ($player->getPosition()->getWorld()->getFolderName() === $world->getFolderName()) {
+                foreach ($worlds as $world) {
+                    if ($level === $world) {
                         $event->uncancel();
                         return;
                     }
                 }
+
                 if (in_array($player->getName(), $data->getNested($levelName . ".island" . ".this-partners"))) {
                     if ($data->getNested($levelName . ".island" . ".settings" . ".picking-up") === true) {
                         $event->uncancel();
@@ -234,6 +247,19 @@ class IslandListener implements Listener
                 }
             }
             $event->cancel();
+        }
+    }
+
+    public function onPlayerBucketEmpty(PlayerBucketEmptyEvent $event): void
+    {
+        $player = $event->getPlayer();
+
+        $worlds = ["MagicGames", "Mining", "Arena"];
+        foreach ($worlds as $world) {
+            if ($player->getWorld()->getFolderName() === $world) {
+                $event->cancel();
+                return;
+            }
         }
     }
 
