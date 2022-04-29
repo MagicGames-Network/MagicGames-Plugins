@@ -38,7 +38,12 @@ class Main extends PluginBase implements Listener
 
 		$file = $this->getDataFolder() . "data.json";
 		if (is_file($file)) {
-			foreach (json_decode(file_get_contents($file), true) as $blockData) {
+			$contents = file_get_contents($file);
+			if (!is_string($contents)) {
+				return;
+			}
+
+			foreach (json_decode($contents, true) as $blockData) {
 				$x = $blockData["x"];
 				$y = $blockData["y"];
 				$z = $blockData["z"];
