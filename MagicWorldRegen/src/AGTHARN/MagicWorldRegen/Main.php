@@ -107,10 +107,10 @@ class Main extends PluginBase implements Listener
 	{
 		$whiteList = $this->config->get("world");
 
-		$event->cancel();
 		if (in_array($event->getPlayer()->getWorld()->getFolderName(), $whiteList)) {
-			$block = $event->getBlock();
+			$event->cancel();
 
+			$block = $event->getBlock();
 			$blockData = [$block->getId(), $block->getMeta()];
 			$match = match ($blockData) {
 				[BlockLegacyIds::COAL_ORE, 0] => $this->delayedResetBlock($event, VanillaBlocks::COAL_ORE()),

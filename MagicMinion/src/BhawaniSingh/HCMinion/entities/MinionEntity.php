@@ -472,7 +472,6 @@ abstract class MinionEntity extends Human
         parent::initEntity($nbt);
         $this->setScale(0.550);
         $this->setImmobile();
-        $this->setNameTagAlwaysVisible();
 
         $listTag = $nbt->getTag('MinionInformation');
         if (!$listTag instanceof ListTag) {

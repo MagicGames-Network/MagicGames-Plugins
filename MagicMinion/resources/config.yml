@@ -2,9 +2,6 @@
 # Do not change this (Only for internal use)!
 config-version: 1
 
-# Display item for minion spawner
-minion-item: "skull:3"
-
 # Minion's tool tier. You can only choose one from this list: wooden, stone, iron, gold, diamond, netherite (Make sure you have the Netherite plugin installed)
 tool:
   tier: "diamond"
@@ -26,8 +23,6 @@ levelup-costs:
   - 40000
   - 50000
   - 100000
-  
-#Subscribe =⟩ BS GAMING
   
 # This is used if you want Minions not to be placed in certain world names
 # Empty it if you want the minions to be placed all over the world
