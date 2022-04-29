@@ -472,7 +472,7 @@ abstract class MinionEntity extends Human
         parent::initEntity($nbt);
         $this->setScale(0.550);
         $this->setImmobile();
-
+        $this->setNameTagVisible();
         $listTag = $nbt->getTag('MinionInformation');
         if (!$listTag instanceof ListTag) {
             return;
@@ -518,6 +518,7 @@ abstract class MinionEntity extends Human
         if ($this->isInventoryFull()) {
             $this->stopWorking();
             $this->currentAction = self::ACTION_CANT_WORK;
+            $this->setNameTag("§cInventory Full");
         } else {
             $this->setNameTag($this->getMinionInformation()->getType()->getTargetName() . " Minion");
         }
@@ -693,6 +694,7 @@ abstract class MinionEntity extends Human
                 return true;
             }
             $this->currentAction = self::ACTION_CANT_WORK;
+            $this->setNameTag("§cInventory Full");
             return false;
         }
         return true;
