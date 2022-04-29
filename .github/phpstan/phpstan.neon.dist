@@ -28,6 +28,7 @@ parameters:
         - ../../MagicPortalsPE
         - ../../MagicSkills
         - ../../MagicQuest
+        - ../../MagicWorldRegen
         - ../../PurePerms
         - ../../SellAll
         - ../../SellWands
