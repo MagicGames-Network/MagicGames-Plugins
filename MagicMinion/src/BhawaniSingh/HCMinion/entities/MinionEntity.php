@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace BhawaniSingh\HCMinion\entities;
 
-use Closure;
 use pocketmine\nbt\NBT;
 use pocketmine\block\Air;
 use pocketmine\item\Item;
@@ -18,7 +17,6 @@ use pocketmine\item\ItemIds;
 use pocketmine\player\Player;
 use AndreasHGK\SellAll\SellAll;
 use pocketmine\nbt\tag\ListTag;
-use pocketmine\promise\Promise;
 use pocketmine\timings\Timings;
 use pocketmine\item\ItemFactory;
 use pocketmine\utils\TextFormat;
@@ -29,7 +27,6 @@ use pocketmine\block\BlockToolType;
 use pocketmine\block\VanillaBlocks;
 use pocketmine\inventory\Inventory;
 use pocketmine\nbt\tag\CompoundTag;
-use pocketmine\scheduler\ClosureTask;
 use BhawaniSingh\HCMinion\utils\Utils;
 use BhawaniSingh\HCMinion\BetterMinion;
 use muqsit\invmenu\type\InvMenuTypeIds;
@@ -498,7 +495,6 @@ abstract class MinionEntity extends Human
                 fn (CompoundTag $itemTag) => Item::nbtDeserialize($itemTag),
                 $itemTags
             ));
-            $this->minionInventory->reorder();
         }
         $armor1 = ItemFactory::getInstance()->get(397, 3, 1);
         $color = new Color(192, 192, 192);
@@ -635,7 +631,7 @@ abstract class MinionEntity extends Human
 
         foreach ($drops as $item) {
             if ($item instanceof Item) {
-                if ($this->getMinionInventory()->canAddItem($item->setCount(1))) {
+                if ($this->getMinionInventory()->canAddItem($item)) {
                     $full = false;
                     break;
                 }
@@ -687,6 +683,7 @@ abstract class MinionEntity extends Human
         if ($this->isInventoryFull()) {
             if ($this->getMinionInformation()->getUpgrade()->isAutoSell()) {
                 $this->sellItems();
+                return true;
             }
             $this->currentAction = self::ACTION_CANT_WORK;
             return false;

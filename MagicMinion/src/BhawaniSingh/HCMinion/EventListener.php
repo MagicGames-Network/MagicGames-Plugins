@@ -37,7 +37,7 @@ class EventListener implements Listener
 				}
 				$minionData = BetterMinion::getInstance()->getProvider()->getMinionDataFromPlayer($player->getName());
 
-				if (!$minionData["minionCount"] >= BetterMinion::MINION_LIMIT) {
+				if ($minionData["minionCount"] < BetterMinion::MINION_LIMIT) {
 					BetterMinion::getInstance()->getProvider()->updateMinionData($player->getName(), $minionData["minionCount"] + 1);
 					$event->cancel();
 
