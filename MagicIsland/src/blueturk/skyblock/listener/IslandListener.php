@@ -74,6 +74,14 @@ class IslandListener implements Listener
         $data = SkyBlock::getInstance()->getConfig();
 
         $event->cancel();
+
+        $worlds = ["MagicGames", "Mining", "Arena"];
+        foreach ($worlds as $world) {
+            if ($level === $world) {
+                $event->uncancel();
+                return;
+            }
+        }
         if ($data->getNested($level . ".island") != null) {
             if ($level === $player->getName()) {
                 $event->uncancel();
@@ -84,13 +92,7 @@ class IslandListener implements Listener
                 return;
             }
 
-            $worlds = ["MagicGames", "Mining", "Arena"];
-            foreach ($worlds as $world) {
-                if ($level === $world) {
-                    $event->uncancel();
-                    return;
-                }
-            }
+
             if (in_array($player->getName(), $data->getNested($level . ".island" . ".this-partners"))) {
                 if ($data->getNested($level . ".island" . ".settings" . ".interact") === true) {
                     $event->uncancel();
@@ -138,7 +140,7 @@ class IslandListener implements Listener
         $player = $event->getPlayer();
         $level = $player->getWorld()->getFolderName();
         $data = SkyBlock::getInstance()->getConfig();
-        
+
         $event->cancel();
         if ($data->getNested($level . ".island") != null) {
             if ($level === $player->getName()) {
