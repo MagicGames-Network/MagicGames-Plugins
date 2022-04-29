@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace BhawaniSingh\HCMinion\entities;
 
+use pocketmine\Server;
 use pocketmine\nbt\NBT;
 use pocketmine\block\Air;
 use pocketmine\item\Item;
@@ -598,14 +599,16 @@ abstract class MinionEntity extends Human
         if (!$this->target instanceof Air) {
             $drops = $this->getTargetDrops();
             foreach ($drops as $drop) {
-                for ($i = 1; $i <= $drop->getCount(); ++$i) {
-                    $thing = ItemFactory::getInstance()->get($drop->getId(), $drop->getMeta());
-                    if ($this->getMinionInventory()->canAddItem($thing)) {
-                        $this->getMinionInventory()->addItem($thing);
-                        $this->getMinionInformation()->incrementResourcesCollected();
+                if ($drop instanceof Item) {
+                    for ($i = 1; $i <= $drop->getCount(); ++$i) {
+                        $thing = ItemFactory::getInstance()->get($drop->getId(), $drop->getMeta());
+                        if ($this->getMinionInventory()->canAddItem($thing)) {
+                            $this->getMinionInventory()->addItem($thing);
+                            $this->getMinionInformation()->incrementResourcesCollected();
 
-                        if ($this->getMinionInformation()->getUpgrade()->isSuperCompacter()) {
-                            $this->compactItems();
+                            if ($this->getMinionInformation()->getUpgrade()->isSuperCompacter()) {
+                                $this->compactItems();
+                            }
                         }
                     }
                 }
@@ -650,8 +653,8 @@ abstract class MinionEntity extends Human
         }
 
         if (!BetterMinion::getInstance()->getProvider()->hasMinionData($this->getMinionInformation()->getOwner())) {
-			BetterMinion::getInstance()->getProvider()->createMinionData($this->getMinionInformation()->getOwner());
-		}
+            BetterMinion::getInstance()->getProvider()->createMinionData($this->getMinionInformation()->getOwner());
+        }
         $minionData = BetterMinion::getInstance()->getProvider()->getMinionDataFromPlayer($this->getMinionInformation()->getOwner());
         BetterMinion::getInstance()->getProvider()->updateMinionData($this->getMinionInformation()->getOwner(), $minionData["minionCount"] <= 0 ? 0 : $minionData["minionCount"] - 1);
 
@@ -659,9 +662,14 @@ abstract class MinionEntity extends Human
         $minionItem->setCustomName(TextFormat::RESET . TextFormat::YELLOW . $this->getMinionInformation()->getType()->getTargetName() . ' Minion ' . Utils::getRomanNumeral($this->getMinionInformation()->getLevel()))->setLore(["§r§7Place this minion and it will\n§r§7start generating and mining blocks!\n§r§7Requires an open area to spawn\n§r§7blocks. Minions also work when you are offline!\n\n§r§eType: §b" . $this->getMinionInformation()->getType()->getTargetName() . "\n§r§eLevel: §b" . Utils::getRomanNumeral($this->getMinionInformation()->getLevel()) . "\n§r§eResources Collected: §b" . $this->getMinionInformation()->getResourcesCollected() . ""]);
         $minionItem->addEnchantment($this->fakeEnchant);
         $minionItem->getNamedTag()->setTag("MinionInformation", $this->minionInformation->nbtSerialize());
-        
+
         $this->getWorld()->dropItem($this->getPosition(), $minionItem);
         $this->close();
+
+        $player = Server::getInstance()->getPlayerExact($this->getMinionInformation()->getOwner());
+        if ($player instanceof Player) {
+            $player->sendMessage("§8(§b!§8) §7Minion successfully destroyed! You have " . $minionData["minionCount"]  . "/" . BetterMinion::MINION_LIMIT . " minions now!");
+        }
     }
 
     protected function getTool(string $tool, bool $isNetheriteTool): ?Item

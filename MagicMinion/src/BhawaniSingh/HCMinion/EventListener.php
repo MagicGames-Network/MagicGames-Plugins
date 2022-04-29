@@ -69,10 +69,10 @@ class EventListener implements Listener
 					
 					$item->pop();
 					$player->getInventory()->setItemInHand($item);
-					$player->sendMessage("§8(§b!§8) §7Minion placed! You have " . ($minionData["minionCount"] + 1) . "/" . BetterMinion::MINION_LIMIT . " minions!");
+					$player->sendMessage("§8(§b!§8) §7Minion placed! You have " . $minionData["minionCount"] . "/" . BetterMinion::MINION_LIMIT . " minions!");
 					return;
 				}
-				$player->sendMessage("§8(§b!§8) §7You can't have more than 16 minions! You have " . ($minionData["minionCount"] + 1) . "/" . BetterMinion::MINION_LIMIT . " minions!");
+				$player->sendMessage("§8(§b!§8) §7You can't have more than 16 minions! You have " . $minionData["minionCount"]  . "/" . BetterMinion::MINION_LIMIT . " minions!");
 			}
 		}
 	}
