@@ -66,11 +66,14 @@ class IslandListener implements Listener
         }
     }
 
+    /** @priority LOWEST */
     public function onInteract(PlayerInteractEvent $event): void
     {
         $player = $event->getPlayer();
         $level = $player->getWorld()->getFolderName();
         $data = SkyBlock::getInstance()->getConfig();
+
+        $event->cancel();
         if ($data->getNested($level . ".island") != null) {
             if ($level === $player->getName()) {
                 $event->uncancel();
@@ -80,14 +83,10 @@ class IslandListener implements Listener
                 $event->uncancel();
                 return;
             }
+
             $worlds = ["MagicGames", "Mining", "Arena"];
             foreach ($worlds as $world) {
-                $world = Server::getInstance()->getWorldManager()->getWorldByName($world);
-                if (!$world instanceof World) {
-                    return;
-                }
-
-                if ($player->getPosition()->getWorld()->getFolderName() === $world->getFolderName()) {
+                if ($level === $world) {
                     $event->uncancel();
                     return;
                 }
@@ -101,15 +100,17 @@ class IslandListener implements Listener
                 $player->sendPopup(SkyBlock::BT_MARK . "cYour partner won't let you interact!");
                 return;
             }
-            $event->cancel();
         }
     }
 
+    /** @priority LOWEST */
     public function onPlaced(BlockPlaceEvent $event): void
     {
         $player = $event->getPlayer();
         $level = $player->getWorld()->getFolderName();
         $data = SkyBlock::getInstance()->getConfig();
+
+        $event->cancel();
         if ($data->getNested($level . ".island") != null) {
             if ($level === $player->getName()) {
                 $event->uncancel();
@@ -128,15 +129,17 @@ class IslandListener implements Listener
                 $player->sendPopup(SkyBlock::BT_MARK . "cYour partner won't let you!");
                 return;
             }
-            $event->cancel();
         }
     }
 
+    /** @priority LOWEST */
     public function onBreak(BlockBreakEvent $event): void
     {
         $player = $event->getPlayer();
         $level = $player->getWorld()->getFolderName();
         $data = SkyBlock::getInstance()->getConfig();
+        
+        $event->cancel();
         if ($data->getNested($level . ".island") != null) {
             if ($level === $player->getName()) {
                 $event->uncancel();
@@ -159,17 +162,7 @@ class IslandListener implements Listener
                 $event->uncancel();
                 return;
             }
-            $worlds = ["MagicGames", "Mining", "Arena"];
-            foreach ($worlds as $world) {
-                $world = Server::getInstance()->getWorldManager()->getWorldByName($world);
-                if (!$world instanceof World) {
-                    return;
-                }
-                if ($player->getPosition()->getWorld()->getFolderName() === $world->getFolderName()) {
-                    $event->uncancel();
-                    return;
-                }
-            }
+
             if (in_array($player->getName(), $data->getNested($level . ".island" . ".this-partners"))) {
                 if ($data->getNested($level . ".island" . ".settings" . ".break") === true) {
                     $event->uncancel();
@@ -192,7 +185,6 @@ class IslandListener implements Listener
                 $player->sendPopup(SkyBlock::BT_MARK . "cYour partner won't let you!");
                 return;
             }
-            $event->cancel();
         }
     }
 
@@ -217,7 +209,7 @@ class IslandListener implements Listener
                     $event->uncancel();
                     return;
                 }
-                $worlds = ["MagicGames", "Mining", "Arena"];
+                $worlds = ["Mining"];
                 foreach ($worlds as $worldd) {
                     $world = Server::getInstance()->getWorldManager()->getWorldByName($worldd);
                     if (!$world instanceof World) {
@@ -238,8 +230,8 @@ class IslandListener implements Listener
                     $player->sendPopup(SkyBlock::BT_MARK . "cYour partner won't let you!");
                     return;
                 }
-                $event->cancel();
             }
+            $event->cancel();
         }
     }
 

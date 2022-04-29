@@ -106,6 +106,8 @@ class Main extends PluginBase implements Listener
 	public function onBlockBreak(BlockBreakEvent $event): void
 	{
 		$whiteList = $this->config->get("world");
+
+		$event->cancel();
 		if (in_array($event->getPlayer()->getWorld()->getFolderName(), $whiteList)) {
 			$block = $event->getBlock();
 
@@ -147,8 +149,8 @@ class Main extends PluginBase implements Listener
 				default => false
 			};
 
-			if ($match) {
-				$event->cancel();
+			if (!$match) {
+				$event->uncancel();
 			}
 		}
 	}
