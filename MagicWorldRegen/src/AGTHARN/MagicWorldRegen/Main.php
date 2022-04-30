@@ -110,14 +110,6 @@ class Main extends PluginBase implements Listener
 				[BlockLegacyIds::EMERALD_ORE, 0] => $this->delayedResetBlock($event, VanillaBlocks::EMERALD_ORE()),
 				[BlockLegacyIds::LAPIS_ORE, 0] => $this->delayedResetBlock($event, VanillaBlocks::LAPIS_LAZULI_ORE()),
 				[BlockLegacyIds::REDSTONE_ORE, 0] => $this->delayedResetBlock($event, VanillaBlocks::REDSTONE_ORE()),
-				[BlockLegacyIds::WHEAT_BLOCK, 0] => $this->delayedResetBlock($event, VanillaBlocks::WHEAT()),
-				[BlockLegacyIds::CARROT_BLOCK, 0] => $this->delayedResetBlock($event, VanillaBlocks::CARROTS()),
-				[BlockLegacyIds::POTATO_BLOCK, 0] => $this->delayedResetBlock($event, VanillaBlocks::POTATOES()),
-				[BlockLegacyIds::MELON_BLOCK, 0] => $this->delayedResetBlock($event, VanillaBlocks::MELON()),
-				[BlockLegacyIds::PUMPKIN, 0] => $this->delayedResetBlock($event, VanillaBlocks::PUMPKIN()),
-				[BlockLegacyIds::CACTUS, 0] => $this->delayedResetBlock($event, VanillaBlocks::CACTUS()),
-				[BlockLegacyIds::COCOA_BLOCK, 0] => $this->delayedResetBlock($event, VanillaBlocks::COCOA_POD()),
-				[BlockLegacyIds::NETHER_WART_PLANT, 0] => $this->delayedResetBlock($event, VanillaBlocks::NETHER_WART()),
 				[BlockLegacyIds::BROWN_MUSHROOM, 0] => $this->delayedResetBlock($event, VanillaBlocks::BROWN_MUSHROOM()),
 				[BlockLegacyIds::RED_MUSHROOM, 0] => $this->delayedResetBlock($event, VanillaBlocks::RED_MUSHROOM()),
 				[BlockLegacyIds::BROWN_MUSHROOM_BLOCK, 0] => $this->delayedResetBlock($event, VanillaBlocks::BROWN_MUSHROOM_BLOCK()),
@@ -134,11 +126,20 @@ class Main extends PluginBase implements Listener
 				default => false
 			};
 		}
+	}
 
-		$whiteList2 = ["MagicGames"];
-		if (in_array($event->getPlayer()->getWorld()->getFolderName(), $whiteList2)) {
+	/** 
+	 * @handleCancelled
+	 */
+	public function onMagicBlockBreak(BlockBreakEvent $event): void
+	{
+		$whiteList = ["MagicGames"];
+		if (in_array($event->getPlayer()->getWorld()->getFolderName(), $whiteList)) {
+			$event->cancel();
+
 			$block = $event->getBlock();
 			$blockData = [$block->getId(), $block->getMeta()];
+
 			match ($blockData) {
 				[BlockLegacyIds::WOOD, 0] => $this->delayedResetBlock($event, VanillaBlocks::OAK_WOOD()),
 				[BlockLegacyIds::WOOD, 1] => $this->delayedResetBlock($event, VanillaBlocks::SPRUCE_WOOD()),
@@ -146,15 +147,22 @@ class Main extends PluginBase implements Listener
 				[BlockLegacyIds::WOOD, 3] => $this->delayedResetBlock($event, VanillaBlocks::JUNGLE_WOOD()),
 				[BlockLegacyIds::WOOD, 4] => $this->delayedResetBlock($event, VanillaBlocks::ACACIA_WOOD()),
 				[BlockLegacyIds::WOOD, 5] => $this->delayedResetBlock($event, VanillaBlocks::DARK_OAK_WOOD()),
-				[BlockLegacyIds::WHEAT_BLOCK, 0] => $this->delayedResetBlock($event, VanillaBlocks::WHEAT()),
-				[BlockLegacyIds::CARROT_BLOCK, 0] => $this->delayedResetBlock($event, VanillaBlocks::CARROTS()),
-				[BlockLegacyIds::POTATO_BLOCK, 0] => $this->delayedResetBlock($event, VanillaBlocks::POTATOES()),
-				[BlockLegacyIds::MELON_BLOCK, 0] => $this->delayedResetBlock($event, VanillaBlocks::MELON()),
-				[BlockLegacyIds::PUMPKIN, 0] => $this->delayedResetBlock($event, VanillaBlocks::PUMPKIN()),
-				[BlockLegacyIds::CACTUS, 0] => $this->delayedResetBlock($event, VanillaBlocks::CACTUS()),
-				[BlockLegacyIds::COCOA_BLOCK, 0] => $this->delayedResetBlock($event, VanillaBlocks::COCOA_POD()),
-				[BlockLegacyIds::NETHER_WART_PLANT, 0] => $this->delayedResetBlock($event, VanillaBlocks::NETHER_WART()),
+				[BlockLegacyIds::NETHERRACK, 0] => $this->delayedResetBlock($event, VanillaBlocks::NETHERRACK()),
 				[BlockLegacyIds::NETHER_QUARTZ_ORE, 0] => $this->delayedResetBlock($event, VanillaBlocks::NETHER_QUARTZ_ORE()),
+				[BlockLegacyIds::OBSIDIAN, 0] => $this->delayedResetBlock($event, VanillaBlocks::OBSIDIAN()),
+				default => false
+			};
+
+			$cropData = $block->getId();
+			match ($cropData) {
+				BlockLegacyIds::WHEAT_BLOCK => $this->delayedResetBlock($event, VanillaBlocks::WHEAT()->setAge(7), null, 1200),
+				BlockLegacyIds::CARROT_BLOCK => $this->delayedResetBlock($event, VanillaBlocks::CARROTS()->setAge(7), null, 1200),
+				BlockLegacyIds::POTATO_BLOCK => $this->delayedResetBlock($event, VanillaBlocks::POTATOES()->setAge(7), null, 1200),
+				BlockLegacyIds::MELON_BLOCK => $this->delayedResetBlock($event, VanillaBlocks::MELON(), null, 1200),
+				BlockLegacyIds::PUMPKIN => $this->delayedResetBlock($event, VanillaBlocks::PUMPKIN(), null, 1200),
+				BlockLegacyIds::CACTUS => $this->delayedResetBlock($event, VanillaBlocks::CACTUS()->setAge(7), null, 1200),
+				BlockLegacyIds::COCOA_BLOCK => $this->delayedResetBlock($event, VanillaBlocks::COCOA_POD()->setAge(7), null, 1200),
+				BlockLegacyIds::NETHER_WART_PLANT => $this->delayedResetBlock($event, VanillaBlocks::NETHER_WART()->setAge(7), null, 1200),
 				default => false
 			};
 		}
