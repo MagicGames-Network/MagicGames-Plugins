@@ -162,7 +162,7 @@ class Main extends PluginBase implements Listener
 				BlockLegacyIds::PUMPKIN => $this->delayedResetBlock($event, VanillaBlocks::PUMPKIN(), null, 1200),
 				BlockLegacyIds::CACTUS => $this->delayedResetBlock($event, VanillaBlocks::CACTUS()->setAge(7), null, 1200),
 				BlockLegacyIds::COCOA_BLOCK => $this->delayedResetBlock($event, VanillaBlocks::COCOA_POD()->setAge(7), null, 1200),
-				BlockLegacyIds::NETHER_WART_PLANT => $this->delayedResetBlock($event, VanillaBlocks::NETHER_WART()->setAge(7), null, 1200),
+				BlockLegacyIds::NETHER_WART_PLANT => $this->delayedResetBlock($event, VanillaBlocks::NETHER_WART()->setAge(3), null, 1200),
 				default => false
 			};
 		}

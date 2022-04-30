@@ -14,6 +14,8 @@ parameters:
         - '#Call to function in_array\(\) requires parameter \#3 to be set.#'
         - '#Call to function array_search\(\) requires parameter \#3 to be set.#'
         - '#Only booleans are allowed in [a-zA-Z0-9\\_ ]+, [a-zA-Z0-9\\|,<>_ ]+ given.#'
+        - '#Call to method [a-zA-Z0-9\\_()]+ on an unknown class CLADevs\\VanillaX\\enchantments\\utils\\EnchantmentTrait.#'
+        - '#PHPDoc tag @var for variable \$[a-zA-Z0-9\\_()]+ contains unknown class CLADevs\\VanillaX\\enchantments\\utils\\EnchantmentTrait.#'
     paths:
         - ../../BlankFix
         - ../../BurgerCustomArmor
@@ -22,6 +24,7 @@ parameters:
         - ../../MagicBookShop
         - ../../MagicCommandSpy
         - ../../MagicCore
+        - ../../MagicEnchantmentTable
         - ../../MagicHealthDefense
         - ../../MagicIsland
         - ../../MagicMinion
