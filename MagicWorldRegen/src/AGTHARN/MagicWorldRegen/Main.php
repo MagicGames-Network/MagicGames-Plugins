@@ -94,16 +94,15 @@ class Main extends PluginBase implements Listener
 	/** 
 	 * @handleCancelled
 	 */
-	public function onBlockBreak(BlockBreakEvent $event): void
+	public function onMiningBlockBreak(BlockBreakEvent $event): void
 	{
 		$whiteList = ["Mining"];
-
 		if (in_array($event->getPlayer()->getWorld()->getFolderName(), $whiteList)) {
 			$event->cancel();
 
 			$block = $event->getBlock();
 			$blockData = [$block->getId(), $block->getMeta()];
-			$match = match ($blockData) {
+			match ($blockData) {
 				[BlockLegacyIds::COAL_ORE, 0] => $this->delayedResetBlock($event, VanillaBlocks::COAL_ORE()),
 				[BlockLegacyIds::IRON_ORE, 0] => $this->delayedResetBlock($event, VanillaBlocks::IRON_ORE()),
 				[BlockLegacyIds::GOLD_ORE, 0] => $this->delayedResetBlock($event, VanillaBlocks::GOLD_ORE()),
@@ -124,25 +123,40 @@ class Main extends PluginBase implements Listener
 				[BlockLegacyIds::BROWN_MUSHROOM_BLOCK, 0] => $this->delayedResetBlock($event, VanillaBlocks::BROWN_MUSHROOM_BLOCK()),
 				[BlockLegacyIds::RED_MUSHROOM_BLOCK, 0] => $this->delayedResetBlock($event, VanillaBlocks::RED_MUSHROOM_BLOCK()),
 				[BlockLegacyIds::SUGARCANE_BLOCK, 0] => $this->delayedResetBlock($event, VanillaBlocks::SUGARCANE()),
+				[BlockLegacyIds::END_STONE, 0] => $this->delayedResetBlock($event, VanillaBlocks::END_STONE()),
+				[BlockLegacyIds::OBSIDIAN, 0] => $this->delayedResetBlock($event, VanillaBlocks::OBSIDIAN()),
+				[BlockLegacyIds::DIRT, 0] => $this->delayedResetBlock($event, VanillaBlocks::DIRT()),
+				[BlockLegacyIds::SAND, 0] => $this->delayedResetBlock($event, VanillaBlocks::SAND()),
+				[BlockLegacyIds::NETHERRACK, 0] => $this->delayedResetBlock($event, VanillaBlocks::NETHERRACK()),
+				[BlockLegacyIds::NETHER_QUARTZ_ORE, 0] => $this->delayedResetBlock($event, VanillaBlocks::NETHER_QUARTZ_ORE()),
+				[BlockLegacyIds::STONE, 0] => $this->delayedResetBlock($event, VanillaBlocks::STONE(), VanillaBlocks::BEDROCK()),
+				[BlockLegacyIds::COBBLESTONE, 0] => $this->delayedResetBlock($event, VanillaBlocks::COBBLESTONE(), VanillaBlocks::BEDROCK()),
+				default => false
+			};
+		}
+
+		$whiteList2 = ["MagicGames"];
+		if (in_array($event->getPlayer()->getWorld()->getFolderName(), $whiteList2)) {
+			$block = $event->getBlock();
+			$blockData = [$block->getId(), $block->getMeta()];
+			match ($blockData) {
 				[BlockLegacyIds::WOOD, 0] => $this->delayedResetBlock($event, VanillaBlocks::OAK_WOOD()),
 				[BlockLegacyIds::WOOD, 1] => $this->delayedResetBlock($event, VanillaBlocks::SPRUCE_WOOD()),
 				[BlockLegacyIds::WOOD, 2] => $this->delayedResetBlock($event, VanillaBlocks::BIRCH_WOOD()),
 				[BlockLegacyIds::WOOD, 3] => $this->delayedResetBlock($event, VanillaBlocks::JUNGLE_WOOD()),
 				[BlockLegacyIds::WOOD, 4] => $this->delayedResetBlock($event, VanillaBlocks::ACACIA_WOOD()),
 				[BlockLegacyIds::WOOD, 5] => $this->delayedResetBlock($event, VanillaBlocks::DARK_OAK_WOOD()),
-				[BlockLegacyIds::END_STONE, 0] => $this->delayedResetBlock($event, VanillaBlocks::END_STONE()),
-				[BlockLegacyIds::OBSIDIAN, 0] => $this->delayedResetBlock($event, VanillaBlocks::OBSIDIAN()),
-				[BlockLegacyIds::DIRT, 0] => $this->delayedResetBlock($event, VanillaBlocks::DIRT()),
-				[BlockLegacyIds::SAND, 0] => $this->delayedResetBlock($event, VanillaBlocks::SAND()),
-				[BlockLegacyIds::NETHERRACK, 0] => $this->delayedResetBlock($event, VanillaBlocks::NETHERRACK()),
-				[BlockLegacyIds::STONE, 0] => $this->delayedResetBlock($event, VanillaBlocks::STONE()),
-				[BlockLegacyIds::COBBLESTONE, 0] => $this->delayedResetBlock($event, VanillaBlocks::COBBLESTONE()),
+				[BlockLegacyIds::WHEAT_BLOCK, 0] => $this->delayedResetBlock($event, VanillaBlocks::WHEAT()),
+				[BlockLegacyIds::CARROT_BLOCK, 0] => $this->delayedResetBlock($event, VanillaBlocks::CARROTS()),
+				[BlockLegacyIds::POTATO_BLOCK, 0] => $this->delayedResetBlock($event, VanillaBlocks::POTATOES()),
+				[BlockLegacyIds::MELON_BLOCK, 0] => $this->delayedResetBlock($event, VanillaBlocks::MELON()),
+				[BlockLegacyIds::PUMPKIN, 0] => $this->delayedResetBlock($event, VanillaBlocks::PUMPKIN()),
+				[BlockLegacyIds::CACTUS, 0] => $this->delayedResetBlock($event, VanillaBlocks::CACTUS()),
+				[BlockLegacyIds::COCOA_BLOCK, 0] => $this->delayedResetBlock($event, VanillaBlocks::COCOA_POD()),
+				[BlockLegacyIds::NETHER_WART_PLANT, 0] => $this->delayedResetBlock($event, VanillaBlocks::NETHER_WART()),
+				[BlockLegacyIds::NETHER_QUARTZ_ORE, 0] => $this->delayedResetBlock($event, VanillaBlocks::NETHER_QUARTZ_ORE()),
 				default => false
 			};
-
-			if (!$match) {
-				$event->uncancel();
-			}
 		}
 	}
 }

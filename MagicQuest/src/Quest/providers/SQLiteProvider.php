@@ -35,7 +35,7 @@ class SQLiteProvider extends Provider
 
     public function removeQuest(string $playerName): void
     {
-        $stmt = $this->database->prepare("DELETE FROM quest WHERE playerName=:playerName");
+        $stmt = $this->database->prepare("DELETE FROM quest WHERE playerName='{$playerName}'");
         if (!$stmt instanceof SQLite3Stmt) {
             return;
         }
@@ -46,7 +46,7 @@ class SQLiteProvider extends Provider
 
     public function hasQuest(string $playerName): bool
     {
-        $stmt = $this->database->prepare("SELECT * FROM quest WHERE playerName=:playerName");
+        $stmt = $this->database->prepare("SELECT * FROM quest WHERE playerName='{$playerName}'");
         if (!$stmt instanceof SQLite3Stmt) {
             return false;
         }
@@ -80,7 +80,7 @@ class SQLiteProvider extends Provider
 
     public function updateQuestFromPlayer(string $playerName, int $progress): void
     {
-        $stmt = $this->database->prepare("UPDATE quest SET progress=:progress WHERE playerName=:playerName");
+        $stmt = $this->database->prepare("UPDATE quest SET progress=:progress WHERE playerName='{$playerName}'");
         if (!$stmt instanceof SQLite3Stmt) {
             return;
         }

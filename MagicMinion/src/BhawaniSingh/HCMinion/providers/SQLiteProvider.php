@@ -48,7 +48,7 @@ class SQLiteProvider extends Provider
 
 	public function updateMinionData(string $playerName, int $newMinionCount): void
 	{
-		$stmt = $this->database->prepare("UPDATE minion SET minionCount=:minionCount WHERE playerName=:playerName");
+		$stmt = $this->database->prepare("UPDATE minion SET minionCount=:minionCount WHERE playerName='{$playerName}'");
 		if (!$stmt instanceof SQLite3Stmt) {
 			return;
 		}
@@ -60,7 +60,7 @@ class SQLiteProvider extends Provider
 
 	public function hasMinionData(string $playerName): bool
 	{
-		$stmt = $this->database->prepare("SELECT * FROM minion WHERE playerName=:playerName");
+		$stmt = $this->database->prepare("SELECT * FROM minion WHERE playerName='{$playerName}'");
 		if (!$stmt instanceof SQLite3Stmt) {
 			return false;
 		}

@@ -89,7 +89,11 @@ class IslandListener implements Listener
 
         $worlds = ["MagicGames", "Mining", "Arena"];
         foreach ($worlds as $world) {
-            if ($level === $world && (!$item instanceof PaintingItem || !$item instanceof FlintSteel || !$block instanceof ItemFrame || (!$item instanceof TieredTool && !$block instanceof Grass))) {
+            if ($level === $world) {
+                if ($item instanceof PaintingItem || $item instanceof FlintSteel || $block instanceof ItemFrame || ($item instanceof TieredTool && $block instanceof Grass)) {
+                    $event->cancel();
+                    return;
+                }
                 $event->uncancel();
                 return;
             }

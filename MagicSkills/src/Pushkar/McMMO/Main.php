@@ -243,9 +243,6 @@ class Main extends PluginBase implements Listener
      */
     public function onBreak(BlockBreakEvent $event): void
     {
-        if ($event->isCancelled()) {
-            return;
-        }
         $player = $event->getPlayer();
         $block = $event->getBlock();
         switch ($block->getId()) {
@@ -298,9 +295,6 @@ class Main extends PluginBase implements Listener
      */
     public function onPlace(BlockPlaceEvent $event): void
     {
-        if ($event->isCancelled()) {
-            return;
-        }
         $player = $event->getPlayer();
         $block = $event->getBlock();
         if (!$block instanceof Opaque) {
@@ -314,9 +308,6 @@ class Main extends PluginBase implements Listener
      */
     public function onDamage(EntityDamageEvent $event): void
     {
-        if ($event->isCancelled()) {
-            return;
-        }
         if ($event->getEntity() instanceof FloatingText) {
             $event->cancel();
             return;
@@ -339,9 +330,6 @@ class Main extends PluginBase implements Listener
      */
     public function onShootBow(EntityShootBowEvent $event): void
     {
-        if ($event->isCancelled()) {
-            return;
-        }
         $entity = $event->getEntity();
         if ($entity instanceof Player) {
             $this->addXp(self::ARCHER, $entity);

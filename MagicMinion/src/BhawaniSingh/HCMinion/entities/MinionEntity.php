@@ -472,7 +472,8 @@ abstract class MinionEntity extends Human
         parent::initEntity($nbt);
         $this->setScale(0.550);
         $this->setImmobile();
-        $this->setNameTagVisible();
+        $this->setNameTagAlwaysVisible();
+
         $listTag = $nbt->getTag('MinionInformation');
         if (!$listTag instanceof ListTag) {
             return;
@@ -521,6 +522,7 @@ abstract class MinionEntity extends Human
             $this->setNameTag("§cInventory Full");
         } else {
             $this->setNameTag($this->getMinionInformation()->getType()->getTargetName() . " Minion");
+            $this->setNameTagAlwaysVisible(false);
         }
     }
 
@@ -668,7 +670,7 @@ abstract class MinionEntity extends Human
 
         $player = Server::getInstance()->getPlayerExact($this->getMinionInformation()->getOwner());
         if ($player instanceof Player) {
-            $player->sendMessage("§8(§b!§8) §7Minion successfully destroyed! You have " . $minionData["minionCount"]  . "/" . BetterMinion::MINION_LIMIT . " minions now!");
+            $player->sendMessage("§8(§b!§8) §7Minion successfully destroyed! You have " . ($minionData["minionCount"] - 1) . "/" . BetterMinion::MINION_LIMIT . " minions now!");
         }
     }
 
@@ -694,7 +696,7 @@ abstract class MinionEntity extends Human
                 return true;
             }
             $this->currentAction = self::ACTION_CANT_WORK;
-            $this->setNameTag("§cInventory Full");
+            $this->setNameTag("\n\n§cInventory Full");
             return false;
         }
         return true;
