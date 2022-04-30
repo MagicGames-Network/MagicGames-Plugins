@@ -100,6 +100,9 @@ class EventListener implements Listener
         }
     }
 
+    /**
+     * @handleCancelled
+     */
     public function onInteract(PlayerInteractEvent $event): void
     {
         $sender = $event->getPlayer();
@@ -146,10 +149,12 @@ class EventListener implements Listener
                         }
                     }
                 }
-                if ($item->getNamedTag()->getTag("golem_sword") !== null) {
-                    $explosion = new Explosion(new Position($block->getPosition()->getX(), $block->getPosition()->getY(), $block->getPosition()->getZ(), $sender->getPosition()->getWorld()), 1, null);
-                    $explosion->explodeB();
-                }
+                // uhhh i dont think we should really do that ~ AGTHARN
+
+                //if ($item->getNamedTag()->getTag("golem_sword") !== null) {
+                //    $explosion = new Explosion(new Position($block->getPosition()->getX(), $block->getPosition()->getY(), $block->getPosition()->getZ(), $sender->getPosition()->getWorld()), 1, null);
+                //    $explosion->explodeB();
+                //}
                 if ($item->getNamedTag()->getTag("leaping_sword") !== null) {
                     $sender->setMotion(new Vector3(mt_rand(1, 3), mt_rand(1, 3), mt_rand(1, 3)));
                 }

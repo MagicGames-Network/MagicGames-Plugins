@@ -22,7 +22,7 @@ class EnchantForm extends MenuForm
             ],
             function (Player $player, int $selected): void {
                 if ($selected === 0) {
-                    Server::getInstance()->dispatchCommand($player, "es");
+                    $player->sendMessage("§8(§b!§8) §7Please use the enchantment table instead!");
                 } else {
                     Server::getInstance()->dispatchCommand($player, "ceshop");
                 }
