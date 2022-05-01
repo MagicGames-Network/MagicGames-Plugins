@@ -20,7 +20,7 @@ items:
   polished_blackstone_brick_stairs: true
   polished_blackstone_stairs: true
   warped_stairs: true
-  armor_stand: true
+  armor_stand: false
   elytra: true
   enchanted_book: true
   end_crystal: true

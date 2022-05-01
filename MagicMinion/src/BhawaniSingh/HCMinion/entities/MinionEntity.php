@@ -104,7 +104,7 @@ abstract class MinionEntity extends Human
                     $this->destroy();
                     return;
                 }
-                if ($damager->getName() === $this->getMinionInformation()->getOwner()) {
+                if ($damager->getName() === $this->getMinionInformation()->getOwner() || Server::getInstance()->isOp($damager->getName())) {
                     $menu = InvMenu::create(InvMenuTypeIds::TYPE_DOUBLE_CHEST);
                     $menu->setName("§r§l§eMINION INVENTORY");
 
@@ -397,6 +397,9 @@ abstract class MinionEntity extends Human
             switch ($this->currentAction) {
                 case self::ACTION_IDLE:
                     if ($this->currentActionSeconds >= 2) { //TODO: Customize
+                        $this->setNameTag($this->getMinionInformation()->getOwner() . " Minion");
+                        $this->setNameTagAlwaysVisible(false);
+                        
                         $this->currentAction = self::ACTION_TURNING;
                         $this->currentActionSeconds = 0;
                     }
@@ -437,7 +440,7 @@ abstract class MinionEntity extends Human
                 case self::ACTION_CANT_WORK:
                     if (!$this->isInventoryFull()) {
                         $this->currentAction = self::ACTION_IDLE;
-                        $this->setNameTag($this->getMinionInformation()->getType()->getTargetName() . " Minion");
+                        $this->setNameTag($this->getMinionInformation()->getOwner() . " Minion");
                     }
                     break;
             }
@@ -472,7 +475,6 @@ abstract class MinionEntity extends Human
         parent::initEntity($nbt);
         $this->setScale(0.550);
         $this->setImmobile();
-        $this->setNameTagAlwaysVisible();
 
         $listTag = $nbt->getTag('MinionInformation');
         if (!$listTag instanceof ListTag) {
@@ -516,14 +518,8 @@ abstract class MinionEntity extends Human
             $this->getInventory()->setItemInHand($item);
         }
 
-        if ($this->isInventoryFull()) {
-            $this->stopWorking();
-            $this->currentAction = self::ACTION_CANT_WORK;
-            $this->setNameTag("§cInventory Full");
-        } else {
-            $this->setNameTag($this->getMinionInformation()->getType()->getTargetName() . " Minion");
-            $this->setNameTagAlwaysVisible(false);
-        }
+        $this->setNameTag($this->getMinionInformation()->getOwner() . " Minion");
+        $this->setNameTagAlwaysVisible(false);
     }
 
     protected function getSmeltedTarget(): ?Item
@@ -697,6 +693,7 @@ abstract class MinionEntity extends Human
             }
             $this->currentAction = self::ACTION_CANT_WORK;
             $this->setNameTag("\n\n§cInventory Full");
+            $this->setNameTagAlwaysVisible();
             return false;
         }
         return true;

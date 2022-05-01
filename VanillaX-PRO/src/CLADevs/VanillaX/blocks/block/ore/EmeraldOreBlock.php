@@ -19,7 +19,7 @@ class EmeraldOreBlock extends EmeraldOre
 
     public function __construct()
     {
-        parent::__construct(new BlockIdentifier(BlockLegacyIds::EMERALD_BLOCK, 0), "Emerald Block", new BlockBreakInfo(5.0, BlockToolType::PICKAXE, ToolTier::IRON()->getHarvestLevel(), 30.0));
+        parent::__construct(new BlockIdentifier(BlockLegacyIds::EMERALD_ORE, 0), "Emerald Ore", new BlockBreakInfo(5.0, BlockToolType::PICKAXE, ToolTier::IRON()->getHarvestLevel(), 30.0));
     }
 
     /**

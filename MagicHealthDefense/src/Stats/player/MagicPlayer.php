@@ -4,7 +4,6 @@ namespace Stats\player;
 
 use Stats\Main;
 use pocketmine\world\World;
-use pocketmine\math\Vector3;
 use pocketmine\player\Player;
 use pocketmine\event\player\PlayerDeathEvent;
 use pocketmine\event\entity\EntityRegainHealthEvent;
@@ -44,6 +43,7 @@ class MagicPlayer extends Player
         if (!$world instanceof World) {
             return;
         }
+        
         $ev = new PlayerDeathEvent($this, $this->getDrops(), $this->getXpDropAmount(), null);
         $ev->call();
 

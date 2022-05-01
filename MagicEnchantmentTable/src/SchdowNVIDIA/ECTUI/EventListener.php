@@ -63,27 +63,22 @@ class EventListener implements Listener
             $enchants[] = $enchantment;
         }
 
-        if (!count($enchants) >= 3) {
-            return [];
-        }
-        shuffle($enchants);
-
         /** @var EnchantmentTrait[] $enchants */
         return [
             0 =>  [
-                "id" => $enchants[0]->getId(),
+                "id" => $enchants[array_rand($enchants)]->getId(),
                 "mcpeId" => $enchants[0]->getMcpeId(),
                 "level" => rand(1, intval($enchants[0]->getMaxLevel() * ($levelSub - 0.15))),
                 "xp" => rand(intval(2 * ($levelSub + 1)), intval(6 * ($levelSub + 1)))
             ],
             1 =>  [
-                "id" => $enchants[1]->getId(),
+                "id" => $enchants[array_rand($enchants)]->getId(),
                 "mcpeId" => $enchants[1]->getMcpeId(),
                 "level" => rand(1, intval($enchants[1]->getMaxLevel() * ($levelSub - 0.10))),
                 "xp" => rand(intval(6 * ($levelSub + 1)), intval(10 * ($levelSub + 1)))
             ],
             2 =>  [
-                "id" => $enchants[2]->getId(),
+                "id" => $enchants[array_rand($enchants)]->getId(),
                 "mcpeId" => $enchants[2]->getMcpeId(),
                 "level" => rand(2, intval($enchants[2]->getMaxLevel() * ($levelSub))),
                 "xp" => rand(intval(10 * ($levelSub + 1)), intval(15 * ($levelSub + 1)))
