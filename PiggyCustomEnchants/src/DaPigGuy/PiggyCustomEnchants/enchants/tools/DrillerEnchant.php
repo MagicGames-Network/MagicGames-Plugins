@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace DaPigGuy\PiggyCustomEnchants\enchants\tools;
 
-use DaPigGuy\PiggyCustomEnchants\enchants\CustomEnchant;
-use DaPigGuy\PiggyCustomEnchants\enchants\miscellaneous\RecursiveEnchant;
-use pocketmine\event\block\BlockBreakEvent;
-use pocketmine\event\Event;
-use pocketmine\inventory\Inventory;
-use pocketmine\item\enchantment\Rarity;
 use pocketmine\item\Item;
 use pocketmine\math\Axis;
+use pocketmine\event\Event;
 use pocketmine\math\Facing;
 use pocketmine\player\Player;
+use pocketmine\inventory\Inventory;
+use pocketmine\item\enchantment\Rarity;
+use pocketmine\event\block\BlockBreakEvent;
+use DaPigGuy\PiggyCustomEnchants\enchants\CustomEnchant;
+use DaPigGuy\PiggyCustomEnchants\enchants\miscellaneous\RecursiveEnchant;
 
 class DrillerEnchant extends RecursiveEnchant
 {
@@ -37,7 +37,7 @@ class DrillerEnchant extends RecursiveEnchant
 
     public function safeReact(Player $player, Item $item, Inventory $inventory, int $slot, Event $event, int $level, int $stack): void
     {
-        if ($event instanceof BlockBreakEvent) {
+        if ($event instanceof BlockBreakEvent && isset(self::$lastBreakFace[$player->getName()])) {
             $breakFace = self::$lastBreakFace[$player->getName()];
             for ($i = 0; $i <= $level * $this->extraData["distanceMultiplier"]; $i++) {
                 $block = $event->getBlock()->getSide(Facing::opposite($breakFace), $i);

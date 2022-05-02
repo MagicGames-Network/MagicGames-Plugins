@@ -1,9 +1,6 @@
 [submodule ".github/phpstan/pmforms"]
 	path = .github/phpstan/pmforms
 	url = https://github.com/dktapps-pm-pl/pmforms
-[submodule ".github/phpstan/StarGate-Atlantis"]
-	path = .github/phpstan/StarGate-Atlantis
-	url = https://github.com/Alemiz112/StarGate-Atlantis
 [submodule ".github/phpstan/FormAPI"]
 	path = .github/phpstan/FormAPI
 	url = https://github.com/DaPigGuy/FormAPI-4.0.0

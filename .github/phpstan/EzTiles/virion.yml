@@ -1,0 +1,5 @@
+name: libEzTiles
+author: DenielWorld
+api: 4.0.0
+version: 0.1.1
+antigen: DenielWorld\EzTiles

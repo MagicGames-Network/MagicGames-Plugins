@@ -367,10 +367,6 @@ abstract class MinionEntity extends Human
             $hasUpdate = true;
         }
 
-        if ($this->noDamageTicks > 0) {
-            $this->noDamageTicks = 0;
-        }
-
         // █▀▄▀█ █ █▄░█ █ █▀█ █▄░█  █▀▀ █▄░█ ▀█▀ █ ▀█▀ █▄█
         // █░▀░█ █ █░▀█ █ █▄█ █░▀█  ██▄ █░▀█ ░█░ █ ░█░ ░█░
 

@@ -93,7 +93,6 @@ class MagicPlayer extends Player
         switch (true) {
             case $amount <= 0:
                 $this->stats["Health"] = 0;
-                $this->onDeath();
                 break;
             case $amount > $this->getMaxHealth():
                 $this->stats["Health"] = $this->getMaxHealth();

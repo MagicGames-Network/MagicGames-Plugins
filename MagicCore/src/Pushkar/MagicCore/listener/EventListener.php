@@ -8,8 +8,6 @@ use Pushkar\MagicCore\Main;
 use pocketmine\math\Vector3;
 use pocketmine\player\Player;
 use pocketmine\event\Listener;
-use pocketmine\world\Position;
-use pocketmine\world\Explosion;
 use pocketmine\item\ItemFactory;
 use onebone\economyapi\EconomyAPI;
 use pocketmine\math\VoxelRayTrace;

@@ -30,6 +30,7 @@ parameters:
         - ../../MagicMinion
         - ../../MagicPortalsPE
         - ../../MagicSkills
+        - ../../MagicSpawners
         - ../../MagicQuest
         - ../../MagicWorldRegen
         - ../../PurePerms
