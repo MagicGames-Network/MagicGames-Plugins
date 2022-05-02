@@ -350,13 +350,6 @@ abstract class MinionEntity extends Human
         // █▀▀ █▄░█ ▀█▀ █ ▀█▀ █▄█
         // ██▄ █░▀█ ░█░ █ ░█░ ░█░
 
-        if ($this->justCreated) {
-            $this->justCreated = false;
-            if (!$this->isAlive()) {
-                $this->kill();
-            }
-        }
-
         $changedProperties = $this->getDirtyNetworkData();
         if (count($changedProperties) > 0) {
             $this->sendData(null, $changedProperties);

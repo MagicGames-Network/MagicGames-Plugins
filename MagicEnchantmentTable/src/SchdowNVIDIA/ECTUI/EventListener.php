@@ -63,6 +63,11 @@ class EventListener implements Listener
             $enchants[] = $enchantment;
         }
 
+        if (count($enchants) < 3) {
+            for ($i = 0; $i < (3 - count($enchants)); $i++) {
+                $enchants[] = $enchants[array_rand($enchants)];
+            }
+        }
         $arrayRand = array_rand($enchants, 3);
 
         /** @var EnchantmentTrait[] $enchants */
