@@ -45,8 +45,6 @@ class BetterMinion extends PluginBase
     public const FAKE_ENCH_ID = -1;
     public const MINION_LIMIT = 16;
 
-    public array $minionWorldLimit = [];
-
     public function onLoad(): void
     {
         self::setInstance($this);

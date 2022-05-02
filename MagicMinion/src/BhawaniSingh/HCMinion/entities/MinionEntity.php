@@ -28,6 +28,7 @@ use pocketmine\block\BlockToolType;
 use pocketmine\block\VanillaBlocks;
 use pocketmine\inventory\Inventory;
 use pocketmine\nbt\tag\CompoundTag;
+use pocketmine\block\BlockLegacyIds;
 use BhawaniSingh\HCMinion\utils\Utils;
 use BhawaniSingh\HCMinion\BetterMinion;
 use muqsit\invmenu\type\InvMenuTypeIds;
@@ -56,7 +57,6 @@ abstract class MinionEntity extends Human
 
     protected MinionInformation $minionInformation;
     protected MinionInventory $minionInventory;
-
     protected int $currentAction = self::ACTION_IDLE;
     protected int $currentActionSeconds = 0;
 
@@ -101,7 +101,7 @@ abstract class MinionEntity extends Human
             $damager = $source->getDamager();
             if ($damager instanceof Player) {
                 if (isset(BetterMinion::getInstance()->isRemove[$damager->getName()])) {
-                    $damager->sendMessage('§8(§b!§8) §7Successfully removed ' . $this->getMinionInformation()->getOwner() . "'s minion");
+                    $damager->sendMessage(' §eSuccessfully removed ' . $this->getMinionInformation()->getOwner() . "'s minion");
                     $this->destroy();
                     return;
                 }
@@ -124,15 +124,15 @@ abstract class MinionEntity extends Human
                                     if (!$this->getMinionInformation()->getUpgrade()->isAutoSmelt()) {
                                         $this->getMinionInformation()->getUpgrade()->setAutoSmelt(true);
 
-                                        $player->sendMessage("§8(§b!§8) §7Auto Smelter upgrade enabled!");
+                                        $player->sendMessage(" §eAuto Smelter upgrade enabled!");
                                         break;
                                     }
                                     $this->getMinionInformation()->getUpgrade()->setAutoSmelt(false);
 
-                                    $player->sendMessage("§8(§b!§8) §7Auto Smelter upgrade disabled!");
+                                    $player->sendMessage(" §eAuto Smelter upgrade disabled!");
                                     break;
                                 }
-                                $player->sendMessage("§8(§b!§8) §7You need to upgrade your minion to level §e" . MinionUpgrade::AUTO_SMELT_LEVEL . "§7 to use the Auto Smelter!");
+                                $player->sendMessage(" §eYou need to upgrade your minion to level §6" . MinionUpgrade::AUTO_SMELT_LEVEL . "§e to use the Auto Smelter!");
                                 break;
                             case 28:
                                 // Auto Sell
@@ -141,20 +141,20 @@ abstract class MinionEntity extends Human
                                     if (!$this->getMinionInformation()->getUpgrade()->isAutoSell()) {
                                         $this->getMinionInformation()->getUpgrade()->setAutoSell(true);
 
-                                        $player->sendMessage("§8(§b!§8) §7Auto Sell upgrade enabled!");
+                                        $player->sendMessage(" §eAuto Sell upgrade enabled!");
                                         break;
                                     } elseif ($this->money > 0) {
                                         EconomyAPI::getInstance()->addMoney($player, $this->money);
-                                        $player->sendMessage("§8(§b!§8) §7Successfully withdrew an amount of§e $this->money §7from the minion!");
+                                        $player->sendMessage(" §eSuccessfully withdrew an amount of§6 $this->money §efrom the minion!");
                                         $this->money = 0;
                                         break;
                                     }
                                     $this->getMinionInformation()->getUpgrade()->setAutoSell(false);
 
-                                    $player->sendMessage("§8(§b!§8) §7Auto Sell upgrade disabled!");
+                                    $player->sendMessage(" §eAuto Sell upgrade disabled!");
                                     break;
                                 }
-                                $player->sendMessage("§8(§b!§8) §7You need to upgrade your minion to level §e" . MinionUpgrade::AUTO_SELL_LEVEL . "§7 to use the Auto Sell!");
+                                $player->sendMessage(" §eYou need to upgrade your minion to level §6" . MinionUpgrade::AUTO_SELL_LEVEL . "§e to use the Auto Sell!");
                                 break;
                             case 37:
                                 // Super Compacter
@@ -163,15 +163,15 @@ abstract class MinionEntity extends Human
                                     if (!$this->getMinionInformation()->getUpgrade()->isSuperCompacter()) {
                                         $this->getMinionInformation()->getUpgrade()->setSuperCompacter(true);
 
-                                        $player->sendMessage("§8(§b!§8) §7Super Compacter upgrade enabled!");
+                                        $player->sendMessage(" §eSuper Compacter upgrade enabled!");
                                         break;
                                     }
                                     $this->getMinionInformation()->getUpgrade()->setSuperCompacter(false);
 
-                                    $player->sendMessage("§8(§b!§8) §7Super Compacter upgrade disabled!");
+                                    $player->sendMessage(" §eSuper Compacter upgrade disabled!");
                                     break;
                                 }
-                                $player->sendMessage("§8(§b!§8) §7You need to upgrade your minion to level §e" . MinionUpgrade::SUPER_COMPACTER_LEVEL . "§7 to use the Super Compacter!");
+                                $player->sendMessage(" §eYou need to upgrade your minion to level §6" . MinionUpgrade::SUPER_COMPACTER_LEVEL . "§e to use the Super Compacter!");
                                 break;
                             case 46:
                                 // Super Expander
@@ -180,15 +180,15 @@ abstract class MinionEntity extends Human
                                     if (!$this->getMinionInformation()->getUpgrade()->isSuperExpander()) {
                                         $this->getMinionInformation()->getUpgrade()->setSuperExpander(true);
 
-                                        $player->sendMessage("§8(§b!§8) §7Super Expander upgrade enabled!");
+                                        $player->sendMessage(" §eSuper Expander upgrade enabled!");
                                         break;
                                     }
                                     $this->getMinionInformation()->getUpgrade()->setSuperExpander(false);
 
-                                    $player->sendMessage("§8(§b!§8) §7Super Expander upgrade disabled!");
+                                    $player->sendMessage(" §eSuper Expander upgrade disabled!");
                                     break;
                                 }
-                                $player->sendMessage("§8(§b!§8) §7You need to upgrade your minion to level §e" . MinionUpgrade::SUPER_EXPANDER_LEVEL . "§7 to use the Super Expander!");
+                                $player->sendMessage(" §eYou need to upgrade your minion to level §6" . MinionUpgrade::SUPER_EXPANDER_LEVEL . "§e to use the Super Expander!");
                                 break;
                             case 48:
                                 // Collect All
@@ -198,7 +198,7 @@ abstract class MinionEntity extends Human
                                         $this->getMinionInventory()->setItem($slot, VanillaBlocks::AIR()->asItem());
                                         continue;
                                     }
-                                    $player->sendMessage('§8(§b!§8) §7Your Inventory Is Full, Empty It Before Making A Transaction');
+                                    $player->sendMessage(' §eYour Inventory Is Full, Empty It Before Making A Transaction');
                                     break;
                                 }
                                 break;
@@ -214,15 +214,15 @@ abstract class MinionEntity extends Human
                                     if ($playerMoney - $this->getLevelUpCost() >= 0) {
                                         EconomyAPI::getInstance()->reduceMoney($player, $this->getLevelUpCost());
                                         $this->getMinionInformation()->incrementLevel();
-                                        $player->sendMessage('§8(§b!§8) §7Your Minion Has Been Upgraded To Level§e ' . TextFormat::GOLD . Utils::getRomanNumeral($this->getMinionInformation()->getLevel()));
+                                        $player->sendMessage(' §eYour Minion Has Been Upgraded To Level§6 ' . TextFormat::GOLD . Utils::getRomanNumeral($this->getMinionInformation()->getLevel()));
                                         $this->getMinionInventory()->setSize($this->getMinionInformation()->getLevel());
                                         $this->stopWorking();
                                         break;
                                     }
-                                    $player->sendMessage("§8(§b!§8) §7You Don't Have Enough Money For Upgrade Minion");
+                                    $player->sendMessage(" §eYou Don't Have Enough Money For Upgrade Minion");
                                     break;
                                 }
-                                $player->sendMessage('§8(§b!§8) §7Your Minion Has Reached The Maximum Level');
+                                $player->sendMessage(' §eYour Minion Has Reached The Maximum Level');
                                 break;
                             case 52:
                                 // Remove Minion
@@ -250,7 +250,7 @@ abstract class MinionEntity extends Human
                                             }
                                         } else {
                                             $player->removeCurrentWindow();
-                                            $player->sendMessage('§8(§b!§8) §7Your Inventory Is Full, Empty It Before Making A Transaction');
+                                            $player->sendMessage(' §eYour Inventory Is Full, Empty It Before Making A Transaction');
                                         }
                                     }
                                 }
@@ -316,7 +316,7 @@ abstract class MinionEntity extends Human
                         $menu->getInventory()->setItem(48, ItemFactory::getInstance()->get(1103, 0, 1)->setCustomName("§r§l§eCOLLECT ITEMS\n\n§r§7Click To Collect All Items From\n§r§7Your Minion Inventory To Your\n§r§7Inventory.\n\n§r§dClick To Collect"));
                         $menu->getInventory()->setItem(50, ItemFactory::getInstance()->get(1102, 0, 1)->setCustomName("§r§l§eUPGRADE MINION\n\n§r§7Click To Upgrade Your Minion\n§r§7Level 1 To High Levels For\n§r§7Open Inventory Slots.\n\n§r§dClick To Upgrade")->setLore([$this->getMinionInformation()->getLevel() < 15 ? "§r§l§6AMOUNT: §r§e" . TextFormat::GREEN . $this->getLevelUpCost() . "$" : TextFormat::LIGHT_PURPLE . "Reached Max Level"]));
                         $menu->getInventory()->setItem(52, ItemFactory::getInstance()->get(1104, 0, 1)->setCustomName("§r§l§ePICKUP MINION\n\n§r§7Click To Pickup Your Minion\n§r§7To Move In New Location\n\n§r§dClick To Pickup"));
-                        $menu->getInventory()->setItem(6, ItemFactory::getInstance()->get(ItemIds::GOLD_INGOT)->setCustomName("§r§e§lCOMMING SOON"));
+                        $menu->getInventory()->setItem(6, ItemFactory::getInstance()->get(1084, 0, 1)->setCustomName("§r§d§lRECIPES\n\n§7More Minion Recipes"));
                         $menu->getInventory()->setItem(5, ItemFactory::getInstance()->get(ItemIds::ENDER_EYE)->setCustomName("§r§l§eTOTAL UPGRADE AMOUNT\n§r§aLevel 1: §r§d0\n§r§aLevel 2: §r§d1000$\n§r§aLevel 3: §r§d2000$\n§r§aLevel 4: §r§d4000$\n§r§aLevel 5: §r§d8000$\n§r§aLevel 6: §r§d12000$\n§r§aLevel 7: §r§d15000$\n§r§aLevel 8: §r§d17500$\n§r§aLevel 9: §r§d20000$\n§r§aLevel 10: §r§d22000$\n§r§aLevel 11: §r§d25000$\n§r§aLevel 12: §r§d27000$\n§r§aLevel 13: §r§d30000$\n§r§aLevel 14: §r§d35000$\n§r§aLevel 15: §r§d40000$"));
                     });
                 }
@@ -386,8 +386,8 @@ abstract class MinionEntity extends Human
 
             switch ($this->currentAction) {
                 case self::ACTION_IDLE:
-                    if ($this->currentActionSeconds >= 3) { //TODO: Customize
-                        $this->setNameTag($this->getMinionInformation()->getOwner() . " Minion");
+                    if ($this->currentActionSeconds >= 2) { //TODO: Customize
+                        $this->setNameTag("§l§6" . strtoupper($this->getMinionInformation()->getType()->getTargetName()) . $this->getMinionInformation()->getLevel() . "§r\n§e" . $this->getMinionInformation()->getOwner() . "'s Minion");
                         $this->setNameTagAlwaysVisible(false);
 
                         $this->currentAction = self::ACTION_TURNING;
@@ -430,7 +430,7 @@ abstract class MinionEntity extends Human
                 case self::ACTION_CANT_WORK:
                     if (!$this->isInventoryFull()) {
                         $this->currentAction = self::ACTION_IDLE;
-                        $this->setNameTag($this->getMinionInformation()->getOwner() . " Minion");
+                        $this->setNameTag("§l§6" . strtoupper($this->getMinionInformation()->getType()->getTargetName()) . $this->getMinionInformation()->getLevel() . "§r\n§e" . $this->getMinionInformation()->getOwner() . "'s Minion");
                     }
                     break;
             }
@@ -463,7 +463,7 @@ abstract class MinionEntity extends Human
     public function initEntity(CompoundTag $nbt): void
     {
         parent::initEntity($nbt);
-        $this->setScale(0.550);
+        $this->setScale(0.6);
         $this->setImmobile();
 
         $listTag = $nbt->getTag('MinionInformation');
@@ -489,15 +489,43 @@ abstract class MinionEntity extends Human
                 $itemTags
             ));
         }
-        $armor1 = ItemFactory::getInstance()->get(397, 3, 1);
-        $color = new Color(192, 192, 192);
+
+        $colorData = [$this->getMinionInformation()->getType()->getTargetId(), $this->getMinionInformation()->getType()->getTargetMeta()];
+        $color = match ($colorData) {
+            [BlockLegacyIds::COBBLESTONE, 0] => new Color(192, 192, 192),
+            [BlockLegacyIds::LOG, 0] => new Color(255, 255, 0),
+            [BlockLegacyIds::LOG, 1] => new Color(0, 204, 204),
+            [BlockLegacyIds::LOG, 2] => new Color(224, 224, 224),
+            [BlockLegacyIds::LOG, 3] => new Color(51, 255, 51),
+            [BlockLegacyIds::LOG2, 0] => new Color(153, 51, 255),
+            [BlockLegacyIds::LOG2, 1] => new Color(255, 0, 0),
+            [BlockLegacyIds::CARROT_BLOCK, 7] => new Color(255, 178, 102),
+            [BlockLegacyIds::POTATO_BLOCK, 7] => new Color(204, 102, 0),
+            [BlockLegacyIds::WHEAT_BLOCK, 7] => new Color(255, 255, 105),
+            [BlockLegacyIds::MELON_BLOCK, 0] => new Color(102, 255, 102),
+            [BlockLegacyIds::PUMPKIN, 0] => new Color(255, 178, 102),
+            [BlockLegacyIds::CLAY_BLOCK, 0] => new Color(204, 204, 255),
+            [BlockLegacyIds::EMERALD_ORE, 0] => new Color(102, 255, 102),
+            [BlockLegacyIds::DIAMOND_ORE, 0] => new Color(102, 255, 255),
+            [BlockLegacyIds::NETHER_QUARTZ_ORE, 0] => new Color(204, 255, 255),
+            [BlockLegacyIds::GOLD_ORE, 0] => new Color(255, 255, 51),
+            [BlockLegacyIds::IRON_ORE, 0] => new Color(192, 192, 192),
+            [BlockLegacyIds::COAL_ORE, 0] => new Color(96, 96, 96),
+            [BlockLegacyIds::LAPIS_ORE, 0] => new Color(51, 153, 255),
+            [BlockLegacyIds::REDSTONE_ORE, 0] => new Color(255, 102, 102),
+            [BlockLegacyIds::END_STONE, 0] => new Color(255, 255, 204),
+            [BlockLegacyIds::NETHERRACK, 0] => new Color(204, 0, 0),
+            [BlockLegacyIds::SNOW_BLOCK, 0] => new Color(224, 224, 224),
+            [BlockLegacyIds::SAND, 0] => new Color(255, 204, 153),
+            [BlockLegacyIds::OBSIDIAN, 0] => new Color(64, 64, 64),
+            default => new Color(192, 192, 192)
+        };
         $armor2 = ItemFactory::getInstance()->get(299, 0, 1);
         $armor2 instanceof Armor ? $armor2->setCustomColor($color) : null;
         $armor3 = ItemFactory::getInstance()->get(300, 0, 1);
         $armor3 instanceof Armor ? $armor3->setCustomColor($color) : null;
         $armor4 = ItemFactory::getInstance()->get(301, 0, 1);
         $armor4 instanceof Armor ? $armor4->setCustomColor($color) : null;
-        $this->getArmorInventory()->setHelmet($armor1);
         $this->getArmorInventory()->setChestplate($armor2);
         $this->getArmorInventory()->setLeggings($armor3);
         $this->getArmorInventory()->setBoots($armor4);
@@ -508,7 +536,7 @@ abstract class MinionEntity extends Human
             $this->getInventory()->setItemInHand($item);
         }
 
-        $this->setNameTag($this->getMinionInformation()->getOwner() . " Minion");
+        $this->setNameTag("§l§6" . strtoupper($this->getMinionInformation()->getType()->getTargetName()) . $this->getMinionInformation()->getLevel() . "§r\n§e" . $this->getMinionInformation()->getOwner() . "'s Minion");
         $this->setNameTagAlwaysVisible(false);
     }
 
@@ -646,7 +674,36 @@ abstract class MinionEntity extends Human
         $minionData = BetterMinion::getInstance()->getProvider()->getMinionDataFromPlayer($this->getMinionInformation()->getOwner());
         BetterMinion::getInstance()->getProvider()->updateMinionData($this->getMinionInformation()->getOwner(), $minionData["minionCount"] <= 0 ? 0 : $minionData["minionCount"] - 1);
 
-        $minionItem = ItemFactory::getInstance()->get(1098, 0, 1);
+        $minionItemData = [$this->getMinionInformation()->getType()->getTargetId(), $this->getMinionInformation()->getType()->getTargetMeta()];
+        $minionItem = match ($minionItemData) {
+            [BlockLegacyIds::COBBLESTONE, 0] => ItemFactory::getInstance()->get(1110, 0, 1),
+            [BlockLegacyIds::LOG, 0] => ItemFactory::getInstance()->get(1121, 0, 1),
+            [BlockLegacyIds::LOG, 1] => ItemFactory::getInstance()->get(1129, 0, 1),
+            [BlockLegacyIds::LOG, 2] => ItemFactory::getInstance()->get(1106, 0, 1),
+            [BlockLegacyIds::LOG, 3] => ItemFactory::getInstance()->get(1117, 0, 1),
+            [BlockLegacyIds::LOG2, 0] => ItemFactory::getInstance()->get(1105, 0, 1),
+            [BlockLegacyIds::LOG2, 1] => ItemFactory::getInstance()->get(1111, 0, 1),
+            [BlockLegacyIds::CARROT_BLOCK, 7] => ItemFactory::getInstance()->get(1107, 0, 1),
+            [BlockLegacyIds::POTATO_BLOCK, 7] => ItemFactory::getInstance()->get(1123, 0, 1),
+            [BlockLegacyIds::WHEAT_BLOCK, 7] => ItemFactory::getInstance()->get(1130, 0, 1),
+            [BlockLegacyIds::MELON_BLOCK, 0] => ItemFactory::getInstance()->get(1119, 0, 1),
+            [BlockLegacyIds::PUMPKIN, 0] => ItemFactory::getInstance()->get(1124, 0, 1),
+            [BlockLegacyIds::CLAY_BLOCK, 0] => ItemFactory::getInstance()->get(1108, 0, 1),
+            [BlockLegacyIds::EMERALD_ORE, 0] => ItemFactory::getInstance()->get(1113, 0, 1),
+            [BlockLegacyIds::DIAMOND_ORE, 0] => ItemFactory::getInstance()->get(1112, 0, 1),
+            [BlockLegacyIds::NETHER_QUARTZ_ORE, 0] => ItemFactory::getInstance()->get(1125, 0, 1),
+            [BlockLegacyIds::GOLD_ORE, 0] => ItemFactory::getInstance()->get(1115, 0, 1),
+            [BlockLegacyIds::IRON_ORE, 0] => ItemFactory::getInstance()->get(1116, 0, 1),
+            [BlockLegacyIds::COAL_ORE, 0] => ItemFactory::getInstance()->get(1109, 0, 1),
+            [BlockLegacyIds::LAPIS_ORE, 0] => ItemFactory::getInstance()->get(1118, 0, 1),
+            [BlockLegacyIds::REDSTONE_ORE, 0] => ItemFactory::getInstance()->get(1126, 0, 1),
+            [BlockLegacyIds::END_STONE, 0] => ItemFactory::getInstance()->get(1114, 0, 1),
+            [BlockLegacyIds::NETHERRACK, 0] => ItemFactory::getInstance()->get(1120, 0, 1),
+            [BlockLegacyIds::SNOW_BLOCK, 0] => ItemFactory::getInstance()->get(1128, 0, 1),
+            [BlockLegacyIds::SAND, 0] => ItemFactory::getInstance()->get(1127, 0, 1),
+            [BlockLegacyIds::OBSIDIAN, 0] => ItemFactory::getInstance()->get(1122, 0, 1),
+            default => ItemFactory::getInstance()->get(1098, 0, 1)
+        };
         $minionItem->setCustomName(TextFormat::RESET . TextFormat::YELLOW . $this->getMinionInformation()->getType()->getTargetName() . ' Minion ' . Utils::getRomanNumeral($this->getMinionInformation()->getLevel()))->setLore(["§r§7Place this minion and it will\n§r§7start generating and mining blocks!\n§r§7Requires an open area to spawn\n§r§7blocks. Minions also work when you are offline!\n\n§r§eType: §b" . $this->getMinionInformation()->getType()->getTargetName() . "\n§r§eLevel: §b" . Utils::getRomanNumeral($this->getMinionInformation()->getLevel()) . "\n§r§eResources Collected: §b" . $this->getMinionInformation()->getResourcesCollected() . ""]);
         $minionItem->addEnchantment($this->fakeEnchant);
         $minionItem->getNamedTag()->setTag("MinionInformation", $this->minionInformation->nbtSerialize());
@@ -656,7 +713,7 @@ abstract class MinionEntity extends Human
 
         $player = Server::getInstance()->getPlayerExact($this->getMinionInformation()->getOwner());
         if ($player instanceof Player) {
-            $player->sendMessage("§8(§b!§8) §7Minion successfully destroyed! You have " . ($minionData["minionCount"] - 1) . "/" . BetterMinion::MINION_LIMIT . " minions now!");
+            $player->sendMessage(" §eMinion successfully destroyed! You have " . ($minionData["minionCount"] - 1) . "/" . BetterMinion::MINION_LIMIT . " minions now!");
         }
     }
 

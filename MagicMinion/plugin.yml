@@ -9,3 +9,5 @@ depend:
 permissions:
   minion.commands:
     default: op
+  place.minion:
+    default: op
