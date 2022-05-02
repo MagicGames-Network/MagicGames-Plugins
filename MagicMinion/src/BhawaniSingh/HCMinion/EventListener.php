@@ -10,6 +10,7 @@ use pocketmine\entity\Location;
 use pocketmine\nbt\tag\ListTag;
 use pocketmine\item\ItemFactory;
 use BhawaniSingh\HCMinion\utils\Utils;
+use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\event\player\PlayerQuitEvent;
 use BhawaniSingh\HCMinion\entities\MinionEntity;
 use pocketmine\event\player\PlayerInteractEvent;

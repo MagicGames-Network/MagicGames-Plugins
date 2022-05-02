@@ -4,7 +4,6 @@ namespace blueturk\skyblock\managers;
 
 use pocketmine\Server;
 use pocketmine\world\World;
-use pocketmine\entity\Entity;
 use pocketmine\player\Player;
 use blueturk\skyblock\SkyBlock;
 use BhawaniSingh\HCMinion\BetterMinion;
@@ -374,7 +373,7 @@ class IslandManager
         $minionData = BetterMinion::getInstance()->getProvider()->getMinionDataFromPlayer($player->getName());
         $minionAmount = 0;
         foreach ($world->getEntities() as $entity) {
-            if ($entity instanceof MinionEntity) {
+            if ($entity instanceof MinionEntity && $entity->getMinionInformation()->getOwner() === $player->getName()) {
                 $minionAmount++;
             }
         }

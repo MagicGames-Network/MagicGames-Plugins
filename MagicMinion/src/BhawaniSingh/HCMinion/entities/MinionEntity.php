@@ -389,7 +389,7 @@ abstract class MinionEntity extends Human
                     if ($this->currentActionSeconds >= 3) { //TODO: Customize
                         $this->setNameTag($this->getMinionInformation()->getOwner() . " Minion");
                         $this->setNameTagAlwaysVisible(false);
-                        
+
                         $this->currentAction = self::ACTION_TURNING;
                         $this->currentActionSeconds = 0;
                     }
