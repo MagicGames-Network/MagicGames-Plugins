@@ -18,7 +18,7 @@
          "Ifera\\ScoreHud\\": "ScoreHud/src/Ifera/ScoreHud",
          "poggit\\libasynql\\": "libasynql/libasynql/src/poggit/libasynql",
          "muqsit\\portablecrafting\\": "PortableCrafting/src/muqsit/portablecrafting",
-         "JinodkDevTeam\\utils\\": "FI-Utils/src/JinodkDevTeam/utils",
+         "JinodkDevTeam\\utils\\": "FI-Utils/src/JinodkDevTeam/utils"
       }
    }
 }
