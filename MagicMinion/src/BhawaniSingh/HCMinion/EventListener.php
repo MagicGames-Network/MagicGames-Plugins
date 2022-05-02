@@ -61,7 +61,7 @@ class EventListener implements Listener
 
 					$skinDataData = [$minionInformation->getType()->getTargetId(), $minionInformation->getType()->getTargetMeta()];
 					$skinData = match ($skinDataData) {
-						[BlockLegacyIds::COBBLESTONE, 0] => Utils::createSkin(BetterMinion::getInstance()->getDataFolder() . "pl.png"),
+						[BlockLegacyIds::COBBLESTONE, 0] => Utils::createSkin(BetterMinion::getInstance()->getDataFolder() . "cobblestone.png"),
 						[BlockLegacyIds::LOG, 0] => Utils::createSkin(BetterMinion::getInstance()->getDataFolder() . "oak.png"),
 						[BlockLegacyIds::LOG, 1] => Utils::createSkin(BetterMinion::getInstance()->getDataFolder() . "spruce.png"),
 						[BlockLegacyIds::LOG, 2] => Utils::createSkin(BetterMinion::getInstance()->getDataFolder() . "birch.png"),
