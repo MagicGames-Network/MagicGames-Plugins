@@ -79,5 +79,6 @@ class Util
             $base = (int) $this->cfg["base-delay"];
             return ($base / $stacked) * 20;
         }
+        return 40;
     }
 }

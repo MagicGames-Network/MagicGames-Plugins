@@ -56,6 +56,7 @@ abstract class MinionEntity extends Human
 
     protected MinionInformation $minionInformation;
     protected MinionInventory $minionInventory;
+
     protected int $currentAction = self::ACTION_IDLE;
     protected int $currentActionSeconds = 0;
 
@@ -392,7 +393,7 @@ abstract class MinionEntity extends Human
 
             switch ($this->currentAction) {
                 case self::ACTION_IDLE:
-                    if ($this->currentActionSeconds >= 2) { //TODO: Customize
+                    if ($this->currentActionSeconds >= 3) { //TODO: Customize
                         $this->setNameTag($this->getMinionInformation()->getOwner() . " Minion");
                         $this->setNameTagAlwaysVisible(false);
                         

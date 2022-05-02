@@ -60,11 +60,11 @@ class EventListener implements Listener
                 }
 
                 $this->plugin->getScheduler()->scheduleDelayedTask(new ClosureTask(function () use ($pos, $ore): void {
-                    $pos->getWorld()->setBlock($pos->floor(), $ore, false, true);
+                    $pos->getWorld()->setBlock($pos->floor(), $ore, false);
                     if ($this->cfg["fizz-sound"] == true) {
                         $pos->getWorld()->addSound($pos, new FizzSound());
                     }
-                }), (int) $delay);
+                }), $delay);
             }
         }
     }
