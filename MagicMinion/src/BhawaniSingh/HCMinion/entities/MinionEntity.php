@@ -387,7 +387,7 @@ abstract class MinionEntity extends Human
             switch ($this->currentAction) {
                 case self::ACTION_IDLE:
                     if ($this->currentActionSeconds >= 2) { //TODO: Customize
-                        $this->setNameTag("§l§6" . strtoupper($this->getMinionInformation()->getType()->getTargetName()) . $this->getMinionInformation()->getLevel() . "§r\n§e" . $this->getMinionInformation()->getOwner() . "'s Minion");
+                        $this->setNameTag("§l§6" . strtoupper($this->getMinionInformation()->getType()->getTargetName()) . "§r\n§e" . $this->getMinionInformation()->getOwner() . "'s Minion");
                         $this->setNameTagAlwaysVisible(false);
 
                         $this->currentAction = self::ACTION_TURNING;
@@ -430,7 +430,7 @@ abstract class MinionEntity extends Human
                 case self::ACTION_CANT_WORK:
                     if (!$this->isInventoryFull()) {
                         $this->currentAction = self::ACTION_IDLE;
-                        $this->setNameTag("§l§6" . strtoupper($this->getMinionInformation()->getType()->getTargetName()) . $this->getMinionInformation()->getLevel() . "§r\n§e" . $this->getMinionInformation()->getOwner() . "'s Minion");
+                        $this->setNameTag("§l§6" . strtoupper($this->getMinionInformation()->getType()->getTargetName()) . "§r\n§e" . $this->getMinionInformation()->getOwner() . "'s Minion");
                     }
                     break;
             }
@@ -536,7 +536,7 @@ abstract class MinionEntity extends Human
             $this->getInventory()->setItemInHand($item);
         }
 
-        $this->setNameTag("§l§6" . strtoupper($this->getMinionInformation()->getType()->getTargetName()) . $this->getMinionInformation()->getLevel() . "§r\n§e" . $this->getMinionInformation()->getOwner() . "'s Minion");
+        $this->setNameTag("§l§6" . strtoupper($this->getMinionInformation()->getType()->getTargetName()) . "§r\n§e" . $this->getMinionInformation()->getOwner() . "'s Minion");
         $this->setNameTagAlwaysVisible(false);
     }
 
