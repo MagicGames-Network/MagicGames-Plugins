@@ -77,7 +77,7 @@ class Main extends PluginBase
                 return false;
             }
 
-            $oreSpawner = $this->createOreSpawner(strtolower($args[0]), $args[1]);
+            $oreSpawner = $this->createOreSpawner(strtolower($args[0]), (int) $args[1]);
             $player->getInventory()->addItem($oreSpawner);
             return true;
         }

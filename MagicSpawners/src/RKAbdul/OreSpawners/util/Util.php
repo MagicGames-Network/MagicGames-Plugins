@@ -45,7 +45,7 @@ class Util
         return $ore;
     }
 
-    public function checkSpawner(Block $bBelow)
+    public function checkSpawner(Block $bBelow): string|bool
     {
         $bbId = $bBelow->getId();
         $coalId = (int) $this->cfg["ore-generator-blocks"]["coal"];
@@ -70,7 +70,7 @@ class Util
         return $ore;
     }
 
-    public function getDelay(Block $block)
+    public function getDelay(Block $block): int
     {
         $tile = $block->getPosition()->getWorld()->getTile($block->getPosition());
 

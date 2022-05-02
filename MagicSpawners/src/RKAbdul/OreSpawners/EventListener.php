@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace RKAbdul\OreSpawners;
 
+use pocketmine\block\Block;
 use pocketmine\event\Listener;
+use pocketmine\nbt\tag\StringTag;
 use RKAbdul\OreSpawners\util\Util;
 use pocketmine\scheduler\ClosureTask;
 use pocketmine\world\sound\FizzSound;
@@ -15,7 +17,6 @@ use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\event\block\BlockPlaceEvent;
 use pocketmine\event\block\BlockUpdateEvent;
 use pocketmine\event\player\PlayerInteractEvent;
-use pocketmine\nbt\tag\StringTag;
 
 class EventListener implements Listener
 {
@@ -52,16 +53,16 @@ class EventListener implements Listener
 
             $ore = $this->util->checkBlock($bBelow);
             $delay = $this->util->getDelay($bBelow);
-            if (!$event->isCancelled()) {
+            if (!$event->isCancelled() && $ore instanceof Block) {
                 $event->cancel();
                 if ($block->getId() == $ore->getId()) {
                     return;
                 }
 
                 $this->plugin->getScheduler()->scheduleDelayedTask(new ClosureTask(function () use ($pos, $ore): void {
-                    if ($pos->getWorld() !== null) {
-                        $pos->getWorld()->setBlock($pos->floor(), $ore, false, true);
-                        if ($this->cfg["fizz-sound"] == true) $pos->getWorld()->addSound($pos, new FizzSound());
+                    $pos->getWorld()->setBlock($pos->floor(), $ore, false, true);
+                    if ($this->cfg["fizz-sound"] == true) {
+                        $pos->getWorld()->addSound($pos, new FizzSound());
                     }
                 }), (int) $delay);
             }
@@ -90,7 +91,7 @@ class EventListener implements Listener
         }
 
         $bBelow = $pos->getWorld()->getBlock($pos->floor()->down(1));
-        if (!$this->util->checkBlock($bBelow)) {
+        if (!$this->util->checkBlock($bBelow) instanceof Block) {
             $event->cancel();
             $event->getPlayer()->sendMessage(Tf::RED . "You can not place blocks over an OreSpawner!");
         }
@@ -163,7 +164,7 @@ class EventListener implements Listener
             $tile = $pos->getWorld()->getTile($pos);
             if ($tile instanceof SimpleTile) {
                 $type = $this->util->checkSpawner($block);
-                if (!$type) {
+                if (!is_string($type)) {
                     return;
                 }
 
