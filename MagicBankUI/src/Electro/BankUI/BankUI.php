@@ -563,15 +563,15 @@ class BankUI extends PluginBase implements Listener
     {
         /*if ($this->getServer()->getPlayerExact($player) instanceof Player && isset($this->playersMoney[$player])) {*/
         $web = new Webhook($this->getConfig()->get("log-webhook-url"));
-        $colorval = hexdec($this->getConfig()->get("log-embed-color"));
+        $colorVal = (int) hexdec($this->getConfig()->get("log-embed-color"));
         $msg = new Message();
         $msg->setUsername($this->getConfig()->get("log-webhook-username"));
         $msg->setAvatarURL($this->getConfig()->get("log-webhook-avatar-url"));
         $e = new Embed();
-        $e->setColor($colorval);
+        $e->setColor($colorVal);
         $e->setTitle("BANK LOG 💰");
         $e->addField("Player Name", $player);
-        $e->addField("Money In Bank", $amount);
+        $e->addField("Money In Bank", (string) $amount);
         $e->setThumbnail($this->getConfig()->get("log-thumbnail-url"));
         $msg->addEmbed($e);
         $web->send($msg);
