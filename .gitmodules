@@ -25,3 +25,7 @@
 [submodule ".github/phpstan/FI-Utils"]
 	path = .github/phpstan/FI-Utils
 	url = https://github.com/JinodkDevTeam/FI-Utils
+[submodule ".github/phpstan/DiscordWebhookAPI"]
+	path = .github/phpstan/DiscordWebhookAPI
+	url = https://github.com/CortexPE/DiscordWebhookAPI
+	branch = PM4

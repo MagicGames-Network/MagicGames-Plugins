@@ -12,13 +12,13 @@ use pocketmine\plugin\PluginBase;
 use jojoe77777\FormAPI\CustomForm;
 use jojoe77777\FormAPI\SimpleForm;
 use onebone\economyapi\EconomyAPI;
+use CortexPE\DiscordWebhookAPI\Embed;
 use pocketmine\command\CommandSender;
 use pocketmine\scheduler\ClosureTask;
-use pocketmine\event\player\PlayerJoinEvent;
-use pocketmine\event\player\PlayerQuitEvent;
 use CortexPE\DiscordWebhookAPI\Message;
 use CortexPE\DiscordWebhookAPI\Webhook;
-use CortexPE\DiscordWebhookAPI\Embed;
+use pocketmine\event\player\PlayerJoinEvent;
+use pocketmine\event\player\PlayerQuitEvent;
 use pocketmine\event\player\PlayerInteractEvent;
 
 class BankUI extends PluginBase implements Listener
@@ -340,10 +340,10 @@ class BankUI extends PluginBase implements Listener
                     $this->addMoney($player->getName(), $playerMoney);
                     $player->sendMessage("§aYou have deposited $" . $playerMoney . " into the bank");
                     EconomyAPI::getInstance()->reduceMoney($player, $playerMoney);
-                    if ($this->getConfig()->get("log-player-webhook") === true){
-                      if ($this->getMoney($player->getName()) >= 50000000){
-                          $this->sendDiscord($player->getName(), $this->getMoney($player->getName()));
-                      }
+                    if ($this->getConfig()->get("log-player-webhook") === true) {
+                        if ($this->getMoney($player->getName()) >= 50000000) {
+                            $this->sendDiscord($player->getName(), $this->getMoney($player->getName()));
+                        }
                     }
                     break;
                 case 1:
@@ -360,10 +360,10 @@ class BankUI extends PluginBase implements Listener
                     $this->addMoney($player->getName(), $playerMoney / 2);
                     $player->sendMessage("§aYou have deposited $" . $playerMoney / 2 . " into the bank");
                     EconomyAPI::getInstance()->reduceMoney($player, $playerMoney / 2);
-                    if ($this->getConfig()->get("log-player-webhook") === true){
-                      if ($this->getMoney($player->getName()) >= 50000000){
-                          $this->sendDiscord($player->getName(), $this->getMoney($player->getName()));
-                      }
+                    if ($this->getConfig()->get("log-player-webhook") === true) {
+                        if ($this->getMoney($player->getName()) >= 50000000) {
+                            $this->sendDiscord($player->getName(), $this->getMoney($player->getName()));
+                        }
                     }
                     break;
                 case 2:
@@ -400,16 +400,16 @@ class BankUI extends PluginBase implements Listener
                 return true;
             }
             if ($data[1] >= 100000000) {
-                        $player->sendMessage("§aYou can't deposit more than 100 million");
-                        return true;
-                    }
+                $player->sendMessage("§aYou can't deposit more than 100 million");
+                return true;
+            }
             $player->sendMessage("§aYou have deposited $" . $data[1] . " into the bank");
             $this->addTransaction($player->getName(), "§aDeposited $" . $data[1]);
             $this->addMoney($player->getName(), (float) $data[1]);
             EconomyAPI::getInstance()->reduceMoney($player, (float) $data[1]);
-            if ($this->getConfig()->get("log-player-webhook") === true){
-                      if ($this->getMoney($player->getName()) >= 50000000){
-                          $this->sendDiscord($player->getName(), $this->getMoney($player->getName()));
+            if ($this->getConfig()->get("log-player-webhook") === true) {
+                if ($this->getMoney($player->getName()) >= 50000000) {
+                    $this->sendDiscord($player->getName(), $this->getMoney($player->getName()));
                 }
             }
         });
@@ -547,7 +547,7 @@ class BankUI extends PluginBase implements Listener
             $playerBankMoney->save();
         }
     }
-    
+
     /*public function takeMoney(string $player, float $amount): void
     {
         if ($this->getServer()->getPlayerExact($player) instanceof Player && isset($this->playersMoney[$player])) {
@@ -558,24 +558,23 @@ class BankUI extends PluginBase implements Listener
             $playerBankMoney->save();
         }
       }*/
-        
+
     public function sendDiscord(string $player, float $amount): void
     {
         /*if ($this->getServer()->getPlayerExact($player) instanceof Player && isset($this->playersMoney[$player])) {*/
-            $web = new Webhook($this->getConfig()->get("log-webhook-url"));
-            $colorval = hexdec($this->getConfig()->get("log-embed-color"));
-            $msg = new Message();
-            $msg->setUsername($this->getConfig()->get("log-webhook-username"));
-  		    	$msg->setAvatarURL($this->getConfig()->get("log-webhook-avatar-url"));
-            $e = new Embed();
-            $e->setColor($colorval);
-            $e->setTitle("BANK LOG 💰");
-            $e->addField("Player Name", $player);
-            $e->addField("Money In Bank", $amount);
-            $e->setThumbnail($this->getConfig()->get("log-thumbnail-url"));
-            $msg->addEmbed($e);
-            $web->send($msg);
-        
+        $web = new Webhook($this->getConfig()->get("log-webhook-url"));
+        $colorval = hexdec($this->getConfig()->get("log-embed-color"));
+        $msg = new Message();
+        $msg->setUsername($this->getConfig()->get("log-webhook-username"));
+        $msg->setAvatarURL($this->getConfig()->get("log-webhook-avatar-url"));
+        $e = new Embed();
+        $e->setColor($colorval);
+        $e->setTitle("BANK LOG 💰");
+        $e->addField("Player Name", $player);
+        $e->addField("Money In Bank", $amount);
+        $e->setThumbnail($this->getConfig()->get("log-thumbnail-url"));
+        $msg->addEmbed($e);
+        $web->send($msg);
     }
 
     public function setMoney(string $player, float $amount): void

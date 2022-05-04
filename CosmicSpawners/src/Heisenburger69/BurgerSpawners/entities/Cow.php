@@ -9,6 +9,7 @@ use pocketmine\entity\EntitySizeInfo;
 use pocketmine\data\bedrock\EnchantmentIds;
 use pocketmine\data\bedrock\EnchantmentIdMap;
 use pocketmine\event\entity\EntityDamageByEntityEvent;
+use pocketmine\network\mcpe\protocol\types\entity\EntityIds;
 
 class Cow extends SpawnerEntity
 {
@@ -48,6 +49,11 @@ class Cow extends SpawnerEntity
     protected function getInitialSizeInfo(): EntitySizeInfo
     {
         return new EntitySizeInfo(1.3, 0.9);
+    }
+
+    public static function getNetworkTypeId(): string
+    {
+        return EntityIds::COW;
     }
 
     public function getXpDropAmount(): int

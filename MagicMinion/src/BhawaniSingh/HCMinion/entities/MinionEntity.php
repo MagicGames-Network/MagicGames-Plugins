@@ -242,7 +242,9 @@ abstract class MinionEntity extends Human
                                             /** @var Item $item */
                                             foreach (array_reverse($this->getMinionInventory()->all($itemClicked), true) as $index => $item) {
                                                 $itemCount = $item->getCount();
-                                                $this->getMinionInventory()->setItem($index, $item->setCount($itemCount - $remaining > 0 ? $itemCount - $remaining : 0)); 
+                                                $newCount = max($itemCount - $remaining, 0);
+
+                                                $this->getMinionInventory()->setItem($index, $item->setCount($newCount > 64 ? 64 : $newCount));
                                                 $remaining -= $itemCount;
                                                 if ($remaining === 0) {
                                                     break;

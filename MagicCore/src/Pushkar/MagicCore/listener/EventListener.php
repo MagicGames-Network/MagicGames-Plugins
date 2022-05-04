@@ -318,7 +318,7 @@ class EventListener implements Listener
         $event->cancel();
     }
 
-    public function onMove(PlayerMoveEvent $event): void
+    /*public function onMove(PlayerMoveEvent $event): void
     {
         $player = $event->getPlayer();
         $block = $player->getWorld()->getBlock($player->getPosition());
@@ -328,7 +328,7 @@ class EventListener implements Listener
         if ($block->getId() == BlockLegacyIds::PORTAL) {
             Server::getInstance()->dispatchCommand($player, "hub");
         }
-    }
+    }*/
 
     public function onPlace(BlockPlaceEvent $event): void
     {

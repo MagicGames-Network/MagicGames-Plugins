@@ -1,14 +1,15 @@
 {
    "name": "pocketmine/phpstan-plugin-config",
    "require": {
-      "pocketmine/pocketmine-mp": "4.3.0",
-      "phpstan/phpstan": "^1.5.6",
+      "pocketmine/pocketmine-mp": "4.3.1",
+      "phpstan/phpstan": "^1.6.4",
       "phpstan/extension-installer": "^1.1",
-      "phpstan/phpstan-strict-rules": "^1.1"
+      "phpstan/phpstan-strict-rules": "^1.2.2"
    },
    "autoload": {
       "psr-4": {
          "CortexPE\\Commando\\": "Commando/src/CortexPE/Commando",
+         "CortexPE\\DiscordWebhookAPI\\": "DiscordWebhookAPI/src/CortexPE/DiscordWebhookAPI",
          "DenielWorld\\EzTiles\\": "EzTiles/src/DenielWorld/EzTiles",
          "DaPigGuy\\PiggyCustomEnchants\\": "PiggyCustomEnchants/src/DaPigGuy/PiggyCustomEnchants",
          "dktapps\\pmforms\\": "pmforms/src/dktapps/pmforms",

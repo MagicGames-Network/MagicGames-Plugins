@@ -75,7 +75,7 @@ class EventListener implements Listener
             if (!in_array(str_replace(" ", "_", strtolower($entity->getName())), Utils::getEntityArrayList())) return;
             if (in_array(strtolower((string) $entity->getId()), $this->plugin->exemptedEntities)) return;
             if (in_array(Utils::getEntityNameFromID((string) $entity->getId()), $this->plugin->exemptedEntities)) return;
-            if (!$entity->getWorld()->isLoaded()) return;
+            if (!$entity->getPosition()->isValid()) return;
             $disabledWorlds = ConfigManager::getArray("mob-stacking-disabled-worlds");
             if (is_array($disabledWorlds)) {
                 if (in_array($entity->getWorld()->getFolderName(), $disabledWorlds)) {
