@@ -28,11 +28,11 @@ parameters:
         - ../../MagicHealthDefense
         - ../../MagicIsland
         - ../../MagicMinion
-        - ../../MagicPortalsPE
         - ../../MagicSkills
         - ../../MagicSpawners
         - ../../MagicQuest
         - ../../MagicWorldRegen
+        - ../../PortalsPE
         - ../../PurePerms
         - ../../SellAll
         - ../../SellWands
