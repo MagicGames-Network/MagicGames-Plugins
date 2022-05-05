@@ -4,39 +4,39 @@ declare(strict_types=1);
 
 namespace DaPigGuy\PiggyCustomEnchants\utils;
 
-use DaPigGuy\PiggyCustomEnchants\CustomEnchantManager;
-use DaPigGuy\PiggyCustomEnchants\enchants\CustomEnchant;
-use DaPigGuy\PiggyCustomEnchants\enchants\CustomEnchantIds;
-use DaPigGuy\PiggyCustomEnchants\entities\HomingArrow;
-use DaPigGuy\PiggyCustomEnchants\entities\PiggyFireball;
-use DaPigGuy\PiggyCustomEnchants\entities\PiggyWitherSkull;
-use DaPigGuy\PiggyCustomEnchants\entities\PigProjectile;
-use InvalidArgumentException;
-use DaPigGuy\PiggyCustomEnchants\libs\jojoe77777\FormAPI\SimpleForm;
-use pocketmine\entity\Location;
-use pocketmine\entity\projectile\Arrow;
-use pocketmine\entity\projectile\Projectile;
-use pocketmine\inventory\ArmorInventory;
-use pocketmine\item\Armor;
 use pocketmine\item\Axe;
 use pocketmine\item\Bow;
-use pocketmine\item\Compass;
-use pocketmine\item\Durable;
-use pocketmine\item\enchantment\EnchantmentInstance;
-use pocketmine\item\enchantment\Rarity;
 use pocketmine\item\Hoe;
 use pocketmine\item\Item;
-use pocketmine\item\ItemIds;
-use pocketmine\item\Pickaxe;
+use pocketmine\item\Armor;
+use pocketmine\item\Sword;
 use pocketmine\item\Shears;
 use pocketmine\item\Shovel;
-use pocketmine\item\Sword;
-use pocketmine\nbt\tag\CompoundTag;
-use pocketmine\network\mcpe\convert\TypeConverter;
-use pocketmine\network\mcpe\protocol\types\inventory\ItemStack;
+use pocketmine\item\Compass;
+use pocketmine\item\Durable;
+use pocketmine\item\ItemIds;
+use pocketmine\item\Pickaxe;
+use InvalidArgumentException;
 use pocketmine\player\Player;
-use pocketmine\plugin\PluginDescription;
+use pocketmine\entity\Location;
 use pocketmine\utils\TextFormat;
+use pocketmine\nbt\tag\CompoundTag;
+use pocketmine\entity\projectile\Arrow;
+use pocketmine\item\enchantment\Rarity;
+use pocketmine\inventory\ArmorInventory;
+use pocketmine\plugin\PluginDescription;
+use pocketmine\entity\projectile\Projectile;
+use pocketmine\network\mcpe\convert\TypeConverter;
+use pocketmine\item\enchantment\EnchantmentInstance;
+use DaPigGuy\PiggyCustomEnchants\CustomEnchantManager;
+use DaPigGuy\PiggyCustomEnchants\entities\HomingArrow;
+use DaPigGuy\PiggyCustomEnchants\enchants\CustomEnchant;
+use DaPigGuy\PiggyCustomEnchants\entities\PiggyFireball;
+use DaPigGuy\PiggyCustomEnchants\entities\PigProjectile;
+use DaPigGuy\PiggyCustomEnchants\enchants\CustomEnchantIds;
+use DaPigGuy\PiggyCustomEnchants\entities\PiggyWitherSkull;
+use pocketmine\network\mcpe\protocol\types\inventory\ItemStack;
+use DaPigGuy\PiggyCustomEnchants\libs\jojoe77777\FormAPI\SimpleForm;
 
 class Utils
 {
@@ -286,5 +286,22 @@ class Utils
     public static function isCoolKid(PluginDescription $description): bool
     {
         return $description->getName() === "PiggyCustomEnchants" && in_array("DaPigGuy", $description->getAuthors(), true);
+    }
+
+    public static function cleanOldItems(Item $item): Item
+    {
+        foreach ($item->getEnchantments() as $enchantmentInstance) {
+            $enchantment = $enchantmentInstance->getType();
+            if ($enchantment instanceof CustomEnchant) {
+                $item->setCustomName(str_replace("\n" . self::getColorFromRarity($enchantment->getRarity()) . $enchantment->name . " " . self::getRomanNumeral($enchantmentInstance->getLevel()), "", $item->getCustomName()));
+                $lore = $item->getLore();
+                if (($key = array_search(self::getColorFromRarity($enchantment->getRarity()) . $enchantment->name . " " . self::getRomanNumeral($enchantmentInstance->getLevel()), $lore, true)) !== false) {
+                    unset($lore[$key]);
+                }
+                $item->setLore($lore);
+            }
+        }
+        $item->getNamedTag()->setInt("PiggyCEItemVersion", 0);
+        return $item;
     }
 }

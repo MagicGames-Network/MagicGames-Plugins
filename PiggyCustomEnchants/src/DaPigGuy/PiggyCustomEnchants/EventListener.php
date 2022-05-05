@@ -4,10 +4,15 @@ declare(strict_types=1);
 
 namespace DaPigGuy\PiggyCustomEnchants;
 
+use pocketmine\Server;
 use pocketmine\item\Item;
+use pocketmine\item\Tool;
+use pocketmine\item\Armor;
 use pocketmine\item\ItemIds;
 use pocketmine\player\Player;
 use pocketmine\event\Listener;
+use pocketmine\item\ItemFactory;
+use pocketmine\utils\TextFormat;
 use pocketmine\item\VanillaItems;
 use pocketmine\inventory\Inventory;
 use pocketmine\inventory\ArmorInventory;
@@ -44,6 +49,7 @@ use pocketmine\network\mcpe\protocol\InventorySlotPacket;
 use DaPigGuy\PiggyCustomEnchants\enchants\CustomEnchantIds;
 use pocketmine\network\mcpe\protocol\PlayerAuthInputPacket;
 use pocketmine\network\mcpe\protocol\InventoryContentPacket;
+use DaPigGuy\PiggyCustomEnchants\enchants\TickingEnchantment;
 use pocketmine\inventory\transaction\action\SlotChangeAction;
 use DaPigGuy\PiggyCustomEnchants\enchants\ReactiveEnchantment;
 use DaPigGuy\PiggyCustomEnchants\enchants\tools\DrillerEnchant;
@@ -235,12 +241,8 @@ class EventListener implements Listener
     public function onMove(PlayerMoveEvent $event): void
     {
         $player = $event->getPlayer();
-        if (!isset($this->lastMoveTime[$player->getUniqueId()->toString()])) {
-            $this->lastMoveTime[$player->getUniqueId()->toString()] = time();
-            return;
-        }
-        
-        if ($this->lastMoveTime[$player->getUniqueId()->toString()] + 2 < time()) {
+
+        if (!isset($this->lastMoveTime[$player->getUniqueId()->toString()]) || $this->lastMoveTime[$player->getUniqueId()->toString()] + 3 < time()) {
             /*if (!Utils::shouldTakeFallDamage($player)) {
                 if (Utils::getNoFallDamageDuration($player) <= 0) {
                     Utils::setShouldTakeFallDamage($player, true);
@@ -248,8 +250,67 @@ class EventListener implements Listener
                     Utils::increaseNoFallDamageDuration($player);
                 }
             }*/
-            if ($event->getFrom()->floor()->equals($event->getTo()->floor())) return;
-            ReactiveEnchantment::attemptReaction($player, $event);
+            if (!$event->getFrom()->floor()->equals($event->getTo()->floor())) {
+                ReactiveEnchantment::attemptReaction($player, $event);
+            }
+
+            $currentTick = Server::getInstance()->getTick();
+            $successfulEnchantments = [];
+            foreach ($player->getInventory()->getContents() as $slot => $content) {
+                if ($content->getId() === ItemIds::BOOK) {
+                    if (count($content->getEnchantments()) > 0) {
+                        $enchantedBook = ItemFactory::getInstance()->get(ItemIds::ENCHANTED_BOOK, 0, $content->getCount(), $content->getNamedTag());
+                        $enchantedBook->setCustomName(TextFormat::RESET . TextFormat::YELLOW . "Enchanted Book" . TextFormat::RESET);
+                        $enchantedBook->addEnchantment(...$content->getEnchantments());
+                        $player->getInventory()->setItem($slot, $enchantedBook);
+                        continue;
+                    }
+                } elseif ($content instanceof Tool) {
+                    if ($content->getNamedTag()->getTag("PiggyCEItemVersion") === null && count($content->getEnchantments()) > 0) $player->getInventory()->setItem($slot, Utils::cleanOldItems($content));
+                    foreach ($content->getEnchantments() as $enchantmentInstance) {
+                        /** @var TickingEnchantment $enchantment */
+                        $enchantment = $enchantmentInstance->getType();
+                        if ($enchantment instanceof CustomEnchant && $enchantment->canTick()) {
+                            if (!in_array($enchantment, $successfulEnchantments, true) || $enchantment->supportsMultipleItems()) {
+                                if (($enchantment->getUsageType() === CustomEnchant::TYPE_ANY_INVENTORY ||
+                                    $enchantment->getUsageType() === CustomEnchant::TYPE_INVENTORY ||
+                                    ($enchantment->getUsageType() === CustomEnchant::TYPE_HAND && $slot === $player->getInventory()->getHeldItemIndex())
+                                )) {
+                                    if ($currentTick % $enchantment->getTickingInterval() === 0) {
+                                        $enchantment->onTick($player, $content, $player->getInventory(), $slot, $enchantmentInstance->getLevel());
+                                        $successfulEnchantments[] = $enchantment;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            foreach ($player->getArmorInventory()->getContents() as $slot => $content) {
+                if ($content instanceof Armor) {
+                    if ($content->getNamedTag()->getTag("PiggyCEItemVersion") === null && count($content->getEnchantments()) > 0) $player->getArmorInventory()->setItem($slot, Utils::cleanOldItems($content));
+                    foreach ($content->getEnchantments() as $enchantmentInstance) {
+                        /** @var TickingEnchantment $enchantment */
+                        $enchantment = $enchantmentInstance->getType();
+                        if ($enchantment instanceof CustomEnchant && $enchantment->canTick()) {
+                            if (!in_array($enchantment, $successfulEnchantments, true) || $enchantment->supportsMultipleItems()) {
+                                if (($enchantment->getUsageType() === CustomEnchant::TYPE_ANY_INVENTORY ||
+                                    $enchantment->getUsageType() === CustomEnchant::TYPE_ARMOR_INVENTORY ||
+                                    $enchantment->getUsageType() === CustomEnchant::TYPE_HELMET && Utils::isHelmet($content) ||
+                                    $enchantment->getUsageType() === CustomEnchant::TYPE_CHESTPLATE && Utils::isChestplate($content) ||
+                                    $enchantment->getUsageType() === CustomEnchant::TYPE_LEGGINGS && Utils::isLeggings($content) ||
+                                    $enchantment->getUsageType() === CustomEnchant::TYPE_BOOTS && Utils::isBoots($content)
+                                )) {
+                                    if ($currentTick % $enchantment->getTickingInterval() === 0) {
+                                        $enchantment->onTick($player, $content, $player->getArmorInventory(), $slot, $enchantmentInstance->getLevel());
+                                        $successfulEnchantments[] = $enchantment;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
             $this->lastMoveTime[$player->getUniqueId()->toString()] = time();
         }
     }
