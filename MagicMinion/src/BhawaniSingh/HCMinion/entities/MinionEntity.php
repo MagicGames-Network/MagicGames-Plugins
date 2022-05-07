@@ -612,12 +612,6 @@ abstract class MinionEntity extends Human
             $this->getWorld()->dropItem($this->getPosition(), $content);
         }
 
-        if (!BetterMinion::getInstance()->getProvider()->hasMinionData($this->getMinionInformation()->getOwner())) {
-            BetterMinion::getInstance()->getProvider()->createMinionData($this->getMinionInformation()->getOwner());
-        }
-        $minionData = BetterMinion::getInstance()->getProvider()->getMinionDataFromPlayer($this->getMinionInformation()->getOwner());
-        BetterMinion::getInstance()->getProvider()->updateMinionData($this->getMinionInformation()->getOwner(), $minionData["minionCount"] <= 0 ? 0 : $minionData["minionCount"] - 1);
-
         $minionItemData = [$this->getMinionInformation()->getType()->getTargetId(), $this->getMinionInformation()->getType()->getTargetMeta()];
         $minionItem = match ($minionItemData) {
             [BlockLegacyIds::COBBLESTONE, 0] => ItemFactory::getInstance()->get(1110, 0, 1),
@@ -654,11 +648,6 @@ abstract class MinionEntity extends Human
 
         $this->getWorld()->dropItem($this->getPosition(), $minionItem);
         $this->close();
-
-        $player = Server::getInstance()->getPlayerExact($this->getMinionInformation()->getOwner());
-        if ($player instanceof Player) {
-            $player->sendMessage(" §eMinion successfully destroyed! You have " . ($minionData["minionCount"] - 1) . "/" . BetterMinion::MINION_LIMIT . " minions now!");
-        }
     }
 
     public function getTool(string $tool, bool $isNetheriteTool): ?Item
