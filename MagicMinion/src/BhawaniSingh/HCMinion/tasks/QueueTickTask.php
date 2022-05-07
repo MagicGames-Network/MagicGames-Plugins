@@ -28,7 +28,7 @@ class QueueTickTask extends Task
             $world = Server::getInstance()->getWorldManager()->getWorld($entityData["worldId"]);
             if (!$world instanceof World) {
                 unset(BetterMinion::$minionQueue[$iterationQueue]);
-                return;
+                continue;
             }
 
             $entity = $world->getEntity($entityData["entityId"]);
@@ -40,7 +40,7 @@ class QueueTickTask extends Task
                     unset(BetterMinion::$minionQueue[$iterationQueue]);
                     $entity->isQueued = false;
                     $i++;
-                    return;
+                    continue;
                 }
 
                 if (!$entity->isWorking) {
@@ -55,7 +55,7 @@ class QueueTickTask extends Task
                     unset(BetterMinion::$minionQueue[$iterationQueue]);
                     $entity->isQueued = false;
                     $i++;
-                    return;
+                    continue;
                 }
 
                 $entity->setNameTag("§l§6" . strtoupper($entity->getMinionInformation()->getType()->getTargetName()) . "§r\n§e" . $entity->getMinionInformation()->getOwner() . "'s Minion");
@@ -92,7 +92,7 @@ class QueueTickTask extends Task
                             unset(BetterMinion::$minionQueue[$iterationQueue]);
                             $entity->isQueued = false;
                             $i++;
-                            return;
+                            continue 2;
                         }
                         break;
                     case MinionEntity::ACTION_CANT_WORK:
