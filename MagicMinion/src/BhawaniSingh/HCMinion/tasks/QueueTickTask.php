@@ -63,7 +63,7 @@ class QueueTickTask extends Task
                 $entity->setNameTagAlwaysVisible(false);
                 switch ($entity->currentAction) {
                     case MinionEntity::ACTION_IDLE:
-                        if ($entity->currentActionSeconds >= 2) { //TODO: Customize
+                        if ($entity->currentActionSeconds >= 1) { //TODO: Customize
                             $entity->currentAction = MinionEntity::ACTION_TURNING;
                             $entity->currentActionSeconds = 0;
                         }
