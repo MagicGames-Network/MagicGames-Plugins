@@ -369,7 +369,7 @@ abstract class MinionEntity extends Human
 
         if (!$this->isQueued && !$this->closed && $this->checkFull() && !$this->isFlaggedForDespawn() && isset($this->minionInformation) && !$this->isViewingInv) {
             if (count(BetterMinion::$minionQueue) > BetterMinion::QUEUE_CYCLE) {
-                $this->setNameTag("§l§6" . strtoupper($this->minionInformation->getType()->getTargetName()) . "§r\n§eCURRENTLY IN QUEUE: " . count(BetterMinion::$minionQueue) - 5);
+                $this->setNameTag("§l§6" . strtoupper($this->minionInformation->getType()->getTargetName()) . "§r\n§eCURRENTLY IN QUEUE: " . (count(BetterMinion::$minionQueue) - 5));
                 $this->setNameTagAlwaysVisible(false);
             }
 
