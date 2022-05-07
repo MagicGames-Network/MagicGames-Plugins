@@ -60,7 +60,7 @@ use pocketmine\network\mcpe\protocol\types\PlayerBlockActionWithBlockInfo;
 
 class EventListener implements Listener
 {
-    private array $lastMoveTime = [];
+    private array $lastActivateTime = [];
 
     public function __construct(private PiggyCustomEnchants $plugin)
     {
@@ -180,7 +180,11 @@ class EventListener implements Listener
      */
     public function onInteract(PlayerInteractEvent $event): void
     {
-        ReactiveEnchantment::attemptReaction($event->getPlayer(), $event);
+        $player = $event->getPlayer();
+        if (!isset($this->lastActivateTime[$player->getUniqueId()->toString()]) || $this->lastActivateTime[$player->getUniqueId()->toString()] + 3 < time()) {
+            ReactiveEnchantment::attemptReaction($event->getPlayer(), $event);
+            $this->lastActivateTime[$player->getUniqueId()->toString()] = time();
+        }
     }
 
     /**
@@ -242,7 +246,7 @@ class EventListener implements Listener
     {
         $player = $event->getPlayer();
 
-        if (!isset($this->lastMoveTime[$player->getUniqueId()->toString()]) || $this->lastMoveTime[$player->getUniqueId()->toString()] + 3 < time()) {
+        if (!isset($this->lastActivateTime[$player->getUniqueId()->toString()]) || $this->lastActivateTime[$player->getUniqueId()->toString()] + 3 < time()) {
             /*if (!Utils::shouldTakeFallDamage($player)) {
                 if (Utils::getNoFallDamageDuration($player) <= 0) {
                     Utils::setShouldTakeFallDamage($player, true);
@@ -311,7 +315,7 @@ class EventListener implements Listener
                     }
                 }
             }
-            $this->lastMoveTime[$player->getUniqueId()->toString()] = time();
+            $this->lastActivateTime[$player->getUniqueId()->toString()] = time();
         }
     }
 
@@ -322,8 +326,8 @@ class EventListener implements Listener
     {
         $player = $event->getPlayer();
 
-        if (isset($this->lastMoveTime[$player->getUniqueId()->toString()])) {
-            unset($this->lastMoveTime[$player->getUniqueId()->toString()]);
+        if (isset($this->lastActivateTime[$player->getUniqueId()->toString()])) {
+            unset($this->lastActivateTime[$player->getUniqueId()->toString()]);
         }
         if (!$player->isClosed()) {
             foreach ($player->getInventory()->getContents() as $slot => $content) {

@@ -14,7 +14,7 @@ use pocketmine\world\particle\BlockBreakParticle;
 
 class FarmingMinion extends MinionEntity
 {
-    protected function getTarget(): void
+    public function getTarget(): void
     {
         $blocks = [];
         for ($x = -$this->getMinionRange(); $x <= $this->getMinionRange(); ++$x) {
@@ -36,7 +36,7 @@ class FarmingMinion extends MinionEntity
         $this->stopWorking();
     }
 
-    protected function startWorking(): void
+    public function startWorking(): void
     {
         if (!$this->target instanceof Crops) {
             $farmland = $this->getWorld()->getBlock($this->target->getPosition()->add(0, -1, 0));
@@ -66,12 +66,12 @@ class FarmingMinion extends MinionEntity
         }
     }
 
-    protected function broadcastPlaceBreak(): bool
+    public function broadcastPlaceBreak(): bool
     {
         return false;
     }
 
-    protected function isWorkFast(): bool
+    public function isWorkFast(): bool
     {
         return true;
     }

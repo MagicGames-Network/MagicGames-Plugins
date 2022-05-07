@@ -39,7 +39,6 @@ use pocketmine\item\LegacyStringToItemParser;
 use pocketmine\event\entity\EntityDamageEvent;
 use BhawaniSingh\HCMinion\minions\MinionUpgrade;
 use pocketmine\world\particle\BlockBreakParticle;
-use pocketmine\network\mcpe\protocol\AnimatePacket;
 use BhawaniSingh\HCMinion\minions\MinionInformation;
 use pocketmine\item\enchantment\EnchantmentInstance;
 use pocketmine\event\entity\EntityDamageByEntityEvent;
@@ -57,13 +56,15 @@ abstract class MinionEntity extends Human
 
     protected MinionInformation $minionInformation;
     protected MinionInventory $minionInventory;
-    protected int $currentAction = self::ACTION_IDLE;
-    protected int $currentActionSeconds = 0;
 
-    protected bool $isViewingInv = false;
-    protected bool $isWorking = false;
+    public int $currentAction = self::ACTION_IDLE;
+    public int $currentActionSeconds = 0;
 
-    protected Block $target;
+    public bool $isViewingInv = false;
+    public bool $isWorking = false;
+    public bool $isQueued = false;
+
+    public Block $target;
 
     private float $money = 0;
 
@@ -366,76 +367,17 @@ abstract class MinionEntity extends Human
         // █▀▄▀█ █ █▄░█ █ █▀█ █▄░█  █▀▀ █▄░█ ▀█▀ █ ▀█▀ █▄█
         // █░▀░█ █ █░▀█ █ █▄█ █░▀█  ██▄ █░▀█ ░█░ █ ░█░ ░█░
 
-        if (!$this->closed && !$this->isFlaggedForDespawn() && isset($this->minionInformation) && !$this->isViewingInv) {
-            if ($this->ticksLived % 60 === 0) {
-                $this->updateTarget();
-            }
-            if (!$this->checkFull()) {
-                return $hasUpdate;
+        if (!$this->isQueued && !$this->closed && $this->checkFull() && !$this->isFlaggedForDespawn() && isset($this->minionInformation) && !$this->isViewingInv) {
+            if (count(BetterMinion::$minionQueue) > BetterMinion::QUEUE_CYCLE) {
+                $this->setNameTag("§l§6" . strtoupper($this->minionInformation->getType()->getTargetName()) . "§r\n§eCURRENTLY IN QUEUE: " . count(BetterMinion::$minionQueue) - 5);
+                $this->setNameTagAlwaysVisible(false);
             }
 
-            ++$this->currentActionSeconds;
-            if (!$this->isWorking) {
-                $this->getTarget();
-                $this->isWorking = true;
-            }
-
-            $this->getWorld()->requestChunkPopulation($this->target->getPosition()->getX() >> Chunk::COORD_BIT_SIZE, $this->target->getPosition()->getZ() >> Chunk::COORD_BIT_SIZE, null);
-            if (!$this->checkTarget()) {
-                $this->stopWorking();
-                return $hasUpdate;
-            }
-
-            switch ($this->currentAction) {
-                case self::ACTION_IDLE:
-                    if ($this->currentActionSeconds >= 2) { //TODO: Customize
-                        $this->setNameTag("§l§6" . strtoupper($this->getMinionInformation()->getType()->getTargetName()) . "§r\n§e" . $this->getMinionInformation()->getOwner() . "'s Minion");
-                        $this->setNameTagAlwaysVisible(false);
-
-                        $this->currentAction = self::ACTION_TURNING;
-                        $this->currentActionSeconds = 0;
-                    }
-                    break;
-                case self::ACTION_TURNING:
-                    $this->lookAt($this->target->getPosition());
-                    if ($this->currentActionSeconds === 1) {
-                        $this->currentAction = self::ACTION_WORKING;
-                        $this->currentActionSeconds = 0;
-                    }
-                    break;
-                case self::ACTION_WORKING:
-                    $isPlacing = $this->target instanceof Air;
-                    if (!$isPlacing) {
-                        if ($this->currentActionSeconds === 1 && $this->broadcastPlaceBreak()) {
-                            $this->getWorld()->broadcastPacketToViewers($this->target->getPosition(), LevelEventPacket::create(LevelEvent::BLOCK_START_BREAK, (int) (65535 / 60), $this->target->getPosition()));
-                        }
-                        if ($this->isWorkFast()) {
-                            $this->startWorking();
-                        }
-                        $pk = new AnimatePacket();
-                        $pk->action = AnimatePacket::ACTION_SWING_ARM;
-                        $pk->actorRuntimeId = $this->getId();
-                        if ($this->broadcastPlaceBreak()) {
-                            $this->getWorld()->broadcastPacketToViewers($this->getPosition(), $pk);
-                        }
-                    } elseif ($this->broadcastPlaceBreak()) {
-                        $this->getWorld()->broadcastPacketToViewers($this->target->getPosition(), LevelEventPacket::create(LevelEvent::BLOCK_STOP_BREAK, 0, $this->target->getPosition()));
-                    }
-                    if ($this->currentActionSeconds === 2) {
-                        $this->startWorking();
-                        $this->stopWorking();
-                        if (!$this->checkFull()) {
-                            return $hasUpdate;
-                        }
-                    }
-                    break;
-                case self::ACTION_CANT_WORK:
-                    if (!$this->isInventoryFull()) {
-                        $this->currentAction = self::ACTION_IDLE;
-                        $this->setNameTag("§l§6" . strtoupper($this->getMinionInformation()->getType()->getTargetName()) . "§r\n§e" . $this->getMinionInformation()->getOwner() . "'s Minion");
-                    }
-                    break;
-            }
+            $this->isQueued = true;
+            BetterMinion::$minionQueue[] = [
+                "entityId" => $this->getId(),
+                "worldId" => $this->getWorld()->getId()
+            ];
         }
         Timings::$livingEntityBaseTick->stopTiming();
 
@@ -542,7 +484,7 @@ abstract class MinionEntity extends Human
         $this->setNameTagAlwaysVisible(false);
     }
 
-    protected function getSmeltedTarget(): ?Item
+    public function getSmeltedTarget(): ?Item
     {
         $contents = file_get_contents(BetterMinion::getInstance()->getDataFolder() . 'smelts.json');
         if (!is_string($contents)) {
@@ -564,7 +506,7 @@ abstract class MinionEntity extends Human
         return null;
     }
 
-    protected function compactItems(): ?Item
+    public function compactItems(): ?Item
     {
         $contents = file_get_contents(BetterMinion::getInstance()->getDataFolder() . 'compacts.json');
         if (!is_string($contents)) {
@@ -590,7 +532,7 @@ abstract class MinionEntity extends Human
         return null;
     }
 
-    protected function getTargetDrops(): array
+    public function getTargetDrops(): array
     {
         $drops = $this->getRealDrops();
         if ($this->getMinionInformation()->getUpgrade()->isAutoSmelt()) {
@@ -599,18 +541,18 @@ abstract class MinionEntity extends Human
         return $drops;
     }
 
-    protected function updateTarget(): void
+    public function updateTarget(): void
     {
     }
 
-    abstract protected function getTarget(): void;
+    abstract public function getTarget(): void;
 
-    protected function checkTarget(): bool
+    public function checkTarget(): bool
     {
         return $this->target instanceof Air || ($this->target->getId() === $this->getMinionInformation()->getType()->getTargetId() && $this->target->getMeta() === $this->getMinionInformation()->getType()->getTargetMeta());
     }
 
-    protected function startWorking(): void
+    public function startWorking(): void
     {
         $this->getWorld()->addParticle($this->target->getPosition()->add(0.5, 0.5, 0.5), new BlockBreakParticle($this->target));
         $this->getWorld()->setBlock($this->target->getPosition(), $this->target instanceof Air ? $this->getMinionInformation()->getType()->toBlock() : VanillaBlocks::AIR());
@@ -634,7 +576,7 @@ abstract class MinionEntity extends Human
         }
     }
 
-    protected function stopWorking(): void
+    public function stopWorking(): void
     {
         $this->currentAction = self::ACTION_IDLE;
         $this->currentActionSeconds = 0;
@@ -645,7 +587,7 @@ abstract class MinionEntity extends Human
         $this->isWorking = false;
     }
 
-    protected function isInventoryFull(): bool
+    public function isInventoryFull(): bool
     {
         $full = true;
         $drops = $this->getTargetDrops();
@@ -661,7 +603,7 @@ abstract class MinionEntity extends Human
         return $full;
     }
 
-    private function destroy(): void
+    public function destroy(): void
     {
         if ($this->broadcastPlaceBreak()) {
             $this->getWorld()->broadcastPacketToViewers($this->getPosition(), LevelEventPacket::create(LevelEvent::BLOCK_STOP_BREAK, 0, $this->target->getPosition()));
@@ -719,7 +661,7 @@ abstract class MinionEntity extends Human
         }
     }
 
-    protected function getTool(string $tool, bool $isNetheriteTool): ?Item
+    public function getTool(string $tool, bool $isNetheriteTool): ?Item
     {
         $tools = [
             BlockToolType::NONE => $isNetheriteTool ? ItemFactory::getInstance()->get(745) : StringToItemParser::getInstance()->parse($tool . ' Pickaxe'),
@@ -733,7 +675,7 @@ abstract class MinionEntity extends Human
         return $tools[$this->getMinionInformation()->getType()->toBlock()->getBreakInfo()->getToolType()];
     }
 
-    private function checkFull(): bool
+    public function checkFull(): bool
     {
         if ($this->isInventoryFull()) {
             if ($this->getMinionInformation()->getUpgrade()->isAutoSell()) {
@@ -741,14 +683,14 @@ abstract class MinionEntity extends Human
                 return true;
             }
             $this->currentAction = self::ACTION_CANT_WORK;
-            $this->setNameTag("\n\n§cInventory Full");
+            $this->setNameTag("§l§6" . strtoupper($this->getMinionInformation()->getType()->getTargetName()) . "§r\n§cINVENTORY FULL");
             $this->setNameTagAlwaysVisible();
             return false;
         }
         return true;
     }
 
-    private function getRealDrops(): array
+    public function getRealDrops(): array
     {
         $block = $this->getMinionInformation()->getType()->toBlock();
         $drops = $block->getDropsForCompatibleTool(VanillaItems::AIR());
@@ -758,7 +700,7 @@ abstract class MinionEntity extends Human
         return $drops;
     }
 
-    private function sellItems(): void
+    public function sellItems(): void
     {
         $sellPrices = SellAll::getInstance()->getConfig()->getAll();
 
@@ -772,44 +714,44 @@ abstract class MinionEntity extends Human
         }
     }
 
-    private function getLevelUpCost(): int
+    public function getLevelUpCost(): int
     {
         $costs = (array) BetterMinion::getInstance()->getConfig()->get('levelup-costs');
 
         return (int) $costs[$this->getMinionInformation()->getLevel()];
     }
 
-    protected function canUseAutoSmelt(): bool
+    public function canUseAutoSmelt(): bool
     {
         return $this->getMinionInformation()->getLevel() >= MinionUpgrade::AUTO_SMELT_LEVEL;
     }
 
-    protected function canUseAutoSell(): bool
+    public function canUseAutoSell(): bool
     {
         return $this->getMinionInformation()->getLevel() >= MinionUpgrade::AUTO_SELL_LEVEL;
     }
 
-    protected function canUseCompacter(): bool
+    public function canUseCompacter(): bool
     {
         return $this->getMinionInformation()->getLevel() >= MinionUpgrade::SUPER_COMPACTER_LEVEL;
     }
 
-    protected function canUseExpander(): bool
+    public function canUseExpander(): bool
     {
         return $this->getMinionInformation()->getLevel() >= MinionUpgrade::SUPER_EXPANDER_LEVEL;
     }
 
-    protected function getMinionRange(): int
+    public function getMinionRange(): int
     {
         return $this->getMinionInformation()->getUpgrade()->isSuperExpander() ? 3 : 2;
     }
 
-    protected function broadcastPlaceBreak(): bool
+    public function broadcastPlaceBreak(): bool
     {
         return true;
     }
 
-    protected function isWorkFast(): bool
+    public function isWorkFast(): bool
     {
         return false;
     }

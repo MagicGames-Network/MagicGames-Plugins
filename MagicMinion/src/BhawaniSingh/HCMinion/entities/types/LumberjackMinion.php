@@ -15,7 +15,7 @@ use pocketmine\world\particle\BlockBreakParticle;
 
 class LumberjackMinion extends MinionEntity
 {
-    protected function updateTarget(): void
+    public function updateTarget(): void
     {
         for ($x = -2; $x <= 2; ++$x) {
             for ($z = -2; $z <= 2; ++$z) {
@@ -34,7 +34,7 @@ class LumberjackMinion extends MinionEntity
         }
     }
 
-    protected function getTarget(): void
+    public function getTarget(): void
     {
         $blocks = [];
         for ($x = -2; $x <= 2; ++$x) {
@@ -56,7 +56,7 @@ class LumberjackMinion extends MinionEntity
         }
     }
 
-    protected function startWorking(): void
+    public function startWorking(): void
     {
         if ($this->target->getId() !== 0) {
             for ($y = 0; $y < 4; ++$y) {
@@ -81,7 +81,7 @@ class LumberjackMinion extends MinionEntity
         }
     }
 
-    protected function getTool(string $tool, bool $isNetheriteTool): ?Item
+    public function getTool(string $tool, bool $isNetheriteTool): ?Item
     {
         return $isNetheriteTool ? ItemFactory::getInstance()->get(746) : StringToItemParser::getInstance()->parse($tool . ' Axe');
     }
@@ -91,7 +91,7 @@ class LumberjackMinion extends MinionEntity
         return false;
     }
 
-    protected function canUseExpander(): bool
+    public function canUseExpander(): bool
     {
         return false;
     }

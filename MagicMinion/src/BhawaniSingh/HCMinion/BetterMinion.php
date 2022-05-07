@@ -22,6 +22,7 @@ use pocketmine\item\enchantment\ItemFlags;
 use pocketmine\item\enchantment\Enchantment;
 use muqsit\invcrashfix\Loader as InvCrashFix;
 use pocketmine\data\bedrock\EnchantmentIdMap;
+use BhawaniSingh\HCMinion\tasks\QueueTickTask;
 use CortexPE\Commando\PacketHooker as Commando;
 use BhawaniSingh\HCMinion\entities\MinionEntity;
 use BhawaniSingh\HCMinion\commands\MinionCommand;
@@ -36,14 +37,19 @@ class BetterMinion extends PluginBase
     use SingletonTrait;
 
     /** @var string[] */
-    public static $minions = [MiningMinion::class, FarmingMinion::class, LumberjackMinion::class];
+    public static array $minions = [MiningMinion::class, FarmingMinion::class, LumberjackMinion::class];
+
     /** @var string[] */
-    public $isRemove = [];
+    public array $isRemove = [];
+
+    public static array $minionQueue = [];
 
     private SQLiteProvider $provider;
 
     public const FAKE_ENCH_ID = -1;
+    
     public const MINION_LIMIT = 16;
+    public const QUEUE_CYCLE = 50;
 
     public function onLoad(): void
     {
@@ -90,6 +96,8 @@ class BetterMinion extends PluginBase
 
         $this->getServer()->getCommandMap()->register('Minion', new MinionCommand($this, 'minion', 'MagicMinion Main Command'));
         $this->getServer()->getPluginManager()->registerEvents(new EventListener(), $this);
+
+        $this->getScheduler()->scheduleRepeatingTask(new QueueTickTask(), 20);
     }
 
     public function getProvider(): SQLiteProvider

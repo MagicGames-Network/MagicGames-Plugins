@@ -9,7 +9,7 @@ use BhawaniSingh\HCMinion\entities\MinionEntity;
 
 class MiningMinion extends MinionEntity
 {
-    protected function getTarget(): void
+    public function getTarget(): void
     {
         $blocks = [];
         for ($x = -$this->getMinionRange(); $x <= $this->getMinionRange(); ++$x) {
