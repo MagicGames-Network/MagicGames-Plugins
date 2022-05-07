@@ -43,7 +43,6 @@ class QueueTickTask extends Task
                     return;
                 }
 
-                ++$entity->currentActionSeconds;
                 if (!$entity->isWorking) {
                     $entity->getTarget();
                     $entity->isWorking = true;
@@ -63,22 +62,16 @@ class QueueTickTask extends Task
                 $entity->setNameTagAlwaysVisible(false);
                 switch ($entity->currentAction) {
                     case MinionEntity::ACTION_IDLE:
-                        if ($entity->currentActionSeconds >= 1) { //TODO: Customize
-                            $entity->currentAction = MinionEntity::ACTION_TURNING;
-                            $entity->currentActionSeconds = 0;
-                        }
+                        $entity->currentAction = MinionEntity::ACTION_TURNING;
                         break;
                     case MinionEntity::ACTION_TURNING:
                         $entity->lookAt($entity->target->getPosition());
-                        if ($entity->currentActionSeconds === 1) {
-                            $entity->currentAction = MinionEntity::ACTION_WORKING;
-                            $entity->currentActionSeconds = 0;
-                        }
+                        $entity->currentAction = MinionEntity::ACTION_WORKING;
                         break;
                     case MinionEntity::ACTION_WORKING:
                         $isPlacing = $entity->target instanceof Air;
                         if (!$isPlacing) {
-                            if ($entity->currentActionSeconds === 1 && $entity->broadcastPlaceBreak()) {
+                            if ($entity->broadcastPlaceBreak()) {
                                 $world->broadcastPacketToViewers($entity->target->getPosition(), LevelEventPacket::create(LevelEvent::BLOCK_START_BREAK, (int) (65535 / 60), $entity->target->getPosition()));
                             }
                             if ($entity->isWorkFast()) {
@@ -93,15 +86,13 @@ class QueueTickTask extends Task
                         } elseif ($entity->broadcastPlaceBreak()) {
                             $world->broadcastPacketToViewers($entity->target->getPosition(), LevelEventPacket::create(LevelEvent::BLOCK_STOP_BREAK, 0, $entity->target->getPosition()));
                         }
-                        if ($entity->currentActionSeconds === 2) {
-                            $entity->startWorking();
-                            $entity->stopWorking();
-                            if (!$entity->checkFull()) {
-                                unset(BetterMinion::$minionQueue[$iterationQueue]);
-                                $entity->isQueued = false;
-                                $i++;
-                                return;
-                            }
+                        $entity->startWorking();
+                        $entity->stopWorking();
+                        if (!$entity->checkFull()) {
+                            unset(BetterMinion::$minionQueue[$iterationQueue]);
+                            $entity->isQueued = false;
+                            $i++;
+                            return;
                         }
                         break;
                     case MinionEntity::ACTION_CANT_WORK:

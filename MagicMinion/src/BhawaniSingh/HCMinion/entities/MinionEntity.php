@@ -58,7 +58,6 @@ abstract class MinionEntity extends Human
     protected MinionInventory $minionInventory;
 
     public int $currentAction = self::ACTION_IDLE;
-    public int $currentActionSeconds = 0;
 
     public bool $isViewingInv = false;
     public bool $isWorking = false;
@@ -369,7 +368,7 @@ abstract class MinionEntity extends Human
 
         if (!$this->isQueued && !$this->closed && $this->checkFull() && !$this->isFlaggedForDespawn() && isset($this->minionInformation) && !$this->isViewingInv) {
             if (count(BetterMinion::$minionQueue) > BetterMinion::QUEUE_CYCLE) {
-                $this->setNameTag("§l§6" . strtoupper($this->minionInformation->getType()->getTargetName()) . "§r\n§eCURRENTLY IN QUEUE: " . (count(BetterMinion::$minionQueue) - 5));
+                $this->setNameTag("§l§6" . strtoupper($this->minionInformation->getType()->getTargetName()) . "§r\n§eCURRENTLY IN QUEUE: " . (count(BetterMinion::$minionQueue) - BetterMinion::QUEUE_CYCLE));
                 $this->setNameTagAlwaysVisible(false);
             }
 
@@ -579,7 +578,6 @@ abstract class MinionEntity extends Human
     public function stopWorking(): void
     {
         $this->currentAction = self::ACTION_IDLE;
-        $this->currentActionSeconds = 0;
 
         if ($this->broadcastPlaceBreak()) {
             $this->getWorld()->broadcastPacketToViewers($this->getPosition(), LevelEventPacket::create(LevelEvent::BLOCK_STOP_BREAK, 0, $this->target->getPosition()));
