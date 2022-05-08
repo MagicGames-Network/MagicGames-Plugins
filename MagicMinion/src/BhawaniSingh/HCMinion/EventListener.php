@@ -28,14 +28,6 @@ class EventListener implements Listener
 
 		if ($event->getAction() === PlayerInteractEvent::RIGHT_CLICK_BLOCK) {
 			if ($item->getNamedTag()->getTag('MinionInformation') instanceof ListTag) {
-				$worldName = $player->getWorld()->getFolderName();
-				if (!$player->hasPermission("place.minion")) {
-					if ($worldName !== $player->getName()) {
-						$player->sendMessage(" §eYou Can Only Place Minion On Your Island");
-						return;
-					}
-				}
-
 				$event->cancel();
 
 				$minionInformation = MinionInformation::nbtDeserialize($item->getNamedTag()->getTag('MinionInformation'));
@@ -74,7 +66,7 @@ class EventListener implements Listener
 					[BlockLegacyIds::LAPIS_ORE, 0] => Utils::createSkin(BetterMinion::getInstance()->getDataFolder() . "lapis.png"),
 					[BlockLegacyIds::REDSTONE_ORE, 0] => Utils::createSkin(BetterMinion::getInstance()->getDataFolder() . "redstone.png"),
 					[BlockLegacyIds::END_STONE, 0] => Utils::createSkin(BetterMinion::getInstance()->getDataFolder() . "endstone.png"),
-					[BlockLegacyIds::NETHERRACK, 0] => Utils::createSkin(BetterMinion::getInstance()->getDataFolder() . "netherrack.png"),
+					[BlockLegacyIds::NETHERRACK, 0] => Utils::createSkin(BetterMinion::getInstance()->getDataFolder() . "cobblestone.png"),
 					[BlockLegacyIds::SNOW_BLOCK, 0] => Utils::createSkin(BetterMinion::getInstance()->getDataFolder() . "snow.png"),
 					[BlockLegacyIds::SAND, 0] => Utils::createSkin(BetterMinion::getInstance()->getDataFolder() . "sand.png"),
 					[BlockLegacyIds::OBSIDIAN, 0] => Utils::createSkin(BetterMinion::getInstance()->getDataFolder() . "obsidian.png"),

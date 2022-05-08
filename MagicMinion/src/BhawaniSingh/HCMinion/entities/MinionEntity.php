@@ -58,6 +58,7 @@ abstract class MinionEntity extends Human
     protected MinionInventory $minionInventory;
 
     public int $currentAction = self::ACTION_IDLE;
+    public int $inQueueTime = 0;
 
     public bool $isViewingInv = false;
     public bool $isWorking = false;
@@ -105,7 +106,7 @@ abstract class MinionEntity extends Human
                     $this->destroy();
                     return;
                 }
-                if ($damager->getName() === $this->getMinionInformation()->getOwner() || Server::getInstance()->isOp($damager->getName())) {
+                if ($damager->getName() === $this->getMinionInformation()->getOwner() || $this->server->isOp($damager->getName())) {
                     $menu = InvMenu::create(InvMenuTypeIds::TYPE_DOUBLE_CHEST);
                     $menu->setName("§r§l§eMINION INVENTORY");
 
@@ -366,18 +367,25 @@ abstract class MinionEntity extends Human
         // █▀▄▀█ █ █▄░█ █ █▀█ █▄░█  █▀▀ █▄░█ ▀█▀ █ ▀█▀ █▄█
         // █░▀░█ █ █░▀█ █ █▄█ █░▀█  ██▄ █░▀█ ░█░ █ ░█░ ░█░
 
-        if (!$this->isQueued && !$this->closed && $this->checkFull() && !$this->isFlaggedForDespawn() && isset($this->minionInformation) && !$this->isViewingInv) {
-            if (count(BetterMinion::$minionQueue) > BetterMinion::QUEUE_CYCLE) {
-                $this->setNameTag("§l§6" . strtoupper($this->minionInformation->getType()->getTargetName()) . "§r\n§eCURRENTLY IN QUEUE: " . (count(BetterMinion::$minionQueue) - BetterMinion::QUEUE_CYCLE));
-                $this->setNameTagAlwaysVisible(false);
-            }
+        if (!$this->isQueued) {
+            if (!$this->closed && !$this->isFlaggedForDespawn() && isset($this->minionInformation) && !$this->isViewingInv) {
+                if (count(BetterMinion::$minionQueue) > BetterMinion::QUEUE_CYCLE) {
+                    $this->setNameTag("§l§6" . strtoupper($this->minionInformation->getType()->getTargetName()) . "§r\n§eCURRENTLY IN QUEUE: " . (count(BetterMinion::$minionQueue) - BetterMinion::QUEUE_CYCLE));
+                    $this->setNameTagAlwaysVisible(false);
+                }
 
-            $this->isQueued = true;
-            BetterMinion::$minionQueue[] = [
-                "entityId" => $this->getId(),
-                "worldId" => $this->getWorld()->getId()
-            ];
+                $this->inQueueTime = 0;
+                $this->isQueued = true;
+                BetterMinion::$minionQueue[] = $this;
+            }
+            // There can be problems with queue system sometimes...
+            // TO DO: Find out why the queue system may break.
+        } elseif (!$this->isInventoryFull() && $this->inQueueTime++ > 10) {
+            BetterMinion::getInstance()->getLogger()->debug("Something is wrong with the queue. Removing " . $this->getMinionInformation()->getOwner() . " from the queue.");
+            $this->inQueueTime = 0;
+            $this->isQueued = false;
         }
+
         Timings::$livingEntityBaseTick->stopTiming();
 
         return $hasUpdate;

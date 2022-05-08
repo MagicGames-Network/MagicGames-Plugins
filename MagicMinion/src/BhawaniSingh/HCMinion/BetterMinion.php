@@ -100,6 +100,14 @@ class BetterMinion extends PluginBase
         $this->getScheduler()->scheduleRepeatingTask(new QueueTickTask(), 20);
     }
 
+    public function onDisable(): void
+    {
+        /** @var MinionEntity $entity */
+        foreach (self::$minionQueue as $entity) {
+            $entity->isQueued = false;
+        }
+    }
+
     public function getProvider(): SQLiteProvider
     {
         return $this->provider;

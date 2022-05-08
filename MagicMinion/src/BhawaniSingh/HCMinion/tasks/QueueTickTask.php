@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace BhawaniSingh\HCMinion\tasks;
 
-use pocketmine\Server;
 use pocketmine\block\Air;
-use pocketmine\world\World;
 use pocketmine\scheduler\Task;
 use pocketmine\world\format\Chunk;
 use BhawaniSingh\HCMinion\BetterMinion;
@@ -20,19 +18,13 @@ class QueueTickTask extends Task
     public function onRun(): void
     {
         $i = 0;
-        foreach (BetterMinion::$minionQueue as $iterationQueue => $entityData) {
+        /** @var MinionEntity $entity */
+        foreach (BetterMinion::$minionQueue as $iterationQueue => $entity) {
             if ($i > BetterMinion::QUEUE_CYCLE) {
                 break;
             }
 
-            $world = Server::getInstance()->getWorldManager()->getWorld($entityData["worldId"]);
-            if (!$world instanceof World) {
-                unset(BetterMinion::$minionQueue[$iterationQueue]);
-                continue;
-            }
-
-            $entity = $world->getEntity($entityData["entityId"]);
-            if ($entity instanceof MinionEntity && !$entity->isClosed() && !$entity->isFlaggedForDespawn() && !$entity->isViewingInv) {
+            if (!$entity->isClosed() && !$entity->isFlaggedForDespawn()) {
                 if ($entity->ticksLived % 60 === 0) {
                     $entity->updateTarget();
                 }
@@ -47,6 +39,7 @@ class QueueTickTask extends Task
                     $entity->getTarget();
                     $entity->isWorking = true;
                 }
+                $world = $entity->getPosition()->getWorld();
 
                 $world->requestChunkPopulation($entity->target->getPosition()->getX() >> Chunk::COORD_BIT_SIZE, $entity->target->getPosition()->getZ() >> Chunk::COORD_BIT_SIZE, null);
                 if (!$entity->checkTarget()) {
@@ -79,7 +72,7 @@ class QueueTickTask extends Task
                             }
                             $pk = new AnimatePacket();
                             $pk->action = AnimatePacket::ACTION_SWING_ARM;
-                            $pk->actorRuntimeId = $entityData["entityId"];
+                            $pk->actorRuntimeId = $entity->getId();
                             if ($entity->broadcastPlaceBreak()) {
                                 $world->broadcastPacketToViewers($entity->getPosition(), $pk);
                             }
@@ -88,12 +81,6 @@ class QueueTickTask extends Task
                         }
                         $entity->startWorking();
                         $entity->stopWorking();
-                        if (!$entity->checkFull()) {
-                            unset(BetterMinion::$minionQueue[$iterationQueue]);
-                            $entity->isQueued = false;
-                            $i++;
-                            continue 2;
-                        }
                         break;
                     case MinionEntity::ACTION_CANT_WORK:
                         if (!$entity->isInventoryFull()) {

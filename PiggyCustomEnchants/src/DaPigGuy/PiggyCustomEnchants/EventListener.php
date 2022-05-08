@@ -246,7 +246,7 @@ class EventListener implements Listener
     {
         $player = $event->getPlayer();
 
-        if (!isset($this->lastActivateTime[$player->getUniqueId()->toString()]) || $this->lastActivateTime[$player->getUniqueId()->toString()] + 3 < time()) {
+        if (!isset($this->lastActivateTime[$player->getUniqueId()->toString()]) || $this->lastActivateTime[$player->getUniqueId()->toString()] + 5 < time()) {
             /*if (!Utils::shouldTakeFallDamage($player)) {
                 if (Utils::getNoFallDamageDuration($player) <= 0) {
                     Utils::setShouldTakeFallDamage($player, true);
