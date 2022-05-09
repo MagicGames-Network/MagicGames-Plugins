@@ -28,6 +28,11 @@ class EventListener implements Listener
 
 		if ($event->getAction() === PlayerInteractEvent::RIGHT_CLICK_BLOCK) {
 			if ($item->getNamedTag()->getTag('MinionInformation') instanceof ListTag) {
+				$blockedWorlds = ["MagicGames", "Mining", "Arena"];
+				if (in_array($player->getWorld()->getFolderName(), $blockedWorlds)) {
+					$player->sendMessage(" §eYou can't place minions here!");
+					return;
+				}
 				$event->cancel();
 
 				$minionInformation = MinionInformation::nbtDeserialize($item->getNamedTag()->getTag('MinionInformation'));

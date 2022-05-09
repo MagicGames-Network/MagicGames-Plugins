@@ -12,11 +12,8 @@ use pocketmine\plugin\PluginBase;
 use jojoe77777\FormAPI\CustomForm;
 use jojoe77777\FormAPI\SimpleForm;
 use onebone\economyapi\EconomyAPI;
-use CortexPE\DiscordWebhookAPI\Embed;
 use pocketmine\command\CommandSender;
 use pocketmine\scheduler\ClosureTask;
-use CortexPE\DiscordWebhookAPI\Message;
-use CortexPE\DiscordWebhookAPI\Webhook;
 use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\event\player\PlayerQuitEvent;
 use pocketmine\event\player\PlayerInteractEvent;
@@ -332,19 +329,10 @@ class BankUI extends PluginBase implements Listener
                         $player->sendMessage("§aYou do not have enough money to deposit into the bank");
                         return true;
                     }
-                    if ($playerMoney >= 100000000) {
-                        $player->sendMessage("§aYou can't deposit more than 100 million");
-                        return true;
-                    }
                     $this->addTransaction($player->getName(), "§aDeposited $" . $playerMoney);
                     $this->addMoney($player->getName(), $playerMoney);
                     $player->sendMessage("§aYou have deposited $" . $playerMoney . " into the bank");
                     EconomyAPI::getInstance()->reduceMoney($player, $playerMoney);
-                    if ($this->getConfig()->get("log-player-webhook") === true) {
-                        if ($this->getMoney($player->getName()) >= 50000000) {
-                            $this->sendDiscord($player->getName(), $this->getMoney($player->getName()));
-                        }
-                    }
                     break;
                 case 1:
                     $playerMoney = EconomyAPI::getInstance()->myMoney($player);
@@ -352,19 +340,10 @@ class BankUI extends PluginBase implements Listener
                         $player->sendMessage("§aYou do not have enough money to deposit into the bank");
                         return true;
                     }
-                    if ($playerMoney / 2 >= 100000000) {
-                        $player->sendMessage("§aYou can't deposit more than 100 million");
-                        return true;
-                    }
                     $this->addTransaction($player->getName(), "§aDeposited $" . $playerMoney / 2);
                     $this->addMoney($player->getName(), $playerMoney / 2);
                     $player->sendMessage("§aYou have deposited $" . $playerMoney / 2 . " into the bank");
                     EconomyAPI::getInstance()->reduceMoney($player, $playerMoney / 2);
-                    if ($this->getConfig()->get("log-player-webhook") === true) {
-                        if ($this->getMoney($player->getName()) >= 50000000) {
-                            $this->sendDiscord($player->getName(), $this->getMoney($player->getName()));
-                        }
-                    }
                     break;
                 case 2:
                     $this->depositCustomForm($player);
@@ -399,19 +378,10 @@ class BankUI extends PluginBase implements Listener
                 $player->sendMessage("§aYou must enter an amount greater than 0");
                 return true;
             }
-            if ($data[1] >= 100000000) {
-                $player->sendMessage("§aYou can't deposit more than 100 million");
-                return true;
-            }
             $player->sendMessage("§aYou have deposited $" . $data[1] . " into the bank");
             $this->addTransaction($player->getName(), "§aDeposited $" . $data[1]);
             $this->addMoney($player->getName(), (float) $data[1]);
             EconomyAPI::getInstance()->reduceMoney($player, (float) $data[1]);
-            if ($this->getConfig()->get("log-player-webhook") === true) {
-                if ($this->getMoney($player->getName()) >= 50000000) {
-                    $this->sendDiscord($player->getName(), $this->getMoney($player->getName()));
-                }
-            }
         });
 
         $form->setTitle("§lDeposit Menu");
@@ -548,38 +518,9 @@ class BankUI extends PluginBase implements Listener
         }
     }
 
-    /*public function takeMoney(string $player, float $amount): void
-    {
-        if ($this->getServer()->getPlayerExact($player) instanceof Player && isset($this->playersMoney[$player])) {
-            $this->playersMoney[$player] = $this->playersMoney[$player] - $amount;
-        } else {
-            $playerBankMoney = new Config($this->getDataFolder() . "Players/" . $player . ".yml", Config::YAML);
-            $playerBankMoney->set("Money", $playerBankMoney->get("Money") - $amount);
-            $playerBankMoney->save();
-        }
-      }*/
-
-    public function sendDiscord(string $player, float $amount): void
-    {
-        /*if ($this->getServer()->getPlayerExact($player) instanceof Player && isset($this->playersMoney[$player])) {*/
-        $web = new Webhook($this->getConfig()->get("log-webhook-url"));
-        $colorVal = (int) hexdec($this->getConfig()->get("log-embed-color"));
-        $msg = new Message();
-        $msg->setUsername($this->getConfig()->get("log-webhook-username"));
-        $msg->setAvatarURL($this->getConfig()->get("log-webhook-avatar-url"));
-        $e = new Embed();
-        $e->setColor($colorVal);
-        $e->setTitle("BANK LOG 💰");
-        $e->addField("Player Name", $player);
-        $e->addField("Money In Bank", (string) $amount);
-        $e->setThumbnail($this->getConfig()->get("log-thumbnail-url"));
-        $msg->addEmbed($e);
-        $web->send($msg);
-    }
-
     public function setMoney(string $player, float $amount): void
     {
-        if ($this->getServer()->getPlayerExact($player) instanceof Player && isset($this->playersMoney[$player])) {
+        if ($this->getServer()->getPlayerExact($player) instanceof Player) {
             $this->playersMoney[$player] = $amount;
         } else {
             $playerBankMoney = new Config($this->getDataFolder() . "Players/" . $player . ".yml", Config::YAML);
@@ -657,12 +598,12 @@ class BankUI extends PluginBase implements Listener
                 return true;
             }
 
-            if ($this->getMoney($player->getName()) == 0) {
+            if (EconomyAPI::getInstance()->myMoney($player) == 0) {
                 $player->sendMessage("§aYou have no money in the purse to make note");
                 return true;
             }
-            if ($this->getMoney($player->getName()) < $data[1]) {
-                $player->sendMessage("§aYou do not have enough money in your bank to make note");
+            if (EconomyAPI::getInstance()->myMoney($player) < $data[1]) {
+                $player->sendMessage("§aYou do not have enough money in your purse to make note");
                 return true;
             }
             if (!is_numeric($data[1])) {
@@ -673,21 +614,17 @@ class BankUI extends PluginBase implements Listener
                 $player->sendMessage("§aYou must enter an amount greater than 0");
                 return true;
             }
-            if ($data[1] > 5000000) {
-                $player->sendMessage("§aYou can't make bank note of over 5 million");
-                return true;
-            }
             $name = $player->getName();
-            $this->takeMoney($player->getName(), (float) $data[1]);
+            EconomyAPI::getInstance()->reduceMoney($player, (float) $data[1]);
             $item = ItemFactory::getInstance()->get(1091, 0, 1);
-            $item->setCustomName("§r§l§6$" . $data[1] . " §aBANK NOTE");
-            $item->setLore(["§r§7Right Click To Redeem This §aBanknote§7\n§r§7Withdrawn By §f$name\n\n§r§7Value » §a$" . $data[1] . ""]);
+            $item->setCustomName("§r§e$" . $data[1]);
+            $item->setLore(["§r§eCreator: §a$name\n§r§eAmount: §a$" . $data[1] . "\n\n§r§7Right Click To Redeem Note"]);
             $item->getNamedTag()->setString("Amount", (string) $data[1]);
             $player->getInventory()->addItem($item);
-            $this->addTransaction($player->getName(), "§aWithdrew Bank Note $" . $data[1]);
         });
+        $coins = EconomyAPI::getInstance()->myMoney($player);
         $form->setTitle("§6»§2NOTES§6«");
-        $form->addLabel("§bMoney Will be Deducted From Your Bank\n\n§aBank Balance: §e$" . $this->getMoney($player->getName()) . "");
+        $form->addLabel("§bMoney Will be Deducted From Your Purse\n\n§aBalance: §e$ $coins");
         $form->addInput("§rEnter Amount", "1000");
         $player->sendForm($form);
         return $form;
@@ -704,6 +641,6 @@ class BankUI extends PluginBase implements Listener
         $item->setCount($item->getCount() - 1);
         $player->getInventory()->setItemInHand($item);
         EconomyAPI::getInstance()->addMoney($player, (float) $item->getNamedTag()->getString("Amount"));
-        $player->sendMessage(" §7You Have Claimed §e$" . $item->getNamedTag()->getString("Amount") . "§7 Note!");
+        $player->sendMessage("§bYou Have Claimed §e$" . $item->getNamedTag()->getString("Amount") . "§b Note!");
     }
 }

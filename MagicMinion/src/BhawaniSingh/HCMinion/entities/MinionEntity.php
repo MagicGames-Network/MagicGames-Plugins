@@ -49,20 +49,21 @@ use muqsit\invmenu\transaction\DeterministicInvMenuTransaction;
 
 abstract class MinionEntity extends Human
 {
-    public const ACTION_CANT_WORK = -1;
-    public const ACTION_IDLE = 0;
-    public const ACTION_TURNING = 1;
-    public const ACTION_WORKING = 2;
+    public const ACTION_INVENTORY_FULL = "§cINVENTORY FULL";
+    public const ACTION_IDLE = "§gIDLE";
+    public const ACTION_TURNING = "§gTURNING";
+    public const ACTION_WORKING = "§gWORKING";
 
     protected MinionInformation $minionInformation;
     protected MinionInventory $minionInventory;
 
-    public int $currentAction = self::ACTION_IDLE;
+    public string $currentAction = self::ACTION_IDLE;
+
+    public int $queueNumber;
     public int $inQueueTime = 0;
 
     public bool $isViewingInv = false;
     public bool $isWorking = false;
-    public bool $isQueued = false;
 
     public Block $target;
 
@@ -367,23 +368,24 @@ abstract class MinionEntity extends Human
         // █▀▄▀█ █ █▄░█ █ █▀█ █▄░█  █▀▀ █▄░█ ▀█▀ █ ▀█▀ █▄█
         // █░▀░█ █ █░▀█ █ █▄█ █░▀█  ██▄ █░▀█ ░█░ █ ░█░ ░█░
 
-        if (!$this->isQueued) {
+        if (!isset($this->queueNumber) || !isset(BetterMinion::$minionQueue[$this->queueNumber])) {
             if (!$this->closed && !$this->isFlaggedForDespawn() && isset($this->minionInformation) && !$this->isViewingInv) {
+                $this->queueNumber = BetterMinion::$queueNumber++;
+                $this->inQueueTime = 0;
+                BetterMinion::$minionQueue[$this->queueNumber] = $this;
                 if (count(BetterMinion::$minionQueue) > BetterMinion::QUEUE_CYCLE) {
-                    $this->setNameTag("§l§6" . strtoupper($this->minionInformation->getType()->getTargetName()) . "§r\n§eCURRENTLY IN QUEUE: " . (count(BetterMinion::$minionQueue) - BetterMinion::QUEUE_CYCLE));
+                    $this->setNameTag("§l§6" . strtoupper($this->getMinionInformation()->getType()->getTargetName()) . "§r\n§e" . $this->getMinionInformation()->getOwner() . "'s Minion §r(§gQUEUE-" . (count(BetterMinion::$minionQueue) - BetterMinion::QUEUE_CYCLE) . "§r)");
                     $this->setNameTagAlwaysVisible(false);
                 }
-
-                $this->inQueueTime = 0;
-                $this->isQueued = true;
-                BetterMinion::$minionQueue[] = $this;
             }
-            // There can be problems with queue system sometimes...
-            // TO DO: Find out why the queue system may break.
-        } elseif (!$this->isInventoryFull() && $this->inQueueTime++ > 10) {
-            BetterMinion::getInstance()->getLogger()->debug("Something is wrong with the queue. Removing " . $this->getMinionInformation()->getOwner() . " from the queue.");
+            // In the case there is a mismatch, it will reset the minion's state.
+        } elseif (!$this->isInventoryFull() && $this->inQueueTime++ > 20) {
+            BetterMinion::getInstance()->getLogger()->info("Minion timed out in queue. Removing " . $this->getMinionInformation()->getOwner() . " from the queue.");
+            if (isset(BetterMinion::$minionQueue[$this->queueNumber])) {
+                unset(BetterMinion::$minionQueue[$this->queueNumber]);
+            }
+            unset($this->queueNumber);
             $this->inQueueTime = 0;
-            $this->isQueued = false;
         }
 
         Timings::$livingEntityBaseTick->stopTiming();
@@ -486,9 +488,6 @@ abstract class MinionEntity extends Human
         if (($item = $this->getTool($tool, $isNetheriteTool)) instanceof Item) {
             $this->getInventory()->setItemInHand($item);
         }
-
-        $this->setNameTag("§l§6" . strtoupper($this->getMinionInformation()->getType()->getTargetName()) . "§r\n§e" . $this->getMinionInformation()->getOwner() . "'s Minion");
-        $this->setNameTagAlwaysVisible(false);
     }
 
     public function getSmeltedTarget(): ?Item
@@ -677,9 +676,8 @@ abstract class MinionEntity extends Human
                 $this->sellItems();
                 return true;
             }
-            $this->currentAction = self::ACTION_CANT_WORK;
-            $this->setNameTag("§l§6" . strtoupper($this->getMinionInformation()->getType()->getTargetName()) . "§r\n§cINVENTORY FULL");
-            $this->setNameTagAlwaysVisible();
+            $this->currentAction = self::ACTION_INVENTORY_FULL;
+
             return false;
         }
         return true;

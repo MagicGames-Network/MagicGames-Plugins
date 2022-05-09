@@ -43,6 +43,7 @@ class BetterMinion extends PluginBase
     public array $isRemove = [];
 
     public static array $minionQueue = [];
+    public static int $queueNumber = 0;
 
     private SQLiteProvider $provider;
 
@@ -98,14 +99,6 @@ class BetterMinion extends PluginBase
         $this->getServer()->getPluginManager()->registerEvents(new EventListener(), $this);
 
         $this->getScheduler()->scheduleRepeatingTask(new QueueTickTask(), 20);
-    }
-
-    public function onDisable(): void
-    {
-        /** @var MinionEntity $entity */
-        foreach (self::$minionQueue as $entity) {
-            $entity->isQueued = false;
-        }
     }
 
     public function getProvider(): SQLiteProvider

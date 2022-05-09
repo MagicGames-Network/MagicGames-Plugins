@@ -19,7 +19,7 @@ class QueueTickTask extends Task
     {
         $i = 0;
         /** @var MinionEntity $entity */
-        foreach (BetterMinion::$minionQueue as $iterationQueue => $entity) {
+        foreach (BetterMinion::$minionQueue as $queueNumber => $entity) {
             if ($i > BetterMinion::QUEUE_CYCLE) {
                 break;
             }
@@ -29,8 +29,7 @@ class QueueTickTask extends Task
                     $entity->updateTarget();
                 }
                 if (!$entity->checkFull()) {
-                    unset(BetterMinion::$minionQueue[$iterationQueue]);
-                    $entity->isQueued = false;
+                    unset(BetterMinion::$minionQueue[$queueNumber]);
                     $i++;
                     continue;
                 }
@@ -45,24 +44,32 @@ class QueueTickTask extends Task
                 if (!$entity->checkTarget()) {
                     $entity->stopWorking();
 
-                    unset(BetterMinion::$minionQueue[$iterationQueue]);
-                    $entity->isQueued = false;
+                    unset(BetterMinion::$minionQueue[$queueNumber]);
                     $i++;
                     continue;
                 }
 
-                $entity->setNameTag("§l§6" . strtoupper($entity->getMinionInformation()->getType()->getTargetName()) . "§r\n§e" . $entity->getMinionInformation()->getOwner() . "'s Minion");
-                $entity->setNameTagAlwaysVisible(false);
+                $entity->setNameTag("§l§6" . strtoupper($entity->getMinionInformation()->getType()->getTargetName()) . "§r\n§e" . $entity->getMinionInformation()->getOwner() . "'s Minion §r(" . $entity->currentAction . "§r)");
                 switch ($entity->currentAction) {
+                    case MinionEntity::ACTION_INVENTORY_FULL:
+                        $entity->setNameTagAlwaysVisible(true);
+                        if (!$entity->isInventoryFull()) {
+                            $entity->currentAction = MinionEntity::ACTION_IDLE;
+                        }
+                        break;
                     case MinionEntity::ACTION_IDLE:
+                        $entity->setNameTagAlwaysVisible(false);
                         $entity->currentAction = MinionEntity::ACTION_TURNING;
                         break;
                     case MinionEntity::ACTION_TURNING:
+                        $entity->setNameTagAlwaysVisible(false);
                         $entity->lookAt($entity->target->getPosition());
                         $entity->currentAction = MinionEntity::ACTION_WORKING;
                         break;
                     case MinionEntity::ACTION_WORKING:
                         $isPlacing = $entity->target instanceof Air;
+
+                        $entity->setNameTagAlwaysVisible(false);
                         if (!$isPlacing) {
                             if ($entity->broadcastPlaceBreak()) {
                                 $world->broadcastPacketToViewers($entity->target->getPosition(), LevelEventPacket::create(LevelEvent::BLOCK_START_BREAK, (int) (65535 / 60), $entity->target->getPosition()));
@@ -82,16 +89,10 @@ class QueueTickTask extends Task
                         $entity->startWorking();
                         $entity->stopWorking();
                         break;
-                    case MinionEntity::ACTION_CANT_WORK:
-                        if (!$entity->isInventoryFull()) {
-                            $entity->currentAction = MinionEntity::ACTION_IDLE;
-                        }
-                        break;
                 }
-                $entity->isQueued = false;
                 $i++;
             }
-            unset(BetterMinion::$minionQueue[$iterationQueue]);
+            unset(BetterMinion::$minionQueue[$queueNumber]);
         }
     }
 }
