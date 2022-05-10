@@ -6,6 +6,7 @@ use pocketmine\Server;
 use dktapps\pmforms\MenuForm;
 use pocketmine\player\Player;
 use dktapps\pmforms\MenuOption;
+use dktapps\pmforms\FormIcon;
 
 class HideForm extends MenuForm
 {
@@ -18,8 +19,8 @@ class HideForm extends MenuForm
             "§l§6Player Hide",
             "§bPlayer Hide / Un Hide\n\n§bThis Feature Will Reduce Lag On Player Device\n\n§a(§cNote:§a This Function Is Still In Beta You May Can Get Error)",
             [
-                new MenuOption("§bHide", new FormIcon("textures/icon/star", FormIcon::IMAGE_TYPEURL)),
-                new MenuOption("§bUnhide", new FormIcon("textures/icon/star", FormIcon::IMAGE_TYPEURL))
+                new MenuOption("§bHide", new FormIcon("textures/icon/star", FormIcon::IMAGE_TYPE_URL)),
+                new MenuOption("§bUnhide", new FormIcon("textures/icon/star", FormIcon::IMAGE_TYPE_URL))
                 
             ],
             function (Player $sender, int $selected): void {
