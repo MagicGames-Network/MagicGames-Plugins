@@ -189,7 +189,7 @@ class EventListener implements Listener
             }
         });
 
-        $form->setTitle("§5§l«§r §dENCHANTING TABLE §5§l»§r§8" . $toEnchant->getName());
+        $form->setTitle("§d§l«§r §bENCHANTING TABLE §d§l»§r§8" . $toEnchant->getName());
         foreach ($enchants as $ec) {
             $lvl = $ec["level"];
             if ($lvl <= 0) {

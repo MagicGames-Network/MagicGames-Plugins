@@ -14,18 +14,19 @@ class IslandTypeForm extends MenuForm
     public function __construct()
     {
         parent::__construct(
-            SkyBlock::BT_TITLE . "Create an Island",
+            "is_dynamic&side_text§eCreate an Island",
             "§7Choose the type of island you want to create.\n",
             [
-                new MenuOption("§b» §3Basic Island \n§8Click To Select", new FormIcon('https://i.postimg.cc/DfxfRRTz/Basic-Island.png', FormIcon::IMAGE_TYPE_URL)),
-                new MenuOption("§b» §3Beach \n§8Click To Select", new FormIcon('https://i.postimg.cc/hvfkkyLJ/Beach.png', FormIcon::IMAGE_TYPE_URL)),
-                new MenuOption("§b» §3Resort \n§8Click To Select", new FormIcon('https://i.postimg.cc/D0H9nr6x/Resort.png', FormIcon::IMAGE_TYPE_URL)),
-                new MenuOption("§b» §3Villa \n§8Click To Select", new FormIcon('https://i.postimg.cc/cJhPryTg/Villa.png', FormIcon::IMAGE_TYPE_URL)),
-                new MenuOption("§b» §3Fantasty \n§8Click To Select", new FormIcon('https://i.postimg.cc/zXRmpQD6/Fantasty.png', FormIcon::IMAGE_TYPE_URL)),
-                new MenuOption("§b» §3Javanese \n§8Click To Select", new FormIcon('https://i.postimg.cc/4xVg4SrV/Javanese.png', FormIcon::IMAGE_TYPE_URL)),
-                new MenuOption("§b» §3Musroom \n§8Click To Select", new FormIcon('https://i.postimg.cc/0j4srRkd/Musroom.png', FormIcon::IMAGE_TYPE_URL)),
-                new MenuOption("§b» §3NetherIsland \n§8Click To Select", new FormIcon('https://i.postimg.cc/ZK9m2RHf/Nether.png', FormIcon::IMAGE_TYPE_URL)),
-                new MenuOption("§b» §3Desert \n§8Click To Select", new FormIcon('https://i.postimg.cc/dQNv5d2k/Desert.png', FormIcon::IMAGE_TYPE_URL))
+                new MenuOption("grid_tile§eBasic Island", new FormIcon('https://i.postimg.cc/DfxfRRTz/Basic-Island.png', FormIcon::IMAGE_TYPE_URL)),
+                new MenuOption("grid_tile§eBeach", new FormIcon('https://i.postimg.cc/hvfkkyLJ/Beach.png', FormIcon::IMAGE_TYPE_URL)),
+                new MenuOption("grid_tile§eResort", new FormIcon('https://i.postimg.cc/D0H9nr6x/Resort.png', FormIcon::IMAGE_TYPE_URL)),
+                new MenuOption("grid_tile§eVilla", new FormIcon('https://i.postimg.cc/cJhPryTg/Villa.png', FormIcon::IMAGE_TYPE_URL)),
+                new MenuOption("grid_tile§eFantasty", new FormIcon('https://i.postimg.cc/zXRmpQD6/Fantasty.png', FormIcon::IMAGE_TYPE_URL)),
+                new MenuOption("grid_tile§eJavanese", new FormIcon('https://i.postimg.cc/4xVg4SrV/Javanese.png', FormIcon::IMAGE_TYPE_URL)),
+                new MenuOption("grid_tile§eMusroom", new FormIcon('https://i.postimg.cc/0j4srRkd/Musroom.png', FormIcon::IMAGE_TYPE_URL)),
+                new MenuOption("grid_tile§eNetherIsland", new FormIcon('https://i.postimg.cc/ZK9m2RHf/Nether.png', FormIcon::IMAGE_TYPE_URL)),
+                new MenuOption("grid_tile§eDesert", new FormIcon('https://i.postimg.cc/dQNv5d2k/Desert.png', FormIcon::IMAGE_TYPE_URL)),
+                new MenuOption("header_button", new FormIcon("textures/ui/icon_back", FormIcon::IMAGE_TYPE_PATH))
             ],
             function (Player $player, int $option): void {
                 switch ($option) {
@@ -55,6 +56,8 @@ class IslandTypeForm extends MenuForm
                         break;
                     case 8:
                         $player->sendForm(new IslandCreateConfirmForm("Desert"));
+                        break;
+                    case 9:
                         break;
                 }
             }

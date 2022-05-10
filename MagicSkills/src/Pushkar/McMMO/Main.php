@@ -69,7 +69,7 @@ class Main extends PluginBase implements Listener
     public function onCommand(CommandSender $sender, Command $command, String $label, array $args): bool
     {
         switch ($command->getName()) {
-            case "profile":
+            case "skills":
                 if ($sender instanceof Player) {
                     (new McmmoForm($this))->init($sender);
                 } else {
@@ -155,7 +155,7 @@ class Main extends PluginBase implements Listener
             $this->addLevel($type, $player);
         }
         $a = ["Lumberjack ", "Farmer ", "Excavation ", "Miner ", "Killer ", "Combat ", "Builder ", "Consumer ", "Archer ", "Lawn Mower "];
-        $player->sendTip("₹§b+1 §d" . $a[$type] . " §7(§a" . $this->getXp($type, $player) . "§7)");
+        $player->sendTip("§b+1 §d" . $a[$type] . " §7(§a" . $this->getXp($type, $player) . "§7)");
     }
 
     public function addLevel(int $type, Player $player): void

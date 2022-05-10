@@ -47,7 +47,7 @@ class QuestInfoForm extends MenuForm
                 "§6====================="
                 ];
         }
-        parent::__construct("§a» §8Running Quests §a«", implode("\n", $quest), [], function (): void{});
+        parent::__construct("§a» §eRunning Quests §a«", implode("\n", $quest), [], function (): void{});
     }
 
 }

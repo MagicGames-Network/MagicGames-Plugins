@@ -19,6 +19,14 @@ class IslandManager
             $player->sendMessage(SkyBlock::BT_MARK . "cThe player is not active, you cannot visit!");
             return;
         }
+        if (SkyBlock::getInstance()->getConfig()->getNested($selectedPlayer->getName() . "." . "island") === null) {
+            $player->sendMessage(SkyBlock::BT_MARK . "cThe player don't have an island");
+            return;
+        }
+        if (SkyBlock::getInstance()->getConfig()->getNested("Visits." . $selectedPlayer->getName()) === false){
+            $player->sendMessage(SkyBlock::BT_MARK . "cThe player island is locked");
+            return;
+        }
         if (!Server::getInstance()->getWorldManager()->isWorldLoaded($selectedPlayer->getName())) Server::getInstance()->getWorldManager()->loadWorld($selectedPlayer->getName());
         $world = Server::getInstance()->getWorldManager()->getWorldByName($selectedPlayer->getName());
         if (!$world instanceof World) {

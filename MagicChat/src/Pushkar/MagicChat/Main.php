@@ -27,8 +27,8 @@ class Main extends PluginBase implements Listener
     public function onChat(PlayerChatEvent $event): void
     {
         $player = $event->getPlayer();
-        if (strlen($event->getMessage()) >= 30) {
-            $player->sendMessage("§7(§d!§7) §cYou Can't Type More Than 35 Letters At Once!");
+        if (strlen($event->getMessage()) >= 100) {
+            $player->sendMessage("§7(§d!§7) §cYou Can't Type More Than 100 Letters At Once!");
             $event->cancel();
             return;
         }

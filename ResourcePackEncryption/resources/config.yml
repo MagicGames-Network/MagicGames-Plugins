@@ -1,0 +1,14 @@
+# Resource pack encryption configuration file
+# This file is used to parse the encrypted resource pack data
+# Usage:
+# resource-packs:
+#     uuid-of-resource-pack: content-key
+resource-packs: 
+  #UI
+  58e332e2-630e-4fe9-b026-4ede3ce876e4: encryptmypack.com-8HUS1XNMYVWIO4
+  #SCREEN
+  0a996792-7109-4e92-a3f1-2789d1d105fc: encryptmypack.com-7QJUIRWUL3G3Q1
+  #TEXTURES
+  9b647aca-2819-13a7-5411-0e75e8858889: encryptmypack.com-UG5KHSH61OHWD5
+  #ICON
+  9b647aca-4349-13a7-5411-0e75e8858889: encryptmypack.com-YXTRXXYWPIOJGE

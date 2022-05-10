@@ -26,17 +26,17 @@ class IslandOptionsForm extends MenuForm
             SkyBlock::BT_TITLE . "Island",
             "",
             [
-                new MenuOption("Teleport To Island\n§d§l»§r §7Tap to select!", new FormIcon('https://cdn-icons-png.flaticon.com/128/619/619005.png', FormIcon::IMAGE_TYPE_URL)),
-                new MenuOption("Teleport to Partner Island\n§d§l»§r §7Tap to select!", new FormIcon('https://cdn-icons-png.flaticon.com/128/2010/2010261.png', FormIcon::IMAGE_TYPE_URL)),
-                new MenuOption("Partner Options\n§d§l»§r §7Tap to select!", new FormIcon('https://cdn-icons-png.flaticon.com/128/3315/3315183.png', FormIcon::IMAGE_TYPE_URL)),
-                new MenuOption("Set Island Spawn\n§d§l»§r §7Tap to select!", new FormIcon('https://cdn-icons-png.flaticon.com/128/5569/5569268.png', FormIcon::IMAGE_TYPE_URL)),
-                new MenuOption("Island Visit: " . ($visitStatus === true ? "§l§2OPEN" : "§l§4CLOSED") . "\n§d§l»§r §7Tap to select!", new FormIcon('https://cdn-icons-png.flaticon.com/128/1541/1541400.png', FormIcon::IMAGE_TYPE_URL)),
-                new MenuOption("Visitable Islands\n§d§l»§r §7Tap to select!", new FormIcon('https://cdn-icons-png.flaticon.com/128/854/854878.png', FormIcon::IMAGE_TYPE_URL)),
-                new MenuOption("Players on the Island\n§d§l»§r §7Tap to select!", new FormIcon('https://cdn-icons-png.flaticon.com/128/166/166344.png', FormIcon::IMAGE_TYPE_URL)),
-                new MenuOption("Kick Player From Your Island\n§d§l»§r §7Tap to select!", new FormIcon('https://cdn-icons-png.flaticon.com/128/4578/4578073.png', FormIcon::IMAGE_TYPE_URL)),
-                new MenuOption("Ban Players From Your Island\n§d§l»§r §7Tap to select!", new FormIcon('https://cdn-icons-png.flaticon.com/128/1595/1595649.png', FormIcon::IMAGE_TYPE_URL)),
-                new MenuOption("Unban Banned Player\n§d§l»§r §7Tap to select!", new FormIcon('https://cdn-icons-png.flaticon.com/128/3699/3699516.png', FormIcon::IMAGE_TYPE_URL)),
-                new MenuOption("Delete Your Island\n§d§l»§r §7Tap to select!", new FormIcon('https://cdn-icons-png.flaticon.com/128/3496/3496416.png', FormIcon::IMAGE_TYPE_URL))
+                new MenuOption("§bTeleport To Island\n§d§l»§r Tap to select!", new FormIcon('https://cdn-icons-png.flaticon.com/128/619/619005.png', FormIcon::IMAGE_TYPE_URL)),
+                new MenuOption("§bTeleport to Partner Island\n§d§l»§r Tap to select!", new FormIcon('https://cdn-icons-png.flaticon.com/128/2010/2010261.png', FormIcon::IMAGE_TYPE_URL)),
+                new MenuOption("§bPartner Options\n§d§l»§r Tap to select!", new FormIcon('https://cdn-icons-png.flaticon.com/128/3315/3315183.png', FormIcon::IMAGE_TYPE_URL)),
+                new MenuOption("§bSet Island Spawn\n§d§l»§r Tap to select!", new FormIcon('https://cdn-icons-png.flaticon.com/128/5569/5569268.png', FormIcon::IMAGE_TYPE_URL)),
+                new MenuOption("§bIsland Visit: " . ($visitStatus === true ? "§l§2OPEN" : "§l§4CLOSED") . "\n§d§l»§r Tap to select!", new FormIcon('https://cdn-icons-png.flaticon.com/128/1541/1541400.png', FormIcon::IMAGE_TYPE_URL)),
+                new MenuOption("§bVisitable Islands\n§d§l»§r Tap to select!", new FormIcon('https://cdn-icons-png.flaticon.com/128/854/854878.png', FormIcon::IMAGE_TYPE_URL)),
+                new MenuOption("§bPlayers on the Island\n§d§l»§r Tap to select!", new FormIcon('https://cdn-icons-png.flaticon.com/128/166/166344.png', FormIcon::IMAGE_TYPE_URL)),
+                new MenuOption("§bKick Player From Your Island\n§d§l»§r Tap to select!", new FormIcon('https://cdn-icons-png.flaticon.com/128/4578/4578073.png', FormIcon::IMAGE_TYPE_URL)),
+                new MenuOption("§bBan Players From Your Island\n§d§l»§r Tap to select!", new FormIcon('https://cdn-icons-png.flaticon.com/128/1595/1595649.png', FormIcon::IMAGE_TYPE_URL)),
+                new MenuOption("§bUnban Banned Player\n§d§l»§r Tap to select!", new FormIcon('https://cdn-icons-png.flaticon.com/128/3699/3699516.png', FormIcon::IMAGE_TYPE_URL)),
+                new MenuOption("§bDelete Your Island\n§d§l»§r Tap to select!", new FormIcon('https://cdn-icons-png.flaticon.com/128/3496/3496416.png', FormIcon::IMAGE_TYPE_URL))
             ],
             function (Player $player, int $option) use ($visitStatus): void {
                 switch ($option) {
@@ -71,7 +71,7 @@ class IslandOptionsForm extends MenuForm
                         $player->sendForm(new IslandUnBanPlayerForm($player));
                         break;
                     case 10:
-                        IslandManager::islandRemove($player);
+                        $player->sendForm(new IslandDeleteConfirmForm($player));
                         break;
                     default:
                         throw new Exception('Unexpected value');

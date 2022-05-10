@@ -6,6 +6,7 @@ namespace blueturk\skyblock\managers;
 use pocketmine\Server;
 use blueturk\skyblock\commands\player\JoinCommand;
 use blueturk\skyblock\commands\island\IslandCommand;
+use blueturk\skyblock\commands\island\VisitCommand;
 use blueturk\skyblock\commands\player\WeatherCommand;
 
 class CommandManager
@@ -22,7 +23,8 @@ class CommandManager
         return [
             "island" => new IslandCommand(),
             "weather" => new WeatherCommand(),
-            "join" => new JoinCommand()
+            "join" => new JoinCommand(),
+            "visit" => new VisitCommand()
         ];
     }
 

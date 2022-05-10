@@ -5,7 +5,7 @@ version: 4.0.0
 author: Pushkar
 
 commands:
-  profile:
+  skills:
     description: §eYour Profile
     permission: profile.cmd
   mcmmoadmin: 
@@ -16,4 +16,4 @@ permissions:
   profile.cmd:
     default: true
   mcmmo.cmd:
-    default: true 
+    default: op

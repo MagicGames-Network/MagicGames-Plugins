@@ -10,7 +10,7 @@ class SkyBlock extends PluginBase
 {
     protected static SkyBlock $api;
 
-    public const BT_TITLE = "§l§dSKYBLOCK§r §l§a»§r §5";
+    public const BT_TITLE = "§l§6SKYBLOCK§r §l§a»§r §e";
     public const BT_MARK = "§d» §";
 
     public static array $weathers = [];

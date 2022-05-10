@@ -1,0 +1,14 @@
+name: MagicTrade
+authors:
+  - alvin0319
+  - cosmicnebula200
+  - FapioBlyku
+main: alvin0319\PlayerTrade\PlayerTrade
+version: 1.0.2
+api: 4.0.0
+description: A PocketMine-MP plugin that implements trade like PC server!
+
+permissions:
+  playertrade.command:
+    description: Allows player to use /trade command
+    default: true
