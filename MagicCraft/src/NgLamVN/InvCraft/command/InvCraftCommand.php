@@ -48,6 +48,13 @@ class InvCraftCommand extends Command implements PluginOwned
 			new CraftMenu($sender, $this->getLoader(), Recipe::IIIxIII_MODE);
 			return;
 		}
+        /*if ($args[0] == "add") {
+           if ($sender->hasPermission("ic.admin")) {
+            (new AdminUI())->addRecipe($sender);
+            return;
+           }
+            return;
+        }*/
 		if ($args[0] == "view") {
 			if (isset($args[1])) {
 				$name = $args[1];

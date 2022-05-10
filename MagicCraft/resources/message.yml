@@ -1,13 +1,13 @@
 # InvCraft Message Config
 
 menu.craft6x6: "BigCraftingTable"
-menu.craft3x3: "NormalCraftingTable"
+menu.craft3x3: "§l§3CUSTOM CRAFTING"
 menu.add: "Add Recipe"
 menu.edit: "Edit Recipe"
 menu.item: "1080:0"
 menu.save.name: "SAVE"
 menu.save.item: "341:0"
-menu.view: "View Recipe"
+menu.view: "§l§3RECIPES"
 
 ui.title: "InvCraft Manager"
 ui.craft: "Craft Table"
@@ -32,4 +32,4 @@ msg.runingame: "PLEASE RUN THIS COMMAND IN GAME !"
 msg.sametyperecipe: "Warning: This recipe have same recipe data with a added recipe, it will create a wrong result !"
 
 command.missrecipename: "/invcraft view <recipe name>"
-command.recipenotfound: "Recipe not found !"
+command.recipenotfound: "§8(§b!§8) §7Recipe Not Found!"

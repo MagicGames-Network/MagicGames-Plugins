@@ -84,7 +84,7 @@ class AddRecipeMenu extends BaseMenu
 		}
 		$recipe = Recipe::makeRecipe($this->recipe_name, $recipe_data, $result, $this->getMode());
 		foreach ($this->getLoader()->getRecipes() as $other) {
-			if ($other->isEnough($recipe)) {
+			if ($other->isSame($recipe)) {
 				if ($other->getMode() == $recipe->getMode()) {
 					$this->getPlayer()->sendMessage($this->getLoader()->getProvider()->getMessage("msg.sametyperecipe"));
 					break;
@@ -99,7 +99,7 @@ class AddRecipeMenu extends BaseMenu
 		$recipe_data = [];
 		for ($i = 0; $i <= 53; $i++) {
 			if (!in_array($i, $this->getProtectedSlot()))
-				if (($i !== $this->getResultSlot()) && ($i !== self::SAVE_SLOT)) {
+				if (($i !== $this->getResultSlot()) and ($i !== self::SAVE_SLOT)) {
 					$item = $this->menu->getInventory()->getItem($i);
 					$recipe_data[] = $item;
 				}

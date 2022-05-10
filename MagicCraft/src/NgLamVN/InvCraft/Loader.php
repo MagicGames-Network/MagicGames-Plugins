@@ -13,10 +13,15 @@ use NgLamVN\InvCraft\command\CraftCommand;
 use NgLamVN\InvCraft\ui\CraftingTableForm;
 use NgLamVN\InvCraft\command\InvCraftCommand;
 use pocketmine\event\player\PlayerInteractEvent;
+use pocketmine\item\enchantment\ItemFlags;
+use pocketmine\item\enchantment\Enchantment;
+use pocketmine\data\bedrock\EnchantmentIdMap;
 
 class Loader extends PluginBase implements Listener
 {
 
+    public const FAKE_ENCH_ID = -1;
+    
 	public const INV_MENU_TYPE_WORKBENCH = "portablecrafting:workbench";
 
 	public static function WORKBENCH(): InvMenu
@@ -39,7 +44,7 @@ class Loader extends PluginBase implements Listener
 
 		$this->provider = new Provider();
 		$this->provider->open();
-
+        EnchantmentIdMap::getInstance()->register(self::FAKE_ENCH_ID, new Enchantment("Glow", 1, ItemFlags::ALL, ItemFlags::NONE, 1));
 		$this->loadRecipes();
 
 		$this->getServer()->getCommandMap()->register("invcraft", new InvCraftCommand($this));

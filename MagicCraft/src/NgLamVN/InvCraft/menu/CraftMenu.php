@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace NgLamVN\InvCraft\menu;
 
 use Closure;
+use pocketmine\Server;
 use pocketmine\item\Item;
 use muqsit\invmenu\InvMenu;
 use NgLamVN\InvCraft\Recipe;
@@ -76,6 +77,18 @@ class CraftMenu extends BaseMenu
 
 	public function MenuListener(InvMenuTransaction $transaction): InvMenuTransactionResult
 	{
+	  $player = $transaction->getPlayer();
+		if ($transaction->getAction()->getSlot() === 48) {
+	      $player->removeCurrentWindow();
+		}
+		if ($transaction->getAction()->getSlot() === 49) {
+			 $player->removeCurrentWindow();
+		   Server::getInstance()->dispatchCommand($player, "recipes");
+		}
+		if ($transaction->getAction()->getSlot() === 50) {
+			 $player->removeCurrentWindow();
+			 Server::getInstance()->dispatchCommand($player, "invcraft");
+		}
 		if (in_array($transaction->getAction()->getSlot(), $this->getProtectedSlot())) {
 			return $transaction->discard();
 		}

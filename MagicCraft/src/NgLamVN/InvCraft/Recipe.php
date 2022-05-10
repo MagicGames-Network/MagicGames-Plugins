@@ -41,6 +41,24 @@ class Recipe
 		return new Recipe($recipe_name, $recipe_data, $result, $mode);
 	}
 
+	/**
+	 * @param Recipe|Item[] $other
+	 *
+	 * @return bool
+	 */
+	public function isSame(Recipe|array $other): bool
+	{
+		if ($other instanceof Recipe) {
+			$other = $other->getRecipeData();
+		}
+		foreach (array_keys($this->getRecipeData()) as $key) {
+			if (!$this->getRecipeData()[$key]->canStackWith($other[$key])) {
+				return false;
+			}
+		}
+		return true;
+	}
+
 	public function isEnough(Recipe|array $other): bool
 	{
 		if ($other instanceof Recipe) {
