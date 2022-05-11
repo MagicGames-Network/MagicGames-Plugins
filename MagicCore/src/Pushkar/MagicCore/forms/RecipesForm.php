@@ -94,7 +94,7 @@ class RecipesForm extends MenuForm
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
             if ($data === null) {
-                return true;
+                return;
             }
             switch ($data) {
                 case 0:
@@ -143,7 +143,7 @@ class RecipesForm extends MenuForm
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
             if ($data === null) {
-                return true;
+                return;
             }
             switch ($data) {
                 case 0:
@@ -163,7 +163,7 @@ class RecipesForm extends MenuForm
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
             if ($data === null) {
-                return true;
+                return;
             }
             switch ($data) {
                 case 0:
@@ -307,7 +307,7 @@ class RecipesForm extends MenuForm
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
             if ($data === null) {
-                return true;
+                return;
             }
             switch ($data) {
                 case 0:
@@ -426,7 +426,7 @@ class RecipesForm extends MenuForm
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
             if ($data === null) {
-                return true;
+                return;
             }
             switch ($data) {
                 case 0:
@@ -590,7 +590,7 @@ class RecipesForm extends MenuForm
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
             if ($data === null) {
-                return true;
+                return;
             }
             switch ($data) {
                 case 0:
@@ -628,11 +628,10 @@ class RecipesForm extends MenuForm
     public function armor2(Player $sender): Form
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
-            $result = $data;
-            if ($result === null) {
-                return true;
+            if ($data === null) {
+                return;
             }
-            switch ($result) {
+            switch ($data) {
                 case 0:
                     Server::getInstance()->dispatchCommand($sender, "invcraft view helmet2");
                     break;
@@ -670,11 +669,10 @@ class RecipesForm extends MenuForm
 
 
         $form = new SimpleForm(function (Player $sender, int $data = null) {
-            $result = $data;
-            if ($result === null) {
-                return true;
+            if ($data === null) {
+                return;
             }
-            switch ($result) {
+            switch ($data) {
                 case 0:
                     Server::getInstance()->dispatchCommand($sender, "invcraft view helmet3");
                     break;
@@ -712,11 +710,10 @@ class RecipesForm extends MenuForm
 
 
         $form = new SimpleForm(function (Player $sender, int $data = null) {
-            $result = $data;
-            if ($result === null) {
-                return true;
+            if ($data === null) {
+                return;
             }
-            switch ($result) {
+            switch ($data) {
                 case 0:
                     Server::getInstance()->dispatchCommand($sender, "invcraft view helmet4");
                     break;
@@ -754,11 +751,10 @@ class RecipesForm extends MenuForm
 
 
         $form = new SimpleForm(function (Player $sender, int $data = null) {
-            $result = $data;
-            if ($result === null) {
-                return true;
+            if ($data === null) {
+                return;
             }
-            switch ($result) {
+            switch ($data) {
                 case 0:
                     Server::getInstance()->dispatchCommand($sender, "invcraft view helmet5");
                     break;
@@ -796,11 +792,10 @@ class RecipesForm extends MenuForm
 
 
         $form = new SimpleForm(function (Player $sender, int $data = null) {
-            $result = $data;
-            if ($result === null) {
-                return true;
+            if ($data === null) {
+                return;
             }
-            switch ($result) {
+            switch ($data) {
                 case 0:
                     Server::getInstance()->dispatchCommand($sender, "invcraft view helmet6");
                     break;
@@ -838,11 +833,10 @@ class RecipesForm extends MenuForm
 
 
         $form = new SimpleForm(function (Player $sender, int $data = null) {
-            $result = $data;
-            if ($result === null) {
-                return true;
+            if ($data === null) {
+                return;
             }
-            switch ($result) {
+            switch ($data) {
                 case 0:
                     Server::getInstance()->dispatchCommand($sender, "invcraft view helmet7");
                     break;
@@ -880,11 +874,10 @@ class RecipesForm extends MenuForm
 
 
         $form = new SimpleForm(function (Player $sender, int $data = null) {
-            $result = $data;
-            if ($result === null) {
-                return true;
+            if ($data === null) {
+                return;
             }
-            switch ($result) {
+            switch ($data) {
                 case 0:
                     Server::getInstance()->dispatchCommand($sender, "invcraft view helmet8");
                     break;
@@ -922,11 +915,10 @@ class RecipesForm extends MenuForm
 
 
         $form = new SimpleForm(function (Player $sender, int $data = null) {
-            $result = $data;
-            if ($result === null) {
-                return true;
+            if ($data === null) {
+                return;
             }
-            switch ($result) {
+            switch ($data) {
                 case 0:
                     Server::getInstance()->dispatchCommand($sender, "invcraft view helmet9");
                     break;
@@ -964,11 +956,10 @@ class RecipesForm extends MenuForm
 
 
         $form = new SimpleForm(function (Player $sender, int $data = null) {
-            $result = $data;
-            if ($result === null) {
-                return true;
+            if ($data === null) {
+                return;
             }
-            switch ($result) {
+            switch ($data) {
                 case 0:
                     Server::getInstance()->dispatchCommand($sender, "invcraft view helmet10");
                     break;
@@ -1006,11 +997,10 @@ class RecipesForm extends MenuForm
 
 
         $form = new SimpleForm(function (Player $sender, int $data = null) {
-            $result = $data;
-            if ($result === null) {
-                return true;
+            if ($data === null) {
+                return;
             }
-            switch ($result) {
+            switch ($data) {
                 case 0:
                     Server::getInstance()->dispatchCommand($sender, "invcraft view helmet11");
                     break;
@@ -1048,11 +1038,10 @@ class RecipesForm extends MenuForm
 
 
         $form = new SimpleForm(function (Player $sender, int $data = null) {
-            $result = $data;
-            if ($result === null) {
-                return true;
+            if ($data === null) {
+                return;
             }
-            switch ($result) {
+            switch ($data) {
                 case 0:
                     Server::getInstance()->dispatchCommand($sender, "invcraft view helmet12");
                     break;
@@ -1090,11 +1079,10 @@ class RecipesForm extends MenuForm
 
 
         $form = new SimpleForm(function (Player $sender, int $data = null) {
-            $result = $data;
-            if ($result === null) {
-                return true;
+            if ($data === null) {
+                return;
             }
-            switch ($result) {
+            switch ($data) {
                 case 0:
                     Server::getInstance()->dispatchCommand($sender, "invcraft view helmet13");
                     break;
@@ -1132,11 +1120,10 @@ class RecipesForm extends MenuForm
 
 
         $form = new SimpleForm(function (Player $sender, int $data = null) {
-            $result = $data;
-            if ($result === null) {
-                return true;
+            if ($data === null) {
+                return;
             }
-            switch ($result) {
+            switch ($data) {
                 case 0:
                     Server::getInstance()->dispatchCommand($sender, "invcraft view helmet14");
                     break;
@@ -1174,11 +1161,10 @@ class RecipesForm extends MenuForm
 
 
         $form = new SimpleForm(function (Player $sender, int $data = null) {
-            $result = $data;
-            if ($result === null) {
-                return true;
+            if ($data === null) {
+                return;
             }
-            switch ($result) {
+            switch ($data) {
                 case 0:
                     Server::getInstance()->dispatchCommand($sender, "invcraft view helmet15");
                     break;
@@ -1216,11 +1202,10 @@ class RecipesForm extends MenuForm
 
 
         $form = new SimpleForm(function (Player $sender, int $data = null) {
-            $result = $data;
-            if ($result === null) {
-                return true;
+            if ($data === null) {
+                return;
             }
-            switch ($result) {
+            switch ($data) {
                 case 0:
                     Server::getInstance()->dispatchCommand($sender, "invcraft view helmet16");
                     break;
@@ -1258,11 +1243,10 @@ class RecipesForm extends MenuForm
 
 
         $form = new SimpleForm(function (Player $sender, int $data = null) {
-            $result = $data;
-            if ($result === null) {
-                return true;
+            if ($data === null) {
+                return;
             }
-            switch ($result) {
+            switch ($data) {
                 case 0:
                     Server::getInstance()->dispatchCommand($sender, "invcraft view helmet17");
                     break;
@@ -1300,11 +1284,10 @@ class RecipesForm extends MenuForm
 
 
         $form = new SimpleForm(function (Player $sender, int $data = null) {
-            $result = $data;
-            if ($result === null) {
-                return true;
+            if ($data === null) {
+                return;
             }
-            switch ($result) {
+            switch ($data) {
                 case 0:
                     Server::getInstance()->dispatchCommand($sender, "invcraft view helmet18");
                     break;
@@ -1342,11 +1325,10 @@ class RecipesForm extends MenuForm
 
 
         $form = new SimpleForm(function (Player $sender, int $data = null) {
-            $result = $data;
-            if ($result === null) {
-                return true;
+            if ($data === null) {
+                return;
             }
-            switch ($result) {
+            switch ($data) {
                 case 0:
                     Server::getInstance()->dispatchCommand($sender, "invcraft view helmet19");
                     break;
@@ -1384,11 +1366,10 @@ class RecipesForm extends MenuForm
 
 
         $form = new SimpleForm(function (Player $sender, int $data = null) {
-            $result = $data;
-            if ($result === null) {
-                return true;
+            if ($data === null) {
+                return;
             }
-            switch ($result) {
+            switch ($data) {
                 case 0:
                     Server::getInstance()->dispatchCommand($sender, "invcraft view helmet20");
                     break;
@@ -1424,11 +1405,10 @@ class RecipesForm extends MenuForm
     public function ore(Player $sender): Form
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
-            $result = $data;
-            if ($result === null) {
-                return true;
+            if ($data === null) {
+                return;
             }
-            switch ($result) {
+            switch ($data) {
                 case 0:
                     Server::getInstance()->dispatchCommand($sender, "invcraft view ore1");
                     break;
@@ -1479,11 +1459,10 @@ class RecipesForm extends MenuForm
     public function sword(Player $sender): Form
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
-            $result = $data;
-            if ($result === null) {
-                return true;
+            if ($data === null) {
+                return;
             }
-            switch ($result) {
+            switch ($data) {
                 case 0:
                     Server::getInstance()->dispatchCommand($sender, "invcraft view sword1");
                     break;
@@ -1555,11 +1534,10 @@ class RecipesForm extends MenuForm
     public function axe(Player $sender): Form
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
-            $result = $data;
-            if ($result === null) {
-                return true;
+            if ($data === null) {
+                return;
             }
-            switch ($result) {
+            switch ($data) {
                 case 0:
                     Server::getInstance()->dispatchCommand($sender, "invcraft view axe1");
                     break;
@@ -1599,11 +1577,10 @@ class RecipesForm extends MenuForm
     public function hoe(Player $sender): Form
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
-            $result = $data;
-            if ($result === null) {
-                return true;
+            if ($data === null) {
+                return;
             }
-            switch ($result) {
+            switch ($data) {
                 case 0:
                     Server::getInstance()->dispatchCommand($sender, "invcraft view hoe1");
                     break;
@@ -1627,11 +1604,10 @@ class RecipesForm extends MenuForm
     public function pickaxe(Player $sender): Form
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
-            $result = $data;
-            if ($result === null) {
-                return true;
+            if ($data === null) {
+                return;
             }
-            switch ($result) {
+            switch ($data) {
                 case 0:
                     Server::getInstance()->dispatchCommand($sender, "invcraft view pick1");
                     break;
@@ -1680,7 +1656,7 @@ class RecipesForm extends MenuForm
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
             if ($data === null) {
-                return true;
+                return;
             }
             switch ($data) {
                 case 0:
@@ -1728,11 +1704,10 @@ class RecipesForm extends MenuForm
     public function wand(Player $sender): Form
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
-            $result = $data;
-            if ($result === null) {
-                return true;
+            if ($data === null) {
+                return;
             }
-            switch ($result) {
+            switch ($data) {
                 case 0:
                     $sender->sendTitle("§rgrid_tile§eCOMMING SOON");
                     break;
@@ -1763,11 +1738,10 @@ class RecipesForm extends MenuForm
     public function food(Player $sender): Form
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
-            $result = $data;
-            if ($result === null) {
-                return true;
+            if ($data === null) {
+                return;
             }
-            switch ($result) {
+            switch ($data) {
                 case 0:
                     Server::getInstance()->dispatchCommand($sender, "invcraft view food1");
                     break;
@@ -1818,11 +1792,10 @@ class RecipesForm extends MenuForm
     public function runes(Player $sender): Form
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
-            $result = $data;
-            if ($result === null) {
-                return true;
+            if ($data === null) {
+                return;
             }
-            switch ($result) {
+            switch ($data) {
                 case 0:
                     Server::getInstance()->dispatchCommand($sender, "invcraft view rune1");
                     break;

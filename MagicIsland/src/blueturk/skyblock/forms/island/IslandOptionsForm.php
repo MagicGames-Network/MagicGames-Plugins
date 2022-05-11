@@ -71,7 +71,7 @@ class IslandOptionsForm extends MenuForm
                         $player->sendForm(new IslandUnBanPlayerForm($player));
                         break;
                     case 10:
-                        $player->sendForm(new IslandDeleteConfirmForm($player));
+                        $player->sendForm(new IslandDeleteConfirmForm());
                         break;
                     default:
                         throw new Exception('Unexpected value');

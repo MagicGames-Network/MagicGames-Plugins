@@ -3,21 +3,20 @@
 namespace Pushkar\MagicCore\listener;
 
 use pocketmine\Server;
+use Electro\BankUI\BankUI;
 use pocketmine\world\World;
 use Pushkar\MagicCore\Main;
 use pocketmine\math\Vector3;
 use pocketmine\player\Player;
-use jojoe77777\FormAPI\SimpleForm;
+use Stats\player\MagicPlayer;
 use pocketmine\event\Listener;
-use Electro\BankUI\BankUI;
+use _64FF00\PurePerms\PurePerms;
 use pocketmine\item\ItemFactory;
+use jojoe77777\FormAPI\SimpleForm;
 use onebone\economyapi\EconomyAPI;
-use blueturk\skyblock\SkyBlock;
-use blueturk\skyblock\managers\IslandManager;
 use pocketmine\math\VoxelRayTrace;
 use pocketmine\block\BlockLegacyIds;
 use Pushkar\MagicCore\forms\StarForm;
-use Pushkar\MagicCore\forms\TradeForm;
 use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\event\block\BlockPlaceEvent;
 use pocketmine\console\ConsoleCommandSender;
@@ -28,10 +27,10 @@ use pocketmine\event\entity\EntityDamageEvent;
 use Pushkar\MagicCore\forms\CraftingTableForm;
 use pocketmine\event\player\PlayerInteractEvent;
 use Pushkar\MagicCore\forms\anvil\AnvilMainForm;
+use pocketmine\network\mcpe\protocol\types\DeviceOS;
 use pocketmine\event\entity\EntityDamageByEntityEvent;
 use pocketmine\event\entity\EntityTrampleFarmlandEvent;
 use pocketmine\event\inventory\InventoryTransactionEvent;
-use pocketmine\network\mcpe\protocol\types\DeviceOS;
 
 class EventListener implements Listener
 {
@@ -345,7 +344,7 @@ class EventListener implements Listener
             $player->sendMessage(" §eYou Can't Place Enchanted Blocks On Ground");
         }
     }
-    
+
     public function TapProfile(EntityDamageByEntityEvent $event): void
     {
         $damager = $event->getDamager();
@@ -354,37 +353,42 @@ class EventListener implements Listener
         $worlds = ["test", "Arena"];
         if (in_array($level, $worlds))
             return;
-        if(!$damager instanceof Player or !$victim instanceof Player)
+        if (!$damager instanceof Player or !$victim instanceof Player)
             return;
         if ($damager->getInventory()->getItemInHand()->getId() !== 0)
             return;
-        
+
         $event->cancel();
-        $form = new SimpleForm(function(Player $player, ?int $result) use ($victim){
-            if($result === null) return;
-            switch($result){
+        $form = new SimpleForm(function (Player $player, ?int $result) use ($victim) {
+            if ($result === null) return;
+            switch ($result) {
                 case 0:
-                  $name = $victim->getName();
-                  Server::getInstance()->dispatchCommand($player, "visit \"$name\"");
-                  break;
+                    $name = $victim->getName();
+                    Server::getInstance()->dispatchCommand($player, "visit \"$name\"");
+                    break;
                 case 1:
-                  #$sender = $event->getEntity();
-                  $name = $victim->getName();
-                  Server::getInstance()->dispatchCommand($player, "trade request \"$name\"");
-                  break;
+                    #$sender = $event->getEntity();
+                    $name = $victim->getName();
+                    Server::getInstance()->dispatchCommand($player, "trade request \"$name\"");
+                    break;
                 case 2:
-                  #$sender = $event->getEntity();
-                  $name = $victim->getName();
-                  Server::getInstance()->dispatchCommand($player, "trade accept \"$name\"");
-                  break;
+                    #$sender = $event->getEntity();
+                    $name = $victim->getName();
+                    Server::getInstance()->dispatchCommand($player, "trade accept \"$name\"");
+                    break;
             }
         });
-        $damage = $victim->getDamage();
-        $defense = $victim->getDefense() + $victim->getArmorPoints();
+        $purePerms = Server::getInstance()->getPluginManager()->getPlugin("PurePerms");
+        if (!$purePerms instanceof PurePerms) {
+            return;
+        }
+
+        $damage = $victim instanceof MagicPlayer ? $victim->getDamage() : 0;
+        $defense = ($victim instanceof MagicPlayer ? $victim->getDefense() : 0) + $victim->getArmorPoints();
         $heal = $victim->getHealth();
         $maxheal = $victim->getMaxHealth();
         $name = $victim->getName();
-        $purePerms = Server::getInstance()->getPluginManager()->getPlugin("PurePerms");
+        
         $rank = $purePerms->getUserDataMgr()->getData($victim)["group"];
         $coin = EconomyAPI::getInstance()->myMoney($victim);
         $ping = $victim->getNetworkSession()->getPing();
@@ -395,18 +399,18 @@ class EventListener implements Listener
         $form->addButton("§l§bVISIT ISLAND\n§l§9»» §r§oTap to visit", 1, "https://i.imgur.com/qt15cyk.png");
         $form->addButton("§l§bREQUEST TRADE\n§l§9»» §r§oTap to request", 1, "https://i.imgur.com/HNAHnLE.png");
         $form->addButton("§l§bACCEPT TRADE\n§l§9»» §r§oTap to request", 1, "https://i.imgur.com/HNAHnLE.png");
-        $form->sendToPlayer($damager);
-   }
-   
-   public function getPlayerPlatform(Player $player): string {
+        $damager->sendForm($form);
+    }
+
+    public function getPlayerPlatform(Player $player): string
+    {
         $extraData = $player->getPlayerInfo()->getExtraData();
 
         if ($extraData["DeviceOS"] === DeviceOS::ANDROID && $extraData["DeviceModel"] === "") {
             return "Linux";
         }
 
-        return match ($extraData["DeviceOS"])
-        {
+        return match ($extraData["DeviceOS"]) {
             DeviceOS::ANDROID => "Android",
             DeviceOS::IOS => "iOS",
             DeviceOS::OSX => "macOS",

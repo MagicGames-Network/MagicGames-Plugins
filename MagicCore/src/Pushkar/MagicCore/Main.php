@@ -10,11 +10,9 @@
 namespace Pushkar\MagicCore;
 
 use pocketmine\Server;
-use pocketmine\utils\Config;
 use pocketmine\player\Player;
 use pocketmine\event\Listener;
 use pocketmine\command\Command;
-use alemiz\sga\StarGateAtlantis;
 use pocketmine\plugin\PluginBase;
 use muqsit\invmenu\InvMenuHandler;
 use onebone\economyapi\EconomyAPI;
@@ -38,7 +36,7 @@ class Main extends PluginBase implements Listener
     {
         self::$instance = $this;
         $this->getLogger()->info("§eLoading MagicGamesCore");
-        
+
         /** @var array $loadWorlds */
         $loadWorlds = $this->getConfig()->get("load-worlds");
         /** @var string $world */
@@ -68,7 +66,7 @@ class Main extends PluginBase implements Listener
 
         //$this->getServer()->getNetwork()->setName($this->getConfig()->get("server-modt"));
         EnchantmentIdMap::getInstance()->register(self::FAKE_ENCH_ID, new Enchantment("Glow", 1, ItemFlags::ALL, ItemFlags::NONE, 1));
-        
+
         $this->getServer()->getPluginManager()->registerEvents($this, $this);
         $this->getLogger()->info("Plugins Made For MagicGames, Copyright By MagicGames™ ©
                                 ███╗░░░███╗░█████╗░░██████╗░██╗░█████╗░░██████╗░░█████╗░███╗░░░███╗███████╗░██████╗
@@ -102,7 +100,7 @@ class Main extends PluginBase implements Listener
             }
         }
     }
-    
+
     public function naturalMoneyLoss(Player $sender, float $senderMoney): void
     {
         if (!$this->getConfig()->get("LoseMoneyNaturally")) return;

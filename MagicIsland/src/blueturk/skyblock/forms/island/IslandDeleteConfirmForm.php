@@ -9,7 +9,7 @@ use blueturk\skyblock\managers\IslandManager;
 
 class IslandDeleteConfirmForm extends ModalForm
 {
-    public function __construct(Player $player)
+    public function __construct()
     {
         parent::__construct(
             SkyBlock::BT_TITLE . "Island Delete",

@@ -14,6 +14,8 @@ use pocketmine\Server;
 
 class InformationForm extends MenuForm
 {
+    private array $players = [];
+
     public function __construct()
     {
         parent::__construct(Main::getInstance()->getConfig()->get("TITLE-MENU"), Main::getInstance()->getConfig()->get("CONTENT-MENU"), [
@@ -69,10 +71,9 @@ class InformationForm extends MenuForm
     public function MainMenu(Player $sender): void
     {
         $form = new SimpleForm(function (Player $sender, $data) {
-            $result = $data;
-            if ($result == null) {
+            if ($data == null) {
             }
-            switch ($result) {
+            switch ($data) {
                 case 0;
                     break;
                 case 1;
@@ -130,10 +131,9 @@ class InformationForm extends MenuForm
     public function INFOONE(Player $sender): void
     {
         $form = new SimpleForm(function (Player $sender, $data) {
-            $result = $data;
-            if ($result == null) {
+            if ($data == null) {
             }
-            switch ($result) {
+            switch ($data) {
                 case 0:
                     break;
                 case 1;
@@ -151,10 +151,9 @@ class InformationForm extends MenuForm
     public function INFOTWO(Player $sender): void
     {
         $form = new SimpleForm(function (Player $sender, $data) {
-            $result = $data;
-            if ($result == null) {
+            if ($data == null) {
             }
-            switch ($result) {
+            switch ($data) {
                 case 0;
                     break;
                 case 1;
@@ -172,10 +171,9 @@ class InformationForm extends MenuForm
     public function INFOTHREE(Player $sender): void
     {
         $form = new SimpleForm(function (Player $sender, $data) {
-            $result = $data;
-            if ($result == null) {
+            if ($data == null) {
             }
-            switch ($result) {
+            switch ($data) {
                 case 0;
                     break;
                 case 1;
@@ -193,10 +191,9 @@ class InformationForm extends MenuForm
     public function INFOFOR(Player $sender): void
     {
         $form = new SimpleForm(function (Player $sender, $data) {
-            $result = $data;
-            if ($result == null) {
+            if ($data == null) {
             }
-            switch ($result) {
+            switch ($data) {
                 case 0;
                     break;
                 case 1;
@@ -214,10 +211,9 @@ class InformationForm extends MenuForm
     public function INFOFIVE(Player $sender): void
     {
         $form = new SimpleForm(function (Player $sender, $data) {
-            $result = $data;
-            if ($result == null) {
+            if ($data == null) {
             }
-            switch ($result) {
+            switch ($data) {
                 case 0;
                     break;
                 case 1;
@@ -235,10 +231,9 @@ class InformationForm extends MenuForm
     public function INFOSIX(Player $sender): void
     {
         $form = new SimpleForm(function (Player $sender, $data) {
-            $result = $data;
-            if ($result == null) {
+            if ($data == null) {
             }
-            switch ($result) {
+            switch ($data) {
                 case 0;
                     break;
                 case 1;
@@ -276,10 +271,9 @@ class InformationForm extends MenuForm
     public function TutorialONE(Player $sender): void
     {
         $form = new SimpleForm(function (Player $sender, $data) {
-            $result = $data;
-            if ($result == null) {
+            if ($data == null) {
             }
-            switch ($result) {
+            switch ($data) {
                 case 0;
                     break;
                 case 1;
@@ -297,10 +291,9 @@ class InformationForm extends MenuForm
     public function TutorialTWO(Player $sender): void
     {
         $form = new SimpleForm(function (Player $sender, $data) {
-            $result = $data;
-            if ($result == null) {
+            if ($data == null) {
             }
-            switch ($result) {
+            switch ($data) {
                 case 0;
                     break;
                 case 1;
@@ -318,10 +311,9 @@ class InformationForm extends MenuForm
     public function TutorialTHREE(Player $sender): void
     {
         $form = new SimpleForm(function (Player $sender, $data) {
-            $result = $data;
-            if ($result == null) {
+            if ($data == null) {
             }
-            switch ($result) {
+            switch ($data) {
                 case 0;
                     break;
                 case 1;
@@ -339,10 +331,9 @@ class InformationForm extends MenuForm
     public function TutorialFOR(Player $sender): void
     {
         $form = new SimpleForm(function (Player $sender, $data) {
-            $result = $data;
-            if ($result == null) {
+            if ($data == null) {
             }
-            switch ($result) {
+            switch ($data) {
                 case 0;
                     break;
                 case 1;
@@ -360,10 +351,9 @@ class InformationForm extends MenuForm
     public function TutorialFIVE(Player $sender): void
     {
         $form = new SimpleForm(function (Player $sender, $data) {
-            $result = $data;
-            if ($result == null) {
+            if ($data == null) {
             }
-            switch ($result) {
+            switch ($data) {
                 case 0;
                     break;
                 case 1;
@@ -381,10 +371,9 @@ class InformationForm extends MenuForm
     public function INFOSEVEN(Player $sender): void
     {
         $form = new SimpleForm(function (Player $sender, $data) {
-            $result = $data;
-            if ($result == null) {
+            if ($data == null) {
             }
-            switch ($result) {
+            switch ($data) {
                 case 0;
                     break;
                 case 1;
@@ -426,10 +415,9 @@ class InformationForm extends MenuForm
     public function RLONE(Player $sender): void
     {
         $form = new SimpleForm(function (Player $sender, $data) {
-            $result = $data;
-            if ($result == null) {
+            if ($data == null) {
             }
-            switch ($result) {
+            switch ($data) {
                 case 0;
                     break;
                 case 1;
@@ -447,10 +435,9 @@ class InformationForm extends MenuForm
     public function RLTWO(Player $sender): void
     {
         $form = new SimpleForm(function (Player $sender, $data) {
-            $result = $data;
-            if ($result == null) {
+            if ($data == null) {
             }
-            switch ($result) {
+            switch ($data) {
                 case 0;
                     break;
                 case 1;
@@ -468,10 +455,9 @@ class InformationForm extends MenuForm
     public function RLTHREE(Player $sender): void
     {
         $form = new SimpleForm(function (Player $sender, $data) {
-            $result = $data;
-            if ($result == null) {
+            if ($data == null) {
             }
-            switch ($result) {
+            switch ($data) {
                 case 0;
                     break;
                 case 1;
@@ -489,10 +475,9 @@ class InformationForm extends MenuForm
     public function RLFOR(Player $sender): void
     {
         $form = new SimpleForm(function (Player $sender, $data) {
-            $result = $data;
-            if ($result == null) {
+            if ($data == null) {
             }
-            switch ($result) {
+            switch ($data) {
                 case 0;
                     break;
                 case 1;
@@ -510,10 +495,9 @@ class InformationForm extends MenuForm
     public function RLFIVE(Player $sender): void
     {
         $form = new SimpleForm(function (Player $sender, $data) {
-            $result = $data;
-            if ($result == null) {
+            if ($data == null) {
             }
-            switch ($result) {
+            switch ($data) {
                 case 0;
                     break;
                 case 1;
@@ -531,10 +515,9 @@ class InformationForm extends MenuForm
     public function RLSIX(Player $sender): void
     {
         $form = new SimpleForm(function (Player $sender, $data) {
-            $result = $data;
-            if ($result == null) {
+            if ($data == null) {
             }
-            switch ($result) {
+            switch ($data) {
                 case 0;
                     break;
                 case 1;
@@ -552,10 +535,9 @@ class InformationForm extends MenuForm
     public function INFOEIGHT(Player $sender): void
     {
         $form = new SimpleForm(function (Player $sender, $data) {
-            $result = $data;
-            if ($result == null) {
+            if ($data == null) {
             }
-            switch ($result) {
+            switch ($data) {
                 case 0;
                     break;
                 case 1;
@@ -593,10 +575,9 @@ class InformationForm extends MenuForm
     public function SMONE(Player $sender): void
     {
         $form = new SimpleForm(function (Player $sender, $data) {
-            $result = $data;
-            if ($result == null) {
+            if ($data == null) {
             }
-            switch ($result) {
+            switch ($data) {
                 case 0;
                     break;
                 case 1;
@@ -614,10 +595,9 @@ class InformationForm extends MenuForm
     public function SMTWO(Player $sender): void
     {
         $form = new SimpleForm(function (Player $sender, $data) {
-            $result = $data;
-            if ($result == null) {
+            if ($data == null) {
             }
-            switch ($result) {
+            switch ($data) {
                 case 0;
                     break;
                 case 1;
@@ -635,10 +615,9 @@ class InformationForm extends MenuForm
     public function SMTHREE(Player $sender): void
     {
         $form = new SimpleForm(function (Player $sender, $data) {
-            $result = $data;
-            if ($result == null) {
+            if ($data == null) {
             }
-            switch ($result) {
+            switch ($data) {
                 case 0;
                     break;
                 case 1;
@@ -656,10 +635,9 @@ class InformationForm extends MenuForm
     public function SMFOR(Player $sender): void
     {
         $form = new SimpleForm(function (Player $sender, $data) {
-            $result = $data;
-            if ($result == null) {
+            if ($data == null) {
             }
-            switch ($result) {
+            switch ($data) {
                 case 0;
                     break;
                 case 1;
@@ -677,10 +655,9 @@ class InformationForm extends MenuForm
     public function SMFIVE(Player $sender): void
     {
         $form = new SimpleForm(function (Player $sender, $data) {
-            $result = $data;
-            if ($result == null) {
+            if ($data == null) {
             }
-            switch ($result) {
+            switch ($data) {
                 case 0;
                     break;
                 case 1;
@@ -698,10 +675,9 @@ class InformationForm extends MenuForm
     public function INFONINE(Player $sender): void
     {
         $form = new SimpleForm(function (Player $sender, $data) {
-            $result = $data;
-            if ($result == null) {
+            if ($data == null) {
             }
-            switch ($result) {
+            switch ($data) {
                 case 0;
                     break;
                 case 1;
@@ -719,10 +695,9 @@ class InformationForm extends MenuForm
     public function INFOTEN(Player $sender): void
     {
         $form = new SimpleForm(function (Player $sender, $data) {
-            $result = $data;
-            if ($result == null) {
+            if ($data == null) {
             }
-            switch ($result) {
+            switch ($data) {
                 case 0;
                     break;
                 case 1;
@@ -740,10 +715,9 @@ class InformationForm extends MenuForm
     public function comingsoon(Player $sender): void
     {
         $form = new SimpleForm(function (Player $sender, $data) {
-            $result = $data;
-            if ($result == null) {
+            if ($data == null) {
             }
-            switch ($result) {
+            switch ($data) {
                 case 0;
                     $sender->sendMessage("\n§8§lCOMING SOON!\n§r§7Pushkar will add more features to this plugin just be patient because this plugin is still not §a100%§7 perfect\n");
                     $sender->sendTitle("§8§lCOMING SOON!", "§cMore features will be added!");
@@ -758,10 +732,9 @@ class InformationForm extends MenuForm
     public function emojis(Player $sender): void
     {
         $form = new SimpleForm(function (Player $sender, $data) {
-            $result = $data;
-            if ($result == null) {
+            if ($data == null) {
             }
-            switch ($result) {
+            switch ($data) {
                 case 0;
                     break;
             }
@@ -775,10 +748,9 @@ class InformationForm extends MenuForm
     public function profile(Player $player): void
     {
         $form = new SimpleForm(function (Player $player, $data) {
-            $result = $data;
-            if ($result == null) {
+            if ($data == null) {
             }
-            switch ($result) {
+            switch ($data) {
                 case 0:
                     Server::getInstance()->dispatchCommand($player, "skills");
                     break;
@@ -795,30 +767,36 @@ class InformationForm extends MenuForm
         $form->addButton("§l§cEXIT\n§l§9»» §r§oTap To Exit", 1, "https://cdn-icons-png.flaticon.com/128/2698/2698776.png");
         $player->sendForm($form);
     }
-    
-    public function skin(Player $players)
-        {
+
+    public function skin(Player $players): void
+    {
         $list = [];
-        foreach(Server::getInstance()->getOnlinePlayers() as $player){
+        foreach (Server::getInstance()->getOnlinePlayers() as $player) {
             $list[] = $player->getName();
         }
         $this->players[$players->getName()] = $list;
-        $form = new CustomForm(function (Player $players, array $data = null){
-            if($data == null){
-                return true;
+        $form = new CustomForm(function (Player $players, array $data = null) {
+            if ($data == null) {
+                return;
             }
+
             $dataSelected = Server::getInstance()->getPlayerExact($this->players[$players->getName()][$data[1]]);
+            if (!$dataSelected instanceof Player) {
+                return;
+            }
+
             $otherSkin = $dataSelected->getSkin();
             $players->sendMessage(" §7You Stole §e{$dataSelected->getName()} §7Skin!");
             $players->setSkin($otherSkin);
             $players->sendSkin();
             $players->despawnFromAll();
             $players->spawnToAll();
+
+            unset($this->players[$players->getName()]);
         });
         $form->setTitle("§3§lSKIN STEALER");
         $form->addLabel("§bSelect Player Skin");
-        $form->addDropdown("",$this->players[$players->getName()]);
-        $form->sendToPlayer($players);
-        return $form;
+        $form->addDropdown("", $this->players[$players->getName()]);
+        $players->sendForm($form);
     }
 }

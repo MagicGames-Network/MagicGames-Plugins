@@ -6,6 +6,7 @@ use pocketmine\Server;
 use dktapps\pmforms\FormIcon;
 use dktapps\pmforms\MenuForm;
 use pocketmine\player\Player;
+use Stats\player\MagicPlayer;
 use dktapps\pmforms\MenuOption;
 
 class StarForm extends MenuForm
@@ -13,8 +14,8 @@ class StarForm extends MenuForm
     public function __construct(Player $player)
     {
         $item = $player->getInventory()->getItemInHand();
-        $damage = $player->getDamage() + $item->getAttackPoints();
-        $defense = $player->getDefense() + $player->getArmorPoints();
+        $damage = ($player instanceof MagicPlayer ? $player->getDamage() : 0) + $item->getAttackPoints();
+        $defense = ($player instanceof MagicPlayer ? $player->getDefense() : 0) + $player->getArmorPoints();
         $heal = $player->getHealth();
         $maxheal = $player->getMaxHealth();
         $name = $player->getName();

@@ -100,7 +100,7 @@ class ItemsForm extends MenuForm
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
             if ($data === null) {
-                return true;
+                return;
             }
             switch ($data) {
                 case 0:
@@ -244,7 +244,7 @@ class ItemsForm extends MenuForm
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
             if ($data === null) {
-                return true;
+                return;
             }
             $ca = $sender->getName();
             switch ($data) {
@@ -413,7 +413,7 @@ class ItemsForm extends MenuForm
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
             if ($data === null) {
-                return true;
+                return;
             }
             switch ($data) {
                 case 0:
@@ -714,11 +714,10 @@ class ItemsForm extends MenuForm
     public function ore(Player $sender): Form
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
-            $result = $data;
-            if ($result === null) {
-                return true;
+            if ($data === null) {
+                return;
             }
-            switch ($result) {
+            switch ($data) {
                 case 0:
                     Server::getInstance()->dispatchCommand($sender, "invcraft view minion");
                     break;
@@ -769,13 +768,12 @@ class ItemsForm extends MenuForm
     public function sword(Player $sender): Form
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
-            $result = $data;
-            if ($result === null) {
-                return true;
+            if ($data === null) {
+                return;
             }
 
             $enchantmentData = [];
-            switch ($result) {
+            switch ($data) {
                 case 0:
                     $item = ItemFactory::getInstance()->get(1038, 0, 1);
                     $item->addEnchantment($this->fakeEnchant);
@@ -934,13 +932,12 @@ class ItemsForm extends MenuForm
     public function axe(Player $sender): Form
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
-            $result = $data;
-            if ($result === null) {
-                return true;
+            if ($data === null) {
+                return;
             }
 
             $enchantmentData = [];
-            switch ($result) {
+            switch ($data) {
                 case 0:
                     $item = ItemFactory::getInstance()->get(1040, 0, 1);
                     $item->addEnchantment($this->fakeEnchant);
@@ -1019,13 +1016,12 @@ class ItemsForm extends MenuForm
     public function hoe(Player $sender): Form
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
-            $result = $data;
-            if ($result === null) {
-                return true;
+            if ($data === null) {
+                return;
             }
 
             $enchantmentData = [];
-            switch ($result) {
+            switch ($data) {
                 case 0:
                     $item = ItemFactory::getInstance()->get(1088, 0, 1);
                     $enchantmentData["name"] = "farmer";
@@ -1067,13 +1063,12 @@ class ItemsForm extends MenuForm
     public function pickaxe(Player $sender): Form
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
-            $result = $data;
-            if ($result === null) {
-                return true;
+            if ($data === null) {
+                return;
             }
 
             $enchantmentData = [];
-            switch ($result) {
+            switch ($data) {
                 case 0:
                     $item = ItemFactory::getInstance()->get(1003, 0, 1);
                     $item->addEnchantment($this->fakeEnchant);
@@ -1186,7 +1181,7 @@ class ItemsForm extends MenuForm
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
             if ($data === null) {
-                return true;
+                return;
             }
             switch ($data) {
                 case 0:
@@ -1273,11 +1268,10 @@ class ItemsForm extends MenuForm
     public function wand(Player $sender): Form
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
-            $result = $data;
-            if ($result === null) {
-                return true;
+            if ($data === null) {
+                return;
             }
-            switch ($result) {
+            switch ($data) {
                 case 0:
                     Server::getInstance()->dispatchCommand($sender, "invcraft view minion");
                     break;
@@ -1308,11 +1302,10 @@ class ItemsForm extends MenuForm
     public function food(Player $sender): Form
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
-            $result = $data;
-            if ($result === null) {
-                return true;
+            if ($data === null) {
+                return;
             }
-            switch ($result) {
+            switch ($data) {
                 case 0:
                     $item = ItemFactory::getInstance()->get(1071, 0, 64);
                     $item->setCustomName("§r§e§lBURGER");
@@ -1399,11 +1392,10 @@ class ItemsForm extends MenuForm
     public function rune(Player $sender): Form
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
-            $result = $data;
-            if ($result === null) {
-                return true;
+            if ($data === null) {
+                return;
             }
-            switch ($result) {
+            switch ($data) {
                 case 0:
                     $item = ItemFactory::getInstance()->get(1015, 0, 1);
                     $item->addEnchantment($this->fakeEnchant);
