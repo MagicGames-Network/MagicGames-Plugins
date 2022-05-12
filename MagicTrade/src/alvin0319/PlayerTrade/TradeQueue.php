@@ -4,22 +4,20 @@ declare(strict_types=1);
 
 namespace alvin0319\PlayerTrade;
 
-use alvin0319\PlayerTrade\event\TradeEndEvent;
-use alvin0319\PlayerTrade\event\TradeStartEvent;
-use alvin0319\PlayerTrade\task\TradeQueueCheckTask;
 use Closure;
 use muqsit\invmenu\InvMenu;
-use muqsit\invmenu\transaction\InvMenuTransaction;
-use muqsit\invmenu\transaction\InvMenuTransactionResult;
-use pocketmine\item\ItemFactory;
 use pocketmine\item\ItemIds;
 use pocketmine\player\Player;
+use pocketmine\item\ItemFactory;
 use pocketmine\scheduler\TaskHandler;
-use function array_merge;
-use function count;
-use function in_array;
+use alvin0319\PlayerTrade\event\TradeEndEvent;
+use alvin0319\PlayerTrade\event\TradeStartEvent;
+use muqsit\invmenu\transaction\InvMenuTransaction;
+use alvin0319\PlayerTrade\task\TradeQueueCheckTask;
+use muqsit\invmenu\transaction\InvMenuTransactionResult;
 
-final class TradeQueue{
+final class TradeQueue
+{
 
 	public const SENDER_SLOTS = [
 		0, 1, 2, 3, 9, 10, 11, 12, 18, 19, 20, 21, 27, 28, 29, 30, 36, 37, 38, 39, 46, 47, 48
@@ -37,16 +35,17 @@ final class TradeQueue{
 
 	public const RECEIVER_DONE_SLOT = 53;
 
-    /** @var Player */
+	/** @var Player */
 	protected Player $sender, $receiver;
-    /** @var InvMenu */
+	/** @var InvMenu */
 	protected InvMenu $senderMenu, $receiverMenu;
-    /** @var bool */
+	/** @var bool */
 	protected bool $done = false, $isSenderDone = false, $isReceiverDone = false;
-    /** @var TaskHandler|null */
+	/** @var TaskHandler|null */
 	protected ?TaskHandler $handler = null;
 
-	public function __construct(Player $sender, Player $receiver){
+	public function __construct(Player $sender, Player $receiver)
+	{
 		$this->sender = $sender;
 		$this->receiver = $receiver;
 		$this->senderMenu = InvMenu::create(InvMenu::TYPE_DOUBLE_CHEST);
@@ -63,7 +62,7 @@ final class TradeQueue{
 
 		$redItem = ItemFactory::getInstance()->get(ItemIds::TERRACOTTA, 14);
 		$redItem->setCustomName("§r§c§lWAIT!");
-		foreach(self::BORDER_SLOTS as $slot){
+		foreach (self::BORDER_SLOTS as $slot) {
 			$this->senderMenu->getInventory()->setItem($slot, $borderItem);
 			$this->receiverMenu->getInventory()->setItem($slot, $borderItem);
 		}
@@ -76,14 +75,15 @@ final class TradeQueue{
 		$this->startTrade();
 	}
 
-	public function startTrade() : void{
-		if(!$this->sender->isOnline() || !$this->receiver->isOnline()){
+	public function startTrade(): void
+	{
+		if (!$this->sender->isOnline() || !$this->receiver->isOnline()) {
 			return;
 		}
 
 		$ev = new TradeStartEvent($this->sender, $this->receiver);
 		$ev->call();
-		if($ev->isCancelled()){
+		if ($ev->isCancelled()) {
 			$this->removeFrom();
 			return;
 		}
@@ -94,39 +94,42 @@ final class TradeQueue{
 		$this->handler = PlayerTrade::getInstance()->getScheduler()->scheduleRepeatingTask(new TradeQueueCheckTask($this), 20);
 	}
 
-	public function getSender() : Player{
+	public function getSender(): Player
+	{
 		return $this->sender;
 	}
 
-	public function getReceiver() : Player{
+	public function getReceiver(): Player
+	{
 		return $this->receiver;
 	}
 
-	public function done() : void{
+	public function done(): void
+	{
 		$plugin = PlayerTrade::getInstance();
 		$this->done = true;
 		$senderRemains = [];
 		$receiverRemains = [];
-		foreach(self::RECEIVER_SLOTS as $slot){
+		foreach (self::RECEIVER_SLOTS as $slot) {
 			$item = $this->receiverMenu->getInventory()->getItem($slot);
-			if(!$item->isNull()){
+			if (!$item->isNull()) {
 				$senderRemains = array_merge($senderRemains, $this->sender->getInventory()->addItem($item));
 			}
 		}
-		foreach(self::SENDER_SLOTS as $slot){
+		foreach (self::SENDER_SLOTS as $slot) {
 			$item = $this->senderMenu->getInventory()->getItem($slot);
-			if(!$item->isNull()){
+			if (!$item->isNull()) {
 				$receiverRemains = array_merge($receiverRemains, $this->receiver->getInventory()->addItem($item));
 			}
 		}
-		if(count($senderRemains) > 0){
+		if (count($senderRemains) > 0) {
 			$this->sender->sendMessage(PlayerTrade::$prefix . $plugin->getLanguage()->translateString("trade.inventoryFull"));
-			foreach($senderRemains as $remain)
+			foreach ($senderRemains as $remain)
 				$this->sender->dropItem($remain);
 		}
-		if(count($receiverRemains) > 0){
+		if (count($receiverRemains) > 0) {
 			$this->receiver->sendMessage(PlayerTrade::$prefix . $plugin->getLanguage()->translateString("trade.inventoryFull"));
-			foreach($receiverRemains as $remain)
+			foreach ($receiverRemains as $remain)
 				$this->receiver->dropItem($remain);
 		}
 		$this->senderMenu->onClose($this->sender);
@@ -137,30 +140,31 @@ final class TradeQueue{
 		(new TradeEndEvent($this->sender, $this->receiver, TradeEndEvent::REASON_SUCCESS))->call();
 	}
 
-	public function cancel(bool $offline = true, bool $causedBySender = false) : void{
+	public function cancel(bool $offline = true, bool $causedBySender = false): void
+	{
 		$this->done = true;
 		$plugin = PlayerTrade::getInstance();
-		foreach(self::SENDER_SLOTS as $slot){
+		foreach (self::SENDER_SLOTS as $slot) {
 			$item = $this->senderMenu->getInventory()->getItem($slot);
-			if(!$item->isNull()){
+			if (!$item->isNull()) {
 				$this->sender->getInventory()->addItem($item);
 			}
 		}
-		foreach(self::RECEIVER_SLOTS as $slot){
+		foreach (self::RECEIVER_SLOTS as $slot) {
 			$item = $this->receiverMenu->getInventory()->getItem($slot);
-			if(!$item->isNull()){
+			if (!$item->isNull()) {
 				$this->receiver->getInventory()->addItem($item);
 			}
 		}
-		if($offline){
-			if($causedBySender){
+		if ($offline) {
+			if ($causedBySender) {
 				$this->receiverMenu->onClose($this->receiver);
 				$this->receiver->sendMessage(PlayerTrade::$prefix . $plugin->getLanguage()->translateString("trade.cancel.senderLeft"));
-			}else{
+			} else {
 				$this->senderMenu->onClose($this->sender);
 				$this->sender->sendMessage(PlayerTrade::$prefix . $plugin->getLanguage()->translateString("trade.cancel.receiverLeft"));
 			}
-		}else{
+		} else {
 			$this->senderMenu->onClose($this->sender);
 			$this->receiverMenu->onClose($this->receiver);
 			$reason = $causedBySender ? "sender" : "receiver";
@@ -174,38 +178,40 @@ final class TradeQueue{
 		$this->removeFrom();
 	}
 
-	public function removeFrom() : void{
+	public function removeFrom(): void
+	{
 		PlayerTrade::getInstance()->removeFromQueue($this);
-		if($this->handler !== null){
+		if ($this->handler !== null) {
 			$this->handler->cancel();
 		}
 	}
 
-	public function handleInventoryTransaction(InvMenuTransaction $action) : InvMenuTransactionResult{
-		$discard = $action->discard()->then(fn(Player $player) => $this->syncWith());
-		$continue = $action->continue()->then(fn(Player $player) => $this->syncWith());
+	public function handleInventoryTransaction(InvMenuTransaction $action): InvMenuTransactionResult
+	{
+		$discard = $action->discard()->then(fn (Player $player) => $this->syncWith());
+		$continue = $action->continue()->then(fn (Player $player) => $this->syncWith());
 		$player = $action->getPlayer();
 		$slot = $action->getAction()->getSlot();
-		if($this->done) return $discard;
-		if($this->isSender($player)){
-			if($this->isSenderDone){
+		if ($this->done) return $discard;
+		if ($this->isSender($player)) {
+			if ($this->isSenderDone) {
 				return $discard;
 			}
-			if(!in_array($slot, array_merge(self::SENDER_SLOTS, [self::SENDER_DONE_SLOT]))){
+			if (!in_array($slot, array_merge(self::SENDER_SLOTS, [self::SENDER_DONE_SLOT]))) {
 				return $discard;
 			}
-			if($slot === self::SENDER_DONE_SLOT){
+			if ($slot === self::SENDER_DONE_SLOT) {
 				$this->isSenderDone = true;
 				return $discard;
 			}
-		}else{
-			if($this->isReceiverDone){
+		} else {
+			if ($this->isReceiverDone) {
 				return $discard;
 			}
-			if(!in_array($slot, array_merge(self::RECEIVER_SLOTS, [self::RECEIVER_DONE_SLOT]))){
+			if (!in_array($slot, array_merge(self::RECEIVER_SLOTS, [self::RECEIVER_DONE_SLOT]))) {
 				return $discard;
 			}
-			if($slot === self::RECEIVER_DONE_SLOT){
+			if ($slot === self::RECEIVER_DONE_SLOT) {
 				$this->isReceiverDone = true;
 				return $discard;
 			}
@@ -213,50 +219,55 @@ final class TradeQueue{
 		return $continue;
 	}
 
-	public function onInventoryClose(Player $player) : void{
-		if(!$this->done){
+	public function onInventoryClose(Player $player): void
+	{
+		if (!$this->done) {
 			$this->cancel(false, $this->isSender($player));
 		}
 	}
 
-	public function isReceiver(Player $player) : bool{
+	public function isReceiver(Player $player): bool
+	{
 		return $this->receiver->getName() === $player->getName();
 	}
 
-	public function isSender(Player $player) : bool{
+	public function isSender(Player $player): bool
+	{
 		return $this->sender->getName() === $player->getName();
 	}
 
-	public function isDone() : bool{
+	public function isDone(): bool
+	{
 		return $this->done;
 	}
 
-	public function syncWith() : void{
+	public function syncWith(): void
+	{
 		$greenItem = ItemFactory::getInstance()->get(ItemIds::TERRACOTTA, 13);
 		$greenItem->setCustomName("§r§l§aDONE!");
-		foreach(self::SENDER_SLOTS as $slot){
+		foreach (self::SENDER_SLOTS as $slot) {
 			$senderItem = $this->senderMenu->getInventory()->getItem($slot);
 			$receiverItem = $this->receiverMenu->getInventory()->getItem($slot);
-			if(!$senderItem->equalsExact($receiverItem)){
+			if (!$senderItem->equalsExact($receiverItem)) {
 				$this->receiverMenu->getInventory()->setItem($slot, $senderItem);
 			}
 		}
-		foreach(self::RECEIVER_SLOTS as $slot){
+		foreach (self::RECEIVER_SLOTS as $slot) {
 			$senderItem = $this->senderMenu->getInventory()->getItem($slot);
 			$receiverItem = $this->receiverMenu->getInventory()->getItem($slot);
-			if(!$receiverItem->equalsExact($senderItem)){
+			if (!$receiverItem->equalsExact($senderItem)) {
 				$this->senderMenu->getInventory()->setItem($slot, $receiverItem);
 			}
 		}
-		if($this->isSenderDone){
+		if ($this->isSenderDone) {
 			$this->senderMenu->getInventory()->setItem(self::SENDER_DONE_SLOT, $greenItem);
 			$this->receiverMenu->getInventory()->setItem(self::SENDER_DONE_SLOT, $greenItem);
 		}
-		if($this->isReceiverDone){
+		if ($this->isReceiverDone) {
 			$this->senderMenu->getInventory()->setItem(self::RECEIVER_DONE_SLOT, $greenItem);
 			$this->receiverMenu->getInventory()->setItem(self::RECEIVER_DONE_SLOT, $greenItem);
 		}
-		if($this->isSenderDone && $this->isReceiverDone){
+		if ($this->isSenderDone && $this->isReceiverDone) {
 			$this->done();
 		}
 	}

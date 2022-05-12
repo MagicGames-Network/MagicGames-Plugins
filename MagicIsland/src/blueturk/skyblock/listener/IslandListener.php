@@ -6,6 +6,8 @@ namespace blueturk\skyblock\listener;
 use pocketmine\Server;
 use pocketmine\block\Grass;
 use pocketmine\world\World;
+use pocketmine\item\ItemIds;
+use pocketmine\item\SpawnEgg;
 use pocketmine\player\Player;
 use pocketmine\event\Listener;
 use blueturk\skyblock\SkyBlock;
@@ -90,7 +92,7 @@ class IslandListener implements Listener
         $worlds = ["MagicGames", "Mining", "Arena"];
         foreach ($worlds as $world) {
             if ($level === $world) {
-                if ($item instanceof PaintingItem || $item instanceof FlintSteel || $block instanceof ItemFrame || ($item instanceof TieredTool && $block instanceof Grass)) {
+                if ($item instanceof PaintingItem || $item instanceof FlintSteel || $item instanceof SpawnEgg || $item->getId() === ItemIds::ARMOR_STAND || $block instanceof ItemFrame || ($item instanceof TieredTool && $block instanceof Grass)) {
                     $event->cancel();
                     return;
                 }

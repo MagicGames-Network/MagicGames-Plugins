@@ -50,7 +50,7 @@ class BetterMinion extends PluginBase
     public const FAKE_ENCH_ID = -1;
     
     public const MINION_LIMIT = 16;
-    public const QUEUE_CYCLE = 200;
+    public const QUEUE_CYCLE = 10;
 
     public function onLoad(): void
     {
@@ -98,7 +98,7 @@ class BetterMinion extends PluginBase
         $this->getServer()->getCommandMap()->register('Minion', new MinionCommand($this, 'minion', 'MagicMinion Main Command'));
         $this->getServer()->getPluginManager()->registerEvents(new EventListener(), $this);
 
-        $this->getScheduler()->scheduleRepeatingTask(new QueueTickTask(), 20);
+        $this->getScheduler()->scheduleRepeatingTask(new QueueTickTask(), 1);
     }
 
     public function getProvider(): SQLiteProvider

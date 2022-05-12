@@ -6,7 +6,8 @@ namespace alvin0319\PlayerTrade\event;
 
 use pocketmine\event\Cancellable;
 
-final class TradeStartEvent extends TradeEvent implements Cancellable{
+final class TradeStartEvent extends TradeEvent implements Cancellable
+{
 
     /** @var bool */
     private bool $cancelled = false;

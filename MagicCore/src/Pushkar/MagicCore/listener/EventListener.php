@@ -159,7 +159,7 @@ class EventListener implements Listener
                 //    $explosion->explodeB();
                 //}
                 if ($item->getNamedTag()->getTag("leaping_sword") !== null) {
-                    $sender->setMotion(new Vector3(mt_rand(1, 3), mt_rand(1, 3), mt_rand(1, 3)));
+                    $sender->setMotion($sender->getDirectionVector());
                 }
                 if ($item->getNamedTag()->getTag("profile") !== null) {
                     Server::getInstance()->dispatchCommand($sender, "profile");
@@ -326,19 +326,16 @@ class EventListener implements Listener
     {
         $player = $event->getPlayer();
         $block = $player->getWorld()->getBlock($player->getPosition());
-        if ($block->getId() == BlockLegacyIds::END_PORTAL) {
-            Server::getInstance()->dispatchCommand($player, "join");
-        }
-        if ($block->getId() == BlockLegacyIds::PORTAL) {
-            Server::getInstance()->dispatchCommand($player, "hub");
-        }
+        match ($block->getId()) {
+            BlockLegacyIds::END_PORTAL => Server::getInstance()->dispatchCommand($player, "join"),
+            BlockLegacyIds::PORTAL => Server::getInstance()->dispatchCommand($player, "hub")
+        };
     }
 
     public function onPlace(BlockPlaceEvent $event): void
     {
         $player = $event->getPlayer();
         $item = $event->getItem();
-        $block = $event->getBlock();
         if ($item->getNamedTag()->getTag("enchantedblock") !== null) {
             $event->cancel();
             $player->sendMessage(" §eYou Can't Place Enchanted Blocks On Ground");
