@@ -52,44 +52,6 @@ class Main extends PluginBase implements Listener
         }
     }
 
-    public function onCommand(CommandSender $sender, Command $command, string $label, array $args): bool
-    {
-        if ($command->getName() == "hdset") {
-            if ($this->getServer()->isOp($sender->getName()) || $sender->hasPermission($command->getPermission() ?? "hdset.use")) {
-                if (isset($args[0])) {
-                    if (isset($args[1])) {
-                        $player = $this->getServer()->getPlayerByPrefix($args[0]);
-                        if ($player instanceof MagicPlayer) {
-                            if (isset($player->stats[$args[1]])) {
-                                if (isset($args[2])) {
-                                    if (is_numeric($args[2])) {
-                                        $player->setStats($args[1], (float)$args[2]);
-                                        if ($sender->getName() != $player->getName()) {
-                                            $sender->sendMessage("§aChanged the stats of " . $player->getName() . ".");
-                                        }
-                                        return true;
-                                    }
-                                    $sender->sendMessage("§cPut in numeric value.");
-                                    return false;
-                                }
-                                $sender->sendMessage($command->getUsage());
-                                return false;
-                            }
-                            $sender->sendMessage("§cStats §anot found.");
-                            return false;
-                        }
-                        $sender->sendMessage("§cPlayer not found.");
-                        return false;
-                    }
-                    $sender->sendMessage($command->getUsage());
-                }
-                return false;
-            }
-            $sender->sendMessage("§cNo Permission");
-        }
-        return false;
-    }
-
     public function onPlayerCreation(PlayerCreationEvent $event): void
     {
         $event->setPlayerClass(MagicPlayer::class);

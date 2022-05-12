@@ -216,9 +216,10 @@ class Main extends PluginBase implements Listener
             $x = ($maxheal + $health);
             $y = ($adefense + $defense);
             $z = ($adamage + 1);
-            $this->getServer()->dispatchCommand(new ConsoleCommandSender($this->getServer(), $this->getServer()->getLanguage()), str_replace("{player}", $player->getName(), "hdset \"{player}\" MaxHealth $x"));
-            $this->getServer()->dispatchCommand(new ConsoleCommandSender($this->getServer(), $this->getServer()->getLanguage()), str_replace("{player}", $player->getName(), "hdset \"{player}\" Defense $y"));
-            $this->getServer()->dispatchCommand(new ConsoleCommandSender($this->getServer(), $this->getServer()->getLanguage()), str_replace("{player}", $player->getName(), "hdset \"{player}\" Damage $z"));
+
+            $player->setMaxHealth($x);
+            $player->setStats("Defense", $y);
+            $player->setStats("Damage", $z);
         }
     }
 

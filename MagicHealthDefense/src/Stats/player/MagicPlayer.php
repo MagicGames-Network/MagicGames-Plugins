@@ -101,7 +101,7 @@ class MagicPlayer extends Player
                 $this->stats["Health"] = $amount;
                 break;
         }
-        parent::setHealth($amount);
+        parent::setHealth($this->stats["Health"]);
     }
 
     public function heal(EntityRegainHealthEvent $source): void

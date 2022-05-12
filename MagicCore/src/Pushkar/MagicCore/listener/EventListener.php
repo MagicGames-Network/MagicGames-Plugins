@@ -328,7 +328,8 @@ class EventListener implements Listener
         $block = $player->getWorld()->getBlock($player->getPosition());
         match ($block->getId()) {
             BlockLegacyIds::END_PORTAL => Server::getInstance()->dispatchCommand($player, "join"),
-            BlockLegacyIds::PORTAL => Server::getInstance()->dispatchCommand($player, "hub")
+            BlockLegacyIds::PORTAL => Server::getInstance()->dispatchCommand($player, "hub"),
+            default => null
         };
     }
 
