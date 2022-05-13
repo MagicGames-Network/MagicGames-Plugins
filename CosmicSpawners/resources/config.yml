@@ -58,7 +58,7 @@ explosion-drop-chance: 50
 # This is the base spawn rate of one Spawner. If this is set to 40, a single unstacked Zombie Spawner
 # spawns a Zombie every 40 seconds. If 2 Spawners are stacked, it spawns one every 20 seconds instead.
 # If you set this value to 20, a single unstacked Zombie Spawner will spawn one Zombie every 20 seconds.
-base-spawn-rate: 40
+base-spawn-rate: 5
 
 # This is the spawn range, from how far you can be from a spawner in order for it to continue spawning.
 # Example: If the spawn-range is 16, then mob spawning from your point of view would go upto 16 blocks.

@@ -29,7 +29,7 @@ class SpawnerBlock extends PMSpawner
         $tile = $this->getPosition()->getWorld()->getTile($this->getPosition());
         if ($tile instanceof MobSpawnerTile) {
             if ($tile->entityId == "0" && $item->getNamedTag()->getTag(MobSpawnerTile::ENTITY_ID) !== null) {
-                $tile->setEntityId($item->getNamedTag()->getTag(MobSpawnerTile::ENTITY_ID)->getValue());
+                $tile->copyDataFromItem($item);
                 if ($player instanceof Player) {
                     (new SpawnerPlaceEvent($player, $tile))->call();
                 }

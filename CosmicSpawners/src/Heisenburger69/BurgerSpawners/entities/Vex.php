@@ -8,7 +8,6 @@ use pocketmine\network\mcpe\protocol\types\entity\EntityIds;
 
 class Vex extends SpawnerEntity
 {
-
     public function getName(): string
     {
         return "Vex";
