@@ -1,16 +1,10 @@
-main : Electro\BankUI\BankUI
+main : AGTHARN\BankUI\Main
 name: BankUI
 version: 4.0.0
 api: 4.0.0
-Author: ["Electro Noob", "Pushkar"]
-depend: ["EconomyAPI"]
+author: AGTHARN
+depend: [EconomyAPI]
 
-commands:
-  bank:
-    description: Opens The BankUI
-    usage: /bank
-    permission: bankui.cmd
-    
 permissions:
   bankui.admin:
     description: Permission to view other players bank

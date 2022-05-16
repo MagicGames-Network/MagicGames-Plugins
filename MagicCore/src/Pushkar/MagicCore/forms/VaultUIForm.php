@@ -3,7 +3,7 @@
 namespace Pushkar\MagicCore\forms;
 
 use pocketmine\Server;
-use Pushkar\MagicCore\Main;
+use Pushkar\MagicCore\MagicCore;
 use dktapps\pmforms\FormIcon;
 use dktapps\pmforms\MenuForm;
 use pocketmine\player\Player;

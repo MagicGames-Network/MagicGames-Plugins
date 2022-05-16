@@ -16,6 +16,7 @@ use pocketmine\block\tile\Spawnable;
 use Heisenburger69\BurgerSpawners\utils\Forms;
 use Heisenburger69\BurgerSpawners\utils\Utils;
 use Heisenburger69\BurgerSpawners\utils\ConfigManager;
+use Heisenburger69\BurgerSpawners\utils\EntityLegacyIds;
 use Heisenburger69\BurgerSpawners\entities\SpawnerEntity;
 
 class MobSpawnerTile extends Spawnable
@@ -131,16 +132,17 @@ class MobSpawnerTile extends Spawnable
     {
         $baseDelay = 300 / $this->spawnCount;
         $this->setMinDelay($baseDelay);
-        
+
         return $baseDelay;
     }
 
-    public function setEntityId(string $id): void
+    public function setEntityId(string $id, ?string $realEntityId = null): void
     {
         try {
-            $reflectionConstant = new ReflectionClassConstant(EntityLegacyIds::class, Utils::getEntityNameFromID($this->entityId));
-            $realEntityId = $reflectionConstant->getValue();
-
+            if ($realEntityId === null) {
+                $reflectionConstant = new ReflectionClassConstant(EntityLegacyIds::class, Utils::getEntityNameFromID($this->entityId));
+                $realEntityId = $reflectionConstant->getValue();
+            }
             $this->realEntityId = $realEntityId;
         } catch (ReflectionException $ex) {
         }
@@ -187,7 +189,7 @@ class MobSpawnerTile extends Spawnable
 
     public function addAdditionalSpawnData(CompoundTag $nbt): void
     {
-        $nbt->setString(self::REAL_ENTITY_ID, $this->realEntityId);
+        $nbt->setInt(self::REAL_ENTITY_ID, $this->realEntityId);
         $nbt->setString(self::ENTITY_ID, $this->entityId);
         $nbt->setString(self::ENTITY_IDENTIFIER, Utils::getEntityNameFromID($this->entityId));
         $nbt->setFloat(self::DISPLAY_ENTITY_SCALE, 1.0);
@@ -201,11 +203,9 @@ class MobSpawnerTile extends Spawnable
 
     public function readSaveData(CompoundTag $nbt): void
     {
-        if (($realEntityId = $nbt->getTag(self::REAL_ENTITY_ID)) !== null) {
-            $this->setEntityId($realEntityId->getValue());
-        }
         if (($entityId = $nbt->getTag(self::ENTITY_ID)) !== null) {
-            $this->setEntityId($entityId->getValue());
+            $realEntityId = ($realEntityId = $nbt->getTag(self::REAL_ENTITY_ID)) !== null ? $realEntityId->getValue() : null;
+            $this->setEntityId($entityId->getValue(), $realEntityId);
         }
         if (($entityIdentifier = $nbt->getTag(self::ENTITY_IDENTIFIER)) !== null) {
             $this->setEntityIdentifier($entityIdentifier->getValue());

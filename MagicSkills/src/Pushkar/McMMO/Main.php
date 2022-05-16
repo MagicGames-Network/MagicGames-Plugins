@@ -22,7 +22,6 @@ use pocketmine\command\CommandSender;
 use Pushkar\McMMO\entity\FloatingText;
 use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\event\block\BlockPlaceEvent;
-use pocketmine\console\ConsoleCommandSender;
 use pocketmine\event\player\PlayerLoginEvent;
 use pocketmine\event\entity\EntityDamageEvent;
 use pocketmine\block\BlockLegacyIds as BlockIds;
@@ -240,10 +239,14 @@ class Main extends PluginBase implements Listener
     }
 
     /**
-     * @priority LOWEST
+     * @priority HIGHEST
      */
     public function onBreak(BlockBreakEvent $event): void
     {
+        if ($event->isCancelled()) {
+            return;
+        }
+        
         $player = $event->getPlayer();
         $block = $event->getBlock();
         switch ($block->getId()) {
@@ -292,10 +295,14 @@ class Main extends PluginBase implements Listener
     }
 
     /**
-     * @priority LOWEST
+     * @priority HIGHEST
      */
     public function onPlace(BlockPlaceEvent $event): void
     {
+        if ($event->isCancelled()) {
+            return;
+        }
+
         $player = $event->getPlayer();
         $block = $event->getBlock();
         if (!$block instanceof Opaque) {
@@ -305,10 +312,14 @@ class Main extends PluginBase implements Listener
     }
 
     /**
-     * @priority LOWEST
+     * @priority HIGHEST
      */
     public function onDamage(EntityDamageEvent $event): void
     {
+        if ($event->isCancelled()) {
+            return;
+        }
+        
         if ($event->getEntity() instanceof FloatingText) {
             $event->cancel();
             return;
@@ -327,10 +338,14 @@ class Main extends PluginBase implements Listener
     }
 
     /**
-     * @priority LOWEST
+     * @priority HIGHEST
      */
     public function onShootBow(EntityShootBowEvent $event): void
     {
+        if ($event->isCancelled()) {
+            return;
+        }
+
         $entity = $event->getEntity();
         if ($entity instanceof Player) {
             $this->addXp(self::ARCHER, $entity);
@@ -338,10 +353,14 @@ class Main extends PluginBase implements Listener
     }
 
     /**
-     * @priority LOWEST
+     * @priority HIGHEST
      */
     public function onItemConsume(PlayerItemConsumeEvent $event): void
     {
+        if ($event->isCancelled()) {
+            return;
+        }
+
         if ($event->getPlayer()->getHungerManager()->getFood() < $event->getPlayer()->getHungerManager()->getMaxFood()) {
             $this->addXp(self::CONSUMER, $event->getPlayer());
         }

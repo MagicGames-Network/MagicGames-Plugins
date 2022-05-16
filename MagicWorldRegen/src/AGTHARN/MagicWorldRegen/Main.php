@@ -9,6 +9,7 @@ use pocketmine\world\Position;
 use pocketmine\promise\Promise;
 use pocketmine\plugin\PluginBase;
 use pocketmine\block\BlockFactory;
+use pocketmine\math\AxisAlignedBB;
 use pocketmine\world\format\Chunk;
 use pocketmine\block\VanillaBlocks;
 use pocketmine\block\BlockLegacyIds;
@@ -19,6 +20,8 @@ class Main extends PluginBase implements Listener
 {
 	private array $blockStates = [];
 	private int $blockIterator = 0;
+
+	private array $blockedAreas = [];
 
 	public function onEnable(): void
 	{
@@ -47,6 +50,10 @@ class Main extends PluginBase implements Listener
 			}
 			@unlink($file);
 		}
+
+		$this->blockedAreas = [
+			"MagicGames" => [$this->getServer()->getWorldManager()->getWorldByName("MagicGames"), new AxisAlignedBB(-50, 0, -90, 14, World::Y_MAX, -47)]
+		];
 	}
 
 	public function onDisable(): void
@@ -58,7 +65,7 @@ class Main extends PluginBase implements Listener
 	{
 		$player = $event->getPlayer();
 		$block = $event->getBlock();
-		
+
 		$position = $block->getPosition();
 		$world = $position->getWorld();
 
@@ -110,6 +117,7 @@ class Main extends PluginBase implements Listener
 				[BlockLegacyIds::EMERALD_ORE, 0] => $this->delayedResetBlock($event, VanillaBlocks::EMERALD_ORE()),
 				[BlockLegacyIds::LAPIS_ORE, 0] => $this->delayedResetBlock($event, VanillaBlocks::LAPIS_LAZULI_ORE()),
 				[BlockLegacyIds::REDSTONE_ORE, 0] => $this->delayedResetBlock($event, VanillaBlocks::REDSTONE_ORE()),
+				[BlockLegacyIds::LIT_REDSTONE_ORE, 0] => $this->delayedResetBlock($event, VanillaBlocks::REDSTONE_ORE()),
 				[BlockLegacyIds::BROWN_MUSHROOM, 0] => $this->delayedResetBlock($event, VanillaBlocks::BROWN_MUSHROOM()),
 				[BlockLegacyIds::RED_MUSHROOM, 0] => $this->delayedResetBlock($event, VanillaBlocks::RED_MUSHROOM()),
 				[BlockLegacyIds::BROWN_MUSHROOM_BLOCK, 0] => $this->delayedResetBlock($event, VanillaBlocks::BROWN_MUSHROOM_BLOCK()),
@@ -136,6 +144,19 @@ class Main extends PluginBase implements Listener
 		$whiteList = ["MagicGames"];
 		if (in_array($event->getPlayer()->getWorld()->getFolderName(), $whiteList)) {
 			$event->cancel();
+			foreach ($this->blockedAreas as $worldData) {
+				/** @var World $world */
+				$world = $worldData[0];
+				/** @var AxisAlignedBB $aabb */
+				$aabb = $worldData[1];
+				if ($event->getPlayer()->getWorld()->getFolderName() !== $world->getFolderName()) {
+					continue;
+				}
+
+				if ($aabb->isVectorInside($event->getPlayer()->getPosition())) {
+					return;
+				}
+			}
 
 			$block = $event->getBlock();
 			$blockData = [$block->getId(), $block->getMeta()];

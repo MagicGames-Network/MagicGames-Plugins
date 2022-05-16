@@ -3,7 +3,7 @@
 namespace Pushkar\MagicCore\forms;
 
 use pocketmine\world\World;
-use Pushkar\MagicCore\Main;
+use Pushkar\MagicCore\MagicCore;
 use dktapps\pmforms\FormIcon;
 use dktapps\pmforms\MenuForm;
 use pocketmine\player\Player;
@@ -13,7 +13,7 @@ use dktapps\pmforms\MenuOption;
 class LiftUiForm extends MenuForm
 {
 
-    public function __construct(Main $plugin)
+    public function __construct(MagicCore $plugin)
     {
         parent::__construct("§l§eMagic Skyblock Lift Operator", "§6Please Select The Cave You Want To Telport", [
             new MenuOption("§bIron Mine\n§9»» §r§oTap to Teleport", new FormIcon("textures/items/iron_ingot", FormIcon::IMAGE_TYPE_PATH)),

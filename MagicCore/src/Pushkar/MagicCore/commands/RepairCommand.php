@@ -2,7 +2,7 @@
 
 namespace Pushkar\MagicCore\commands;
 
-use Pushkar\MagicCore\Main;
+use Pushkar\MagicCore\MagicCore;
 use pocketmine\item\Durable;
 use pocketmine\player\Player;
 use pocketmine\command\Command;
@@ -27,7 +27,7 @@ class RepairCommand extends Command
                     $sender->sendMessage(" §eRepaired Your Item");
                 }
             } else {
-                $sender->sendMessage(Main::PREFIX . "You Don't Have Permission");
+                $sender->sendMessage(MagicCore::PREFIX . "You Don't Have Permission");
             }
             return true;
         }

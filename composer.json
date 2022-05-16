@@ -3,12 +3,26 @@
   "type": "library",
   "description": "",
   "require-dev": {
-    "pocketmine/pocketmine-mp": "4.3.1"
+    "pocketmine/pocketmine-mp": "4.3.1",
+    "phpstan/phpstan": "^1.6.4",
+    "phpstan/extension-installer": "^1.1",
+    "phpstan/phpstan-strict-rules": "^1.2.2"
   },
-  "repositories": [
-    {
-      "type": "vcs",
-      "url": "https://github.com/pmmp/PocketMine-MP.git"
+  "autoload-dev": {
+    "psr-4": {
+      "CortexPE\\Commando\\": ".github/phpstan/Commando/src/CortexPE/Commando",
+      "CortexPE\\DiscordWebhookAPI\\": ".github/phpstan/DiscordWebhookAPI/src/CortexPE/DiscordWebhookAPI",
+      "DenielWorld\\EzTiles\\": ".github/phpstan/EzTiles/src/DenielWorld/EzTiles",
+      "DaPigGuy\\PiggyCustomEnchants\\": ".github/phpstan/PiggyCustomEnchants/src/DaPigGuy/PiggyCustomEnchants",
+      "dktapps\\pmforms\\": ".github/phpstan/pmforms/src/dktapps/pmforms",
+      "jojoe77777\\FormAPI\\": ".github/phpstan/FormAPI/src/jojoe77777/FormAPI",
+      "muqsit\\invmenu\\": ".github/phpstan/InvMenu/src/muqsit/invmenu",
+      "onebone\\economyapi\\": ".github/phpstan/onebone/economyapi",
+      "Ifera\\ScoreHud\\": ".github/phpstan/ScoreHud/src/Ifera/ScoreHud",
+      "poggit\\libasynql\\": ".github/phpstan/libasynql/libasynql/src/poggit/libasynql",
+      "muqsit\\portablecrafting\\": ".github/phpstan/PortableCrafting/src/muqsit/portablecrafting",
+      "JinodkDevTeam\\utils\\": ".github/phpstan/FI-Utils/src/JinodkDevTeam/utils",
+      "libMarshal\\": ".github/phpstan/libMarshal/src/libMarshal"
     }
-  ]
+  }
 }

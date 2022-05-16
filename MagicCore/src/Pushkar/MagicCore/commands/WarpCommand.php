@@ -2,7 +2,7 @@
 
 namespace Pushkar\MagicCore\commands;
 
-use Pushkar\MagicCore\Main;
+use Pushkar\MagicCore\MagicCore;
 use pocketmine\player\Player;
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
@@ -19,7 +19,7 @@ class WarpCommand extends Command
     public function execute(CommandSender $sender, string $commandLabel, array $args): mixed
     {
         if ($sender instanceof Player) {
-            $sender->sendForm(new WarpForm(Main::getInstance()));
+            $sender->sendForm(new WarpForm(MagicCore::getInstance()));
             return true;
         }
         $sender->sendMessage("Use this command in-game");

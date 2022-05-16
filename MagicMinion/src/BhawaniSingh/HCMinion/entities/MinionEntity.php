@@ -677,7 +677,6 @@ abstract class MinionEntity extends Human
                 return true;
             }
             $this->currentAction = self::ACTION_INVENTORY_FULL;
-
             return false;
         }
         return true;

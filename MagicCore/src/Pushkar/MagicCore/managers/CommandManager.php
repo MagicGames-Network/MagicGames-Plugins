@@ -8,6 +8,7 @@ use Pushkar\MagicCore\commands\FlyCommand;
 use Pushkar\MagicCore\commands\HubCommand;
 use Pushkar\MagicCore\commands\XyzCommand;
 use Pushkar\MagicCore\commands\FeedCommand;
+use Pushkar\MagicCore\commands\BitsCommand;
 use Pushkar\MagicCore\commands\HealCommand;
 use Pushkar\MagicCore\commands\HideCommand;
 use Pushkar\MagicCore\commands\NickCommand;
@@ -44,6 +45,7 @@ use Pushkar\MagicCore\commands\TotorialsCommand;
 use Pushkar\MagicCore\commands\InformationCommand;
 use Pushkar\MagicCore\commands\SocialmediaCommand;
 use Pushkar\MagicCore\commands\AnnouncementCommand;
+use Pushkar\MagicCore\commands\CommunityShopCommand;
 
 final class CommandManager
 {
@@ -97,6 +99,8 @@ final class CommandManager
             "emoji" => new EmojiCommand(),
             "rankshop" => new RankshopCommand(),
             "vaultui" => new VaultUICommand(),
+            "bits" => new BitsCommand(),
+            "communityshop" => new CommunityShopCommand(),
             "profile" => new ProfileCommand()
         ];
     }

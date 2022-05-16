@@ -3,7 +3,7 @@
 namespace Pushkar\MagicCore\forms;
 
 use pocketmine\Server;
-use Pushkar\MagicCore\Main;
+use Pushkar\MagicCore\MagicCore;
 use jojoe77777\FormAPI\Form;
 use dktapps\pmforms\FormIcon;
 use dktapps\pmforms\MenuForm;
@@ -24,7 +24,7 @@ class ItemsForm extends MenuForm
     public function __construct()
     {
         /** @phpstan-ignore-next-line */
-        $this->fakeEnchant = new EnchantmentInstance(EnchantmentIdMap::getInstance()->fromId(Main::FAKE_ENCH_ID));
+        $this->fakeEnchant = new EnchantmentInstance(EnchantmentIdMap::getInstance()->fromId(MagicCore::FAKE_ENCH_ID));
         
         parent::__construct("§l§6RECIPES BOOK", "§bUse Only Custom Crafting Table To Craft Things, Do /customtable", [
             new MenuOption("§l§eMINION RECIPES\n§9»» §r§6Tap To Open", new FormIcon("https://cdn-icons-png.flaticon.com/128/891/891978.png", FormIcon::IMAGE_TYPE_URL)),

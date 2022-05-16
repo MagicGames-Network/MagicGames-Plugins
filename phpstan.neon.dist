@@ -17,26 +17,29 @@ parameters:
         - '#Call to method [a-zA-Z0-9\\_()]+ on an unknown class CLADevs\\VanillaX\\enchantments\\utils\\EnchantmentTrait.#'
         - '#PHPDoc tag @var for variable \$[a-zA-Z0-9\\_()]+ contains unknown class CLADevs\\VanillaX\\enchantments\\utils\\EnchantmentTrait.#'
     paths:
-        - ../../BlankFix
-        - ../../BurgerCustomArmor
-        - ../../CosmicSpawners
-        - ../../MagicBankUI
-        - ../../MagicBookShop
-        - ../../MagicCommandSpy
-        - ../../MagicCore
-        - ../../MagicEnchantmentTable
-        - ../../MagicHealthDefense
-        - ../../MagicIsland
-        - ../../MagicMinion
-        - ../../MagicSkills
-        - ../../MagicSpawners
-        - ../../MagicQuest
-        - ../../MagicWorldRegen
-        - ../../PortalsPE
-        - ../../PurePerms
-        - ../../SellAll
-        - ../../SellWands
-        - ../../SmeltWands
+        - BlankFix
+        - BurgerCustomArmor
+        - CosmicSpawners
+        - MagicBankUI
+        - MagicBookShop
+        - MagicCommandSpy
+        - MagicCore
+        - MagicEnchantmentTable
+        - MagicHealthDefense
+        - MagicIsland
+        - MagicMinion
+        - MagicSkills
+        - MagicSpawners
+        - MagicQuest
+        - MagicWorldRegen
+        - PortalsPE
+        - PurePerms
+        - SellAll
+        - SellWands
+        - SmeltWands
     excludePaths:
         analyse:
-            - ../../BurgerCustomArmor/src/Heisenburger69/BurgerCustomArmor/Abilities/AbilityUtils.php
+            - BurgerCustomArmor/src/Heisenburger69/BurgerCustomArmor/Abilities/AbilityUtils.php
+            - vendor
+        analyseAndScan:
+            - vendor/pocketmine/pocketmine-mp/src/event/Listener.php

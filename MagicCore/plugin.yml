@@ -1,11 +1,13 @@
 name: MagicCore
-main: Pushkar\MagicCore\Main
-version: 4.0.0
+main: Pushkar\MagicCore\MagicCore
+version: 5.0.0
 api: 4.0.0
-author: ["Pushkar", "Bynamless"]
-description: Core v4.0.0 Made For MagicGames
+author: ["Pushkar", "Bynamless", "Agtharn"]
+description: Core v5.0.0 Made For MagicGames
 
 permissions:
+  bits.cmd:
+    default: op
   rankshop.cmd:
     default: op
   nick.cmd:

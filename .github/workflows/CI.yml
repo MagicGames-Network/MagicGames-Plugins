@@ -38,5 +38,5 @@ jobs:
         run: composer install --prefer-dist --no-interaction --ignore-platform-reqs
 
       - name: Run PHPStan
-        working-directory: ./.github/phpstan
+        working-directory: ./
         run: vendor/bin/phpstan analyze

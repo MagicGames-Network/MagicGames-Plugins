@@ -2,7 +2,7 @@
 
 namespace Pushkar\MagicCore\commands;
 
-use Pushkar\MagicCore\Main;
+use Pushkar\MagicCore\MagicCore;
 use pocketmine\player\Player;
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
@@ -33,7 +33,7 @@ class SpeedCommand extends Command
             $sender->getEffects()->add(new EffectInstance(VanillaEffects::SPEED(), 600 * 100, 3));
             $sender->sendMessage("§aSpeed: On");
           } else {
-            $sender->sendMessage(Main::PREFIX . "You Don't Have Permission");
+            $sender->sendMessage(MagicCore::PREFIX . "You Don't Have Permission");
           }
             return true;
         }

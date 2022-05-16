@@ -2,7 +2,7 @@
 
 namespace Pushkar\MagicCore\commands;
 
-use Pushkar\MagicCore\Main;
+use Pushkar\MagicCore\MagicCore;
 use pocketmine\player\Player;
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
@@ -22,7 +22,7 @@ class SizeCommand extends Command
           if ($sender->hasPermission("size.cmd")){
             $sender->sendForm(new SizeForm($sender));
           } else {
-            $sender->sendMessage(Main::PREFIX . "You Don't Have Permission");
+            $sender->sendMessage(MagicCore::PREFIX . "You Don't Have Permission");
           }
             return true;
         }

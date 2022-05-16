@@ -3,28 +3,30 @@
 namespace Pushkar\MagicCore\listener;
 
 use pocketmine\Server;
-use Electro\BankUI\BankUI;
+use AGTHARN\BankUI\Main;
 use pocketmine\world\World;
-use Pushkar\MagicCore\Main;
 use pocketmine\math\Vector3;
+use pocketmine\utils\Config;
 use pocketmine\player\Player;
 use Stats\player\MagicPlayer;
 use pocketmine\event\Listener;
 use _64FF00\PurePerms\PurePerms;
 use pocketmine\item\ItemFactory;
+use Pushkar\MagicCore\MagicCore;
 use jojoe77777\FormAPI\SimpleForm;
 use onebone\economyapi\EconomyAPI;
+use pocketmine\math\AxisAlignedBB;
 use pocketmine\math\VoxelRayTrace;
 use pocketmine\block\BlockLegacyIds;
 use Pushkar\MagicCore\forms\StarForm;
-use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\event\block\BlockPlaceEvent;
+use Pushkar\MagicCore\forms\GrindStoneForm;
 use pocketmine\console\ConsoleCommandSender;
 use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\event\player\PlayerMoveEvent;
+use pocketmine\event\player\PlayerQuitEvent;
 use pocketmine\event\player\PlayerDeathEvent;
 use pocketmine\event\entity\EntityDamageEvent;
-use Pushkar\MagicCore\forms\CraftingTableForm;
 use pocketmine\event\player\PlayerInteractEvent;
 use Pushkar\MagicCore\forms\anvil\AnvilMainForm;
 use pocketmine\network\mcpe\protocol\types\DeviceOS;
@@ -37,7 +39,15 @@ class EventListener implements Listener
     public function onJoin(PlayerJoinEvent $event): void
     {
         $sender = $event->getPlayer();
-        //$event->setJoinMessage(str_replace(["{name}"], [$sender->getName()], Main::getInstance()->getConfig()->get("join-message")));
+        if (!file_exists(MagicCore::getInstance()->getDataFolder() . "Players/" . $sender->getName() . ".yml")) {
+            new Config(MagicCore::getInstance()->getDataFolder() . "Players/" . $sender->getName() . ".yml", Config::YAML, array(
+                "Bits" => 0,
+                "Claimed" => [],
+                "PremiumPass" => false,
+                "PremiumClaimed" => [],
+            ));
+        }
+        MagicCore::getInstance()->loadData($sender);
         $item = ItemFactory::getInstance()->get(1070, 0, 1);
         $item->setCustomName("§r§aSkyblock Menu §7( Right Click )§r");
         $item->setLore(["§r§7View All Of Your Skyblock Progress Including Your Skills,\n§7Collections, Recipes And More!\n\n§r§eClick To Open!"]);
@@ -47,53 +57,53 @@ class EventListener implements Listener
         if ($sender->isConnected()) {
             $name = $sender->getName();
             $sender->sendMessage("§e==============§6=============\n§r§7Welcome, $name §7to §eMagic Skyblock\n\n§7Amazing SkyBlock Experience On Bedrock\n\n§e§lVOTE: §r§7Our Vote Website http://bit.ly/vote-magic \n§6§lDISCORD: §r§7http://discord.io/magicgames\n§e==============§6==============");
-            if (Main::getInstance()->getConfig()->get("Hub-Spawn") === true) {
-                $defaultWorld = Main::getInstance()->getServer()->getWorldManager()->getDefaultWorld();
+            if (MagicCore::getInstance()->getConfig()->get("Hub-Spawn") === true) {
+                $defaultWorld = MagicCore::getInstance()->getServer()->getWorldManager()->getDefaultWorld();
                 if (!$defaultWorld instanceof World) {
                     return;
                 }
 
                 $sender->teleport($defaultWorld->getSafeSpawn());
             }
-            if (Main::getInstance()->getConfig()->get("onJoin-FlyReset") === true) {
+            if (MagicCore::getInstance()->getConfig()->get("onJoin-FlyReset") === true) {
                 if ($sender->isCreative()) return;
                 $sender->setAllowFlight(false);
             }
         }
         $ainv = $sender->getArmorInventory();
         if (!$sender->hasPlayedBefore()) {
-            if (Main::getInstance()->getConfig()->get("First-Join") === true) {
-                if (Main::getInstance()->getConfig()->get("Inventory") === true) {
-                    foreach (Main::getInstance()->getConfig()->get("Slots", []) as $slotItem) {
+            if (MagicCore::getInstance()->getConfig()->get("First-Join") === true) {
+                if (MagicCore::getInstance()->getConfig()->get("Inventory") === true) {
+                    foreach (MagicCore::getInstance()->getConfig()->get("Slots", []) as $slotItem) {
                         $result = ItemFactory::getInstance()->get($slotItem["id"], $slotItem["damage"], $slotItem["count"]);
                         $result->setCustomName($slotItem["name"]);
                         $result->setLore([$slotItem["lore"]]);
                         $sender->getInventory()->setItem($slotItem["slot"], $result);
                     }
                 }
-                foreach (Main::getInstance()->getConfig()->get("First-Join-Command") as $v) {
-                    Main::getInstance()->getServer()->dispatchCommand(new ConsoleCommandSender(Main::getInstance()->getServer(), Main::getInstance()->getServer()->getLanguage()), str_replace("{player}", $sender->getName(), $v));
+                foreach (MagicCore::getInstance()->getConfig()->get("First-Join-Command") as $v) {
+                    MagicCore::getInstance()->getServer()->dispatchCommand(new ConsoleCommandSender(MagicCore::getInstance()->getServer(), MagicCore::getInstance()->getServer()->getLanguage()), str_replace("{player}", $sender->getName(), $v));
                 }
-                if (Main::getInstance()->getConfig()->get("Armor") === true) {
-                    $data = Main::getInstance()->getConfig()->get("helm");
+                if (MagicCore::getInstance()->getConfig()->get("Armor") === true) {
+                    $data = MagicCore::getInstance()->getConfig()->get("helm");
                     $item = ItemFactory::getInstance()->get($data["id"]);
                     $item->setCustomName($data["name"]);
                     $item->setLore([$data["lore"]]);
                     $ainv->setHelmet($item);
 
-                    $data = Main::getInstance()->getConfig()->get("chest");
+                    $data = MagicCore::getInstance()->getConfig()->get("chest");
                     $item = ItemFactory::getInstance()->get($data["id"]);
                     $item->setCustomName($data["name"]);
                     $item->setLore([$data["lore"]]);
                     $ainv->setChestplate($item);
 
-                    $data = Main::getInstance()->getConfig()->get("leggins");
+                    $data = MagicCore::getInstance()->getConfig()->get("leggins");
                     $item = ItemFactory::getInstance()->get($data["id"]);
                     $item->setCustomName($data["name"]);
                     $item->setLore([$data["lore"]]);
                     $ainv->setLeggings($item);
 
-                    $data = Main::getInstance()->getConfig()->get("boots");
+                    $data = MagicCore::getInstance()->getConfig()->get("boots");
                     $item = ItemFactory::getInstance()->get($data["id"]);
                     $item->setCustomName($data["name"]);
                     $item->setLore([$data["lore"]]);
@@ -101,6 +111,13 @@ class EventListener implements Listener
                 }
             }
         }
+    }
+
+    public function onQuit(PlayerQuitEvent $event): void
+    {
+        $player = $event->getPlayer();
+        MagicCore::getInstance()->saveData($player);
+        unset(MagicCore::getInstance()->bitsMoney[$player->getName()]);
     }
 
     /**
@@ -123,16 +140,16 @@ class EventListener implements Listener
                     $event->cancel();
                     $sender->sendForm(new StarForm($sender));
                 }
-                if (Main::getInstance()->getConfig()->get("Anvil-Ui") === true) {
+                if (MagicCore::getInstance()->getConfig()->get("Anvil-Ui") === true) {
                     if ($block->getId() == 145) {
                         $event->cancel();
                         $event->getPlayer()->sendForm(new AnvilMainForm());
                     }
                 }
-                if (Main::getInstance()->getConfig()->get("CraftingTable-Ui") === true) {
-                    if ($block->getId() == 58) {
+                if (MagicCore::getInstance()->getConfig()->get("Grindstone-Ui") === true) {
+                    if ($block->getId() == 450) {
                         $event->cancel();
-                        $sender->sendForm(new CraftingTableForm());
+                        $sender->sendForm(new GrindStoneForm());
                     }
                 }
                 if ($item->getNamedTag()->getTag("aspect_of_the_end") !== null) {
@@ -159,7 +176,7 @@ class EventListener implements Listener
                 //    $explosion->explodeB();
                 //}
                 if ($item->getNamedTag()->getTag("leaping_sword") !== null) {
-                    $sender->setMotion($sender->getDirectionVector());
+                    $sender->setMotion(new Vector3(mt_rand(1, 3), mt_rand(1, 3), mt_rand(1, 3)));
                 }
                 if ($item->getNamedTag()->getTag("profile") !== null) {
                     Server::getInstance()->dispatchCommand($sender, "profile");
@@ -192,13 +209,13 @@ class EventListener implements Listener
             return;
         }
 
-        if (Main::getInstance()->getConfig()->get("onDamage-FlyReset") === true) {
+        if (MagicCore::getInstance()->getConfig()->get("onDamage-FlyReset") === true) {
             if ($event instanceof EntityDamageByEntityEvent) {
                 $damager = $event->getDamager();
                 if ($damager instanceof Player) {
                     if ($damager->isCreative()) return;
                     if ($damager->getAllowFlight() === true) {
-                        $damager->sendMessage(Main::PREFIX . "Flight mode disabled due to combat");
+                        $damager->sendMessage(MagicCore::PREFIX . "Flight mode disabled due to combat");
                         $damager->setAllowFlight(false);
                         $damager->setFlying(false);
                     }
@@ -213,8 +230,8 @@ class EventListener implements Listener
             if (!is_float($senderMoney)) {
                 return;
             }
-            if (Main::getInstance()->getConfig()->get("Void-Money-Lose") === true) {
-                switch (Main::getInstance()->getConfig()->get("Type")) {
+            if (MagicCore::getInstance()->getConfig()->get("Void-Money-Lose") === true) {
+                switch (MagicCore::getInstance()->getConfig()->get("Type")) {
                     case "all":
                         $entity->sendMessage("§c§lINFO > §r§bYou Fell In Void And Lost §e$" . $senderMoney);
                         EconomyAPI::getInstance()->reduceMoney($entity, $senderMoney);
@@ -224,30 +241,75 @@ class EventListener implements Listener
                         EconomyAPI::getInstance()->reduceMoney($entity, $senderMoney / 2);
                         break;
                     case "amount":
-                        $entity->sendMessage("§c§lINFO > §r§bYou Fell In Void And Lost §e$" . (float)Main::getInstance()->getConfig()->get("Money-Loss"));
-                        EconomyAPI::getInstance()->reduceMoney($entity, (float)Main::getInstance()->getConfig()->get("Money-Loss"));
+                        $entity->sendMessage("§c§lINFO > §r§bYou Fell In Void And Lost §e$" . (float)MagicCore::getInstance()->getConfig()->get("Money-Loss"));
+                        EconomyAPI::getInstance()->reduceMoney($entity, (float)MagicCore::getInstance()->getConfig()->get("Money-Loss"));
                         break;
                     case "percent":
-                        $entity->sendMessage("§c§lINFO > §r§bYou Fell In Void And Lost §e$" . ((float)Main::getInstance()->getConfig()->get("Money-Loss") / 100) * $senderMoney);
-                        EconomyAPI::getInstance()->reduceMoney($entity, ((float)Main::getInstance()->getConfig()->get("Money-Loss") / 100) * $senderMoney);
+                        $entity->sendMessage("§c§lINFO > §r§bYou Fell In Void And Lost §e$" . ((float)MagicCore::getInstance()->getConfig()->get("Money-Loss") / 100) * $senderMoney);
+                        EconomyAPI::getInstance()->reduceMoney($entity, ((float)MagicCore::getInstance()->getConfig()->get("Money-Loss") / 100) * $senderMoney);
                         break;
                 }
             }
         }
     }
 
-    public function onBreak(BlockBreakEvent $event): void
+    /** 
+     * Give way to the PVPers!
+     * 
+     * @priority HIGHEST 
+     */
+    public function onArenaDamage(EntityDamageEvent $event): void
     {
-        #Nothing lol
+        $entity = $event->getEntity();
+        if (!$entity instanceof Player) {
+            return;
+        }
+
+        if ($entity->getPosition()->getWorld()->getFolderName() === "MagicGames") {
+            $aabb = new AxisAlignedBB(107.00, (float) World::Y_MIN, -74.00, 151.00, (float) World::Y_MAX, -30.00);
+            if ($aabb->isVectorInXZ($entity->getPosition())) {
+                $event->uncancel();
+            }
+        }
+    }
+
+    public function onArenaDeath(PlayerDeathEvent $event): void
+    {
+        $player = $event->getPlayer();
+        if ($player->getPosition()->getWorld()->getFolderName() === "MagicGames") {
+            $aabb = new AxisAlignedBB(107.00, (float) World::Y_MIN, -74.00, 151.00, (float) World::Y_MAX, -30.00);
+            if ($aabb->isVectorInXZ($player->getPosition())) {
+                foreach ($event->getDrops() as $item) {
+                    $player->getPosition()->getWorld()->dropItem($player->getLocation(), $item);
+                }
+
+                $player->getInventory()->setHeldItemIndex(0);
+                $player->getInventory()->clearAll();
+                $player->getArmorInventory()->clearAll();
+                $player->getOffHandInventory()->clearAll();
+            }
+        }
+    }
+
+    public function onArenaMove(PlayerMoveEvent $event): void
+    {
+        $player = $event->getPlayer();
+        if ($player->getPosition()->getWorld()->getFolderName() === "MagicGames") {
+            $aabb = new AxisAlignedBB(105.00, (float) World::Y_MIN, -76.00, 153.00, (float) World::Y_MAX, -28.00);
+            $aabb2 = new AxisAlignedBB(107.00, (float) World::Y_MIN, -74.00, 151.00, (float) World::Y_MAX, -30.00);
+            if ($aabb->isVectorInXZ($player->getPosition()) && !$aabb2->isVectorInXZ($player->getPosition())) {
+                $player->sendMessage(MagicCore::PREFIX . "PvP is enabled in this area. You will lose items if you die.");
+            }
+        }
     }
 
     public function onDeath(PlayerDeathEvent $event): void
     {
         $sender = $event->getPlayer();
-        if (Main::getInstance()->getConfig()->get("KeepInventory") == true) {
+        if (MagicCore::getInstance()->getConfig()->get("KeepInventory") == true) {
             $worldName = $event->getPlayer()->getWorld()->getDisplayName();
-            $worlds = Main::getInstance()->getConfig()->get("KeepInventory-Worlds");
-            switch (Main::getInstance()->getConfig()->get("KeepInventory-Mode")) {
+            $worlds = MagicCore::getInstance()->getConfig()->get("KeepInventory-Worlds");
+            switch (MagicCore::getInstance()->getConfig()->get("KeepInventory-Mode")) {
                 case "all":
                     $event->setKeepInventory(true);
                     break;
@@ -275,14 +337,14 @@ class EventListener implements Listener
         }
 
         $damager = $lastDamage->getDamager();
-        if (Main::getInstance()->getConfig()->get("Death-Money-Lose") === true) {
+        if (MagicCore::getInstance()->getConfig()->get("Death-Money-Lose") === true) {
             if (!$damager instanceof Player) {
-                Main::getInstance()->naturalMoneyLoss($sender, $senderMoney);
+                MagicCore::getInstance()->naturalMoneyLoss($sender, $senderMoney);
                 return;
             }
-            switch (Main::getInstance()->getConfig()->get("Type")) {
+            switch (MagicCore::getInstance()->getConfig()->get("Type")) {
                 case "all":
-                    if (Main::getInstance()->getConfig()->get("KillerGainMoney")) {
+                    if (MagicCore::getInstance()->getConfig()->get("KillerGainMoney")) {
                         $damager->sendMessage("§c§lINFO > §r§bYou Have Killed §e " . $sender->getName() . " §bAnd Stole §e$" . $senderMoney);
                         EconomyAPI::getInstance()->addMoney($damager, $senderMoney);
                     }
@@ -290,7 +352,7 @@ class EventListener implements Listener
                     EconomyAPI::getInstance()->reduceMoney($sender, $senderMoney);
                     break;
                 case "half":
-                    if (Main::getInstance()->getConfig()->get("KillerGainMoney")) {
+                    if (MagicCore::getInstance()->getConfig()->get("KillerGainMoney")) {
                         $damager->sendMessage("§c§lINFO > §r§bYou Have Killed §e " . $sender->getName() . " §bAnd Stole §e$" . $senderMoney / 2);
                         EconomyAPI::getInstance()->addMoney($damager, $senderMoney / 2);
                     }
@@ -298,20 +360,20 @@ class EventListener implements Listener
                     EconomyAPI::getInstance()->reduceMoney($sender, $senderMoney / 2);
                     break;
                 case "amount":
-                    if (Main::getInstance()->getConfig()->get("KillerGainMoney")) {
-                        $damager->sendMessage("§c§lINFO > §r§bYou Have Killed §e " . $sender->getName() . " §bAnd Stole §e$" . (float)Main::getInstance()->getConfig()->get("Money-Loss"));
-                        EconomyAPI::getInstance()->addMoney($damager, (float)Main::getInstance()->getConfig()->get("Money-Loss"));
+                    if (MagicCore::getInstance()->getConfig()->get("KillerGainMoney")) {
+                        $damager->sendMessage("§c§lINFO > §r§bYou Have Killed §e " . $sender->getName() . " §bAnd Stole §e$" . (float)MagicCore::getInstance()->getConfig()->get("Money-Loss"));
+                        EconomyAPI::getInstance()->addMoney($damager, (float)MagicCore::getInstance()->getConfig()->get("Money-Loss"));
                     }
-                    $sender->sendMessage("§c§lINFO > §r§bYou Died And Lost §e$" . (float)Main::getInstance()->getConfig()->get("Money-Loss"));
-                    EconomyAPI::getInstance()->reduceMoney($sender, (float)Main::getInstance()->getConfig()->get("Money-Loss"));
+                    $sender->sendMessage("§c§lINFO > §r§bYou Died And Lost §e$" . (float)MagicCore::getInstance()->getConfig()->get("Money-Loss"));
+                    EconomyAPI::getInstance()->reduceMoney($sender, (float)MagicCore::getInstance()->getConfig()->get("Money-Loss"));
                     break;
                 case "percent":
-                    if (Main::getInstance()->getConfig()->get("KillerGainMoney")) {
-                        $damager->sendMessage("§c§lINFO > §r§bYou Have Killed §e " . $sender->getName() . " §bAnd Stole §e$" . ((float)Main::getInstance()->getConfig()->get("Money-Loss") / 100) * $senderMoney);
-                        EconomyAPI::getInstance()->addMoney($damager, ((float)Main::getInstance()->getConfig()->get("Money-Loss") / 100) * $senderMoney);
+                    if (MagicCore::getInstance()->getConfig()->get("KillerGainMoney")) {
+                        $damager->sendMessage("§c§lINFO > §r§bYou Have Killed §e " . $sender->getName() . " §bAnd Stole §e$" . ((float)MagicCore::getInstance()->getConfig()->get("Money-Loss") / 100) * $senderMoney);
+                        EconomyAPI::getInstance()->addMoney($damager, ((float)MagicCore::getInstance()->getConfig()->get("Money-Loss") / 100) * $senderMoney);
                     }
-                    $sender->sendMessage("§c§lINFO > §r§bYou Died And Lost §e$" . ((float)Main::getInstance()->getConfig()->get("Money-Loss") / 100) * $senderMoney);
-                    EconomyAPI::getInstance()->reduceMoney($sender, ((float)Main::getInstance()->getConfig()->get("Money-Loss") / 100) * $senderMoney);
+                    $sender->sendMessage("§c§lINFO > §r§bYou Died And Lost §e$" . ((float)MagicCore::getInstance()->getConfig()->get("Money-Loss") / 100) * $senderMoney);
+                    EconomyAPI::getInstance()->reduceMoney($sender, ((float)MagicCore::getInstance()->getConfig()->get("Money-Loss") / 100) * $senderMoney);
                     break;
             }
         }
@@ -326,17 +388,19 @@ class EventListener implements Listener
     {
         $player = $event->getPlayer();
         $block = $player->getWorld()->getBlock($player->getPosition());
-        match ($block->getId()) {
-            BlockLegacyIds::END_PORTAL => Server::getInstance()->dispatchCommand($player, "join"),
-            BlockLegacyIds::PORTAL => Server::getInstance()->dispatchCommand($player, "hub"),
-            default => null
-        };
+        if ($block->getId() == BlockLegacyIds::END_PORTAL) {
+            Server::getInstance()->dispatchCommand($player, "join");
+        }
+        if ($block->getId() == BlockLegacyIds::PORTAL) {
+            Server::getInstance()->dispatchCommand($player, "hub");
+        }
     }
 
     public function onPlace(BlockPlaceEvent $event): void
     {
         $player = $event->getPlayer();
         $item = $event->getItem();
+        $block = $event->getBlock();
         if ($item->getNamedTag()->getTag("enchantedblock") !== null) {
             $event->cancel();
             $player->sendMessage(" §eYou Can't Place Enchanted Blocks On Ground");
@@ -386,11 +450,11 @@ class EventListener implements Listener
         $heal = $victim->getHealth();
         $maxheal = $victim->getMaxHealth();
         $name = $victim->getName();
-        
+
         $rank = $purePerms->getUserDataMgr()->getData($victim)["group"];
         $coin = EconomyAPI::getInstance()->myMoney($victim);
         $ping = $victim->getNetworkSession()->getPing();
-        $bank = BankUI::getInstance()->getMoney($victim->getName());
+        $bank = Main::getInstance()->getSessionManager()->getSession($victim)->money;
         $device = $this->getPlayerPlatform($victim);
         $form->setTitle("§l§ePROFILE");
         $form->setContent("§bName:§e $name\n§bPing:§e $ping\n§bRank:§e $rank\n§bMoney In Purse:§e $coin\n§bMoney In Bank:§e $bank\n§bDevice:§e $device\n\n§d§lSTATS:§r\n§7+ §cHealth: $heal" . "§7/§c$maxheal \n§7+ §aDefense: §a$defense \n§7+ §4Damage: $damage ");

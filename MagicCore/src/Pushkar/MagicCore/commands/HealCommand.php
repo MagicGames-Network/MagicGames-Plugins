@@ -2,7 +2,7 @@
 
 namespace Pushkar\MagicCore\commands;
 
-use Pushkar\MagicCore\Main;
+use Pushkar\MagicCore\MagicCore;
 use pocketmine\player\Player;
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
@@ -20,9 +20,9 @@ class HealCommand extends Command
         if ($sender instanceof Player) {
             if ($sender->hasPermission("heal.cmd")) {
                 $sender->setHealth(20);
-                $sender->sendMessage(Main::PREFIX . "Gods Healed You");
+                $sender->sendMessage(MagicCore::PREFIX . "Gods Healed You");
             } else {
-                $sender->sendMessage(Main::PREFIX . "You Don't Have Permission");
+                $sender->sendMessage(MagicCore::PREFIX . "You Don't Have Permission");
             }
             return true;
         }

@@ -3,7 +3,7 @@
 namespace Pushkar\MagicCore\forms;
 
 use pocketmine\Server;
-use Pushkar\MagicCore\Main;
+use Pushkar\MagicCore\MagicCore;
 use jojoe77777\FormAPI\Form;
 use dktapps\pmforms\FormIcon;
 use dktapps\pmforms\MenuForm;
@@ -73,7 +73,7 @@ class RankshopForm extends MenuForm
             }
         });
         $form->setTitle("§6»§aMEMBER§6«");
-        $form->setContent(Main::getInstance()->getConfig()->get("member.feature"));
+        $form->setContent(MagicCore::getInstance()->getConfig()->get("member.feature"));
         $form->addButton("§cBack", 0, "textures/blocks/barrier");
         $sender->sendForm($form);
         return $form;
@@ -92,7 +92,7 @@ class RankshopForm extends MenuForm
             }
         });
         $form->setTitle("§6»§aVOTER§6«");
-        $form->setContent(Main::getInstance()->getConfig()->get("voter.feature"));
+        $form->setContent(MagicCore::getInstance()->getConfig()->get("voter.feature"));
         $form->addButton("§cBack", 0, "textures/blocks/barrier");
         $sender->sendForm($form);
         return $form;
@@ -115,8 +115,8 @@ class RankshopForm extends MenuForm
             }
         });
         $form->setTitle("§6»§aVIP§6«");
-        $form->setContent(str_replace("{cost}", Main::getInstance()->getConfig()->get("vip.cost"), Main::getInstance()->getConfig()->get("vip.feature")));
-        $form->addButton("§5» Buy With Ingame Money «\n§a$" . Main::getInstance()->getConfig()->get("vip.cost"), 0, "textures/icon/rankstore");
+        $form->setContent(str_replace("{cost}", MagicCore::getInstance()->getConfig()->get("vip.cost"), MagicCore::getInstance()->getConfig()->get("vip.feature")));
+        $form->addButton("§5» Buy With Ingame Money «\n§a$" . MagicCore::getInstance()->getConfig()->get("vip.cost"), 1, "https://i.imgur.com/MYro8RD.png");
         $form->addButton("§cBack", 0, "textures/blocks/barrier");
         $sender->sendForm($form);
         return $form;
@@ -139,8 +139,8 @@ class RankshopForm extends MenuForm
             }
         });
         $form->setTitle("§6»§aVIP§c+§6«");
-        $form->setContent(str_replace("{cost}", Main::getInstance()->getConfig()->get("vip+.cost"), Main::getInstance()->getConfig()->get("vip+.feature")));
-        $form->addButton("§5» Buy With Ingame Money «\n§a$" . Main::getInstance()->getConfig()->get("vip+.cost"), 0, "textures/icon/rankstore");
+        $form->setContent(str_replace("{cost}", MagicCore::getInstance()->getConfig()->get("vip+.cost"), MagicCore::getInstance()->getConfig()->get("vip+.feature")));
+        $form->addButton("§5» Buy With Ingame Money «\n§a$" . MagicCore::getInstance()->getConfig()->get("vip+.cost"), 1, "https://i.imgur.com/MYro8RD.png");
         $form->addButton("§cBack", 0, "textures/blocks/barrier");
         $sender->sendForm($form);
         return $form;
@@ -163,8 +163,8 @@ class RankshopForm extends MenuForm
             }
         });
         $form->setTitle("§6»§aMVP§6«");
-        $form->setContent(str_replace("{cost}", Main::getInstance()->getConfig()->get("mvp.cost"), Main::getInstance()->getConfig()->get("mvp.feature")));
-        $form->addButton("§5» Buy With Ingame Money «\n§a$" . Main::getInstance()->getConfig()->get("mvp.cost"), 0, "textures/icon/rankstore");
+        $form->setContent(str_replace("{cost}", MagicCore::getInstance()->getConfig()->get("mvp.cost"), MagicCore::getInstance()->getConfig()->get("mvp.feature")));
+        $form->addButton("§5» Buy With Ingame Money «\n§a$" . MagicCore::getInstance()->getConfig()->get("mvp.cost"), 1, "https://i.imgur.com/MYro8RD.png");
         $form->addButton("§cBack", 0, "textures/blocks/barrier");
         $sender->sendForm($form);
         return $form;
@@ -187,8 +187,8 @@ class RankshopForm extends MenuForm
             }
         });
         $form->setTitle("§6»§aMVP§c+§6«");
-        $form->setContent(str_replace("{cost}", Main::getInstance()->getConfig()->get("mvp+.cost"), Main::getInstance()->getConfig()->get("mvp+.feature")));
-        $form->addButton("§5» Buy With Ingame Money «\n§a$" . Main::getInstance()->getConfig()->get("mvp+.cost"), 0, "textures/icon/rankstore");
+        $form->setContent(str_replace("{cost}", MagicCore::getInstance()->getConfig()->get("mvp+.cost"), MagicCore::getInstance()->getConfig()->get("mvp+.feature")));
+        $form->addButton("§5» Buy With Ingame Money «\n§a$" . MagicCore::getInstance()->getConfig()->get("mvp+.cost"), 1, "https://i.imgur.com/MYro8RD.png");
         $form->addButton("§cBack", 0, "textures/blocks/barrier");
         $sender->sendForm($form);
         return $form;
@@ -211,8 +211,8 @@ class RankshopForm extends MenuForm
             }
         });
         $form->setTitle("§6»§aMVP§e+§c+§6«");
-        $form->setContent(str_replace("{cost}", Main::getInstance()->getConfig()->get("mvp++.cost"), Main::getInstance()->getConfig()->get("mvp++.feature")));
-        $form->addButton("§5» Buy With Ingame Money «\n§a$" . Main::getInstance()->getConfig()->get("mvp++.cost"), 0, "textures/icon/rankstore");
+        $form->setContent(str_replace("{cost}", MagicCore::getInstance()->getConfig()->get("mvp++.cost"), MagicCore::getInstance()->getConfig()->get("mvp++.feature")));
+        $form->addButton("§5» Buy With Ingame Money «\n§a$" . MagicCore::getInstance()->getConfig()->get("mvp++.cost"), 1, "https://i.imgur.com/MYro8RD.png");
         $form->addButton("§cBack", 0, "textures/blocks/barrier");
         $sender->sendForm($form);
         return $form;
@@ -231,7 +231,7 @@ class RankshopForm extends MenuForm
             }
         });
         $form->setTitle("§6»§cYOUTUBE§6«");
-        $form->setContent(Main::getInstance()->getConfig()->get("youtube.feature"));
+        $form->setContent(MagicCore::getInstance()->getConfig()->get("youtube.feature"));
         $form->addButton("§cBack", 0, "textures/blocks/barrier");
         $sender->sendForm($form);
         return $form;
@@ -253,16 +253,16 @@ class RankshopForm extends MenuForm
                 case 0:
                   $coins = EconomyAPI::getInstance()->myMoney($sender);
                     $name = $sender->getName();
-                    $rank = Main::getInstance()->getConfig()->get("vip.name");
-                    $cost = Main::getInstance()->getConfig()->get("vip.cost");
+                    $rank = MagicCore::getInstance()->getConfig()->get("vip.name");
+                    $cost = MagicCore::getInstance()->getConfig()->get("vip.cost");
                     if ($coins >= $cost) {
                         EconomyAPI::getInstance()->reduceMoney($sender, $cost);
-                        Server::getInstance()->dispatchCommand(new ConsoleCommandSender(Server::getInstance(), Server::getInstance()->getLanguage()), str_replace("{player}", $sender->getName(), Main::getInstance()->getConfig()->get("vip.cmd")));
-                        $sender->sendMessage(Main::getInstance()->getConfig()->get("vip.complete"));
+                        Server::getInstance()->dispatchCommand(new ConsoleCommandSender(Server::getInstance(), Server::getInstance()->getLanguage()), str_replace("{player}", $sender->getName(), MagicCore::getInstance()->getConfig()->get("vip.cmd")));
+                        $sender->sendMessage(MagicCore::getInstance()->getConfig()->get("vip.complete"));
                         Server::getInstance()->broadcastMessage("§f[§eMagic§6Games§f] §a$name Has Buyed VIP Rank");
                         return true;
                     } else {
-                        $sender->sendMessage(Main::getInstance()->getConfig()->get("vip.error"));
+                        $sender->sendMessage(MagicCore::getInstance()->getConfig()->get("vip.error"));
                     }
                   break;
                 case 1:
@@ -270,8 +270,8 @@ class RankshopForm extends MenuForm
                   break;
             }
         });
-        $form->setTitle(Main::getInstance()->getConfig()->get("vip.title"));
-        $form->setContent(str_replace("{cost}", Main::getInstance()->getConfig()->get("vip.cost"), Main::getInstance()->getConfig()->get("vip.buy")));
+        $form->setTitle(MagicCore::getInstance()->getConfig()->get("vip.title"));
+        $form->setContent(str_replace("{cost}", MagicCore::getInstance()->getConfig()->get("vip.cost"), MagicCore::getInstance()->getConfig()->get("vip.buy")));
         $form->addButton("§3» Yes «", 1, "https://cdn-icons-png.flaticon.com/128/3572/3572255.png");
         $form->addButton("§4» Cancel «", 1, "https://cdn-icons-png.flaticon.com/128/3572/3572260.png");
         $sender->sendForm($form);
@@ -287,17 +287,17 @@ class RankshopForm extends MenuForm
                 case 0:
                   $coins = EconomyAPI::getInstance()->myMoney($sender);
                     $name = $sender->getName();
-                    $rank = Main::getInstance()->getConfig()->get("vip+.name");
-                    $cost = Main::getInstance()->getConfig()->get("vip+.cost");
+                    $rank = MagicCore::getInstance()->getConfig()->get("vip+.name");
+                    $cost = MagicCore::getInstance()->getConfig()->get("vip+.cost");
                     if ($coins >= $cost) {
                         EconomyAPI::getInstance()->reduceMoney($sender, $cost);
-                        Server::getInstance()->dispatchCommand(new ConsoleCommandSender(Server::getInstance(), Server::getInstance()->getLanguage()), str_replace("{player}", $sender->getName(), Main::getInstance()->getConfig()->get("vip+.cmd")));
+                        Server::getInstance()->dispatchCommand(new ConsoleCommandSender(Server::getInstance(), Server::getInstance()->getLanguage()), str_replace("{player}", $sender->getName(), MagicCore::getInstance()->getConfig()->get("vip+.cmd")));
 
-                        $sender->sendMessage(Main::getInstance()->getConfig()->get("vip+.complete"));
+                        $sender->sendMessage(MagicCore::getInstance()->getConfig()->get("vip+.complete"));
                         Server::getInstance()->broadcastMessage("§f[§eMagic§6Games§f] §a$name Has Buyed §aVIP§c+ §aRank");
                         return true;
                     } else {
-                        $sender->sendMessage(Main::getInstance()->getConfig()->get("vip+.error"));
+                        $sender->sendMessage(MagicCore::getInstance()->getConfig()->get("vip+.error"));
                     }
                   break;
                 case 1:
@@ -305,8 +305,8 @@ class RankshopForm extends MenuForm
                   break;
             }
         });
-        $form->setTitle(Main::getInstance()->getConfig()->get("vip+.title"));
-        $form->setContent(str_replace("{cost}", Main::getInstance()->getConfig()->get("vip+.cost"), Main::getInstance()->getConfig()->get("vip+.buy")));
+        $form->setTitle(MagicCore::getInstance()->getConfig()->get("vip+.title"));
+        $form->setContent(str_replace("{cost}", MagicCore::getInstance()->getConfig()->get("vip+.cost"), MagicCore::getInstance()->getConfig()->get("vip+.buy")));
         $form->addButton("§3» Yes «", 1, "https://cdn-icons-png.flaticon.com/128/3572/3572255.png");
         $form->addButton("§4» Cancel «", 1, "https://cdn-icons-png.flaticon.com/128/3572/3572260.png");
         $sender->sendForm($form);
@@ -322,17 +322,17 @@ class RankshopForm extends MenuForm
                 case 0:
                   $coins = EconomyAPI::getInstance()->myMoney($sender);
                     $name = $sender->getName();
-                    $rank = Main::getInstance()->getConfig()->get("mvp.name");
-                    $cost = Main::getInstance()->getConfig()->get("mvp.cost");
+                    $rank = MagicCore::getInstance()->getConfig()->get("mvp.name");
+                    $cost = MagicCore::getInstance()->getConfig()->get("mvp.cost");
                     if ($coins >= $cost) {
                         EconomyAPI::getInstance()->reduceMoney($sender, $cost);
-                        Server::getInstance()->dispatchCommand(new ConsoleCommandSender(Server::getInstance(), Server::getInstance()->getLanguage()), str_replace("{player}", $sender->getName(), Main::getInstance()->getConfig()->get("mvp.cmd")));
+                        Server::getInstance()->dispatchCommand(new ConsoleCommandSender(Server::getInstance(), Server::getInstance()->getLanguage()), str_replace("{player}", $sender->getName(), MagicCore::getInstance()->getConfig()->get("mvp.cmd")));
 
-                        $sender->sendMessage(Main::getInstance()->getConfig()->get("mvp.complete"));
+                        $sender->sendMessage(MagicCore::getInstance()->getConfig()->get("mvp.complete"));
                         Server::getInstance()->broadcastMessage("§f[§eMagic§6Games§f] §a$name Has Buyed §bMVP §aRank");
                         return true;
                     } else {
-                        $sender->sendMessage(Main::getInstance()->getConfig()->get("mvp.error"));
+                        $sender->sendMessage(MagicCore::getInstance()->getConfig()->get("mvp.error"));
                     }
                   break;
                 case 1:
@@ -340,8 +340,8 @@ class RankshopForm extends MenuForm
                   break;
             }
         });
-        $form->setTitle(Main::getInstance()->getConfig()->get("mvp.title"));
-        $form->setContent(str_replace("{cost}", Main::getInstance()->getConfig()->get("mvp.cost"), Main::getInstance()->getConfig()->get("mvp.buy")));
+        $form->setTitle(MagicCore::getInstance()->getConfig()->get("mvp.title"));
+        $form->setContent(str_replace("{cost}", MagicCore::getInstance()->getConfig()->get("mvp.cost"), MagicCore::getInstance()->getConfig()->get("mvp.buy")));
         $form->addButton("§3» Yes «", 1, "https://cdn-icons-png.flaticon.com/128/3572/3572255.png");
         $form->addButton("§4» Cancel «", 1, "https://cdn-icons-png.flaticon.com/128/3572/3572260.png");
         $sender->sendForm($form);
@@ -357,18 +357,18 @@ class RankshopForm extends MenuForm
                 case 0:
                   $coins = EconomyAPI::getInstance()->myMoney($sender);
                     $name = $sender->getName();
-                    $rank = Main::getInstance()->getConfig()->get("mvp+.name");
-                    $cost = Main::getInstance()->getConfig()->get("mvp+.cost");
+                    $rank = MagicCore::getInstance()->getConfig()->get("mvp+.name");
+                    $cost = MagicCore::getInstance()->getConfig()->get("mvp+.cost");
                     if ($coins >= $cost) {
                         EconomyAPI::getInstance()->reduceMoney($sender, $cost);
-                        Server::getInstance()->dispatchCommand(new ConsoleCommandSender(Server::getInstance(), Server::getInstance()->getLanguage()), str_replace("{player}", $sender->getName(), Main::getInstance()->getConfig()->get("mvp+.cmd")));
+                        Server::getInstance()->dispatchCommand(new ConsoleCommandSender(Server::getInstance(), Server::getInstance()->getLanguage()), str_replace("{player}", $sender->getName(), MagicCore::getInstance()->getConfig()->get("mvp+.cmd")));
 
-                        $sender->sendMessage(Main::getInstance()->getConfig()->get("mvp+.complete"));
+                        $sender->sendMessage(MagicCore::getInstance()->getConfig()->get("mvp+.complete"));
                         Server::getInstance()->broadcastMessage("§f[§eMagic§6Games§f] §a$name Has Buyed §bMVP§c+§a Rank");
                         return true;
                     } else {
 
-                        $sender->sendMessage(Main::getInstance()->getConfig()->get("mvp+.error"));
+                        $sender->sendMessage(MagicCore::getInstance()->getConfig()->get("mvp+.error"));
                     }
                   break;
                 case 1:
@@ -376,8 +376,8 @@ class RankshopForm extends MenuForm
                   break;
             }
         });
-        $form->setTitle(Main::getInstance()->getConfig()->get("mvp+.title"));
-        $form->setContent(str_replace("{cost}", Main::getInstance()->getConfig()->get("mvp+.cost"), Main::getInstance()->getConfig()->get("mvp+.buy")));
+        $form->setTitle(MagicCore::getInstance()->getConfig()->get("mvp+.title"));
+        $form->setContent(str_replace("{cost}", MagicCore::getInstance()->getConfig()->get("mvp+.cost"), MagicCore::getInstance()->getConfig()->get("mvp+.buy")));
         $form->addButton("§3» Yes «", 1, "https://cdn-icons-png.flaticon.com/128/3572/3572255.png");
         $form->addButton("§4» Cancel «", 1, "https://cdn-icons-png.flaticon.com/128/3572/3572260.png");
         $sender->sendForm($form);
@@ -394,18 +394,18 @@ class RankshopForm extends MenuForm
                 case 0:
                   $coins = EconomyAPI::getInstance()->myMoney($sender);
                     $name = $sender->getName();
-                    $rank = Main::getInstance()->getConfig()->get("mvp++.name");
-                    $cost = Main::getInstance()->getConfig()->get("mvp++.cost");
+                    $rank = MagicCore::getInstance()->getConfig()->get("mvp++.name");
+                    $cost = MagicCore::getInstance()->getConfig()->get("mvp++.cost");
                     if ($coins >= $cost) {
                         EconomyAPI::getInstance()->reduceMoney($sender, $cost);
-                        Server::getInstance()->dispatchCommand(new ConsoleCommandSender(Server::getInstance(), Server::getInstance()->getLanguage()), str_replace("{player}", $sender->getName(), Main::getInstance()->getConfig()->get("mvp++.cmd")));
+                        Server::getInstance()->dispatchCommand(new ConsoleCommandSender(Server::getInstance(), Server::getInstance()->getLanguage()), str_replace("{player}", $sender->getName(), MagicCore::getInstance()->getConfig()->get("mvp++.cmd")));
 
-                        $sender->sendMessage(Main::getInstance()->getConfig()->get("mvp++.complete"));
+                        $sender->sendMessage(MagicCore::getInstance()->getConfig()->get("mvp++.complete"));
                         Server::getInstance()->broadcastMessage("§f[§eMagic§6Games§f] §a$name Has Buyed §bMVP§e+§c+ §aRank");
                         return true;
                     } else {
 
-                        $sender->sendMessage(Main::getInstance()->getConfig()->get("mvp++.error"));
+                        $sender->sendMessage(MagicCore::getInstance()->getConfig()->get("mvp++.error"));
                     }
                   break;
                 case 1:
@@ -413,8 +413,8 @@ class RankshopForm extends MenuForm
                   break;
             }
         });
-        $form->setTitle(Main::getInstance()->getConfig()->get("mvp++.title"));
-        $form->setContent(str_replace("{cost}", Main::getInstance()->getConfig()->get("mvp++.cost"), Main::getInstance()->getConfig()->get("mvp++.buy")));
+        $form->setTitle(MagicCore::getInstance()->getConfig()->get("mvp++.title"));
+        $form->setContent(str_replace("{cost}", MagicCore::getInstance()->getConfig()->get("mvp++.cost"), MagicCore::getInstance()->getConfig()->get("mvp++.buy")));
         $form->addButton("§3» Yes «", 1, "https://cdn-icons-png.flaticon.com/128/3572/3572255.png");
         $form->addButton("§4» Cancel «", 1, "https://cdn-icons-png.flaticon.com/128/3572/3572260.png");
         $sender->sendForm($form);

@@ -2,7 +2,7 @@
 
 namespace Pushkar\MagicCore\forms;
 
-use Pushkar\MagicCore\Main;
+use Pushkar\MagicCore\MagicCore;
 use dktapps\pmforms\FormIcon;
 use dktapps\pmforms\MenuForm;
 use pocketmine\player\Player;
@@ -18,57 +18,54 @@ class InformationForm extends MenuForm
 
     public function __construct()
     {
-        parent::__construct(Main::getInstance()->getConfig()->get("TITLE-MENU"), Main::getInstance()->getConfig()->get("CONTENT-MENU"), [
-            new MenuOption(Main::getInstance()->getConfig()->get("EXIT-BTN"), new FormIcon("textures/ui/cancel", FormIcon::IMAGE_TYPE_PATH)),
-            new MenuOption(Main::getInstance()->getConfig()->get("INFO-BTN-ONE"), new FormIcon("textures/ui/copy", FormIcon::IMAGE_TYPE_PATH)),
-            new MenuOption(Main::getInstance()->getConfig()->get("INFO-BTN-TWO"), new FormIcon("textures/ui/copy", FormIcon::IMAGE_TYPE_PATH)),
-            new MenuOption(Main::getInstance()->getConfig()->get("INFO-BTN-THREE"), new FormIcon("textures/ui/copy", FormIcon::IMAGE_TYPE_PATH)),
-            new MenuOption(Main::getInstance()->getConfig()->get("INFO-BTN-FOR"), new FormIcon("textures/ui/copy", FormIcon::IMAGE_TYPE_PATH)),
-            new MenuOption(Main::getInstance()->getConfig()->get("INFO-BTN-FIVE"), new FormIcon("textures/ui/copy", FormIcon::IMAGE_TYPE_PATH)),
-            new MenuOption(Main::getInstance()->getConfig()->get("INFO-BTN-SIX"), new FormIcon("textures/ui/copy", FormIcon::IMAGE_TYPE_PATH)),
-            new MenuOption(Main::getInstance()->getConfig()->get("INFO-BTN-SEVEN"), new FormIcon("textures/ui/copy", FormIcon::IMAGE_TYPE_PATH)),
-            new MenuOption(Main::getInstance()->getConfig()->get("INFO-BTN-EIGHT"), new FormIcon("textures/ui/copy", FormIcon::IMAGE_TYPE_PATH)),
-            new MenuOption(Main::getInstance()->getConfig()->get("INFO-BTN-NINE"), new FormIcon("textures/ui/copy", FormIcon::IMAGE_TYPE_PATH)),
-            new MenuOption(Main::getInstance()->getConfig()->get("INFO-BTN-TEN"), new FormIcon("textures/ui/copy", FormIcon::IMAGE_TYPE_PATH))
+        parent::__construct(MagicCore::getInstance()->getConfig()->get("TITLE-MENU"), MagicCore::getInstance()->getConfig()->get("CONTENT-MENU"), [
+            new MenuOption(MagicCore::getInstance()->getConfig()->get("INFO-BTN-ONE"), new FormIcon("https://i.imgur.com/xbYrpSW.png", FormIcon::IMAGE_TYPE_URL)),
+            new MenuOption(MagicCore::getInstance()->getConfig()->get("INFO-BTN-TWO"), new FormIcon("https://i.imgur.com/UQvACCH.png", FormIcon::IMAGE_TYPE_URL)),
+            new MenuOption(MagicCore::getInstance()->getConfig()->get("INFO-BTN-THREE"), new FormIcon("https://i.imgur.com/RDDn4S8.png", FormIcon::IMAGE_TYPE_URL)),
+            new MenuOption(MagicCore::getInstance()->getConfig()->get("INFO-BTN-FOR"), new FormIcon("https://i.imgur.com/nVQ64qx.png", FormIcon::IMAGE_TYPE_URL)),
+            new MenuOption(MagicCore::getInstance()->getConfig()->get("INFO-BTN-FIVE"), new FormIcon("https://i.imgur.com/2VRM6BT.png", FormIcon::IMAGE_TYPE_URL)),
+            new MenuOption(MagicCore::getInstance()->getConfig()->get("INFO-BTN-SIX"), new FormIcon("https://i.imgur.com/9u10Avf.png", FormIcon::IMAGE_TYPE_URL)),
+            new MenuOption(MagicCore::getInstance()->getConfig()->get("INFO-BTN-SEVEN"), new FormIcon("https://i.imgur.com/gICdeHW.png", FormIcon::IMAGE_TYPE_URL)),
+            new MenuOption(MagicCore::getInstance()->getConfig()->get("INFO-BTN-EIGHT"), new FormIcon("https://i.imgur.com/2jjvcKo.png", FormIcon::IMAGE_TYPE_URL)),
+            new MenuOption(MagicCore::getInstance()->getConfig()->get("INFO-BTN-NINE"), new FormIcon("https://i.imgur.com/XNl95R5.png", FormIcon::IMAGE_TYPE_URL)),
+            new MenuOption(MagicCore::getInstance()->getConfig()->get("INFO-BTN-TEN"), new FormIcon("https://i.imgur.com/erHwlje.png", FormIcon::IMAGE_TYPE_URL))
         ], function (Player $sender, int $selected): void {
             switch ($selected) {
                 case 0;
-                    break;
-                case 1;
                     $this->INFOONE($sender);
                     break;
-                case 2;
+                case 1;
                     $this->INFOTWO($sender);
                     break;
-                case 3;
+                case 2;
                     $this->INFOTHREE($sender);
                     break;
-                case 4;
+                case 3;
                     $this->INFOFOR($sender);
                     break;
-                case 5;
+                case 4;
                     $this->INFOFIVE($sender);
                     break;
-                case 6;
+                case 5;
                     $this->INFOSIX($sender);
                     break;
-                case 7;
+                case 6;
                     $this->INFOSEVEN($sender);
                     break;
-                case 8;
+                case 7;
                     $this->INFOEIGHT($sender);
                     break;
-                case 9;
+                case 8;
                     $this->INFONINE($sender);
                     break;
-                case 10;
+                case 9;
                     $this->INFOTEN($sender);
                     break;
             }
         });
     }
 
-    public function MainMenu(Player $sender): void
+    public function MagicCoreMenu(Player $sender): void
     {
         $form = new SimpleForm(function (Player $sender, $data) {
             if ($data == null) {
@@ -111,19 +108,19 @@ class InformationForm extends MenuForm
                     break;
             }
         });
-        $form->setTitle(Main::getInstance()->getConfig()->get("TITLE-MENU"));
-        $form->setContent(Main::getInstance()->getConfig()->get("CONTENT-MENU"));
-        $form->addButton(Main::getInstance()->getConfig()->get("EXIT-BTN"), 0, "textures/ui/cancel");
-        $form->addButton(Main::getInstance()->getConfig()->get("INFO-BTN-ONE"), 0, "textures/ui/copy");
-        $form->addButton(Main::getInstance()->getConfig()->get("INFO-BTN-TWO"), 0, "textures/ui/copy");
-        $form->addButton(Main::getInstance()->getConfig()->get("INFO-BTN-THREE"), 0, "textures/ui/copy");
-        $form->addButton(Main::getInstance()->getConfig()->get("INFO-BTN-FOR"), 0, "textures/ui/copy");
-        $form->addButton(Main::getInstance()->getConfig()->get("INFO-BTN-FIVE"), 0, "textures/ui/copy");
-        $form->addButton(Main::getInstance()->getConfig()->get("INFO-BTN-SIX"), 0, "textures/ui/copy");
-        $form->addButton(Main::getInstance()->getConfig()->get("INFO-BTN-SEVEN"), 0, "textures/ui/copy");
-        $form->addButton(Main::getInstance()->getConfig()->get("INFO-BTN-EIGHT"), 0, "textures/ui/copy");
-        $form->addButton(Main::getInstance()->getConfig()->get("INFO-BTN-NINE"), 0, "textures/ui/copy");
-        $form->addButton(Main::getInstance()->getConfig()->get("INFO-BTN-TEN"), 0, "textures/ui/copy");
+        $form->setTitle(MagicCore::getInstance()->getConfig()->get("TITLE-MENU"));
+        $form->setContent(MagicCore::getInstance()->getConfig()->get("CONTENT-MENU"));
+        $form->addButton(MagicCore::getInstance()->getConfig()->get("EXIT-BTN"), 0, "textures/ui/cancel");
+        $form->addButton(MagicCore::getInstance()->getConfig()->get("INFO-BTN-ONE"), 0, "textures/ui/copy");
+        $form->addButton(MagicCore::getInstance()->getConfig()->get("INFO-BTN-TWO"), 0, "textures/ui/copy");
+        $form->addButton(MagicCore::getInstance()->getConfig()->get("INFO-BTN-THREE"), 0, "textures/ui/copy");
+        $form->addButton(MagicCore::getInstance()->getConfig()->get("INFO-BTN-FOR"), 0, "textures/ui/copy");
+        $form->addButton(MagicCore::getInstance()->getConfig()->get("INFO-BTN-FIVE"), 0, "textures/ui/copy");
+        $form->addButton(MagicCore::getInstance()->getConfig()->get("INFO-BTN-SIX"), 0, "textures/ui/copy");
+        $form->addButton(MagicCore::getInstance()->getConfig()->get("INFO-BTN-SEVEN"), 0, "textures/ui/copy");
+        $form->addButton(MagicCore::getInstance()->getConfig()->get("INFO-BTN-EIGHT"), 0, "textures/ui/copy");
+        $form->addButton(MagicCore::getInstance()->getConfig()->get("INFO-BTN-NINE"), 0, "textures/ui/copy");
+        $form->addButton(MagicCore::getInstance()->getConfig()->get("INFO-BTN-TEN"), 0, "textures/ui/copy");
         $form->addButton("§0§lCOMING SOON\n§r§cMORE FEATURES CMNG SOON!", 0, "textures/blocks/barrier");
         $sender->sendForm($form);
     }
@@ -141,10 +138,10 @@ class InformationForm extends MenuForm
                     break;
             }
         });
-        $form->setTitle(Main::getInstance()->getConfig()->get("TITLE-ABOUT"));
-        $form->setContent(Main::getInstance()->getConfig()->get("CONTENT-ABOUT"));
-        $form->addButton(Main::getInstance()->getConfig()->get("EXIT-BTN"), 0, "textures/ui/cancel");
-        $form->addButton(Main::getInstance()->getConfig()->get("BACK-BTN"), 0, "textures/ui/icon_import");
+        $form->setTitle(MagicCore::getInstance()->getConfig()->get("TITLE-ABOUT"));
+        $form->setContent(MagicCore::getInstance()->getConfig()->get("CONTENT-ABOUT"));
+        $form->addButton(MagicCore::getInstance()->getConfig()->get("EXIT-BTN"), 0, "textures/ui/cancel");
+        $form->addButton(MagicCore::getInstance()->getConfig()->get("BACK-BTN"), 0, "textures/ui/icon_import");
         $sender->sendForm($form);
     }
 
@@ -161,10 +158,10 @@ class InformationForm extends MenuForm
                     break;
             }
         });
-        $form->setTitle(Main::getInstance()->getConfig()->get("TITLE-CHANGELOG"));
-        $form->setContent(Main::getInstance()->getConfig()->get("CONTENT-CHANGELOG"));
-        $form->addButton(Main::getInstance()->getConfig()->get("EXIT-BTN"), 0, "textures/ui/cancel");
-        $form->addButton(Main::getInstance()->getConfig()->get("BACK-BTN"), 0, "textures/ui/icon_import");
+        $form->setTitle(MagicCore::getInstance()->getConfig()->get("TITLE-CHANGELOG"));
+        $form->setContent(MagicCore::getInstance()->getConfig()->get("CONTENT-CHANGELOG"));
+        $form->addButton(MagicCore::getInstance()->getConfig()->get("EXIT-BTN"), 0, "textures/ui/cancel");
+        $form->addButton(MagicCore::getInstance()->getConfig()->get("BACK-BTN"), 0, "textures/ui/icon_import");
         $sender->sendForm($form);
     }
 
@@ -181,10 +178,10 @@ class InformationForm extends MenuForm
                     break;
             }
         });
-        $form->setTitle(Main::getInstance()->getConfig()->get("TITLE-FEATURES"));
-        $form->setContent(Main::getInstance()->getConfig()->get("CONTENT-FEATURES"));
-        $form->addButton(Main::getInstance()->getConfig()->get("EXIT-BTN"), 0, "textures/ui/cancel");
-        $form->addButton(Main::getInstance()->getConfig()->get("BACK-BTN"), 0, "textures/ui/icon_import");
+        $form->setTitle(MagicCore::getInstance()->getConfig()->get("TITLE-FEATURES"));
+        $form->setContent(MagicCore::getInstance()->getConfig()->get("CONTENT-FEATURES"));
+        $form->addButton(MagicCore::getInstance()->getConfig()->get("EXIT-BTN"), 0, "textures/ui/cancel");
+        $form->addButton(MagicCore::getInstance()->getConfig()->get("BACK-BTN"), 0, "textures/ui/icon_import");
         $sender->sendForm($form);
     }
 
@@ -201,10 +198,10 @@ class InformationForm extends MenuForm
                     break;
             }
         });
-        $form->setTitle(Main::getInstance()->getConfig()->get("TITLE-RULES"));
-        $form->setContent(Main::getInstance()->getConfig()->get("CONTENT-RULES"));
-        $form->addButton(Main::getInstance()->getConfig()->get("EXIT-BTN"), 0, "textures/ui/cancel");
-        $form->addButton(Main::getInstance()->getConfig()->get("BACK-BTN"), 0, "textures/ui/icon_import");
+        $form->setTitle(MagicCore::getInstance()->getConfig()->get("TITLE-RULES"));
+        $form->setContent(MagicCore::getInstance()->getConfig()->get("CONTENT-RULES"));
+        $form->addButton(MagicCore::getInstance()->getConfig()->get("EXIT-BTN"), 0, "textures/ui/cancel");
+        $form->addButton(MagicCore::getInstance()->getConfig()->get("BACK-BTN"), 0, "textures/ui/icon_import");
         $sender->sendForm($form);
     }
 
@@ -221,10 +218,10 @@ class InformationForm extends MenuForm
                     break;
             }
         });
-        $form->setTitle(Main::getInstance()->getConfig()->get("TITLE-STAFFLIST"));
-        $form->setContent(Main::getInstance()->getConfig()->get("CONTENT-STAFFLIST"));
-        $form->addButton(Main::getInstance()->getConfig()->get("EXIT-BTN"), 0, "textures/ui/cancel");
-        $form->addButton(Main::getInstance()->getConfig()->get("BACK-BTN"), 0, "textures/ui/icon_import");
+        $form->setTitle(MagicCore::getInstance()->getConfig()->get("TITLE-STAFFLIST"));
+        $form->setContent(MagicCore::getInstance()->getConfig()->get("CONTENT-STAFFLIST"));
+        $form->addButton(MagicCore::getInstance()->getConfig()->get("EXIT-BTN"), 0, "textures/ui/cancel");
+        $form->addButton(MagicCore::getInstance()->getConfig()->get("BACK-BTN"), 0, "textures/ui/icon_import");
         $sender->sendForm($form);
     }
 
@@ -256,15 +253,15 @@ class InformationForm extends MenuForm
                     break;
             }
         });
-        $form->setTitle(Main::getInstance()->getConfig()->get("TUTORIAL-TITLE-MENU"));
-        $form->setContent(Main::getInstance()->getConfig()->get("TUTORIAL-CONTENT-MENU"));
-        $form->addButton(Main::getInstance()->getConfig()->get("EXIT-BTN"), 0, "textures/ui/cancel");
-        $form->addButton(Main::getInstance()->getConfig()->get("BACK-BTN"), 0, "textures/ui/icon_import");
-        $form->addButton(Main::getInstance()->getConfig()->get("TUTORIAL-ONE-BTN"), 0, "textures/ui/icon_crafting");
-        $form->addButton(Main::getInstance()->getConfig()->get("TUTORIAL-TWO-BTN"), 0, "textures/ui/icon_crafting");
-        $form->addButton(Main::getInstance()->getConfig()->get("TUTORIAL-THREE-BTN"), 0, "textures/ui/icon_crafting");
-        $form->addButton(Main::getInstance()->getConfig()->get("TUTORIAL-FOR-BTN"), 0, "textures/ui/icon_crafting");
-        $form->addButton(Main::getInstance()->getConfig()->get("TUTORIAL-FIVE-BTN"), 0, "textures/ui/icon_crafting");
+        $form->setTitle(MagicCore::getInstance()->getConfig()->get("TUTORIAL-TITLE-MENU"));
+        $form->setContent(MagicCore::getInstance()->getConfig()->get("TUTORIAL-CONTENT-MENU"));
+        $form->addButton(MagicCore::getInstance()->getConfig()->get("EXIT-BTN"), 0, "textures/ui/cancel");
+        $form->addButton(MagicCore::getInstance()->getConfig()->get("BACK-BTN"), 0, "textures/ui/icon_import");
+        $form->addButton(MagicCore::getInstance()->getConfig()->get("TUTORIAL-ONE-BTN"), 0, "textures/ui/icon_crafting");
+        $form->addButton(MagicCore::getInstance()->getConfig()->get("TUTORIAL-TWO-BTN"), 0, "textures/ui/icon_crafting");
+        $form->addButton(MagicCore::getInstance()->getConfig()->get("TUTORIAL-THREE-BTN"), 0, "textures/ui/icon_crafting");
+        $form->addButton(MagicCore::getInstance()->getConfig()->get("TUTORIAL-FOR-BTN"), 0, "textures/ui/icon_crafting");
+        $form->addButton(MagicCore::getInstance()->getConfig()->get("TUTORIAL-FIVE-BTN"), 0, "textures/ui/icon_crafting");
         $sender->sendForm($form);
     }
 
@@ -281,10 +278,10 @@ class InformationForm extends MenuForm
                     break;
             }
         });
-        $form->setTitle(Main::getInstance()->getConfig()->get("TUTORIAL-ONE-TITLE"));
-        $form->setContent(Main::getInstance()->getConfig()->get("TUTORIAL-ONE-CONTENT"));
-        $form->addButton(Main::getInstance()->getConfig()->get("EXIT-BTN"), 0, "textures/ui/cancel");
-        $form->addButton(Main::getInstance()->getConfig()->get("BACK-BTN"), 0, "textures/ui/icon_import");
+        $form->setTitle(MagicCore::getInstance()->getConfig()->get("TUTORIAL-ONE-TITLE"));
+        $form->setContent(MagicCore::getInstance()->getConfig()->get("TUTORIAL-ONE-CONTENT"));
+        $form->addButton(MagicCore::getInstance()->getConfig()->get("EXIT-BTN"), 0, "textures/ui/cancel");
+        $form->addButton(MagicCore::getInstance()->getConfig()->get("BACK-BTN"), 0, "textures/ui/icon_import");
         $sender->sendForm($form);
     }
 
@@ -301,10 +298,10 @@ class InformationForm extends MenuForm
                     break;
             }
         });
-        $form->setTitle(Main::getInstance()->getConfig()->get("TUTORIAL-TWO-TITLE"));
-        $form->setContent(Main::getInstance()->getConfig()->get("TUTORIAL-TWO-CONTENT"));
-        $form->addButton(Main::getInstance()->getConfig()->get("EXIT-BTN"), 0, "textures/ui/cancel");
-        $form->addButton(Main::getInstance()->getConfig()->get("BACK-BTN"), 0, "textures/ui/icon_import");
+        $form->setTitle(MagicCore::getInstance()->getConfig()->get("TUTORIAL-TWO-TITLE"));
+        $form->setContent(MagicCore::getInstance()->getConfig()->get("TUTORIAL-TWO-CONTENT"));
+        $form->addButton(MagicCore::getInstance()->getConfig()->get("EXIT-BTN"), 0, "textures/ui/cancel");
+        $form->addButton(MagicCore::getInstance()->getConfig()->get("BACK-BTN"), 0, "textures/ui/icon_import");
         $sender->sendForm($form);
     }
 
@@ -321,10 +318,10 @@ class InformationForm extends MenuForm
                     break;
             }
         });
-        $form->setTitle(Main::getInstance()->getConfig()->get("TUTORIAL-THREE-TITLE"));
-        $form->setContent(Main::getInstance()->getConfig()->get("TUTORIAL-THREE-CONTENT"));
-        $form->addButton(Main::getInstance()->getConfig()->get("EXIT-BTN"), 0, "textures/ui/cancel");
-        $form->addButton(Main::getInstance()->getConfig()->get("BACK-BTN"), 0, "textures/ui/icon_import");
+        $form->setTitle(MagicCore::getInstance()->getConfig()->get("TUTORIAL-THREE-TITLE"));
+        $form->setContent(MagicCore::getInstance()->getConfig()->get("TUTORIAL-THREE-CONTENT"));
+        $form->addButton(MagicCore::getInstance()->getConfig()->get("EXIT-BTN"), 0, "textures/ui/cancel");
+        $form->addButton(MagicCore::getInstance()->getConfig()->get("BACK-BTN"), 0, "textures/ui/icon_import");
         $sender->sendForm($form);
     }
 
@@ -341,10 +338,10 @@ class InformationForm extends MenuForm
                     break;
             }
         });
-        $form->setTitle(Main::getInstance()->getConfig()->get("TUTORIAL-FOR-TITLE"));
-        $form->setContent(Main::getInstance()->getConfig()->get("TUTORIAL-FOR-CONTENT"));
-        $form->addButton(Main::getInstance()->getConfig()->get("EXIT-BTN"), 0, "textures/ui/cancel");
-        $form->addButton(Main::getInstance()->getConfig()->get("BACK-BTN"), 0, "textures/ui/icon_import");
+        $form->setTitle(MagicCore::getInstance()->getConfig()->get("TUTORIAL-FOR-TITLE"));
+        $form->setContent(MagicCore::getInstance()->getConfig()->get("TUTORIAL-FOR-CONTENT"));
+        $form->addButton(MagicCore::getInstance()->getConfig()->get("EXIT-BTN"), 0, "textures/ui/cancel");
+        $form->addButton(MagicCore::getInstance()->getConfig()->get("BACK-BTN"), 0, "textures/ui/icon_import");
         $sender->sendForm($form);
     }
 
@@ -361,10 +358,10 @@ class InformationForm extends MenuForm
                     break;
             }
         });
-        $form->setTitle(Main::getInstance()->getConfig()->get("TUTORIAL-FIVE-TITLE"));
-        $form->setContent(Main::getInstance()->getConfig()->get("TUTORIAL-FIVE-CONTENT"));
-        $form->addButton(Main::getInstance()->getConfig()->get("EXIT-BTN"), 0, "textures/ui/cancel");
-        $form->addButton(Main::getInstance()->getConfig()->get("BACK-BTN"), 0, "textures/ui/icon_import");
+        $form->setTitle(MagicCore::getInstance()->getConfig()->get("TUTORIAL-FIVE-TITLE"));
+        $form->setContent(MagicCore::getInstance()->getConfig()->get("TUTORIAL-FIVE-CONTENT"));
+        $form->addButton(MagicCore::getInstance()->getConfig()->get("EXIT-BTN"), 0, "textures/ui/cancel");
+        $form->addButton(MagicCore::getInstance()->getConfig()->get("BACK-BTN"), 0, "textures/ui/icon_import");
         $sender->sendForm($form);
     }
 
@@ -399,16 +396,16 @@ class InformationForm extends MenuForm
                     break;
             }
         });
-        $form->setTitle(Main::getInstance()->getConfig()->get("RL-TITLE-MENU"));
-        $form->setContent(Main::getInstance()->getConfig()->get("RL-CONTENT-MENU"));
-        $form->addButton(Main::getInstance()->getConfig()->get("EXIT-BTN"), 0, "textures/ui/cancel");
-        $form->addButton(Main::getInstance()->getConfig()->get("BACK-BTN"), 0, "textures/ui/icon_import");
-        $form->addButton(Main::getInstance()->getConfig()->get("RL-BTN-ONE"), 0, "textures/ui/icon_deals");
-        $form->addButton(Main::getInstance()->getConfig()->get("RL-BTN-TWO"), 0, "textures/ui/icon_deals");
-        $form->addButton(Main::getInstance()->getConfig()->get("RL-BTN-THREE"), 0, "textures/ui/icon_deals");
-        $form->addButton(Main::getInstance()->getConfig()->get("RL-BTN-FOR"), 0, "textures/ui/icon_deals");
-        $form->addButton(Main::getInstance()->getConfig()->get("RL-BTN-FIVE"), 0, "textures/ui/icon_deals");
-        $form->addButton(Main::getInstance()->getConfig()->get("RL-BTN-SIX"), 0, "textures/ui/icon_deals");
+        $form->setTitle(MagicCore::getInstance()->getConfig()->get("RL-TITLE-MENU"));
+        $form->setContent(MagicCore::getInstance()->getConfig()->get("RL-CONTENT-MENU"));
+        $form->addButton(MagicCore::getInstance()->getConfig()->get("EXIT-BTN"), 0, "textures/ui/cancel");
+        $form->addButton(MagicCore::getInstance()->getConfig()->get("BACK-BTN"), 0, "textures/ui/icon_import");
+        $form->addButton(MagicCore::getInstance()->getConfig()->get("RL-BTN-ONE"), 0, "textures/ui/icon_deals");
+        $form->addButton(MagicCore::getInstance()->getConfig()->get("RL-BTN-TWO"), 0, "textures/ui/icon_deals");
+        $form->addButton(MagicCore::getInstance()->getConfig()->get("RL-BTN-THREE"), 0, "textures/ui/icon_deals");
+        $form->addButton(MagicCore::getInstance()->getConfig()->get("RL-BTN-FOR"), 0, "textures/ui/icon_deals");
+        $form->addButton(MagicCore::getInstance()->getConfig()->get("RL-BTN-FIVE"), 0, "textures/ui/icon_deals");
+        $form->addButton(MagicCore::getInstance()->getConfig()->get("RL-BTN-SIX"), 0, "textures/ui/icon_deals");
         $sender->sendForm($form);
     }
 
@@ -425,10 +422,10 @@ class InformationForm extends MenuForm
                     break;
             }
         });
-        $form->setTitle(Main::getInstance()->getConfig()->get("RL-ONE-TITLE"));
-        $form->setContent(Main::getInstance()->getConfig()->get("RL-ONE-CONTENT"));
-        $form->addButton(Main::getInstance()->getConfig()->get("EXIT-BTN"), 0, "textures/ui/cancel");
-        $form->addButton(Main::getInstance()->getConfig()->get("BACK-BTN"), 0, "textures/ui/icon_import");
+        $form->setTitle(MagicCore::getInstance()->getConfig()->get("RL-ONE-TITLE"));
+        $form->setContent(MagicCore::getInstance()->getConfig()->get("RL-ONE-CONTENT"));
+        $form->addButton(MagicCore::getInstance()->getConfig()->get("EXIT-BTN"), 0, "textures/ui/cancel");
+        $form->addButton(MagicCore::getInstance()->getConfig()->get("BACK-BTN"), 0, "textures/ui/icon_import");
         $sender->sendForm($form);
     }
 
@@ -445,10 +442,10 @@ class InformationForm extends MenuForm
                     break;
             }
         });
-        $form->setTitle(Main::getInstance()->getConfig()->get("RL-TWO-TITLE"));
-        $form->setContent(Main::getInstance()->getConfig()->get("RL-TWO-CONTENT"));
-        $form->addButton(Main::getInstance()->getConfig()->get("EXIT-BTN"), 0, "textures/ui/cancel");
-        $form->addButton(Main::getInstance()->getConfig()->get("BACK-BTN"), 0, "textures/ui/icon_import");
+        $form->setTitle(MagicCore::getInstance()->getConfig()->get("RL-TWO-TITLE"));
+        $form->setContent(MagicCore::getInstance()->getConfig()->get("RL-TWO-CONTENT"));
+        $form->addButton(MagicCore::getInstance()->getConfig()->get("EXIT-BTN"), 0, "textures/ui/cancel");
+        $form->addButton(MagicCore::getInstance()->getConfig()->get("BACK-BTN"), 0, "textures/ui/icon_import");
         $sender->sendForm($form);
     }
 
@@ -465,10 +462,10 @@ class InformationForm extends MenuForm
                     break;
             }
         });
-        $form->setTitle(Main::getInstance()->getConfig()->get("RL-THREE-TITLE"));
-        $form->setContent(Main::getInstance()->getConfig()->get("RL-THREE-CONTENT"));
-        $form->addButton(Main::getInstance()->getConfig()->get("EXIT-BTN"), 0, "textures/ui/cancel");
-        $form->addButton(Main::getInstance()->getConfig()->get("BACK-BTN"), 0, "textures/ui/icon_import");
+        $form->setTitle(MagicCore::getInstance()->getConfig()->get("RL-THREE-TITLE"));
+        $form->setContent(MagicCore::getInstance()->getConfig()->get("RL-THREE-CONTENT"));
+        $form->addButton(MagicCore::getInstance()->getConfig()->get("EXIT-BTN"), 0, "textures/ui/cancel");
+        $form->addButton(MagicCore::getInstance()->getConfig()->get("BACK-BTN"), 0, "textures/ui/icon_import");
         $sender->sendForm($form);
     }
 
@@ -485,10 +482,10 @@ class InformationForm extends MenuForm
                     break;
             }
         });
-        $form->setTitle(Main::getInstance()->getConfig()->get("RL-FOR-TITLE"));
-        $form->setContent(Main::getInstance()->getConfig()->get("RL-FOR-CONTENT"));
-        $form->addButton(Main::getInstance()->getConfig()->get("EXIT-BTN"), 0, "textures/ui/cancel");
-        $form->addButton(Main::getInstance()->getConfig()->get("BACK-BTN"), 0, "textures/ui/icon_import");
+        $form->setTitle(MagicCore::getInstance()->getConfig()->get("RL-FOR-TITLE"));
+        $form->setContent(MagicCore::getInstance()->getConfig()->get("RL-FOR-CONTENT"));
+        $form->addButton(MagicCore::getInstance()->getConfig()->get("EXIT-BTN"), 0, "textures/ui/cancel");
+        $form->addButton(MagicCore::getInstance()->getConfig()->get("BACK-BTN"), 0, "textures/ui/icon_import");
         $sender->sendForm($form);
     }
 
@@ -505,10 +502,10 @@ class InformationForm extends MenuForm
                     break;
             }
         });
-        $form->setTitle(Main::getInstance()->getConfig()->get("RL-FIVE-TITLE"));
-        $form->setContent(Main::getInstance()->getConfig()->get("RL-FIVE-CONTENT"));
-        $form->addButton(Main::getInstance()->getConfig()->get("EXIT-BTN"), 0, "textures/ui/cancel");
-        $form->addButton(Main::getInstance()->getConfig()->get("BACK-BTN"), 0, "textures/ui/icon_import");
+        $form->setTitle(MagicCore::getInstance()->getConfig()->get("RL-FIVE-TITLE"));
+        $form->setContent(MagicCore::getInstance()->getConfig()->get("RL-FIVE-CONTENT"));
+        $form->addButton(MagicCore::getInstance()->getConfig()->get("EXIT-BTN"), 0, "textures/ui/cancel");
+        $form->addButton(MagicCore::getInstance()->getConfig()->get("BACK-BTN"), 0, "textures/ui/icon_import");
         $sender->sendForm($form);
     }
 
@@ -525,10 +522,10 @@ class InformationForm extends MenuForm
                     break;
             }
         });
-        $form->setTitle(Main::getInstance()->getConfig()->get("RL-SIX-TITLE"));
-        $form->setContent(Main::getInstance()->getConfig()->get("RL-SIX-CONTENT"));
-        $form->addButton(Main::getInstance()->getConfig()->get("EXIT-BTN"), 0, "textures/ui/cancel");
-        $form->addButton(Main::getInstance()->getConfig()->get("BACK-BTN"), 0, "textures/ui/icon_import");
+        $form->setTitle(MagicCore::getInstance()->getConfig()->get("RL-SIX-TITLE"));
+        $form->setContent(MagicCore::getInstance()->getConfig()->get("RL-SIX-CONTENT"));
+        $form->addButton(MagicCore::getInstance()->getConfig()->get("EXIT-BTN"), 0, "textures/ui/cancel");
+        $form->addButton(MagicCore::getInstance()->getConfig()->get("BACK-BTN"), 0, "textures/ui/icon_import");
         $sender->sendForm($form);
     }
 
@@ -560,15 +557,15 @@ class InformationForm extends MenuForm
                     break;
             }
         });
-        $form->setTitle(Main::getInstance()->getConfig()->get("SM-TITLE-MENU"));
-        $form->setContent(Main::getInstance()->getConfig()->get("SM-CONTENT-MENU"));
-        $form->addButton(Main::getInstance()->getConfig()->get("EXIT-BTN"), 0, "textures/ui/cancel");
-        $form->addButton(Main::getInstance()->getConfig()->get("BACK-BTN"), 0, "textures/ui/icon_import");
-        $form->addButton(Main::getInstance()->getConfig()->get("SM-BTN-ONE"), 0, "textures/ui/book_cover");
-        $form->addButton(Main::getInstance()->getConfig()->get("SM-BTN-TWO"), 0, "textures/ui/book_cover");
-        $form->addButton(Main::getInstance()->getConfig()->get("SM-BTN-THREE"), 0, "textures/ui/book_cover");
-        $form->addButton(Main::getInstance()->getConfig()->get("SM-BTN-FOR"), 0, "textures/ui/book_cover");
-        $form->addButton(Main::getInstance()->getConfig()->get("SM-BTN-FIVE"), 0, "textures/ui/book_cover");
+        $form->setTitle(MagicCore::getInstance()->getConfig()->get("SM-TITLE-MENU"));
+        $form->setContent(MagicCore::getInstance()->getConfig()->get("SM-CONTENT-MENU"));
+        $form->addButton(MagicCore::getInstance()->getConfig()->get("EXIT-BTN"), 0, "textures/ui/cancel");
+        $form->addButton(MagicCore::getInstance()->getConfig()->get("BACK-BTN"), 0, "textures/ui/icon_import");
+        $form->addButton(MagicCore::getInstance()->getConfig()->get("SM-BTN-ONE"), 0, "textures/ui/book_cover");
+        $form->addButton(MagicCore::getInstance()->getConfig()->get("SM-BTN-TWO"), 0, "textures/ui/book_cover");
+        $form->addButton(MagicCore::getInstance()->getConfig()->get("SM-BTN-THREE"), 0, "textures/ui/book_cover");
+        $form->addButton(MagicCore::getInstance()->getConfig()->get("SM-BTN-FOR"), 0, "textures/ui/book_cover");
+        $form->addButton(MagicCore::getInstance()->getConfig()->get("SM-BTN-FIVE"), 0, "textures/ui/book_cover");
         $sender->sendForm($form);
     }
 
@@ -585,10 +582,10 @@ class InformationForm extends MenuForm
                     break;
             }
         });
-        $form->setTitle(Main::getInstance()->getConfig()->get("SM-ONE-TITLE"));
-        $form->setContent(Main::getInstance()->getConfig()->get("SM-ONE-CONTENT"));
-        $form->addButton(Main::getInstance()->getConfig()->get("EXIT-BTN"), 0, "textures/ui/cancel");
-        $form->addButton(Main::getInstance()->getConfig()->get("BACK-BTN"), 0, "textures/ui/icon_import");
+        $form->setTitle(MagicCore::getInstance()->getConfig()->get("SM-ONE-TITLE"));
+        $form->setContent(MagicCore::getInstance()->getConfig()->get("SM-ONE-CONTENT"));
+        $form->addButton(MagicCore::getInstance()->getConfig()->get("EXIT-BTN"), 0, "textures/ui/cancel");
+        $form->addButton(MagicCore::getInstance()->getConfig()->get("BACK-BTN"), 0, "textures/ui/icon_import");
         $sender->sendForm($form);
     }
 
@@ -605,10 +602,10 @@ class InformationForm extends MenuForm
                     break;
             }
         });
-        $form->setTitle(Main::getInstance()->getConfig()->get("SM-TWO-TITLE"));
-        $form->setContent(Main::getInstance()->getConfig()->get("SM-TWO-CONTENT"));
-        $form->addButton(Main::getInstance()->getConfig()->get("EXIT-BTN"), 0, "textures/ui/cancel");
-        $form->addButton(Main::getInstance()->getConfig()->get("BACK-BTN"), 0, "textures/ui/icon_import");
+        $form->setTitle(MagicCore::getInstance()->getConfig()->get("SM-TWO-TITLE"));
+        $form->setContent(MagicCore::getInstance()->getConfig()->get("SM-TWO-CONTENT"));
+        $form->addButton(MagicCore::getInstance()->getConfig()->get("EXIT-BTN"), 0, "textures/ui/cancel");
+        $form->addButton(MagicCore::getInstance()->getConfig()->get("BACK-BTN"), 0, "textures/ui/icon_import");
         $sender->sendForm($form);
     }
 
@@ -625,10 +622,10 @@ class InformationForm extends MenuForm
                     break;
             }
         });
-        $form->setTitle(Main::getInstance()->getConfig()->get("SM-THREE-TITLE"));
-        $form->setContent(Main::getInstance()->getConfig()->get("SM-THREE-CONTENT"));
-        $form->addButton(Main::getInstance()->getConfig()->get("EXIT-BTN"), 0, "textures/ui/cancel");
-        $form->addButton(Main::getInstance()->getConfig()->get("BACK-BTN"), 0, "textures/ui/icon_import");
+        $form->setTitle(MagicCore::getInstance()->getConfig()->get("SM-THREE-TITLE"));
+        $form->setContent(MagicCore::getInstance()->getConfig()->get("SM-THREE-CONTENT"));
+        $form->addButton(MagicCore::getInstance()->getConfig()->get("EXIT-BTN"), 0, "textures/ui/cancel");
+        $form->addButton(MagicCore::getInstance()->getConfig()->get("BACK-BTN"), 0, "textures/ui/icon_import");
         $sender->sendForm($form);
     }
 
@@ -645,10 +642,10 @@ class InformationForm extends MenuForm
                     break;
             }
         });
-        $form->setTitle(Main::getInstance()->getConfig()->get("SM-FOR-TITLE"));
-        $form->setContent(Main::getInstance()->getConfig()->get("SM-FOR-CONTENT"));
-        $form->addButton(Main::getInstance()->getConfig()->get("EXIT-BTN"), 0, "textures/ui/cancel");
-        $form->addButton(Main::getInstance()->getConfig()->get("BACK-BTN"), 0, "textures/ui/icon_import");
+        $form->setTitle(MagicCore::getInstance()->getConfig()->get("SM-FOR-TITLE"));
+        $form->setContent(MagicCore::getInstance()->getConfig()->get("SM-FOR-CONTENT"));
+        $form->addButton(MagicCore::getInstance()->getConfig()->get("EXIT-BTN"), 0, "textures/ui/cancel");
+        $form->addButton(MagicCore::getInstance()->getConfig()->get("BACK-BTN"), 0, "textures/ui/icon_import");
         $sender->sendForm($form);
     }
 
@@ -665,10 +662,10 @@ class InformationForm extends MenuForm
                     break;
             }
         });
-        $form->setTitle(Main::getInstance()->getConfig()->get("SM-FIVE-TITLE"));
-        $form->setContent(Main::getInstance()->getConfig()->get("SM-FIVE-CONTENT"));
-        $form->addButton(Main::getInstance()->getConfig()->get("EXIT-BTN"), 0, "textures/ui/cancel");
-        $form->addButton(Main::getInstance()->getConfig()->get("BACK-BTN"), 0, "textures/ui/icon_import");
+        $form->setTitle(MagicCore::getInstance()->getConfig()->get("SM-FIVE-TITLE"));
+        $form->setContent(MagicCore::getInstance()->getConfig()->get("SM-FIVE-CONTENT"));
+        $form->addButton(MagicCore::getInstance()->getConfig()->get("EXIT-BTN"), 0, "textures/ui/cancel");
+        $form->addButton(MagicCore::getInstance()->getConfig()->get("BACK-BTN"), 0, "textures/ui/icon_import");
         $sender->sendForm($form);
     }
 
@@ -685,10 +682,10 @@ class InformationForm extends MenuForm
                     break;
             }
         });
-        $form->setTitle(Main::getInstance()->getConfig()->get("TITLE-ANNOUNCEMENT"));
-        $form->setContent(Main::getInstance()->getConfig()->get("CONTENT-ANNOUNCEMENT"));
-        $form->addButton(Main::getInstance()->getConfig()->get("EXIT-BTN"), 0, "textures/ui/cancel");
-        $form->addButton(Main::getInstance()->getConfig()->get("BACK-BTN"), 0, "textures/ui/icon_import");
+        $form->setTitle(MagicCore::getInstance()->getConfig()->get("TITLE-ANNOUNCEMENT"));
+        $form->setContent(MagicCore::getInstance()->getConfig()->get("CONTENT-ANNOUNCEMENT"));
+        $form->addButton(MagicCore::getInstance()->getConfig()->get("EXIT-BTN"), 0, "textures/ui/cancel");
+        $form->addButton(MagicCore::getInstance()->getConfig()->get("BACK-BTN"), 0, "textures/ui/icon_import");
         $sender->sendForm($form);
     }
 
@@ -705,10 +702,10 @@ class InformationForm extends MenuForm
                     break;
             }
         });
-        $form->setTitle(Main::getInstance()->getConfig()->get("TITLE-EVENT"));
-        $form->setContent(Main::getInstance()->getConfig()->get("CONTENT-EVENT"));
-        $form->addButton(Main::getInstance()->getConfig()->get("EXIT-BTN"), 0, "textures/ui/cancel");
-        $form->addButton(Main::getInstance()->getConfig()->get("BACK-BTN"), 0, "textures/ui/icon_import");
+        $form->setTitle(MagicCore::getInstance()->getConfig()->get("TITLE-EVENT"));
+        $form->setContent(MagicCore::getInstance()->getConfig()->get("CONTENT-EVENT"));
+        $form->addButton(MagicCore::getInstance()->getConfig()->get("EXIT-BTN"), 0, "textures/ui/cancel");
+        $form->addButton(MagicCore::getInstance()->getConfig()->get("BACK-BTN"), 0, "textures/ui/icon_import");
         $sender->sendForm($form);
     }
 

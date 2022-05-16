@@ -2,7 +2,7 @@
 
 namespace Pushkar\MagicCore\commands;
 
-use Pushkar\MagicCore\Main;
+use Pushkar\MagicCore\MagicCore;
 use pocketmine\player\Player;
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
@@ -21,10 +21,10 @@ class FeedCommand extends Command
             $sender->getHungerManager()->setFood(20);
             if ($sender->hasPermission("feed.cmd")) {
                 $sender->getHungerManager()->setSaturation(20);
-                $sender->sendMessage(Main::PREFIX . "Gods Feeded You");
+                $sender->sendMessage(MagicCore::PREFIX . "Gods Feeded You");
                 return true;
             } else {
-                $sender->sendMessage(Main::PREFIX . "You Don't Have Permission");
+                $sender->sendMessage(MagicCore::PREFIX . "You Don't Have Permission");
             }
         }
         $sender->sendMessage("Use this command in-game");
