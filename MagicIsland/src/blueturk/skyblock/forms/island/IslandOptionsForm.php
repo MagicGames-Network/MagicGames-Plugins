@@ -3,6 +3,8 @@
 namespace blueturk\skyblock\forms\island;
 
 use Exception;
+use pocketmine\Server;
+use pocketmine\world\World;
 use dktapps\pmforms\FormIcon;
 use dktapps\pmforms\MenuForm;
 use pocketmine\player\Player;
@@ -21,7 +23,7 @@ class IslandOptionsForm extends MenuForm
         if (!is_bool($visitStatus)) {
             $visitStatus = false;
         }
-        
+
         parent::__construct(
             SkyBlock::BT_TITLE . "Island",
             "",
@@ -36,6 +38,7 @@ class IslandOptionsForm extends MenuForm
                 new MenuOption("§bKick Player From Your Island\n§d§l»§r Tap to select!", new FormIcon('https://cdn-icons-png.flaticon.com/128/4578/4578073.png', FormIcon::IMAGE_TYPE_URL)),
                 new MenuOption("§bBan Players From Your Island\n§d§l»§r Tap to select!", new FormIcon('https://cdn-icons-png.flaticon.com/128/1595/1595649.png', FormIcon::IMAGE_TYPE_URL)),
                 new MenuOption("§bUnban Banned Player\n§d§l»§r Tap to select!", new FormIcon('https://cdn-icons-png.flaticon.com/128/3699/3699516.png', FormIcon::IMAGE_TYPE_URL)),
+                new MenuOption("§bTeleport Jerry\n§d§l»§r Tap to select!", new FormIcon('https://i.pinimg.com/originals/6d/71/eb/6d71eb4e2987eee7b11718ddf97bf297.jpg', FormIcon::IMAGE_TYPE_URL)),
                 new MenuOption("§bDelete Your Island\n§d§l»§r Tap to select!", new FormIcon('https://cdn-icons-png.flaticon.com/128/3496/3496416.png', FormIcon::IMAGE_TYPE_URL))
             ],
             function (Player $player, int $option) use ($visitStatus): void {
@@ -70,7 +73,20 @@ class IslandOptionsForm extends MenuForm
                     case 9:
                         $player->sendForm(new IslandUnBanPlayerForm($player));
                         break;
-                    case 10:
+                    case 10:  
+                        if ($player->getWorld()->getFolderName() === $player->getName()) {
+                            foreach ($player->getWorld()->getEntities() as $entity) {
+                                if (str_contains($entity->getNameTag(), "Jerry") && !$entity instanceof Player) {
+                                    $entity->teleport($player->getPosition());
+                                    break;
+                                }
+                            }
+                            $player->sendMessage(SkyBlock::BT_MARK . "aSuccessfully teleported Jerry to you!");
+                            break;
+                        }
+                        $player->sendMessage(SkyBlock::BT_MARK . "cYou must be on your island to do this!");
+                        break;
+                    case 11:
                         $player->sendForm(new IslandDeleteConfirmForm());
                         break;
                     default:
