@@ -23,6 +23,8 @@ abstract class Session
     public string $bankProvider = "";
     #[Field(name: "bank-activate-time")]
     public int $bankActivateTime = 0;
+    #[Field(name: "last-closed-time")]
+    public int $lastClosedTime = 0;
     #[Field]
     public float $money = 0.00;
 
@@ -49,6 +51,7 @@ abstract class Session
 
         $this->bankProvider = $data["bank-provider"];
         $this->bankActivateTime = $data["bank-activate-time"];
+        $this->lastClosedTime = $data["last-closed-time"];
         $this->money = $data["money"];
         $this->transactionLogs = $data["transaction-logs"];
         $this->frozen = $data["frozen"];
@@ -59,6 +62,7 @@ abstract class Session
     {
         $this->bankProvider = "";
         $this->bankActivateTime = 0;
+        $this->lastClosedTime = time();
         $this->money = 0.00;
         $this->transactionLogs = [];
         $this->frozen = false;

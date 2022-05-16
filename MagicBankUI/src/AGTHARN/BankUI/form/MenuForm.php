@@ -18,6 +18,10 @@ class MenuForm
             if ($data === null) {
                 return;
             }
+            
+            if ($data + 1 > count(Banks::BANKS))  {
+                return;
+            }
             $player->sendForm(self::getViewBankForm($player, Banks::BANKS[$data]));
         });
         $form->setTitle("§6» §r§lMAGIC BANK SERVICES §r§6«");
@@ -106,7 +110,7 @@ class MenuForm
         $bankName = $playerSession->bankProvider;
         $bankInterest = Banks::getBankData($playerSession->bankProvider)["interestRate"];
 
-        $form = new SimpleForm(function (Player $player, ?int $data = null) {
+        $form = new SimpleForm(function (Player $player, ?int $data = null) use ($playerSession) {
             if ($data === null) {
                 return;
             }
@@ -125,6 +129,10 @@ class MenuForm
                     $player->sendForm(TransactionForm::transactionForm($player));
                     break;
                 case 4:
+                    if ($playerSession->lastClosedTime + 7 * 24 * 60 * 60 > time()) {
+                        $playerSession->handleMessage(" §cYou must wait at least §f7 days §cbefore closing your account again!");
+                        return;
+                    }
                     $player->sendForm(CloseAccountForm::firstPromptForm($player));
                     break;
             }
