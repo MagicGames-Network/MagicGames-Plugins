@@ -110,7 +110,7 @@ class IslandListener implements Listener
                 return;
             }
 
-            if (in_array($player->getName(), $data->getNested($level . ".island" . ".this-partners"))) {
+            if (in_array($player->getName(), $data->getNested($level . ".island" . ".this-partners") ?? [])) {
                 if ($data->getNested($level . ".island" . ".settings" . ".interact") === true) {
                     $event->uncancel();
                     return;
@@ -142,7 +142,7 @@ class IslandListener implements Listener
                 $event->uncancel();
                 return;
             }
-            if (in_array($player->getName(), $data->getNested($level . ".island" . ".this-partners"))) {
+            if (in_array($player->getName(), $data->getNested($level . ".island" . ".this-partners") ?? [])) {
                 if ($data->getNested($level . ".island" . ".settings" . ".place") === true) {
                     $event->uncancel();
                     return;
@@ -188,7 +188,7 @@ class IslandListener implements Listener
                 return;
             }
 
-            if (in_array($player->getName(), $data->getNested($level . ".island" . ".this-partners"))) {
+            if (in_array($player->getName(), $data->getNested($level . ".island" . ".this-partners") ?? [])) {
                 if ($data->getNested($level . ".island" . ".settings" . ".break") === true) {
                     $event->uncancel();
                     $drops = $event->getDrops();
@@ -243,7 +243,7 @@ class IslandListener implements Listener
                     return;
                 }
 
-                if (in_array($player->getName(), $data->getNested($levelName . ".island" . ".this-partners"))) {
+                if (in_array($player->getName(), $data->getNested($levelName . ".island" . ".this-partners") ?? [])) {
                     if ($data->getNested($levelName . ".island" . ".settings" . ".picking-up") === true) {
                         $event->uncancel();
                         return;
@@ -276,7 +276,7 @@ class IslandListener implements Listener
         $level = $player->getWorld()->getFolderName();
         $data = SkyBlock::getInstance()->getConfig();
         if ($data->getNested($level . ".island") != null) {
-            if (in_array($player->getName(), $data->getNested($level . ".island" . ".banneds"))) {
+            if (in_array($player->getName(), $data->getNested($level . ".island" . ".banneds") ?? [])) {
                 if (!Server::getInstance()->isOp($player->getName())) {
                     $defaultWorld = Server::getInstance()->getWorldManager()->getDefaultWorld();
                     if (!$defaultWorld instanceof World) {

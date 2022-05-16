@@ -17,7 +17,7 @@ final class Banks
             "description" => "The most reliable bank for players!",
             "logo" => "https://cdn-icons-png.flaticon.com/128/1086/1086741.png",
             "approvalSeconds" => 5 * 60,
-            "interestRate" => 0.01,
+            "interestRate" => 0.001,
             "depositTax" => 50,
             "withdrawTax" => 50,
             "transferTax" => 50,
@@ -28,7 +28,7 @@ final class Banks
             "description" => "The best bank for growing businesses!",
             "logo" => "https://cdn-icons-png.flaticon.com/128/1138/1138038.png",
             "approvalSeconds" => 30 * 60,
-            "interestRate" => 0.05,
+            "interestRate" => 0.003,
             "depositTax" => 10,
             "withdrawTax" => 5,
             "transferTax" => 25,
@@ -39,11 +39,22 @@ final class Banks
             "description" => "The best bank for instant approval! Receive a free sum of $1000 after signing up!",
             "logo" => "https://cdn-icons-png.flaticon.com/128/584/584011.png",
             "approvalSeconds" => 0,
-            "interestRate" => 0.008,
-            "depositTax" => 60,
-            "withdrawTax" => 60,
-            "transferTax" => 60,
+            "interestRate" => 0.0005,
+            "depositTax" => 100,
+            "withdrawTax" => 100,
+            "transferTax" => 100,
             "startingMoney" => 1000
+        ],
+        [
+            "name" => "AGTHARN Inc.",
+            "description" => "No fees, no taxes, no problems! ",
+            "logo" => "https://cdn-icons-png.flaticon.com/128/584/584011.png",
+            "approvalSeconds" => 30 * 60,
+            "interestRate" => 0.001,
+            "depositTax" => 0,
+            "withdrawTax" => 0,
+            "transferTax" => 0,
+            "startingMoney" => 0
         ]
     ];
 
