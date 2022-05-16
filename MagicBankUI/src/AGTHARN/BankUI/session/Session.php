@@ -124,14 +124,17 @@ abstract class Session
         $this->saveData();
     }
 
-    public function depositMoney(mixed $amount): bool
+    public function depositMoney(mixed $amount, bool $amountIncludeTax = true): bool
     {
         if (!is_numeric($amount)) {
             $this->handleMessage(" §cError encountered - Amount added is not numeric! $amount given!");
             return false;
         }
         $depositTax = Banks::getBankData($this->bankProvider)["depositTax"];
-        $amount = (float) ($amount + $depositTax);
+        $amount = (float) match ($amountIncludeTax) {
+            true => $amount - $depositTax,
+            false => $amount
+        };
 
         if ($amount < 100.00) {
             $this->handleMessage(" §cError encountered - Deposit amount must be greater than 100! $amount given!");
@@ -148,7 +151,14 @@ abstract class Session
         }
 
         if (($status = EconomyAPI::getInstance()->reduceMoney($this->player ?? $this->name, $amount, true, "BANKUI")) === EconomyAPI::RET_SUCCESS) {
-            $this->money += $amount;
+            if ($amountIncludeTax) {
+                if (!(($status = EconomyAPI::getInstance()->reduceMoney($this->player ?? $this->name, $depositTax, true, "BANKUI")) === EconomyAPI::RET_SUCCESS)) {
+                    $this->handleMessage(" §cError encountered - CODE ERROR: $status!");
+                    return false;
+                }
+            }
+            $this->addMoney($amount);
+
             if (is_bool($this->saveData())) {
                 $this->handleKick("MagicBankUI: Failed to save when depositing money. Please report this immediately!");
                 return false;
@@ -170,14 +180,17 @@ abstract class Session
         return false;
     }
 
-    public function withdrawMoney(mixed $amount): bool
+    public function withdrawMoney(mixed $amount, bool $amountIncludeTax = true): bool
     {
         if (!is_numeric($amount)) {
             $this->handleMessage(" §cError encountered - Amount added is not numeric! $amount given!");
             return false;
         }
         $withdrawTax = Banks::getBankData($this->bankProvider)["withdrawTax"];
-        $amount = (float) ($amount + $withdrawTax);
+        $amount = (float) match ($amountIncludeTax) {
+            true => $amount - $withdrawTax,
+            false => $amount
+        };
 
         if ($amount < 100.00) {
             $this->handleMessage(" §cError encountered - Deposit amount must be greater than 100! $amount given!");
@@ -194,7 +207,14 @@ abstract class Session
         }
 
         if (($status = EconomyAPI::getInstance()->addMoney($this->player ?? $this->name, $amount, true, "BANKUI")) === EconomyAPI::RET_SUCCESS) {
-            $this->money -= $amount;
+            if (!$amountIncludeTax) {
+                if (!(($status = EconomyAPI::getInstance()->reduceMoney($this->player ?? $this->name, $withdrawTax, true, "BANKUI")) === EconomyAPI::RET_SUCCESS)) {
+                    $this->handleMessage(" §cError encountered - CODE ERROR: $status!");
+                    return false;
+                }
+            }
+            $this->removeMoney($amount);
+
             if (is_bool($this->saveData())) {
                 $this->handleKick("MagicBankUI: Failed to save when withdrawing money. Please report this immediately!");
                 return false;
@@ -216,14 +236,17 @@ abstract class Session
         return false;
     }
 
-    public function transferMoney(mixed $amount, string $receiverName): bool
+    public function transferMoney(mixed $amount, string $receiverName, bool $amountIncludeTax = true): bool
     {
         if (!is_numeric($amount)) {
             $this->handleMessage(" §cError encountered - Amount added is not numeric! $amount given!");
             return false;
         }
         $transferTax = Banks::getBankData($this->bankProvider)["transferTax"];
-        $amount = (float) ($amount + $transferTax);
+        $amount = (float) match ($amountIncludeTax) {
+            true => $amount - $transferTax,
+            false => $amount
+        };
 
         if ($amount < 100.00) {
             $this->handleMessage(" §cError encountered - Deposit amount must be greater than 100! $amount given!");
@@ -240,7 +263,15 @@ abstract class Session
         }
 
         if (($receiver = Server::getInstance()->getPlayerByPrefix($receiverName)) instanceof Player) {
-            $this->money -= $amount;
+            if (!$amountIncludeTax) {
+                if ($this->money < $amount + $transferTax) {
+                    $this->handleMessage(" §cYou do not have enough money in your bank account to transfer this amount! " . $amount + $transferTax . " given!");
+                    return false;
+                }
+                $this->removeMoney($transferTax);
+            }
+            $this->removeMoney($amount);
+
             if (is_bool($this->saveData())) {
                 $this->handleKick("MagicBankUI: Failed to save when transferring money. Please report this immediately!");
                 return false;
@@ -260,7 +291,15 @@ abstract class Session
             return true;
         }
         if (is_file(Main::getInstance()->getDataFolder() . "data/" . $receiverName . ".json")) {
-            $this->money -= $amount;
+            if (!$amountIncludeTax) {
+                if ($this->money < $amount + $transferTax) {
+                    $this->handleMessage(" §cYou do not have enough money in your bank account to transfer this amount! " . $amount + $transferTax . " given!");
+                    return false;
+                }
+                $this->removeMoney($transferTax);
+            }
+            $this->removeMoney($amount);
+
             if (is_bool($this->saveData())) {
                 $this->handleKick("MagicBankUI: Failed to save when transferring money. Please report this immediately!");
                 return false;

@@ -4,6 +4,7 @@ namespace AGTHARN\BankUI\form;
 
 use AGTHARN\BankUI\Main;
 use pocketmine\player\Player;
+use AGTHARN\BankUI\bank\Banks;
 use jojoe77777\FormAPI\CustomForm;
 use jojoe77777\FormAPI\SimpleForm;
 use onebone\economyapi\EconomyAPI;
@@ -57,14 +58,36 @@ class WithdrawForm
             if ($data === null) {
                 return;
             }
+            $withdrawTax = Banks::getBankData($playerSession->bankProvider)["withdrawTax"];
 
-            $playerSession->withdrawMoney($data[1]);
+            $player->sendForm(self::confirmWithdrawForm($player, $data[1], $withdrawTax));
         });
 
         $form->setTitle("§6» §r§l" . $bankName . " §r§6«");
         $form->addLabel("Coins at Bank: §e$$coinsAtBank");
         $form->addInput("Enter amount to withdraw", "100000");
 
+        return $form;
+    }
+
+    public static function confirmWithdrawForm(Player $player, float $amount, float $withdrawTax): CustomForm
+    {
+        $playerSession = Main::getInstance()->getSessionManager()->getSession($player);
+        $coinsInHand = EconomyAPI::getInstance()->myMoney($player);
+        $bankName = $playerSession->bankProvider;
+
+        $form = new CustomForm(function (Player $player, ?array $data = null) use ($amount, $playerSession) {
+            if ($data === null) {
+                return;
+            }
+
+            $playerSession->withdrawMoney($amount, $data[1]);
+        });
+        
+        $form->setTitle("§6» §r§l" . $bankName . " §r§6«");
+        $form->addLabel("Coins in Hand: §e$$coinsInHand\n§rWithdraw Amount: §e$$amount\n§rWithdraw Tax: §e$$withdrawTax\n\n§rAre you sure you want to withdraw this amount?");
+        $form->addToggle("Amount Include Taxes?", false);
+        
         return $form;
     }
 }

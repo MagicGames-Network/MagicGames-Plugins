@@ -4,6 +4,7 @@ namespace AGTHARN\BankUI\form;
 
 use AGTHARN\BankUI\Main;
 use pocketmine\player\Player;
+use AGTHARN\BankUI\bank\Banks;
 use jojoe77777\FormAPI\CustomForm;
 use jojoe77777\FormAPI\SimpleForm;
 use onebone\economyapi\EconomyAPI;
@@ -13,7 +14,6 @@ class DepositForm
     public static function depositForm(Player $player): SimpleForm
     {
         $playerSession = Main::getInstance()->getSessionManager()->getSession($player);
-        $coinsAtBank = $playerSession->money;
         $bankName = $playerSession->bankProvider;
 
         /** @var float $coinsInHand */
@@ -38,7 +38,7 @@ class DepositForm
         });
         
         $form->setTitle("§6» §r§l" . $bankName . " §r§6«");
-        $form->setContent("§bCoins at Bank: §e$$coinsAtBank");
+        $form->setContent("§bCoins in Hand: §e$$coinsInHand");
         $form->addButton("§6» §aDeposit All §6«\n§8Deposit $coinsInHand", 1, "https://cdn-icons-png.flaticon.com/128/1041/1041888.png");
         $form->addButton("§6» §aDeposit Half §6«\n§8Deposit " . ($coinsInHand / 2), 1, "https://cdn-icons-png.flaticon.com/128/1041/1041888.png");
         $form->addButton("§6» §aDeposit Custom §6«\n§8Deposit Any", 1, "https://cdn-icons-png.flaticon.com/128/1041/1041888.png");
@@ -50,20 +50,42 @@ class DepositForm
     public static function depositCustomForm(Player $player): CustomForm
     {
         $playerSession = Main::getInstance()->getSessionManager()->getSession($player);
-        $coinsAtBank = $playerSession->money;
+        $coinsInHand = EconomyAPI::getInstance()->myMoney($player);
         $bankName = $playerSession->bankProvider;
 
         $form = new CustomForm(function (Player $player, ?array $data = null) use ($playerSession) {
             if ($data === null) {
                 return;
             }
+            $depositTax = Banks::getBankData($playerSession->bankProvider)["depositTax"];
 
-            $playerSession->depositMoney($data[1]);
+            $player->sendForm(self::confirmDepositForm($player, $data[1], $depositTax));
         });
         
         $form->setTitle("§6» §r§l" . $bankName . " §r§6«");
-        $form->addLabel("Coins at Bank: §e$$coinsAtBank");
+        $form->addLabel("Coins in Hand: §e$$coinsInHand");
         $form->addInput("Enter amount to deposit", "100000");
+        
+        return $form;
+    }
+
+    public static function confirmDepositForm(Player $player, float $amount, float $depositTax): CustomForm
+    {
+        $playerSession = Main::getInstance()->getSessionManager()->getSession($player);
+        $coinsInHand = EconomyAPI::getInstance()->myMoney($player);
+        $bankName = $playerSession->bankProvider;
+
+        $form = new CustomForm(function (Player $player, ?array $data = null) use ($amount, $playerSession) {
+            if ($data === null) {
+                return;
+            }
+
+            $playerSession->depositMoney($amount, $data[1]);
+        });
+        
+        $form->setTitle("§6» §r§l" . $bankName . " §r§6«");
+        $form->addLabel("Coins in Hand: §e$$coinsInHand\n§rDeposit Amount: §e$$amount\n§rDeposit Tax: §e$$depositTax\n\n§rAre you sure you want to deposit this amount?");
+        $form->addToggle("Amount Include Taxes?", false);
         
         return $form;
     }
