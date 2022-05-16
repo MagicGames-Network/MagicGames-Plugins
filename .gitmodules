@@ -10,9 +10,6 @@
 [submodule ".github/phpstan/ScoreHud"]
 	path = .github/phpstan/ScoreHud
 	url = https://github.com/Ifera/ScoreHud
-[submodule ".github/phpstan/libasynql"]
-	path = .github/phpstan/libasynql
-	url = https://github.com/poggit/libasynql
 [submodule ".github/phpstan/PiggyCustomEnchants"]
 	path = .github/phpstan/PiggyCustomEnchants
 	url = https://github.com/DaPigGuy/PiggyCustomEnchants/
@@ -32,3 +29,6 @@
 [submodule ".github/phpstan/Commando"]
 	path = .github/phpstan/Commando
 	url = https://github.com/AIPTU/Commando
+[submodule ".github/phpstan/libasynql"]
+	path = .github/phpstan/libasynql
+	url = https://github.com/poggit/libasynql

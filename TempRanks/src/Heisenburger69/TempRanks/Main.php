@@ -227,6 +227,8 @@ class Main extends PluginBase implements Listener
 
         $ppgroup = $pp->getGroup($group);
         if (!$ppgroup instanceof PPGroup) {
+            $ppgroup = $pp->getDefaultGroup();
+            $pp->setGroup($ppplayer, $ppgroup);
             return;
         }
         $pp->setGroup($ppplayer, $ppgroup);
