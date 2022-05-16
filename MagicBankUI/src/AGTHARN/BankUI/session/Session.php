@@ -112,7 +112,13 @@ abstract class Session
         $this->saveData();
     }
 
-    public function removeMoney(mixed $amount): void
+    public function addInterest(): void
+    {
+        $this->addMoney($this->money * Banks::getBankData($this->bankProvider)["interestRate"]);
+        $this->saveData();
+    }
+
+    public function reduceMoney(mixed $amount): void
     {
         if (!is_numeric($amount)) {
             $this->handleMessage(" §cError encountered - Amount added is not numeric! $amount given!");
@@ -213,7 +219,7 @@ abstract class Session
                     return false;
                 }
             }
-            $this->removeMoney($amount);
+            $this->reduceMoney($amount);
 
             if (is_bool($this->saveData())) {
                 $this->handleKick("MagicBankUI: Failed to save when withdrawing money. Please report this immediately!");
@@ -268,9 +274,9 @@ abstract class Session
                     $this->handleMessage(" §cYou do not have enough money in your bank account to transfer this amount! " . $amount + $transferTax . " given!");
                     return false;
                 }
-                $this->removeMoney($transferTax);
+                $this->reduceMoney($transferTax);
             }
-            $this->removeMoney($amount);
+            $this->reduceMoney($amount);
 
             if (is_bool($this->saveData())) {
                 $this->handleKick("MagicBankUI: Failed to save when transferring money. Please report this immediately!");
@@ -296,9 +302,9 @@ abstract class Session
                     $this->handleMessage(" §cYou do not have enough money in your bank account to transfer this amount! " . $amount + $transferTax . " given!");
                     return false;
                 }
-                $this->removeMoney($transferTax);
+                $this->reduceMoney($transferTax);
             }
-            $this->removeMoney($amount);
+            $this->reduceMoney($amount);
 
             if (is_bool($this->saveData())) {
                 $this->handleKick("MagicBankUI: Failed to save when transferring money. Please report this immediately!");

@@ -3,6 +3,7 @@
 namespace AGTHARN\BankUI;
 
 use pocketmine\plugin\PluginBase;
+use AGTHARN\BankUI\task\InterestTask;
 use AGTHARN\BankUI\command\BankCommand;
 use AGTHARN\BankUI\session\SessionManager;
 
@@ -25,6 +26,8 @@ class Main extends PluginBase
         
         $this->getServer()->getPluginManager()->registerEvents(new EventListener(), $this);
         $this->getServer()->getCommandMap()->register("bankui", new BankCommand($this, "bank", "Opens The BankUI!", ["bankui"]));
+
+        $this->getScheduler()->scheduleRepeatingTask(new InterestTask(), 60 * 60 * 20);
     }
 
     public function getSessionManager(): SessionManager

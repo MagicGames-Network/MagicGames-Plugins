@@ -51,6 +51,7 @@ class SessionManager
         return $this->offlineSessions[$player] ?? $this->createSession($player);
     }
 
+    /** @return Session[] */
     public function getSessions(int $type): array
     {
         return match ($type) {
