@@ -1,0 +1,19 @@
+name: TempRanks
+main: Heisenburger69\TempRanks\Main
+version: 0.6.9
+api: 4.0.0
+load: POSTWORLD
+author: Heisenburger69
+description: Give temporary ranks to players
+depend: [PurePerms]
+
+commands:
+ temprank:
+  description: "Manage temporary ranks"
+  usage: "/temprank set/remove"
+  permission: temprank.command
+
+permissions:
+  temprank.command:
+   default: op
+   description: "Allows the use of /temprank"
