@@ -2,10 +2,10 @@
 
 namespace Heisenburger69\BurgerSpawners\entities;
 
-use pocketmine\entity\EntitySizeInfo;
 use pocketmine\entity\Living;
 use pocketmine\entity\Location;
 use pocketmine\nbt\tag\CompoundTag;
+use pocketmine\entity\EntitySizeInfo;
 
 class SpawnerEntity extends Living
 {
@@ -41,4 +41,9 @@ class SpawnerEntity extends Living
     {
         return "CosmicMob";
     }
+
+    public function canBeMovedByCurrents(): bool
+	{
+		return true;
+	}
 }
