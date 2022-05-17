@@ -178,11 +178,18 @@ class EventListener implements Listener
                 if ($item->getNamedTag()->getTag("leaping_sword") !== null) {
                     $sender->setMotion(new Vector3(mt_rand(1, 3), mt_rand(1, 3), mt_rand(1, 3)));
                 }
+                if ($item->getNamedTag()->getTag("voterank") !== null) {
+                    $item->setCount($item->getCount() - 1);
+                    $sender->getInventory()->setItemInHand($item);
+                    MagicCore::getInstance()->getServer()->dispatchCommand(new ConsoleCommandSender(MagicCore::getInstance()->getServer(), MagicCore::getInstance()->getServer()->getLanguage()), str_replace("{player}", $sender->getName(), MagicCore::getInstance()->getConfig()->get("Vote-Voucher-Command")));
+                    $sender->sendMessage(" §eVote Rank Voucher Successfully Claimed");
+                }
+
                 if ($item->getNamedTag()->getTag("profile") !== null) {
                     Server::getInstance()->dispatchCommand($sender, "profile");
                 }
                 if ($item->getNamedTag()->getTag("bag") !== null) {
-                    #soon
+                    Server::getInstance()->dispatchCommand($sender, "vaultui");
                 }
                 if ($item->getNamedTag()->getTag("bank") !== null) {
                     Server::getInstance()->dispatchCommand($sender, "bank");

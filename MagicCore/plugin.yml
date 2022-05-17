@@ -6,6 +6,8 @@ author: ["Pushkar", "Bynamless", "Agtharn"]
 description: Core v5.0.0 Made For MagicGames
 
 permissions:
+  voucher.cmd:
+    default: op
   bits.cmd:
     default: op
   rankshop.cmd:

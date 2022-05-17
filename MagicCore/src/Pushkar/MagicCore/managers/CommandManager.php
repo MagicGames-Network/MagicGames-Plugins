@@ -35,6 +35,7 @@ use Pushkar\MagicCore\commands\ProfileCommand;
 use Pushkar\MagicCore\commands\RecipesCommand;
 use Pushkar\MagicCore\commands\ServersCommand;
 use Pushkar\MagicCore\commands\FeaturesCommand;
+use Pushkar\MagicCore\commands\VoucherCommand;
 use Pushkar\MagicCore\commands\InvClearCommand;
 use Pushkar\MagicCore\commands\RanklistCommand;
 use Pushkar\MagicCore\commands\RankshopCommand;
@@ -101,6 +102,7 @@ final class CommandManager
             "vaultui" => new VaultUICommand(),
             "bits" => new BitsCommand(),
             "communityshop" => new CommunityShopCommand(),
+            "voucher" => new VoucherCommand(),
             "profile" => new ProfileCommand()
         ];
     }
