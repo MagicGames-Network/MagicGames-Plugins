@@ -40,7 +40,11 @@ final class TradeQueue
 	/** @var InvMenu */
 	protected InvMenu $senderMenu, $receiverMenu;
 	/** @var bool */
-	protected bool $done = false, $isSenderDone = false, $isReceiverDone = false;
+	protected bool $isSenderDone = false, $isReceiverDone = false;
+	/** @var bool */
+	protected bool $isSenderConfirmed = false, $isReceiverConfirmed = false;
+	/** @var bool */
+	protected bool $done = false;
 	/** @var TaskHandler|null */
 	protected ?TaskHandler $handler = null;
 
@@ -194,27 +198,43 @@ final class TradeQueue
 		$slot = $action->getAction()->getSlot();
 		if ($this->done) return $discard;
 		if ($this->isSender($player)) {
-			if ($this->isSenderDone) {
-				return $discard;
-			}
-			if (!in_array($slot, array_merge(self::SENDER_SLOTS, [self::SENDER_DONE_SLOT]))) {
-				return $discard;
-			}
 			if ($slot === self::SENDER_DONE_SLOT) {
+				if ($this->isSenderDone) {
+					if (!$this->isSenderConfirmed && $this->isReceiverDone) {
+						$this->isSenderConfirmed = true;
+					}
+					return $discard;
+				}
 				$this->isSenderDone = true;
 				return $discard;
 			}
+			if ($this->isSenderDone || $this->isSenderConfirmed) {
+				return $discard;
+			}
+			
+			if (!in_array($slot, array_merge(self::SENDER_SLOTS, [self::SENDER_DONE_SLOT]))) {
+				return $discard;
+			}
+			
 		} else {
-			if ($this->isReceiverDone) {
-				return $discard;
-			}
-			if (!in_array($slot, array_merge(self::RECEIVER_SLOTS, [self::RECEIVER_DONE_SLOT]))) {
-				return $discard;
-			}
 			if ($slot === self::RECEIVER_DONE_SLOT) {
+				if ($this->isReceiverDone) {
+					if (!$this->isReceiverConfirmed && $this->isSenderDone) {
+						$this->isReceiverConfirmed = true;
+					}
+					return $discard;
+				}
 				$this->isReceiverDone = true;
 				return $discard;
 			}
+			if ($this->isReceiverDone || $this->isReceiverConfirmed) {
+				return $discard;
+			}
+			
+			if (!in_array($slot, array_merge(self::RECEIVER_SLOTS, [self::RECEIVER_DONE_SLOT]))) {
+				return $discard;
+			}
+			
 		}
 		return $continue;
 	}
@@ -243,8 +263,11 @@ final class TradeQueue
 
 	public function syncWith(): void
 	{
+		$yellowItem = ItemFactory::getInstance()->get(ItemIds::TERRACOTTA, 4);
+		$yellowItem->setCustomName("§r§l§aREADY!");
+
 		$greenItem = ItemFactory::getInstance()->get(ItemIds::TERRACOTTA, 13);
-		$greenItem->setCustomName("§r§l§aDONE!");
+		$greenItem->setCustomName("§r§l§aCONFIRMED!");
 		foreach (self::SENDER_SLOTS as $slot) {
 			$senderItem = $this->senderMenu->getInventory()->getItem($slot);
 			$receiverItem = $this->receiverMenu->getInventory()->getItem($slot);
@@ -259,15 +282,26 @@ final class TradeQueue
 				$this->senderMenu->getInventory()->setItem($slot, $receiverItem);
 			}
 		}
+
 		if ($this->isSenderDone) {
+			$this->senderMenu->getInventory()->setItem(self::SENDER_DONE_SLOT, $yellowItem);
+			$this->receiverMenu->getInventory()->setItem(self::SENDER_DONE_SLOT, $yellowItem);
+		}
+		if ($this->isReceiverDone) {
+			$this->senderMenu->getInventory()->setItem(self::RECEIVER_DONE_SLOT, $yellowItem);
+			$this->receiverMenu->getInventory()->setItem(self::RECEIVER_DONE_SLOT, $yellowItem);
+		}
+
+		if ($this->isSenderConfirmed) {
 			$this->senderMenu->getInventory()->setItem(self::SENDER_DONE_SLOT, $greenItem);
 			$this->receiverMenu->getInventory()->setItem(self::SENDER_DONE_SLOT, $greenItem);
 		}
-		if ($this->isReceiverDone) {
+		if ($this->isReceiverConfirmed) {
 			$this->senderMenu->getInventory()->setItem(self::RECEIVER_DONE_SLOT, $greenItem);
 			$this->receiverMenu->getInventory()->setItem(self::RECEIVER_DONE_SLOT, $greenItem);
 		}
-		if ($this->isSenderDone && $this->isReceiverDone) {
+
+		if ($this->isSenderConfirmed && $this->isReceiverConfirmed) {
 			$this->done();
 		}
 	}
