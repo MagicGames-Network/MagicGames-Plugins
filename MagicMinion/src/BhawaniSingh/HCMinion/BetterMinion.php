@@ -50,7 +50,7 @@ class BetterMinion extends PluginBase
     public const FAKE_ENCH_ID = -1;
     
     public const MINION_LIMIT = 16;
-    public const QUEUE_CYCLE = 10;
+    public const QUEUE_CYCLE = 20;
 
     public function onLoad(): void
     {
