@@ -40,6 +40,7 @@ final class TradeCommand extends Command
 					$sender->sendMessage(PlayerTrade::$prefix . $plugin->getLanguage()->translateString("command.alreadyHaveRequest"));
 					return false;
 				}
+				/** @phpstan-ignore-next-line */
 				$player = $sender->getServer()->getPlayerByPrefix(array_shift($args));
 				if ($player === null) {
 					$sender->sendMessage(PlayerTrade::$prefix . $plugin->getLanguage()->translateString("command.offlinePlayer"));
@@ -63,6 +64,7 @@ final class TradeCommand extends Command
 				]));
 				break;
 			case "accept":
+				/** @phpstan-ignore-next-line */
 				$player = $sender->getServer()->getPlayerByPrefix(array_shift($args));
 				if ($player === null) {
 					$sender->sendMessage(PlayerTrade::$prefix . $plugin->getLanguage()->translateString("command.offlinePlayer"));
@@ -83,6 +85,7 @@ final class TradeCommand extends Command
 				PlayerTrade::getInstance()->acceptRequest($sender);
 				break;
 			case "deny":
+				/** @phpstan-ignore-next-line */
 				$player = $sender->getServer()->getPlayerByPrefix(array_shift($args));
 				if ($player === null) {
 					$sender->sendMessage(PlayerTrade::$prefix . $plugin->getLanguage()->translateString("command.offlinePlayer"));

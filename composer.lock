@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1ec8f63a800383c48e571190f967f1c3",
+    "content-hash": "09e4cfbd55ff305ceaf648d8d8838b10",
     "packages": [],
     "packages-dev": [
         {
@@ -880,16 +880,16 @@
         },
         {
             "name": "pocketmine/pocketmine-mp",
-            "version": "4.3.1",
+            "version": "4.3.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/pmmp/PocketMine-MP.git",
-                "reference": "f7dce4af8802ce28a8286e1c8002af19cf986c62"
+                "reference": "9dc2a01c2e2147b189175484bd39ef1002f6745c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pmmp/PocketMine-MP/zipball/f7dce4af8802ce28a8286e1c8002af19cf986c62",
-                "reference": "f7dce4af8802ce28a8286e1c8002af19cf986c62",
+                "url": "https://api.github.com/repos/pmmp/PocketMine-MP/zipball/9dc2a01c2e2147b189175484bd39ef1002f6745c",
+                "reference": "9dc2a01c2e2147b189175484bd39ef1002f6745c",
                 "shasum": ""
             },
             "require": {
@@ -941,9 +941,9 @@
                 "webmozart/path-util": "^2.3"
             },
             "require-dev": {
-                "phpstan/phpstan": "1.5.7",
+                "phpstan/phpstan": "1.6.8",
                 "phpstan/phpstan-phpunit": "^1.1.0",
-                "phpstan/phpstan-strict-rules": "^1.0.0",
+                "phpstan/phpstan-strict-rules": "^1.2.0",
                 "phpunit/phpunit": "^9.2"
             },
             "type": "project",
@@ -963,7 +963,7 @@
             "homepage": "https://pmmp.io",
             "support": {
                 "issues": "https://github.com/pmmp/PocketMine-MP/issues",
-                "source": "https://github.com/pmmp/PocketMine-MP/tree/4.3.1"
+                "source": "https://github.com/pmmp/PocketMine-MP/tree/4.3.3"
             },
             "funding": [
                 {
@@ -975,7 +975,7 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2022-04-23T15:03:14+00:00"
+            "time": "2022-05-16T16:50:29+00:00"
         },
         {
             "name": "pocketmine/raklib",

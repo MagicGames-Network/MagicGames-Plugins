@@ -178,7 +178,7 @@ final class TradeQueue
 			$this->sender->sendMessage(PlayerTrade::$prefix . $message);
 			$this->receiver->sendMessage(PlayerTrade::$prefix . $message);
 		}
-		(new TradeEndEvent($this->sender, $this->receiver, $causedBySender ? ($offline ? TradeEndEvent::REASON_SENDER_QUIT : TradeEndEvent::REASON_RECEIVER_QUIT) : ($causedBySender ? TradeEndEvent::REASON_SENDER_CANCEL : TradeEndEvent::REASON_RECEIVER_CANCEL)));
+		(new TradeEndEvent($this->sender, $this->receiver, $causedBySender ? ($offline ? TradeEndEvent::REASON_SENDER_QUIT : TradeEndEvent::REASON_RECEIVER_QUIT) : TradeEndEvent::REASON_RECEIVER_CANCEL));
 		$this->removeFrom();
 	}
 
