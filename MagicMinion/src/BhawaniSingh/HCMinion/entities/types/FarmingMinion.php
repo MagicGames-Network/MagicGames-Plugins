@@ -24,7 +24,7 @@ class FarmingMinion extends MinionEntity
                 }
 
                 $block = $this->getWorld()->getBlock($this->getPosition()->add($x, 0, $z));
-                if ($block instanceof Air || ($block->getId() === $this->getMinionInformation()->getType()->getTargetId() && $block->getMeta() === $this->getMinionInformation()->getType()->getTargetMeta())) {
+                if ($block instanceof Air || $block instanceof Crops) {
                     $blocks[] = $block;
                 }
             }
@@ -33,7 +33,6 @@ class FarmingMinion extends MinionEntity
             $this->target = $blocks[array_rand($blocks)];
             return;
         }
-        $this->stopWorking();
     }
 
     public function startWorking(): void
@@ -47,7 +46,9 @@ class FarmingMinion extends MinionEntity
             if ($this->target instanceof Air) {
                 $this->getWorld()->setBlock($this->target->getPosition(), $this->getMinionInformation()->getType()->toBlock());
             }
-        } elseif ($this->target->getAge() === 7) {
+            return;
+        }
+        if ($this->target->getAge() >= 7) {
             $this->getWorld()->addParticle($this->target->getPosition()->add(0.5, 0.5, 0.5), new BlockBreakParticle($this->target));
             $this->getWorld()->setBlock($this->target->getPosition(), VanillaBlocks::AIR());
 
@@ -61,9 +62,10 @@ class FarmingMinion extends MinionEntity
                     }
                 }
             }
-        } else {
-            $this->target->setAge($this->target->getAge() + 1);
+            return;
         }
+        $this->target->setAge($this->target->getAge() + 1);
+        $this->getWorld()->scheduleDelayedBlockUpdate($this->target->getPosition(), 1);
     }
 
     public function broadcastPlaceBreak(): bool
