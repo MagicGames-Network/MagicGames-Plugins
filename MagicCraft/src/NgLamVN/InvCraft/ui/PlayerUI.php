@@ -19,7 +19,7 @@ class PlayerUI
 		$this->form($player);
 	}
 
-	public function form(Player $player)
+	public function form(Player $player): void
 	{
 		$form = new SimpleForm(function (Player $player, $data) {
 			if (!isset($data)) {
@@ -46,19 +46,12 @@ class PlayerUI
 		$player->sendForm($form);
 	}
 
-	/**
-	 * @return Loader|null
-	 */
-	public function getLoader(): ?Loader
+	public function getLoader(): Loader
 	{
-		$loader = Server::getInstance()->getPluginManager()->getPlugin("InvCraft");
-		if ($loader instanceof Loader) {
-			return $loader;
-		}
-		return null;
+		return Loader::getInstance();
 	}
 
-	public function viewRecipe(Player $player)
+	public function viewRecipe(Player $player): void
 	{
 		$recipes = [];
 		foreach ($this->getLoader()->getRecipes() as $recipe) {
@@ -78,8 +71,8 @@ class PlayerUI
 		});
 
 		$form->setTitle($this->getLoader()->getProvider()->getMessage("ui.list"));
-		foreach ($this->getLoader()->getRecipes() as $recipe) {
-			$form->addButton($recipe->getRecipeName());
+		foreach ($this->getLoader()->getRecipes() as $buttonRecipe) {
+			$form->addButton($buttonRecipe->getRecipeName());
 		}
 
 		$player->sendForm($form);

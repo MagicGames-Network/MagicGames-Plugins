@@ -28,14 +28,6 @@ class Recipe
 		$this->mode = $mode;
 	}
 
-	/**
-	 * @param string $recipe_name
-	 * @param Item[] $recipe_data
-	 * @param Item   $result
-	 * @param int    $mode
-	 *
-	 * @return Recipe
-	 */
 	public static function makeRecipe(string $recipe_name, array $recipe_data, Item $result, int $mode): Recipe
 	{
 		return new Recipe($recipe_name, $recipe_data, $result, $mode);
@@ -86,7 +78,7 @@ class Recipe
 	/**
 	 * @param Item[] $data
 	 */
-	public function setRecipeData(array $data)
+	public function setRecipeData(array $data): void
 	{
 		$this->recipe_data = $data;
 		$this->getLoader()->setRecipe($this);
@@ -103,7 +95,7 @@ class Recipe
 	/**
 	 * @param string $name
 	 */
-	public function setRecipeName(string $name)
+	public function setRecipeName(string $name): void
 	{
 		$old = clone $this;
 		$this->getLoader()->removeRecipe($old);
@@ -111,16 +103,9 @@ class Recipe
 		$this->getLoader()->setRecipe($this);
 	}
 
-	/**
-	 * @return Loader|null
-	 */
-	public function getLoader(): ?Loader
+	public function getLoader(): Loader
 	{
-		$loader = Server::getInstance()->getPluginManager()->getPlugin("InvCraft");
-		if ($loader instanceof Loader) {
-			return $loader;
-		}
-		return null;
+		return Loader::getInstance();
 	}
 
 	/**
@@ -137,7 +122,7 @@ class Recipe
 	 * @param int  $index
 	 * @param Item $item
 	 */
-	public function setRecipeItem(int $index, Item $item)
+	public function setRecipeItem(int $index, Item $item): void
 	{
 		$this->recipe_data[$index] = $item;
 		$this->getLoader()->setRecipe($this);
@@ -154,7 +139,7 @@ class Recipe
 	/**
 	 * @param Item $item
 	 */
-	public function setResultItem(Item $item)
+	public function setResultItem(Item $item): void
 	{
 		$this->result = $item;
 		$this->getLoader()->setRecipe($this);
@@ -165,7 +150,7 @@ class Recipe
 		return $this->mode;
 	}
 
-	public function setMode(int $mode)
+	public function setMode(int $mode): void
 	{
 		$this->mode = $mode;
 		$this->getLoader()->setRecipe($this);

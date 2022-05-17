@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace NgLamVN\InvCraft;
 
+use pocketmine\item\Item;
 use muqsit\invmenu\InvMenu;
 use pocketmine\event\Listener;
 use pocketmine\plugin\PluginBase;
@@ -11,30 +12,33 @@ use JinodkDevTeam\utils\ItemUtils;
 use muqsit\invmenu\InvMenuHandler;
 use NgLamVN\InvCraft\command\CraftCommand;
 use NgLamVN\InvCraft\ui\CraftingTableForm;
-use NgLamVN\InvCraft\command\InvCraftCommand;
-use pocketmine\event\player\PlayerInteractEvent;
 use pocketmine\item\enchantment\ItemFlags;
 use pocketmine\item\enchantment\Enchantment;
+use NgLamVN\InvCraft\command\InvCraftCommand;
 use pocketmine\data\bedrock\EnchantmentIdMap;
+use pocketmine\event\player\PlayerInteractEvent;
 
 class Loader extends PluginBase implements Listener
 {
-
-    public const FAKE_ENCH_ID = -1;
-    
+	public const FAKE_ENCH_ID = -1;
 	public const INV_MENU_TYPE_WORKBENCH = "portablecrafting:workbench";
 
-	public static function WORKBENCH(): InvMenu
-	{
-		return InvMenu::create(self::INV_MENU_TYPE_WORKBENCH);
-	}
+	private static Loader $instance;
+
 	/** @var Provider */
 	public Provider $provider;
 	/** @var Recipe[] */
 	public array $recipes = [];
 
+	public static function getInstance(): Loader
+	{
+		return self::$instance;
+	}
+
 	public function onEnable(): void
 	{
+		self::$instance = $this;
+
 		if (!InvMenuHandler::isRegistered()) {
 			InvMenuHandler::register($this);
 		}
@@ -44,16 +48,15 @@ class Loader extends PluginBase implements Listener
 
 		$this->provider = new Provider();
 		$this->provider->open();
-        EnchantmentIdMap::getInstance()->register(self::FAKE_ENCH_ID, new Enchantment("Glow", 1, ItemFlags::ALL, ItemFlags::NONE, 1));
+		EnchantmentIdMap::getInstance()->register(self::FAKE_ENCH_ID, new Enchantment("Glow", 1, ItemFlags::ALL, ItemFlags::NONE, 1));
 		$this->loadRecipes();
 
 		$this->getServer()->getCommandMap()->register("invcraft", new InvCraftCommand($this));
 		$this->getServer()->getCommandMap()->register("craft", new CraftCommand($this));
-		/*
-		$this->getServer()->getCommandMap()->register("viewrecipe", new ViewCraftCommand($this));*/
+		/*$this->getServer()->getCommandMap()->register("viewrecipe", new ViewCraftCommand($this));*/
 	}
 
-	public function loadRecipes()
+	public function loadRecipes(): void
 	{
 		$data = $this->getProvider()->getRecipesData();
 		foreach (array_keys($data) as $recipe_name) {
@@ -64,9 +67,14 @@ class Loader extends PluginBase implements Listener
 			$result = ItemUtils::fromString($data[$recipe_name]["result"]);
 			if (!isset($data[$recipe_name]["mode"])) {
 				$mode = Recipe::VIxVI_MODE;
-			} else $mode = $data[$recipe_name]["mode"];
-			$recipe = Recipe::makeRecipe($recipe_name, $recipe_data, $result, $mode);
-			$this->setRecipe($recipe);
+			} else {
+				$mode = $data[$recipe_name]["mode"];
+			}
+
+			if ($result instanceof Item) {
+				$recipe = Recipe::makeRecipe($recipe_name, $recipe_data, $result, $mode);
+				$this->setRecipe($recipe);
+			}
 		}
 	}
 
@@ -75,7 +83,7 @@ class Loader extends PluginBase implements Listener
 		return $this->provider;
 	}
 
-	public function setRecipe(Recipe $recipe)
+	public function setRecipe(Recipe $recipe): void
 	{
 		$this->recipes[$recipe->getRecipeName()] = $recipe;
 	}
@@ -86,7 +94,7 @@ class Loader extends PluginBase implements Listener
 		$this->getProvider()->save();
 	}
 
-	public function saveRecipes()
+	public function saveRecipes(): void
 	{
 		foreach ($this->getRecipes() as $recipe) {
 			$data = [];
@@ -121,25 +129,30 @@ class Loader extends PluginBase implements Listener
 		return null;
 	}
 
-	public function removeRecipe(Recipe $recipe)
+	public function removeRecipe(Recipe $recipe): void
 	{
 		unset($this->recipes[$recipe->getRecipeName()]);
 		$this->getProvider()->removeRecipeData($recipe->getRecipeName());
 	}
+
 	public function onInteract(PlayerInteractEvent $event): void
 	{
 		$sender = $event->getPlayer();
-		$item = $event->getItem();
 		$block = $event->getBlock();
 		switch ($event->getAction()) {
 			case PlayerInteractEvent::LEFT_CLICK_BLOCK:
 				break;
 			case PlayerInteractEvent::RIGHT_CLICK_BLOCK:
 				if ($block->getId() == 58) {
-					$event->Cancel();
+					$event->cancel();
 					$sender->sendForm(new CraftingTableForm());
 				}
 				break;
 		}
+	}
+
+	public static function WORKBENCH(): InvMenu
+	{
+		return InvMenu::create(self::INV_MENU_TYPE_WORKBENCH);
 	}
 }

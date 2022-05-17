@@ -62,19 +62,12 @@ class AdminUI
 		$player->sendForm($form);
 	}
 
-	/**
-	 * @return Loader|null
-	 */
-	public function getLoader(): ?Loader
+	public function getLoader(): Loader
 	{
-		$loader = Server::getInstance()->getPluginManager()->getPlugin("InvCraft");
-		if ($loader instanceof Loader) {
-			return $loader;
-		}
-		return null;
+		return Loader::getInstance();
 	}
 
-	public function addRecipe(Player $player)
+	public function addRecipe(Player $player): void
 	{
 		$form = new CustomForm(function (Player $player, $data) {
 			if (!isset($data[0])) {
@@ -110,7 +103,7 @@ class AdminUI
 		$player->sendForm($form);
 	}
 
-	public function editRecipe(Player $player)
+	public function editRecipe(Player $player): void
 	{
 		$recipes = [];
 		foreach ($this->getLoader()->getRecipes() as $recipe) {
@@ -130,14 +123,14 @@ class AdminUI
 		});
 
 		$form->setTitle($this->getLoader()->getProvider()->getMessage("ui.edit"));
-		foreach ($this->getLoader()->getRecipes() as $recipe) {
-			$form->addButton($recipe->getRecipeName());
+		foreach ($this->getLoader()->getRecipes() as $buttonRecipe) {
+			$form->addButton($buttonRecipe->getRecipeName());
 		}
 
 		$player->sendForm($form);
 	}
 
-	public function removeRecipe(Player $player)
+	public function removeRecipe(Player $player): void
 	{
 		$recipes = [];
 		foreach ($this->getLoader()->getRecipes() as $recipe) {
@@ -173,8 +166,8 @@ class AdminUI
 		});
 
 		$form->setTitle($this->getLoader()->getProvider()->getMessage("ui.remove"));
-		foreach ($this->getLoader()->getRecipes() as $recipe) {
-			$form->addButton($recipe->getRecipeName());
+		foreach ($this->getLoader()->getRecipes() as $buttonRecipe) {
+			$form->addButton($buttonRecipe->getRecipeName());
 		}
 
 		$player->sendForm($form);
@@ -200,8 +193,8 @@ class AdminUI
 		});
 
 		$form->setTitle($this->getLoader()->getProvider()->getMessage("ui.list"));
-		foreach ($this->getLoader()->getRecipes() as $recipe) {
-			$form->addButton($recipe->getRecipeName());
+		foreach ($this->getLoader()->getRecipes() as $buttonRecipe) {
+			$form->addButton($buttonRecipe->getRecipeName());
 		}
 
 		$player->sendForm($form);

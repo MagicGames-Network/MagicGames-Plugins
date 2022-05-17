@@ -22,10 +22,10 @@ class AddRecipeMenu extends BaseMenu
 	const IIIxIII_PROTECTED_SLOT = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 14, 15, 16, 17, 18, 19, 23, 24, 26, 27, 28, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52];
 	const IIIxIII_RESULT_SLOT = 25;
 	const SAVE_SLOT = 53;
-	/** @var string */
+
 	public string $recipe_name;
 
-	public function __construct(Player $player, Loader $loader, int $mode, $recipe_name)
+	public function __construct(Player $player, Loader $loader, int $mode, string $recipe_name)
 	{
 		$this->recipe_name = $recipe_name;
 		parent::__construct($player, $loader, $mode);

@@ -22,6 +22,7 @@ parameters:
         - CosmicSpawners
         - MagicBankUI
         - MagicBookShop
+        - MagicCraft
         - MagicCommandSpy
         - MagicCore
         - MagicEnchantmentTable

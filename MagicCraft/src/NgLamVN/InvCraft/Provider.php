@@ -23,7 +23,7 @@ class Provider
 		//NOTHING.
 	}
 
-	public function open()
+	public function open(): void
 	{
 		$this->config = new Config($this->getLoader()->getDataFolder() . "recipes.yml", Config::YAML);
 		$this->recipes = $this->config->getAll();
@@ -31,19 +31,15 @@ class Provider
 		$this->msg = new Config($this->getLoader()->getDataFolder() . "message.yml", Config::YAML);
 	}
 
-	public function getLoader(): ?Loader
+	public function getLoader(): Loader
 	{
-		$loader = Server::getInstance()->getPluginManager()->getPlugin("InvCraft");
-		if ($loader instanceof Loader) {
-			return $loader;
-		}
-		return null;
+		return Loader::getInstance();
 	}
 
 	/**
 	 * @throws \JsonException
 	 */
-	public function save()
+	public function save(): void
 	{
 		$this->config->setAll($this->recipes);
 		$this->config->save();
@@ -65,17 +61,17 @@ class Provider
 		$this->recipes = $recipes;
 	}
 
-	public function setRecipeData(string $name, array $data)
+	public function setRecipeData(string $name, array $data): void
 	{
 		$this->recipes[$name] = $data;
 	}
 
-	public function removeRecipeData(string $name)
+	public function removeRecipeData(string $name): void
 	{
 		unset($this->recipes[$name]);
 	}
 
-	public function getMessage(string $msg)
+	public function getMessage(string $msg): mixed
 	{
 		return $this->msg->get($msg);
 	}
