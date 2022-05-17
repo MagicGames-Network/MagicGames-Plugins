@@ -29,10 +29,17 @@ class TransactionForm
             if ($data === null) {
                 return;
             }
+
+            switch ($data) {
+                case 0:
+                    $player->sendForm(MenuForm::getMenuForm($player));
+                    break;
+            }
         });
 
         $form->setTitle("§6» §r§l" . $bankName . " §r§6«");
         $form->setContent($content);
+        $form->addButton("§cBack", 1, "textures/blocks/barrier");
         $form->addButton("§l§cEXIT\n§r§dClick to close...", 1, "textures/ui/cancel");
 
         return $form;

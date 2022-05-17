@@ -11,8 +11,7 @@ class InterestTask extends Task
     public function onRun(): void
     {
         foreach (Main::getInstance()->getSessionManager()->getSessions(SessionManager::SESSION_TYPE_PLAYER) as $playerSession) {
-            $playerSession->handleMessage(" §aYour hourly bank interest has been added to your account!");
-            $playerSession->addInterest();
+            $playerSession->addInterest(true);
         }
     }
 }

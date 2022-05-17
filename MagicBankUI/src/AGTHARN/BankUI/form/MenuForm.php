@@ -54,8 +54,8 @@ class MenuForm
         });
         $form->setTitle("§6» §r§l" . $bankData["name"] . " §r§6«");
         $form->setContent("Hi, §b$playerName §f! Here are the details about this bank you may be signing up for!\n\n§bDescription:\n §f" . $bankData["description"] . "\n\n§bApproval Time: §f" . $bankData["approvalSeconds"] . "s\n\n§bInterest Rate: §f" . $bankData["interestRate"] . "%\n§bDeposit Tax: §f$" . $bankData["depositTax"] . "\n§bWithdraw Tax: §f$" . $bankData["withdrawTax"] . "\n§bTransfer Tax: §f$" . $bankData["transferTax"] . "\n\n§bStarting Money: §f$" . $bankData["startingMoney"]);
-        $form->addButton("§6» §aJoin", 1, "");
-        $form->addButton("§6» §cReturn", 1, "");
+        $form->addButton("§aJoin", 1, "https://cdn-icons-png.flaticon.com/512/1006/1006555.png");
+        $form->addButton("§cBack", 1, "textures/blocks/barrier");
         $form->addButton("§l§cEXIT\n§r§dClick to close...", 1, "textures/ui/cancel");
 
         return $form;

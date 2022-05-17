@@ -47,7 +47,13 @@ abstract class Session
             $this->resetData();
             return;
         }
-        $data = self::loadFromJson($this->fileName)->marshal();
+
+        $contents = file_get_contents($this->fileName);
+        if (!$contents) {
+            $this->resetData();
+            return;
+        }
+        $data = json_decode($contents, true);
 
         $this->bankProvider = $data["bank-provider"];
         $this->bankActivateTime = $data["bank-activate-time"];
@@ -112,10 +118,15 @@ abstract class Session
         $this->saveData();
     }
 
-    public function addInterest(): void
+    public function addInterest(bool $notifyPlayer = false): void
     {
-        $this->addMoney($this->money * Banks::getBankData($this->bankProvider)["interestRate"]);
-        $this->saveData();
+        if ($this->hasBank()) {
+            $this->addMoney($this->money * Banks::getBankData($this->bankProvider)["interestRate"]);
+            $this->saveData();
+            if ($notifyPlayer) {
+                $this->handleMessage(" §aYour hourly bank interest has been added to your account!");
+            }
+        }
     }
 
     public function reduceMoney(mixed $amount): void
@@ -214,10 +225,11 @@ abstract class Session
 
         if (($status = EconomyAPI::getInstance()->addMoney($this->player ?? $this->name, $amount, true, "BANKUI")) === EconomyAPI::RET_SUCCESS) {
             if (!$amountIncludeTax) {
-                if (!(($status = EconomyAPI::getInstance()->reduceMoney($this->player ?? $this->name, $withdrawTax, true, "BANKUI")) === EconomyAPI::RET_SUCCESS)) {
-                    $this->handleMessage(" §cError encountered - CODE ERROR: $status!");
+                if ($this->money < $amount + $withdrawTax) {
+                    $this->handleMessage(" §cYou do not have enough money in your bank account to transfer this amount! " . $amount + $withdrawTax . " given!");
                     return false;
                 }
+                $this->reduceMoney($withdrawTax);
             }
             $this->reduceMoney($amount);
 
