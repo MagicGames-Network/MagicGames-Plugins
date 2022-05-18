@@ -111,7 +111,6 @@ final class TradeQueue
 	public function done(): void
 	{
 		$plugin = PlayerTrade::getInstance();
-		$this->done = true;
 		$senderRemains = [];
 		$receiverRemains = [];
 		foreach (self::RECEIVER_SLOTS as $slot) {
@@ -301,7 +300,8 @@ final class TradeQueue
 			$this->receiverMenu->getInventory()->setItem(self::RECEIVER_DONE_SLOT, $greenItem);
 		}
 
-		if ($this->isSenderConfirmed && $this->isReceiverConfirmed) {
+		if (!$this->done && $this->isSenderConfirmed && $this->isReceiverConfirmed) {
+			$this->done = true;
 			$this->done();
 		}
 	}
