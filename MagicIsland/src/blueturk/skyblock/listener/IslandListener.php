@@ -4,6 +4,7 @@
 namespace blueturk\skyblock\listener;
 
 use pocketmine\Server;
+use pocketmine\block\Cake;
 use pocketmine\block\Grass;
 use pocketmine\world\World;
 use pocketmine\item\ItemIds;
@@ -14,6 +15,7 @@ use blueturk\skyblock\SkyBlock;
 use pocketmine\block\ItemFrame;
 use pocketmine\item\FlintSteel;
 use pocketmine\item\TieredTool;
+use pocketmine\item\LiquidBucket;
 use pocketmine\item\PaintingItem;
 use pocketmine\inventory\Inventory;
 use pocketmine\event\block\BlockBreakEvent;
@@ -42,6 +44,12 @@ class IslandListener implements Listener
     {
         $player = $event->getPlayer();
         $data = SkyBlock::getInstance()->getConfig();
+
+        // This is so as to prevent unintended chunk glitches or problems the next time players join.
+        $defaultWorld = Server::getInstance()->getWorldManager()->getDefaultWorld();
+        if ($defaultWorld instanceof World) {
+            $player->teleport($defaultWorld->getSafeSpawn());
+        }
 
         $partnerIslands = [];
         if ($data->getNested($player->getName()) !== null) {
@@ -92,7 +100,7 @@ class IslandListener implements Listener
         $worlds = ["MagicGames", "Mining", "Arena"];
         foreach ($worlds as $world) {
             if ($level === $world) {
-                if ($item instanceof PaintingItem || $item instanceof FlintSteel || $item instanceof SpawnEgg || $item->getId() === ItemIds::ARMOR_STAND || $block instanceof ItemFrame || ($item instanceof TieredTool && $block instanceof Grass)) {
+                if ($item instanceof LiquidBucket || $block instanceof Cake || $item instanceof PaintingItem || $item instanceof FlintSteel || $item instanceof SpawnEgg || $item->getId() === ItemIds::ARMOR_STAND || $block instanceof ItemFrame || ($item instanceof TieredTool && $block instanceof Grass)) {
                     $event->cancel();
                     return;
                 }
