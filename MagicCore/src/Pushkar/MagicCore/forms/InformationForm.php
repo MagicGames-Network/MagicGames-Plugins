@@ -6,6 +6,7 @@ use Pushkar\MagicCore\MagicCore;
 use dktapps\pmforms\FormIcon;
 use dktapps\pmforms\MenuForm;
 use pocketmine\player\Player;
+use Pushkar\MagicCore\forms\RankshopForm;
 use dktapps\pmforms\MenuOption;
 use jojoe77777\FormAPI\SimpleForm;
 use jojoe77777\FormAPI\CustomForm;
@@ -50,7 +51,7 @@ class InformationForm extends MenuForm
                     $this->INFOSIX($sender);
                     break;
                 case 6;
-                    $this->INFOSEVEN($sender);
+                    $sender->sendForm(new RankshopForm());
                     break;
                 case 7;
                     $this->INFOEIGHT($sender);

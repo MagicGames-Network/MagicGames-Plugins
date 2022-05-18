@@ -252,54 +252,54 @@ TITLE-EVENT: "§5§lEVENT §r§8(( MagicGames ))"
 CONTENT-EVENT: "§5§lEVENT LIST:\n§r§bEvent: §r\n§7No Event Today!"
 #==========================================
 ######## RankShop ##########
-member.feature: "§aMEMBER Rank Features §eMagic§6Games\n§a» §e/cape\n\n§cBonus\n§a» PlayerVaults 1\n§a» Access To MEMBER KIT\n\n§aThis Is A Default Rank"
-voter.feature: "§aVOTER Rank Features §eMagic§6Games\n§a» §e/cape\n§a» §e/heal\n§a» §e/feed\n§a» §e/fly\n\n§cBonus\n§a» You Will Get 3x Vote Keys\n§a» PlayerVaults 1\n§a» You Will Get §b$10000§r\n§a» Access To MEMBER KIT\n\n§aWant To Get This Rank?\n§aVote Us On Mcpe Website\n§a» §bhttps://bitly.com/mg-vote"
+member.feature: "§aMEMBER Rank Features §eMagic§6Games\n\n§cBonus\n§a» PlayerVaults 1\n§a» Access To MEMBER KIT\n\n§aThis Is A Default Rank"
+voter.feature: "§aVOTER Rank Features §eMagic§6Games\n§a» §e/heal\n§a» §e/feed\n\n§cBonus\n§a» You Will Get 3x Vote Keys\n§a» PlayerVaults 1\n§a» You Will Get §b$10000§r\n§a» Access To MEMBER KIT\n\n§aWant To Get This Rank?\n§aVote Us On Mcpe Website\n§a» §bhttps://bitly.com/mg-vote"
 youtube.feature: "§cYOUTUBE §aRank Features §eMagic§6Games\n§a» §e/fly\n§a» §e/heal\n§a» §e/feed\n§a» §e/feed\n§a» §e/cape\n§a» §e/me\n§a» §e/skin\n§a» §e/say\n§a» §e/vanish\n§a» §e/vision\n§a» §e/pets\n§a» §e/repair\n\n§cBonus\n§a» PlayerVaults 1-8\n§a» Access To MEMBER KIT\n§a» Access To VIP KIT\n§a» Access To VIP+ KIT\n§a» Access To §cYOUTUBE§a KIT\n\n§aWant To Get This Rank?\n§aJoin In Discord And Make Ticket\n§a» §bhttps://discord.io/magicgames\n\n§eRequirement:\n§a» §e300subs\n§a» §eMust Make 1 Video On Server"
 #VIP RANK 
 vip.name: VIP
-vip.cost: 3000000
+vip.cost: 5000000
 vip.buy: "§bWould You Like To Purchase §aVIP Rank\n\n§bPrice » §e{cost}"
 vip.complete: "§f[§eMagic§6Games§f] §aSuccess, You Successfully Purchased VIP Rank!"
 vip.error: "§f[§eMagic§6Games§f] §cFailed, You Don't Have Enough Money To Buy VIP Rank!"
 vip.title: "§6»§2VIP§6«"
-vip.feature: "§aVIP Rank Features §eMagic§6Games\n§a» §e/fly\n§a» §e/heal\n§a» §e/feed\n§a» §e/cape\n\n§cBonus\n§a» PlayerVaults 1-2\n§a» Access To MEMBER KIT\n§a» Access To VIP KIT\n\n§aWant To Buy Rank?\n§aJoin In Discord And Make Ticket\n§a» §bhttps://discord.io/magicgames\n\n§eIngame Money Price\n§a» §e{cost}\n§a» §e$1"
-vip.cmd: ""
+vip.feature: "§aVIP Rank Features §eMagic§6Games\n§a» §e/heal\n§a» §e/feed\n§a» §e/cape\n§a» §e/craft\n\n§cBonus\n§a» PlayerVaults 1-2\n§a» Access To MEMBER KIT\n§a» Access To VIP KIT\n\n§l§ePRICE: §e$2\n§r§aWant To Buy Rank?\n§aVisit https://magicgames.tebex.io"
+vip.cmd: "temprank set \"{player}\" VIP 30d"
 #VIP+ RANK
 vip+.name: Vip+
-vip+.cost: 6000000
+vip+.cost: 8000000
 vip+.buy: "§bWould You Like To Purchase §aVIP§c+ Rank\n\n§bPrice » §e{cost}"
 vip+.complete: "§f[§eMagic§6Games§f] §aSuccess, You Successfully Purchased VIP+ Rank!"
 vip+.error: "§f[§eMagic§6Games§f] §cFailed, You Don't Have Enough Money To Buy VIP+ Rank!"
 vip+.title: "§6»§2VIP§c+§6«"
-vip+.feature: "§aVIP§c+ §aRank Features §eMagic§6Games\n§a» §e/fly\n§a» §e/heal\n§a» §e/feed\n§a» §e/feed\n§a» §e/cape\n§a» §e/me\n\n§cBonus\n§a» PlayerVaults 1-4\n§a» Access To MEMBER KIT\n§a» Access To VIP KIT\n§a» Access To VIP§c+§aKIT\n\n§aWant To Buy Rank?\n§aJoin In Discord And Make Ticket\n§a» §bhttps://discord.io/magicgames\n\n§eIngame Money Price\n§a» §e{cost}\n§a» §e$2"
-vip+.cmd: ""
+vip+.feature: "§aVIP§c+ §aRank Features §eMagic§6Games\n§a» §e/heal\n§a» §e/feed\n§a» §e/craft\n§a» §e/cape\n§a» §e/emoji\n\n§cBonus\n§a» PlayerVaults 1-4\n§a» Access To MEMBER KIT\n§a» Access To VIP KIT\n§a» Access To VIP§c+§aKIT\n\n§l§ePRICE: §e$3\n§r§aWant To Buy Rank?\n§aVisit https://magicgames.tebex.io"
+vip+.cmd: "temprank set \"{player}\" VIPPLUS 30d"
 #MVP RANK
 mvp.name: MVP
-mvp.cost: 9000000
+mvp.cost: 10000000
 mvp.buy: "§bWould You Like To Purchase §bMVP Rank\n\n§bPrice » §e{cost}"
 mvp.complete: "§f[§eMagic§6Games§f] §aSuccess, You Successfully Purchased mvp Rank!"
 mvp.error: "§f[§eMagic§6Games§f] §cFailed, You Don't Have Enough Money To Buy mvp Rank!"
 mvp.title: "§6»§2MVP§6«"
-mvp.feature: "§bMVP §aRank Features §eMagic§6Games\n§a» §e/fly\n§a» §e/heal\n§a» §e/feed\n§a» §e/feed\n§a» §e/cape\n§a» §e/vision\n§a» §e/me\n§a» §e/skin\n§a» §e/say\n\n§cBonus\n§a» PlayerVaults 1-6\n§a» Access To MEMBER KIT\n§a» Access To VIP KIT\n§a» Access To MEMBER KIT\n§a» Access To §bVIP+§a KIT\n\n§aWant To Buy Rank?\n§aJoin In Discord And Make Ticket\n§a» §bhttps://discord.io/magicgames\n\n§eIngame Money Price\n§a» §e{cost}\n§a» §e$3" 
-mvp.cmd: ""
+mvp.feature: "§bMVP §aRank Features §eMagic§6Games\n§a» §e/heal\n§a» §e/feed\n§a» §e/craft\n§a» §e/cape\n§a» §e/emoji\n§a» §e/size\n§a» §e/speed\n§a» §e/repair\n\n§cBonus\n§a» PlayerVaults 1-6\n§a» Access To MEMBER KIT\n§a» Access To VIP KIT\n§a» Access To MEMBER KIT\n§a» Access To §bVIP+§a KIT\n\n§l§ePRICE: §e$5\n§r§aWant To Buy Rank?\n§aVisit https://magicgames.tebex.io" 
+mvp.cmd: "temprank set \"{player}\" MVP 30d"
 #MVP+
 mvp+.name: Mvp+
-mvp+.cost: 12000000
+mvp+.cost: 13000000
 mvp+.buy: "§bWould You Like To Purchase §bMVP§c+ Rank\n\n§bPrice » §e{cost}"
 mvp+.complete: "§f[§eMagic§6Games§f] §aSuccess, You Successfully Purchased mvp+ Rank!"
 mvp+.error: "§f[§eMagic§6Games§f] §cFailed, You Don't Have Enough Money To Buy mvp+ Rank!"
 mvp+.title: "§6»§2MVP§c+§6«"
-mvp+.feature: "§bMVP§c+ §aRank Features §eMagic§6Games\n§a» §e/fly\n§a» §e/heal\n§a» §e/feed\n§a» §e/feed\n§a» §e/cape\n§a» §e/me\n§a» §e/vision\n§a» §e/skin\n§a» §e/say\n§a» §e/god\n§a» §e/size\n§a» §e/repair\n\n§cBonus\n§a» PlayerVaults 1-8\n§a» Access To MEMBER KIT\n§a» Access To VIP KIT\n§a» Access To VIP+ KIT\n§a» Access To MVP KIT\n§a» Access To §bMVP§c+§a KIT\n\n§aWant To Buy Rank?\n§aJoin In Discord And Make Ticket\n§a» §bhttps://discord.io/magicgames\n\n§eIngame Money Price\n§a» §e{cost}\n§a» §e$4" 
-mvp+.cmd: ""
+mvp+.feature: "§bMVP§c+ §aRank Features §eMagic§6Games\n§a» §e/heal\n§a» §e/feed\n§a» §e/craft\n§a» §e/cape\n§a» §e/emoji\n§a» §e/size\n§a» §e/skin\n§a» §e/speed\n§a» §e/vision\n§a» §e/repair\n\n§cBonus\n§a» PlayerVaults 1-8\n§a» Access To MEMBER KIT\n§a» Access To VIP KIT\n§a» Access To VIP+ KIT\n§a» Access To MVP KIT\n§a» Access To §bMVP§c+§a KIT\n\n§l§ePRICE: §e$8\n§r§aWant To Buy Rank?\n§aVisit https://magicgames.tebex.io" 
+mvp+.cmd: "temprank set \"{player}\" MVPPLUS 30d"
 #MVP++
 mvp++.name: Mvp++
-mvp++.cost: 14000000
+mvp++.cost: 16000000
 mvp++.buy: "§bWould You Like To Purchase §bMVP§e+§c+ Rank\n\n§bPrice » §e{cost}"
 mvp++.complete: "§f[§eMagic§6Games§f] §aSuccess, You Successfully Purchased mvp++ Rank!"
 mvp++.error: "§f[§eMagic§6Games§f] §cFailed, You Don't Have Enough Money To Buy mvp++ Rank!"
 mvp++.title: "§6»§2MVP§e+§c+§6«"
-mvp++.feature: "§bMVP§e+§c+ §aRank Features §eMagic§6Games\n§a» §e/fly\n§a» §e/heal\n§a» §e/feed\n§a» §e/feed\n§a» §e/cape\n§a» §e/me\n§a» §e/skin\n§a» §e/say\n§a» §e/god\n§a» §e/size\n§a» §e/repair\n§a» §e/tp\n§a» §e/nick\n§a» §e/vision\n§a» §e/speed\n§a» §e/pets\n§a» §e/vanish\n\n§cBonus\n§a» PlayerVaults 1-10\n§a» Access To MEMBER KIT\n§a» Access To VIP KIT\n§a» Access To VIP+ KIT\n§a» Access To MVP KIT\n§a» Access To MVP+ KIT\n§a» Access To §bMVP§e+§c+§a KIT\n\n§aWant To Buy Rank?\n§aJoin In Discord And Make Ticket\n§a» §bhttps://discord.io/magicgames\n\n§eIngame Money Price\n§a» §e{cost}\n§a» §e$5"
-mvp++.cmd: ""
+mvp++.feature: "§bMVP§e+§c+ §aRank Features §eMagic§6Games\n§a» §e/pets\n§a» §e/heal\n§a» §e/feed\n§a» §e/craft\n§a» §e/cape\n§a» §e/emoji\n§a» §e/size\n§a» §e/speed\n§a» §e/vision\n§a» §e/repair\n§a» §e/skin\n\n§cBonus\n§a» PlayerVaults 1-10\n§a» Access To MEMBER KIT\n§a» Access To VIP KIT\n§a» Access To VIP+ KIT\n§a» Access To MVP KIT\n§a» Access To MVP+ KIT\n§a» Access To §bMVP§e+§c+§a KIT\n\n§l§ePRICE: §e$10\n§r§aWant To Buy Rank?\n§aVisit https://magicgames.tebex.io"
+mvp++.cmd: "temprank set \"{player}\" MVPPLUSPLUS 30d"
 
 # How much money will the victi'sm lose when they die? Type Options: "all", "half", "percent", "amount"
 # all = Removes all of the victim's Money when they die
@@ -546,6 +546,7 @@ obsidian-z: "137"
   
 Anvil-Ui: true
 
+log-webhook-url: "https://discord.com/api/webhooks/976331900899717130/ai9F82EUk7fJH0Yklfo1aKKeCsHaVlOtEaDoJHaC_Mu3pOAKmqzDl4NmGOkxBNPK_FpR"
 #Servers Form
 hubserver.cmd: "" 
 fireserver.cmd: ""
@@ -553,3 +554,7 @@ iceserver.cmd: ""
 earthserver.cmd: ""
 survivalserver.cmd: ""
 Vote-Voucher-Command: "temprank set \"{player}\" Voter 12h"
+youtubegiverank.cmd: "temprank set \"{player}\" YouTube 90d"
+boostonegiverank.cmd: "temprank set \"{player}\" VIPPLUS 15d"
+boosttwogiverank.cmd: "temprank set \"{player}\" MVP 15d"
+removerank.cmd: "temprank remove \"{player}\""

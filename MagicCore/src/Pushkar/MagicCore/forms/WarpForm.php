@@ -3,12 +3,12 @@
 namespace Pushkar\MagicCore\forms;
 
 use pocketmine\Server;
-use Pushkar\MagicCore\MagicCore;
 use dktapps\pmforms\FormIcon;
 use dktapps\pmforms\MenuForm;
 use pocketmine\player\Player;
 use pocketmine\world\Position;
 use dktapps\pmforms\MenuOption;
+use Pushkar\MagicCore\MagicCore;
 
 class WarpForm extends MenuForm
 {
@@ -36,9 +36,9 @@ class WarpForm extends MenuForm
                 switch ($selected) {
                     case 0:
                         $world = $MagicCore->getConfig()->get("pvp-world");
-
-                        $player->teleport(new Position(floatval($MagicCore->getConfig()->get("pvp-x")), floatval($MagicCore->getConfig()->get("pvp-y")), floatval($MagicCore->getConfig()->get("pvp-z")), $MagicCore->getServer()->getWorldManager()->getWorldByName($world)));
-                        $player->sendTitle("§e§lPVP");
+                        $player->sendMessage(" §eComming Soon In 1-2 Days");
+                        #$player->teleport(new Position(floatval($MagicCore->getConfig()->get("pvp-x")), floatval($MagicCore->getConfig()->get("pvp-y")), floatval($MagicCore->getConfig()->get("pvp-z")), $MagicCore->getServer()->getWorldManager()->getWorldByName($world)));
+                        #$player->sendTitle("§e§lPVP");
                         break;
 
                     case 1:

@@ -3,17 +3,15 @@
 namespace Pushkar\MagicCore\forms;
 
 use pocketmine\Server;
-use Pushkar\MagicCore\MagicCore;
 use jojoe77777\FormAPI\Form;
 use dktapps\pmforms\FormIcon;
 use dktapps\pmforms\MenuForm;
 use pocketmine\player\Player;
 use dktapps\pmforms\MenuOption;
-use jojoe77777\FormAPI\ModalForm;
+use Pushkar\MagicCore\MagicCore;
 use jojoe77777\FormAPI\SimpleForm;
 use onebone\economyapi\EconomyAPI;
 use pocketmine\console\ConsoleCommandSender;
-use Pushkar\MagicCore\forms\RankshopForm;
 
 class RankshopForm extends MenuForm
 {
@@ -27,7 +25,9 @@ class RankshopForm extends MenuForm
             new MenuOption("grid_tile§bMVP", new FormIcon("https://i.imgur.com/iyw0IVB.png", FormIcon::IMAGE_TYPE_URL)),
             new MenuOption("grid_tile§bMVP§c+", new FormIcon("https://i.imgur.com/0QweNSQ.png", FormIcon::IMAGE_TYPE_URL)),
             new MenuOption("grid_tile§bMVP§e+§c+", new FormIcon("https://i.imgur.com/93Fuqj5.png", FormIcon::IMAGE_TYPE_URL)),
-            new MenuOption("grid_tile§cYOUTUBE", new FormIcon("https://i.imgur.com/HYNd0I3.png", FormIcon::IMAGE_TYPE_URL))
+            new MenuOption("grid_tile§cYOUTUBE", new FormIcon("https://i.imgur.com/HYNd0I3.png", FormIcon::IMAGE_TYPE_URL)),
+            new MenuOption("grid_tile§dLORD", new FormIcon("https://i.imgur.com/ieDLusZ.png", FormIcon::IMAGE_TYPE_URL)),
+            new MenuOption("grid_tile§dLORD§e+", new FormIcon("https://i.imgur.com/IuF4m8w.png", FormIcon::IMAGE_TYPE_URL))
         ], function (Player $sender, int $selected): void {
             switch ($selected) {
                 case 0:
@@ -55,11 +55,15 @@ class RankshopForm extends MenuForm
                     $this->youtube($sender);
                     break;
                 case 8:
+                    $this->lord($sender);
+                    break;
+                case 9:
+                    $this->lordplus($sender);
                     break;
             }
         });
     }
-    
+
     public function member(Player $sender): Form
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
@@ -106,8 +110,8 @@ class RankshopForm extends MenuForm
             }
             switch ($data) {
                 case 0:
-                    $sender->sendMessage(" §eRankShop Will Be Opened When Server Will Release");
-                    #$this->vipbuy($sender);
+                    #$sender->sendMessage(" §eRankShop Will Be Opened When Server Will Release");
+                    $this->vipbuy($sender);
                     break;
                 case 1:
                     $sender->sendForm(new RankshopForm());
@@ -130,8 +134,8 @@ class RankshopForm extends MenuForm
             }
             switch ($data) {
                 case 0:
-                    $sender->sendMessage(" §eRankShop Will Be Opened When Server Will Release");
-                    #$this->vipplusbuy($sender);
+                    #$sender->sendMessage(" §eRankShop Will Be Opened When Server Will Release");
+                    $this->vipplusbuy($sender);
                     break;
                 case 1:
                     $sender->sendForm(new RankshopForm());
@@ -154,8 +158,8 @@ class RankshopForm extends MenuForm
             }
             switch ($data) {
                 case 0:
-                    $sender->sendMessage(" §eRankShop Will Be Opened When Server Will Release");
-                    #$this->mvpbuy($sender);
+                    #$sender->sendMessage(" §eRankShop Will Be Opened When Server Will Release");
+                    $this->mvpbuy($sender);
                     break;
                 case 1:
                     $sender->sendForm(new RankshopForm());
@@ -178,8 +182,8 @@ class RankshopForm extends MenuForm
             }
             switch ($data) {
                 case 0:
-                    $sender->sendMessage(" §eRankShop Will Be Opened When Server Will Release");
-                    #$this->mvpplusbuy($sender);
+                    #$sender->sendMessage(" §eRankShop Will Be Opened When Server Will Release");
+                    $this->mvpplusbuy($sender);
                     break;
                 case 1:
                     $sender->sendForm(new RankshopForm());
@@ -202,8 +206,8 @@ class RankshopForm extends MenuForm
             }
             switch ($data) {
                 case 0:
-                    $sender->sendMessage(" §eRankShop Will Be Opened When Server Will Release");
-                    #$this->mvpplusplusbuy($sender);
+                    #$sender->sendMessage(" §eRankShop Will Be Opened When Server Will Release");
+                    $this->mvpplusplusbuy($sender);
                     break;
                 case 1:
                     $sender->sendForm(new RankshopForm());
@@ -236,8 +240,8 @@ class RankshopForm extends MenuForm
         $sender->sendForm($form);
         return $form;
     }
-   
-  /*███╗░░░███╗░█████╗░░██████╗░██╗░█████╗░░██████╗░░█████╗░███╗░░░███╗███████╗░██████╗
+
+    /*███╗░░░███╗░█████╗░░██████╗░██╗░█████╗░░██████╗░░█████╗░███╗░░░███╗███████╗░██████╗
     ████╗░████║██╔══██╗██╔════╝░██║██╔══██╗██╔════╝░██╔══██╗████╗░████║██╔════╝██╔════╝
     ██╔████╔██║███████║██║░░██╗░██║██║░░╚═╝██║░░██╗░███████║██╔████╔██║█████╗░░╚█████╗░
     ██║╚██╔╝██║██╔══██║██║░░╚██╗██║██║░░██╗██║░░╚██╗██╔══██║██║╚██╔╝██║██╔══╝░░░╚═══██╗
@@ -251,7 +255,7 @@ class RankshopForm extends MenuForm
             }
             switch ($data) {
                 case 0:
-                  $coins = EconomyAPI::getInstance()->myMoney($sender);
+                    $coins = EconomyAPI::getInstance()->myMoney($sender);
                     $name = $sender->getName();
                     $rank = MagicCore::getInstance()->getConfig()->get("vip.name");
                     $cost = MagicCore::getInstance()->getConfig()->get("vip.cost");
@@ -264,10 +268,10 @@ class RankshopForm extends MenuForm
                     } else {
                         $sender->sendMessage(MagicCore::getInstance()->getConfig()->get("vip.error"));
                     }
-                  break;
+                    break;
                 case 1:
-                  $sender->sendMessage("§f[§eMagic§6Games§f]§a You Cancelled Buying The Rank");
-                  break;
+                    $sender->sendMessage("§f[§eMagic§6Games§f]§a You Cancelled Buying The Rank");
+                    break;
             }
         });
         $form->setTitle(MagicCore::getInstance()->getConfig()->get("vip.title"));
@@ -285,7 +289,7 @@ class RankshopForm extends MenuForm
             }
             switch ($data) {
                 case 0:
-                  $coins = EconomyAPI::getInstance()->myMoney($sender);
+                    $coins = EconomyAPI::getInstance()->myMoney($sender);
                     $name = $sender->getName();
                     $rank = MagicCore::getInstance()->getConfig()->get("vip+.name");
                     $cost = MagicCore::getInstance()->getConfig()->get("vip+.cost");
@@ -299,10 +303,10 @@ class RankshopForm extends MenuForm
                     } else {
                         $sender->sendMessage(MagicCore::getInstance()->getConfig()->get("vip+.error"));
                     }
-                  break;
+                    break;
                 case 1:
-                  $sender->sendMessage("§f[§eMagic§6Games§f]§a You Cancelled Buying The Rank");
-                  break;
+                    $sender->sendMessage("§f[§eMagic§6Games§f]§a You Cancelled Buying The Rank");
+                    break;
             }
         });
         $form->setTitle(MagicCore::getInstance()->getConfig()->get("vip+.title"));
@@ -320,7 +324,7 @@ class RankshopForm extends MenuForm
             }
             switch ($data) {
                 case 0:
-                  $coins = EconomyAPI::getInstance()->myMoney($sender);
+                    $coins = EconomyAPI::getInstance()->myMoney($sender);
                     $name = $sender->getName();
                     $rank = MagicCore::getInstance()->getConfig()->get("mvp.name");
                     $cost = MagicCore::getInstance()->getConfig()->get("mvp.cost");
@@ -334,10 +338,10 @@ class RankshopForm extends MenuForm
                     } else {
                         $sender->sendMessage(MagicCore::getInstance()->getConfig()->get("mvp.error"));
                     }
-                  break;
+                    break;
                 case 1:
-                  $sender->sendMessage("§f[§eMagic§6Games§f]§a You Cancelled Buying The Rank");
-                  break;
+                    $sender->sendMessage("§f[§eMagic§6Games§f]§a You Cancelled Buying The Rank");
+                    break;
             }
         });
         $form->setTitle(MagicCore::getInstance()->getConfig()->get("mvp.title"));
@@ -355,7 +359,7 @@ class RankshopForm extends MenuForm
             }
             switch ($data) {
                 case 0:
-                  $coins = EconomyAPI::getInstance()->myMoney($sender);
+                    $coins = EconomyAPI::getInstance()->myMoney($sender);
                     $name = $sender->getName();
                     $rank = MagicCore::getInstance()->getConfig()->get("mvp+.name");
                     $cost = MagicCore::getInstance()->getConfig()->get("mvp+.cost");
@@ -370,10 +374,10 @@ class RankshopForm extends MenuForm
 
                         $sender->sendMessage(MagicCore::getInstance()->getConfig()->get("mvp+.error"));
                     }
-                  break;
+                    break;
                 case 1:
-                  $sender->sendMessage("§f[§eMagic§6Games§f]§a You Cancelled Buying The Rank");
-                  break;
+                    $sender->sendMessage("§f[§eMagic§6Games§f]§a You Cancelled Buying The Rank");
+                    break;
             }
         });
         $form->setTitle(MagicCore::getInstance()->getConfig()->get("mvp+.title"));
@@ -383,7 +387,7 @@ class RankshopForm extends MenuForm
         $sender->sendForm($form);
         return $form;
     }
-    
+
     public function mvpplusplusbuy(Player $sender): Form
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
@@ -392,7 +396,7 @@ class RankshopForm extends MenuForm
             }
             switch ($data) {
                 case 0:
-                  $coins = EconomyAPI::getInstance()->myMoney($sender);
+                    $coins = EconomyAPI::getInstance()->myMoney($sender);
                     $name = $sender->getName();
                     $rank = MagicCore::getInstance()->getConfig()->get("mvp++.name");
                     $cost = MagicCore::getInstance()->getConfig()->get("mvp++.cost");
@@ -407,10 +411,10 @@ class RankshopForm extends MenuForm
 
                         $sender->sendMessage(MagicCore::getInstance()->getConfig()->get("mvp++.error"));
                     }
-                  break;
+                    break;
                 case 1:
-                  $sender->sendMessage("§f[§eMagic§6Games§f]§a You Cancelled Buying The Rank");
-                  break;
+                    $sender->sendMessage("§f[§eMagic§6Games§f]§a You Cancelled Buying The Rank");
+                    break;
             }
         });
         $form->setTitle(MagicCore::getInstance()->getConfig()->get("mvp++.title"));
@@ -419,5 +423,41 @@ class RankshopForm extends MenuForm
         $form->addButton("§4» Cancel «", 1, "https://cdn-icons-png.flaticon.com/128/3572/3572260.png");
         $sender->sendForm($form);
         return $form;
+    }
+
+    public function lord(Player $sender): void
+    {
+        $form = new SimpleForm(function (Player $sender, int $data = null) {
+            if ($data === null) {
+                return true;
+            }
+            switch ($data) {
+                case 0:
+                    $sender->sendForm(new RankshopForm());
+                    break;
+            }
+        });
+        $form->setTitle("§dlord");
+        $form->setContent("§dLord §aRank Features §eMagic§6Games\n§a» §e/pets\n§a» §e/heal\n§a» §e/feed\n§a» §e/craft\n§a» §e/cape\n§a» §e/emoji\n§a» §e/size\n§a» §e/speed\n§a» §e/vision\n§a» §e/repair\n§a» §e/skin\n§a» §e/fly\n§a» §e/vanish\n§a» §e/sit\n\n§cBonus\n§a» PlayerVaults 1-12\n§a» Access To MEMBER KIT\n§a» Access To VIP KIT\n§a» Access To VIP+ KIT\n§a» Access To MVP KIT\n§a» Access To MVP+ KIT\n§a» Access To §bMVP§e+§c+§a KIT\n§a» Access To LORD Kit\n\n§l§ePRICE: §e$13\n§r§aWant To Buy Rank?\n§aVisit https://magicgames.tebex.io");
+        $form->addButton("§cBack", 0, "textures/blocks/barrier");
+        $sender->sendForm($form);
+    }
+
+    public function lordplus(Player $sender): void
+    {
+        $form = new SimpleForm(function (Player $sender, int $data = null) {
+            if ($data === null) {
+                return true;
+            }
+            switch ($data) {
+                case 0:
+                    $sender->sendForm(new RankshopForm());
+                    break;
+            }
+        });
+        $form->setTitle("§dlord+");
+        $form->setContent("§dLord+ §aRank Features §eMagic§6Games\n§a» §e/pets\n§a» §e/heal\n§a» §e/feed\n§a» §e/craft\n§a» §e/cape\n§a» §e/emoji\n§a» §e/size\n§a» §e/speed\n§a» §e/vision\n§a» §e/repair\n§a» §e/skin\n§a» §e/fly\n§a» §e/vanish\n§a» §e/god\n§a» §e/lay\n§a» §e/sit\n\n§cBonus\n§a» PlayerVaults 1-14\n§a» Access To MEMBER KIT\n§a» Access To VIP KIT\n§a» Access To VIP+ KIT\n§a» Access To MVP KIT\n§a» Access To MVP+ KIT\n§a» Access To §bMVP§e+§c+§a KIT\n§a» Access To LORD Kit\n§a» Access To LORD+ Kit\n\n§l§ePRICE: §e$15\n§r§aWant To Buy Rank?\n§aVisit https://magicgames.tebex.io");
+        $form->addButton("§cBack", 0, "textures/blocks/barrier");
+        $sender->sendForm($form);
     }
 }

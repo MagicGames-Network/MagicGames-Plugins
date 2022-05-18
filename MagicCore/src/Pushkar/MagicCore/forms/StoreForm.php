@@ -24,7 +24,7 @@ class StoreForm extends MenuForm
             new MenuOption("grid_tile§bMVP§c+", new FormIcon("https://i.imgur.com/0QweNSQ.png", FormIcon::IMAGE_TYPE_URL)),
             new MenuOption("grid_tile§bMVP§e+§c+", new FormIcon("https://i.imgur.com/93Fuqj5.png", FormIcon::IMAGE_TYPE_URL)),
             new MenuOption("grid_tile§dLord", new FormIcon("https://i.imgur.com/ieDLusZ.png", FormIcon::IMAGE_TYPE_URL)),
-            new MenuOption("grid_tile§dLord§b+", new FormIcon("https://i.imgur.com/IuF4m8w.png", FormIcon::IMAGE_TYPE_URL)),
+            new MenuOption("grid_tile§dLord§b+", new FormIcon("https://i.imgur.com/ieDLusZ.png", FormIcon::IMAGE_TYPE_URL)),
             new MenuOption("grid_tile§e500000 Coins", new FormIcon("https://i.imgur.com/EbMGL97.jpg", FormIcon::IMAGE_TYPE_URL)),
             new MenuOption("grid_tile§e1000000 Coins", new FormIcon("https://i.imgur.com/RCb3MDP.jpg", FormIcon::IMAGE_TYPE_URL)),
             new MenuOption("grid_tile§e5000000 Coins", new FormIcon("https://i.imgur.com/kHQm64E.jpg", FormIcon::IMAGE_TYPE_URL)),

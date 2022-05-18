@@ -45,6 +45,7 @@ use Pushkar\MagicCore\commands\StafflistCommand;
 use Pushkar\MagicCore\commands\TotorialsCommand;
 use Pushkar\MagicCore\commands\InformationCommand;
 use Pushkar\MagicCore\commands\SocialmediaCommand;
+use Pushkar\MagicCore\commands\GiverankCommand;
 use Pushkar\MagicCore\commands\AnnouncementCommand;
 use Pushkar\MagicCore\commands\CommunityShopCommand;
 
@@ -103,6 +104,7 @@ final class CommandManager
             "bits" => new BitsCommand(),
             "communityshop" => new CommunityShopCommand(),
             "voucher" => new VoucherCommand(),
+            "giverank" => new GiverankCommand(),
             "profile" => new ProfileCommand()
         ];
     }
