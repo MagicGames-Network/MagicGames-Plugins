@@ -368,7 +368,7 @@ abstract class MinionEntity extends Human
         // █▀▄▀█ █ █▄░█ █ █▀█ █▄░█  █▀▀ █▄░█ ▀█▀ █ ▀█▀ █▄█
         // █░▀░█ █ █░▀█ █ █▄█ █░▀█  ██▄ █░▀█ ░█░ █ ░█░ ░█░
 
-        if (!isset($this->queueNumber) || !isset(BetterMinion::$minionQueue[$this->queueNumber])) {
+        if ($this->checkFull() && (!isset($this->queueNumber) || !isset(BetterMinion::$minionQueue[$this->queueNumber]))) {
             if (!$this->closed && !$this->isFlaggedForDespawn() && isset($this->minionInformation) && !$this->isViewingInv) {
                 $this->queueNumber = BetterMinion::$queueNumber++;
                 $this->inQueueTime = 0;

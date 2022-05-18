@@ -28,7 +28,7 @@ class QueueTickTask extends Task
                 if ($entity->ticksLived % 60 === 0) {
                     $entity->updateTarget();
                 }
-                if (!$entity->checkFull()) {
+                if ($entity->isInventoryFull()) {
                     unset(BetterMinion::$minionQueue[$queueNumber]);
                     $i++;
                     continue;

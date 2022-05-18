@@ -110,6 +110,7 @@ final class TradeQueue
 
 	public function done(): void
 	{
+		$this->done = true;
 		$plugin = PlayerTrade::getInstance();
 		$senderRemains = [];
 		$receiverRemains = [];
@@ -301,7 +302,6 @@ final class TradeQueue
 		}
 
 		if (!$this->done && $this->isSenderConfirmed && $this->isReceiverConfirmed) {
-			$this->done = true;
 			$this->done();
 		}
 	}
