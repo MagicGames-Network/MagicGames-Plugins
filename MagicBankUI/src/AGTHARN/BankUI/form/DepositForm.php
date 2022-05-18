@@ -59,7 +59,7 @@ class DepositForm
             }
             $depositTax = Banks::getBankData($playerSession->bankProvider)["depositTax"];
 
-            $player->sendForm(self::confirmDepositForm($player, $data[1], $depositTax));
+            $player->sendForm(self::confirmDepositForm($player, (float) $data[1], $depositTax));
         });
         
         $form->setTitle("§6» §r§l" . $bankName . " §r§6«");

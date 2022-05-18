@@ -22,7 +22,7 @@ class TransferForm
             }
             $transferTax = Banks::getBankData($playerSession->bankProvider)["transferTax"];
 
-            $player->sendForm(self::confirmTransferForm($player, $data[1], $data[2], $transferTax));
+            $player->sendForm(self::confirmTransferForm($player, $data[1], (float) $data[2], $transferTax));
         });
         
         $form->setTitle("§6» §r§l" . $bankName . " §r§6«");

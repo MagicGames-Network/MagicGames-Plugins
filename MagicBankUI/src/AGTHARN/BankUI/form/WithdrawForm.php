@@ -60,7 +60,7 @@ class WithdrawForm
             }
             $withdrawTax = Banks::getBankData($playerSession->bankProvider)["withdrawTax"];
 
-            $player->sendForm(self::confirmWithdrawForm($player, $data[1], $withdrawTax));
+            $player->sendForm(self::confirmWithdrawForm($player, (float) $data[1], $withdrawTax));
         });
 
         $form->setTitle("§6» §r§l" . $bankName . " §r§6«");
