@@ -2,10 +2,11 @@
 
 namespace Stats\player;
 
-use Stats\Main;
+use pocketmine\Server;
 use pocketmine\world\World;
 use pocketmine\player\Player;
 use pocketmine\event\player\PlayerDeathEvent;
+use pocketmine\network\mcpe\protocol\RespawnPacket;
 use pocketmine\event\entity\EntityRegainHealthEvent;
 
 class MagicPlayer extends Player
@@ -35,29 +36,6 @@ class MagicPlayer extends Player
     public function getDamage(): int
     {
         return $this->stats["Damage"];
-    }
-
-    protected function onDeath(): void
-    {
-        $world = Main::getInstance()->getServer()->getWorldManager()->getDefaultWorld();
-        if (!$world instanceof World) {
-            return;
-        }
-        
-        $ev = new PlayerDeathEvent($this, $this->getDrops(), $this->getXpDropAmount(), null);
-        $ev->call();
-
-        Main::getInstance()->getServer()->broadcastMessage($ev->getDeathMessage());
-        $this->teleport($world->getSpawnLocation());
-        $this->stats["Health"] = $this->stats["MaxHealth"];
-    }
-
-    public function isAlive(): bool
-    {
-        if ($this->getHealth() > 0) {
-            return true;
-        }
-        return false;
     }
 
     public function setStats(string $stats, float $amount): void
