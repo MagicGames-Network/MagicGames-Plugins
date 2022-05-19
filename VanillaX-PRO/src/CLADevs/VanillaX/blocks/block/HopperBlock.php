@@ -71,12 +71,12 @@ class HopperBlock extends Transparent implements NonAutomaticCallItemTrait
         $inventory = $tile->getInventory();
         //Transfer items
         if (count($inventory->getContents()) >= 1) {
-            $this->transferCooldown--;
+            //$this->transferCooldown--;
 
-            if ($this->transferCooldown < 1) {
-                $this->transferCooldown = 8;
-                $tile->transferItems();
-            }
+            //if ($this->transferCooldown < 1) {
+            //    $this->transferCooldown = 8;
+            $tile->transferItems();
+            //}
         }
 
         //Thanks to nukkit for bounding box code

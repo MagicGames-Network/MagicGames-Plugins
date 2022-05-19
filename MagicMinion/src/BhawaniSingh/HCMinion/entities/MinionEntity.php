@@ -379,7 +379,7 @@ abstract class MinionEntity extends Human
                 }
             }
             // In the case there is a mismatch, it will reset the minion's state.
-        } elseif (!$this->isInventoryFull() && $this->inQueueTime++ > 20) {
+        } elseif (isset($this->queueNumber) && !$this->isInventoryFull() && $this->inQueueTime++ > 20) {
             BetterMinion::getInstance()->getLogger()->info("Minion timed out in queue. Removing " . $this->getMinionInformation()->getOwner() . " from the queue.");
             if (isset(BetterMinion::$minionQueue[$this->queueNumber])) {
                 unset(BetterMinion::$minionQueue[$this->queueNumber]);
