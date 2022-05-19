@@ -46,7 +46,7 @@ class Main extends PluginBase implements Listener
 				// this will force the server to wait for the results so that it doesn't crash when chunk is unloaded
 				/** @phpstan-ignore-next-line */
 				if ($world instanceof World && $world->requestChunkPopulation($x >> Chunk::COORD_BIT_SIZE, $z >> Chunk::COORD_BIT_SIZE, null) instanceof Promise) {
-					$world->setBlock(new Position($x, $y, $z, $world), BlockFactory::getInstance()->get($id, $meta));
+					$world->setBlock(new Position($x, $y, $z, $world), BlockFactory::getInstance()->get($id, $meta), false);
 				}
 			}
 			@unlink($file);
@@ -88,9 +88,9 @@ class Main extends PluginBase implements Listener
 			!$player->getXpManager()->canPickupXp() ? $world->dropExperience($position, $event->getXpDropAmount()) : $player->getXpManager()->addXp($event->getXpDropAmount());
 		}
 
-		$position->getWorld()->setBlock($position, $replaceTemp);
+		$position->getWorld()->setBlock($position, $replaceTemp, false);
 		$this->getScheduler()->scheduleDelayedTask(new ClosureTask(function () use ($position, $replaceWith, $i): void {
-			$position->getWorld()->setBlock($position, $replaceWith);
+			$position->getWorld()->setBlock($position, $replaceWith, false);
 			if (isset($this->blockStates[$i])) {
 				unset($this->blockStates[$i]);
 			}
