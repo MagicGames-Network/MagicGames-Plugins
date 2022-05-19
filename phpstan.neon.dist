@@ -20,6 +20,7 @@ parameters:
         - BlankFix
         - BurgerCustomArmor
         - CosmicSpawners
+        - GrapplingHook
         - MagicBankUI
         - MagicBookShop
         - MagicCraft
