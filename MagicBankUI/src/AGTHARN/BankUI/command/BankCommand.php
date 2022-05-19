@@ -7,12 +7,15 @@ use pocketmine\player\Player;
 use AGTHARN\BankUI\form\MenuForm;
 use CortexPE\Commando\BaseCommand;
 use pocketmine\command\CommandSender;
+use AGTHARN\BankUI\command\subcommand\TopSubCommand;
 
 class BankCommand extends BaseCommand
 {
     public function prepare(): void
     {
         $this->setPermission('bankui.cmd');
+
+        $this->registerSubCommand(new TopSubCommand('top', 'Check the bank leaderboard!'));
     }
 
     public function onRun(CommandSender $sender, string $aliasUsed, array $args): void

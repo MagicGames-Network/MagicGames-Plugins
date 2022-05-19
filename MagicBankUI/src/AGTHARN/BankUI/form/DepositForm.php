@@ -34,6 +34,9 @@ class DepositForm
                 case 2:
                     $player->sendForm(self::depositCustomForm($player));
                     break;
+                case 3:
+                    $player->sendForm(MenuForm::getMenuForm($player));
+                    break;
             }
         });
         

@@ -38,6 +38,20 @@ abstract class Session
 
     public function saveData(): int|false
     {
+        if (!isset(Main::getInstance()->leaderBoard[$this->name])) {
+            Main::getInstance()->leaderBoard[$this->name] = $this->money;
+            arsort(Main::getInstance()->leaderBoard);
+
+            $i = 0;
+            foreach (Main::getInstance()->leaderBoard as $name => $money) {
+                $i++;
+                if ($i > 10) {
+                    unset(Main::getInstance()->leaderBoard[$name]);
+                }
+            }
+        } else {
+            Main::getInstance()->leaderBoard[$this->name] = $this->money;
+        }
         return $this->saveToJson($this->fileName);
     }
 

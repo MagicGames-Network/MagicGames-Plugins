@@ -12,3 +12,6 @@ permissions:
   bankui.cmd:
     description: Permission to open bank ui
     default: true
+  bankui.cmd.top:
+    description: Permission to check bank leaderboard
+    default: true
