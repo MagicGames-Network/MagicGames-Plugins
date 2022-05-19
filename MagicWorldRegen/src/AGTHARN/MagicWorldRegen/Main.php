@@ -7,7 +7,6 @@ use pocketmine\world\World;
 use pocketmine\event\Listener;
 use pocketmine\world\Position;
 use pocketmine\promise\Promise;
-use pocketmine\item\ItemFactory;
 use pocketmine\plugin\PluginBase;
 use pocketmine\block\BlockFactory;
 use pocketmine\math\AxisAlignedBB;
@@ -163,18 +162,18 @@ class Main extends PluginBase implements Listener
 			$blockData = [$block->getId(), $block->getMeta()];
 
 			match ($blockData) {
-				[BlockLegacyIds::WOOD, 0] => $this->delayedResetBlock($event, VanillaBlocks::OAK_LOG()),
-				[BlockLegacyIds::WOOD, 1] => $this->delayedResetBlock($event, VanillaBlocks::SPRUCE_LOG()),
-				[BlockLegacyIds::WOOD, 2] => $this->delayedResetBlock($event, VanillaBlocks::BIRCH_LOG()),
-				[BlockLegacyIds::WOOD, 3] => $this->delayedResetBlock($event, VanillaBlocks::JUNGLE_LOG()),
-				[BlockLegacyIds::WOOD, 4] => $this->delayedResetBlock($event, VanillaBlocks::ACACIA_LOG()),
-				[BlockLegacyIds::WOOD, 5] => $this->delayedResetBlock($event, VanillaBlocks::DARK_OAK_LOG()),
-				[BlockLegacyIds::STRIPPED_OAK_LOG, 0] => $this->delayedResetBlock($event, VanillaBlocks::OAK_LOG()),
-				[BlockLegacyIds::STRIPPED_SPRUCE_LOG, 0] => $this->delayedResetBlock($event, VanillaBlocks::SPRUCE_LOG()),
-				[BlockLegacyIds::STRIPPED_BIRCH_LOG, 0] => $this->delayedResetBlock($event, VanillaBlocks::BIRCH_LOG()),
-				[BlockLegacyIds::STRIPPED_JUNGLE_LOG, 0] => $this->delayedResetBlock($event, VanillaBlocks::JUNGLE_LOG()),
-				[BlockLegacyIds::STRIPPED_ACACIA_LOG, 0] => $this->delayedResetBlock($event, VanillaBlocks::ACACIA_LOG()),
-				[BlockLegacyIds::STRIPPED_DARK_OAK_LOG, 0] => $this->delayedResetBlock($event, VanillaBlocks::DARK_OAK_LOG()),
+				[BlockLegacyIds::WOOD, 0] => $this->delayedResetBlock($event, VanillaBlocks::OAK_WOOD()),
+				[BlockLegacyIds::WOOD, 1] => $this->delayedResetBlock($event, VanillaBlocks::SPRUCE_WOOD()),
+				[BlockLegacyIds::WOOD, 2] => $this->delayedResetBlock($event, VanillaBlocks::BIRCH_WOOD()),
+				[BlockLegacyIds::WOOD, 3] => $this->delayedResetBlock($event, VanillaBlocks::JUNGLE_WOOD()),
+				[BlockLegacyIds::WOOD, 4] => $this->delayedResetBlock($event, VanillaBlocks::ACACIA_WOOD()),
+				[BlockLegacyIds::WOOD, 5] => $this->delayedResetBlock($event, VanillaBlocks::DARK_OAK_WOOD()),
+				[BlockLegacyIds::STRIPPED_OAK_LOG, 0] => $this->delayedResetBlock($event, VanillaBlocks::OAK_WOOD()),
+				[BlockLegacyIds::STRIPPED_SPRUCE_LOG, 0] => $this->delayedResetBlock($event, VanillaBlocks::SPRUCE_WOOD()),
+				[BlockLegacyIds::STRIPPED_BIRCH_LOG, 0] => $this->delayedResetBlock($event, VanillaBlocks::BIRCH_WOOD()),
+				[BlockLegacyIds::STRIPPED_JUNGLE_LOG, 0] => $this->delayedResetBlock($event, VanillaBlocks::JUNGLE_WOOD()),
+				[BlockLegacyIds::STRIPPED_ACACIA_LOG, 0] => $this->delayedResetBlock($event, VanillaBlocks::ACACIA_WOOD()),
+				[BlockLegacyIds::STRIPPED_DARK_OAK_LOG, 0] => $this->delayedResetBlock($event, VanillaBlocks::DARK_OAK_WOOD()),
 				[BlockLegacyIds::COAL_ORE, 0] => $this->delayedResetBlock($event, VanillaBlocks::COAL_ORE()),
 				[BlockLegacyIds::NETHERRACK, 0] => $this->delayedResetBlock($event, VanillaBlocks::NETHERRACK(), VanillaBlocks::BEDROCK()),
 				[BlockLegacyIds::NETHER_QUARTZ_ORE, 0] => $this->delayedResetBlock($event, VanillaBlocks::NETHER_QUARTZ_ORE()),
