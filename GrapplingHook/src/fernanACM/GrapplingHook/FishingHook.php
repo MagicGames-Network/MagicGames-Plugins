@@ -33,7 +33,7 @@ class FishingHook extends Throwable
 		Projectile::onHitBlock($blockHit, $hitResult);
 	}
 
-	public function __construct(Location $pos, Entity $owner, ?CompoundTag $nbt = null)
+	public function __construct(Location $pos, ?Entity $owner, ?CompoundTag $nbt = null)
 	{
 		parent::__construct($pos, $owner, $nbt);
 
