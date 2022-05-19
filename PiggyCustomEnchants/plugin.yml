@@ -5,6 +5,8 @@ api: 4.2.0
 load: POSTWORLD
 author: DaPigGuy
 website: "https://github.com/DaPigGuy/PiggyCustomEnchants/"
+loadbefore:
+  - InvCraft
 
 permissions:
   piggycustomenchants:
