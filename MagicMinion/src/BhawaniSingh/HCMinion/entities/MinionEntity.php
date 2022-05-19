@@ -696,13 +696,14 @@ abstract class MinionEntity extends Human
     {
         $sellPrices = SellAll::getInstance()->getConfig()->getAll();
 
-        $item = $this->getMinionInventory()->getItem($this->getMinionInventory()->getSize() - 1);
-        if (isset($sellPrices[$item->getId()])) {
-            $this->money += $sellPrices[$item->getId()] * $item->getCount();
-            $this->getMinionInventory()->remove($item);
-        } elseif (isset($sellPrices[$item->getId() . ':' . $item->getMeta()])) {
-            $this->money += $sellPrices[$item->getId() . ':' . $item->getMeta()] * $item->getCount();
-            $this->getMinionInventory()->remove($item);
+        foreach ($this->getMinionInventory()->getContents() as $item) {
+            if (isset($sellPrices[$item->getId()])) {
+                $this->money += $sellPrices[$item->getId()] * $item->getCount();
+                $this->getMinionInventory()->remove($item);
+            } elseif (isset($sellPrices[$item->getId() . ':' . $item->getMeta()])) {
+                $this->money += $sellPrices[$item->getId() . ':' . $item->getMeta()] * $item->getCount();
+                $this->getMinionInventory()->remove($item);
+            }
         }
     }
 
