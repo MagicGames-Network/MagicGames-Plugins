@@ -8,6 +8,7 @@ use libMarshal\MarshalTrait;
 use pocketmine\player\Player;
 use AGTHARN\BankUI\bank\Banks;
 use libMarshal\attributes\Field;
+use pocketmine\item\ItemFactory;
 use onebone\economyapi\EconomyAPI;
 
 abstract class Session
@@ -224,7 +225,7 @@ abstract class Session
         };
 
         if ($amount < 100.00) {
-            $this->handleMessage(" §cError encountered - Deposit amount must be greater than 100! $amount given!");
+            $this->handleMessage(" §cError encountered - Withdraw amount must be greater than 100! $amount given!");
             return false;
         }
         if ($this->money < $amount) {
@@ -281,7 +282,7 @@ abstract class Session
         };
 
         if ($amount < 100.00) {
-            $this->handleMessage(" §cError encountered - Deposit amount must be greater than 100! $amount given!");
+            $this->handleMessage(" §cError encountered - TRansfer amount must be greater than 100! $amount given!");
             return false;
         }
         if ($this->money < $amount) {
@@ -356,6 +357,69 @@ abstract class Session
         return false;
     }
 
+    public function convertToNote(mixed $amount, bool $amountIncludeTax = true): bool
+    {
+        if ($this->player instanceof Player) {
+            if (!is_numeric($amount)) {
+                $this->handleMessage(" §cError encountered - Amount added is not numeric! $amount given!");
+                return false;
+            }
+            $withdrawTax = Banks::getBankData($this->bankProvider)["withdrawTax"];
+            $amount = (float) match ($amountIncludeTax) {
+                true => $amount - $withdrawTax,
+                false => $amount
+            };
+
+            if ($amount < 100.00) {
+                $this->handleMessage(" §cError encountered - Deposit amount must be greater than 100! $amount given!");
+                return false;
+            }
+            if ($this->money < $amount) {
+                $this->handleMessage(" §cYou do not have enough money in your bank account to withdraw this amount! $amount given!");
+                return false;
+            }
+            if (!$this->allowed && $amount >= Banks::MONEY_LIMIT) {
+                $this->handleMessage(" §cA large money transfer has been detected! Your bank account has been frozen by the authorities! Please create a ticket on our Discord server to appeal! $amount given!");
+                $this->frozen = true;
+                return false;
+            }
+
+            if (!$amountIncludeTax) {
+                if ($this->money < $amount + $withdrawTax) {
+                    $this->handleMessage(" §cYou do not have enough money in your bank account to transfer this amount! " . $amount + $withdrawTax . " given!");
+                    return false;
+                }
+                $this->reduceMoney($withdrawTax);
+            }
+            $this->reduceMoney($amount);
+
+            if (is_bool($this->saveData())) {
+                $this->handleKick("MagicBankUI: Failed to save when converting money to notes. Please report this immediately!");
+                return false;
+            }
+            $item = ItemFactory::getInstance()->get(1091, 0, 1);
+            $item->setCustomName("§r§l§6$" . $amount . " §aBANK NOTE");
+            $item->setLore(["§r§7Right Click To Redeem This §aBank Note§7\n§r§7Withdrawn By §f" . $this->name . "\n§r§7Date »" . date("§f d/m/y") . "\n\n§r§7Value » §a$" . $amount]);
+            $item->getNamedTag()->setFloat("Amount", $amount);
+            
+            $this->player?->getInventory()->addItem($item);
+            $this->transactionLogs[] = [
+                "time" => time(),
+                "date" => date("§b[d/m/y]"),
+                "type" => Banks::TRANSACTION_TYPE_CONVERT,
+                "amount" => $amount,
+                "balanceBefore" => $this->money + $amount,
+                "balanceAfter" => $this->money
+            ];
+            $this->saveData();
+
+            $this->handleMessage(" §aSuccessfully withdrew §f$" . number_format($amount, 2) . "§a from your bank account! Taxes: §f$" . $withdrawTax);
+            return true;
+        }
+        $this->handleMessage(" §cError encountered - Player does not exist!");
+        return false;
+    }
+
     public function getInterestAmount(): float
     {
         if (Banks::bankExists($this->bankProvider)) {
@@ -366,7 +430,7 @@ abstract class Session
 
     public function handleKick(string $message): bool
     {
-        if ($this->player instanceof Player) {
+        if ($this->player instanceof Player && $this->player->isConnected()) {
             $this->player->kick($message);
             return true;
         }
@@ -375,7 +439,7 @@ abstract class Session
 
     public function handleMessage(string $message): bool
     {
-        if ($this->player instanceof Player) {
+        if ($this->player instanceof Player && $this->player->isConnected()) {
             $this->player->sendMessage($message);
             return true;
         }

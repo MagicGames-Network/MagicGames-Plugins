@@ -7,6 +7,7 @@ final class Banks
     public const TRANSACTION_TYPE_DEPOSIT = "DEPOSIT";
     public const TRANSACTION_TYPE_WITHDRAW = "WITHDRAW";
     public const TRANSACTION_TYPE_TRANSFER = "TRANSFER";
+    public const TRANSACTION_TYPE_CONVERT = "CONVERT";
 
     public const MONEY_LIMIT = 5000000000.00;
 

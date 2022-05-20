@@ -4,8 +4,10 @@ namespace AGTHARN\BankUI;
 
 use AGTHARN\BankUI\bank\Banks;
 use pocketmine\event\Listener;
+use onebone\economyapi\EconomyAPI;
 use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\event\player\PlayerQuitEvent;
+use pocketmine\event\player\PlayerInteractEvent;
 
 class EventListener implements Listener
 {
@@ -21,5 +23,20 @@ class EventListener implements Listener
     public function onPlayerQuit(PlayerQuitEvent $event): void
     {
         Main::getInstance()->getSessionManager()->getSession($event->getPlayer())->remove();
+    }
+
+    public function onPlayerInteract(PlayerInteractEvent $event): void
+    {
+        $player = $event->getPlayer();
+        $item = $event->getItem();
+        if ($item->getNamedTag()->getTag("Amount") !== null) {
+            $amount = $item->getNamedTag()->getFloat("Amount");
+
+            $item->setCount($item->getCount() - 1);
+            $player->getInventory()->setItemInHand($item);
+
+            EconomyAPI::getInstance()->addMoney($player, $amount);
+            $player->sendMessage(" §7You Have Claimed §e$" . $amount . "§7 Note!");
+        }
     }
 }

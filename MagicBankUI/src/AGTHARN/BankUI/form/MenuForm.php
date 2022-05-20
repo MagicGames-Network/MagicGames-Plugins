@@ -126,9 +126,12 @@ class MenuForm
                     $player->sendForm(TransferForm::transferForm($player));
                     break;
                 case 3:
-                    $player->sendForm(TransactionForm::transactionForm($player));
+                    $player->sendForm(NoteForm::noteForm($player));
                     break;
                 case 4:
+                    $player->sendForm(TransactionForm::transactionForm($player));
+                    break;
+                case 5:
                     if ($playerSession->lastClosedTime + 7 * 24 * 60 * 60 > time()) {
                         $playerSession->handleMessage(" §cYou must wait at least §f7 days §cbefore closing your account again!");
                         return;
@@ -143,9 +146,9 @@ class MenuForm
         $form->addButton("§6» §aDeposit Money §6«\n§8Click To Deposit", 1, "https://cdn-icons-png.flaticon.com/128/1041/1041888.png");
         $form->addButton("§6» §aWithdraw Money §6«\n§8Click To Withdraw", 1, "https://cdn-icons-png.flaticon.com/128/2535/2535077.png");
         $form->addButton("§6» §aTransfer Money §6«\n§8Click To Transfer", 1, "https://cdn-icons-png.flaticon.com/128/1790/1790213.png");
+        $form->addButton("§6» §aConvert to Notes §6«\n§8Click To Open", 1, "https://cdn-icons-png.flaticon.com/128/1043/1043445.png");
         $form->addButton("§6» §aTransaction Logs §6«\n§8Click To Open", 1, "https://cdn-icons-png.flaticon.com/128/3135/3135679.png");
         $form->addButton("§6» §aClose Account §6«\n§8Click To Close", 1, "https://cdn-icons-png.flaticon.com/512/7158/7158854.png");
-        //$form->addButton("§6» §aNotes §6«\n§8Click To Open", 1, "https://cdn-icons-png.flaticon.com/128/1043/1043445.png");
         $form->addButton("§l§cEXIT\n§r§dClick to close...", 1, "textures/ui/cancel");
         
         return $form;
