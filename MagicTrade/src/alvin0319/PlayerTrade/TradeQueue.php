@@ -169,14 +169,19 @@ final class TradeQueue
 				$this->sender->sendMessage(PlayerTrade::$prefix . $plugin->getLanguage()->translateString("trade.cancel.receiverLeft"));
 			}
 		} else {
-			$this->senderMenu->onClose($this->sender);
-			$this->receiverMenu->onClose($this->receiver);
 			$reason = $causedBySender ? "sender" : "receiver";
 			$message = $plugin->getLanguage()->translateString("trade.cancel", [
 				$reason
 			]);
-			$this->sender->sendMessage(PlayerTrade::$prefix . $message);
-			$this->receiver->sendMessage(PlayerTrade::$prefix . $message);
+
+			if ($this->sender->isConnected()) {
+				$this->senderMenu->onClose($this->sender);
+				$this->sender->sendMessage(PlayerTrade::$prefix . $message);
+			}
+			if ($this->receiver->isConnected()) {
+				$this->receiverMenu->onClose($this->receiver);
+				$this->receiver->sendMessage(PlayerTrade::$prefix . $message);
+			}
 		}
 		(new TradeEndEvent($this->sender, $this->receiver, $causedBySender ? ($offline ? TradeEndEvent::REASON_SENDER_QUIT : TradeEndEvent::REASON_RECEIVER_QUIT) : TradeEndEvent::REASON_RECEIVER_CANCEL));
 		$this->removeFrom();
