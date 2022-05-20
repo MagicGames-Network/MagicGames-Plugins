@@ -5,7 +5,10 @@ declare(strict_types=1);
 namespace BhawaniSingh\HCMinion\utils;
 
 use GdImage;
+use pocketmine\block\Air;
 use pocketmine\math\Vector3;
+use pocketmine\player\Player;
+use pocketmine\world\Position;
 use pocketmine\nbt\tag\ListTag;
 use pocketmine\nbt\tag\FloatTag;
 use pocketmine\nbt\tag\DoubleTag;
@@ -13,6 +16,28 @@ use pocketmine\nbt\tag\CompoundTag;
 
 class Utils
 {
+    public static function checkPlacement(Player $player, Position $position): bool
+    {
+        $blocks = 0;
+        for ($x = -2; $x <= 2; ++$x) {
+            for ($z = -2; $z <= 2; ++$z) {
+                if ($x === 0 && $z === 0) {
+                    continue;
+                }
+
+                $block = $position->getWorld()->getBlock($position->add($x, -1, $z));
+                if ($block instanceof Air) {
+                    $blocks++;
+                }
+            }
+        }
+        if ($blocks === 0) {
+            $player->sendMessage(" §cThere is no space for the minions to work! Try placing it 1 block higher and see if that solves the problem.");
+            return false;
+        }
+        return true;
+    }
+
     public static function getRomanNumeral(int $integer): string
     {
         $romanNumeralConversionTable = [
