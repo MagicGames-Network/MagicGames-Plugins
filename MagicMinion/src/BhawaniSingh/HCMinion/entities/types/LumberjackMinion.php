@@ -66,7 +66,7 @@ class LumberjackMinion extends MinionEntity
                     break;
                 }
                 $this->getWorld()->addParticle($block->getPosition()->add(0.5, 0.5, 0.5), new BlockBreakParticle($block));
-                $this->getWorld()->setBlock($block->getPosition(), VanillaBlocks::AIR());
+                $this->getWorld()->setBlock($block->getPosition(), VanillaBlocks::AIR(), false);
                 $drop = ItemFactory::getInstance()->get($block->getId(), $block->getMeta());
                 for ($i = 1; $i <= $drop->getCount(); ++$i) {
                     $thing = ItemFactory::getInstance()->get($drop->getId(), $drop->getMeta());
@@ -77,7 +77,7 @@ class LumberjackMinion extends MinionEntity
                 }
             }
         } else {
-            $this->getWorld()->setBlock($this->target->getPosition(), $this->getMinionInformation()->getType()->toTree()->sapling);
+            $this->getWorld()->setBlock($this->target->getPosition(), $this->getMinionInformation()->getType()->toTree()->sapling, false);
         }
     }
 

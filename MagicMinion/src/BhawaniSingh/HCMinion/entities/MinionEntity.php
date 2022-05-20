@@ -368,8 +368,8 @@ abstract class MinionEntity extends Human
         // █▀▄▀█ █ █▄░█ █ █▀█ █▄░█  █▀▀ █▄░█ ▀█▀ █ ▀█▀ █▄█
         // █░▀░█ █ █░▀█ █ █▄█ █░▀█  ██▄ █░▀█ ░█░ █ ░█░ ░█░
 
-        if ($this->checkFull() && (!isset($this->queueNumber) || !isset(BetterMinion::$minionQueue[$this->queueNumber]))) {
-            if (!$this->closed && !$this->isFlaggedForDespawn() && isset($this->minionInformation) && !$this->isViewingInv) {
+        if (!isset($this->queueNumber) || !isset(BetterMinion::$minionQueue[$this->queueNumber])) {
+            if (!$this->isInsideOfSolid() && $this->checkFull() && !$this->closed && !$this->isFlaggedForDespawn() && isset($this->minionInformation) && !$this->isViewingInv) {
                 $this->queueNumber = BetterMinion::$queueNumber++;
                 $this->inQueueTime = 0;
                 BetterMinion::$minionQueue[$this->queueNumber] = $this;
@@ -379,7 +379,7 @@ abstract class MinionEntity extends Human
                 }
             }
             // In the case there is a mismatch, it will reset the minion's state.
-        } elseif (isset($this->queueNumber) && !$this->isInventoryFull() && $this->inQueueTime++ > 20) {
+        } elseif (!$this->isInventoryFull() && $this->inQueueTime++ > 20) {
             BetterMinion::getInstance()->getLogger()->info("Minion timed out in queue. Removing " . $this->getMinionInformation()->getOwner() . " from the queue.");
             if (isset(BetterMinion::$minionQueue[$this->queueNumber])) {
                 unset(BetterMinion::$minionQueue[$this->queueNumber]);
@@ -561,7 +561,7 @@ abstract class MinionEntity extends Human
     public function startWorking(): void
     {
         $this->getWorld()->addParticle($this->target->getPosition()->add(0.5, 0.5, 0.5), new BlockBreakParticle($this->target));
-        $this->getWorld()->setBlock($this->target->getPosition(), $this->target instanceof Air ? $this->getMinionInformation()->getType()->toBlock() : VanillaBlocks::AIR());
+        $this->getWorld()->setBlock($this->target->getPosition(), $this->target instanceof Air ? $this->getMinionInformation()->getType()->toBlock() : VanillaBlocks::AIR(), false);
         if (!$this->target instanceof Air) {
             $drops = $this->getTargetDrops();
             foreach ($drops as $drop) {

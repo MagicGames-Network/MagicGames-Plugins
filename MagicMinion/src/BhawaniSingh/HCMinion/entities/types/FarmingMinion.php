@@ -40,17 +40,17 @@ class FarmingMinion extends MinionEntity
         if (!$this->target instanceof Crops) {
             $farmland = $this->getWorld()->getBlock($this->target->getPosition()->add(0, -1, 0));
             if (!$farmland instanceof Farmland) {
-                $this->getWorld()->setBlock($farmland->getPosition(), VanillaBlocks::FARMLAND());
+                $this->getWorld()->setBlock($farmland->getPosition(), VanillaBlocks::FARMLAND(), false);
                 return;
             }
             if ($this->target instanceof Air) {
-                $this->getWorld()->setBlock($this->target->getPosition(), $this->getMinionInformation()->getType()->toBlock());
+                $this->getWorld()->setBlock($this->target->getPosition(), $this->getMinionInformation()->getType()->toBlock(), false);
             }
             return;
         }
         if ($this->target->getAge() >= 7) {
             $this->getWorld()->addParticle($this->target->getPosition()->add(0.5, 0.5, 0.5), new BlockBreakParticle($this->target));
-            $this->getWorld()->setBlock($this->target->getPosition(), VanillaBlocks::AIR());
+            $this->getWorld()->setBlock($this->target->getPosition(), VanillaBlocks::AIR(), false);
 
             $drops = $this->getTargetDrops();
             foreach ($drops as $drop) {
