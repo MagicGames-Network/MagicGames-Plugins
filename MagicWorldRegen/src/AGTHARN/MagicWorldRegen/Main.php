@@ -61,7 +61,7 @@ class Main extends PluginBase implements Listener
 		file_put_contents($this->getDataFolder() . "data.json", json_encode($this->blockStates));
 	}
 
-	public function delayedResetBlock(BlockBreakEvent $event, Block $replaceWith, ?Block $replaceTemp = null, int $replaceTicks = 50): bool
+	public function delayedResetBlock(BlockBreakEvent $event, Block $replaceWith, ?Block $replaceTemp = null, ?Block $getBlock = null, int $replaceTicks = 50): bool
 	{
 		$player = $event->getPlayer();
 		$block = $event->getBlock();
@@ -82,7 +82,13 @@ class Main extends PluginBase implements Listener
 			$replaceTemp = VanillaBlocks::AIR();
 		}
 
-		foreach ($event->getDrops() as $drop) {
+		if (!$getBlock instanceof Block) {
+			$drops = $event->getDrops();
+		} else {
+			$drops = $getBlock->getDrops($event->getItem());
+		}
+
+		foreach ($drops as $drop) {
 			!$player->getInventory()->canAddItem($drop) ? $world->dropItem($position, $drop) : $player->getInventory()->addItem($drop);
 			!$player->getXpManager()->canPickupXp() ? $world->dropExperience($position, $event->getXpDropAmount()) : $player->getXpManager()->addXp($event->getXpDropAmount());
 		}
@@ -162,18 +168,18 @@ class Main extends PluginBase implements Listener
 			$blockData = [$block->getId(), $block->getMeta()];
 
 			match ($blockData) {
-				[BlockLegacyIds::WOOD, 0] => $this->delayedResetBlock($event, VanillaBlocks::OAK_WOOD()),
-				[BlockLegacyIds::WOOD, 1] => $this->delayedResetBlock($event, VanillaBlocks::SPRUCE_WOOD()),
-				[BlockLegacyIds::WOOD, 2] => $this->delayedResetBlock($event, VanillaBlocks::BIRCH_WOOD()),
-				[BlockLegacyIds::WOOD, 3] => $this->delayedResetBlock($event, VanillaBlocks::JUNGLE_WOOD()),
-				[BlockLegacyIds::WOOD, 4] => $this->delayedResetBlock($event, VanillaBlocks::ACACIA_WOOD()),
-				[BlockLegacyIds::WOOD, 5] => $this->delayedResetBlock($event, VanillaBlocks::DARK_OAK_WOOD()),
-				[BlockLegacyIds::STRIPPED_OAK_LOG, 0] => $this->delayedResetBlock($event, VanillaBlocks::OAK_WOOD()),
-				[BlockLegacyIds::STRIPPED_SPRUCE_LOG, 0] => $this->delayedResetBlock($event, VanillaBlocks::SPRUCE_WOOD()),
-				[BlockLegacyIds::STRIPPED_BIRCH_LOG, 0] => $this->delayedResetBlock($event, VanillaBlocks::BIRCH_WOOD()),
-				[BlockLegacyIds::STRIPPED_JUNGLE_LOG, 0] => $this->delayedResetBlock($event, VanillaBlocks::JUNGLE_WOOD()),
-				[BlockLegacyIds::STRIPPED_ACACIA_LOG, 0] => $this->delayedResetBlock($event, VanillaBlocks::ACACIA_WOOD()),
-				[BlockLegacyIds::STRIPPED_DARK_OAK_LOG, 0] => $this->delayedResetBlock($event, VanillaBlocks::DARK_OAK_WOOD()),
+				[BlockLegacyIds::WOOD, 0] => $this->delayedResetBlock($event, VanillaBlocks::OAK_WOOD(), null, VanillaBlocks::OAK_LOG()),
+				[BlockLegacyIds::WOOD, 1] => $this->delayedResetBlock($event, VanillaBlocks::SPRUCE_WOOD(), null, VanillaBlocks::SPRUCE_LOG()),
+				[BlockLegacyIds::WOOD, 2] => $this->delayedResetBlock($event, VanillaBlocks::BIRCH_WOOD(), null, VanillaBlocks::BIRCH_LOG()),
+				[BlockLegacyIds::WOOD, 3] => $this->delayedResetBlock($event, VanillaBlocks::JUNGLE_WOOD(), null, VanillaBlocks::JUNGLE_LOG()),
+				[BlockLegacyIds::WOOD, 4] => $this->delayedResetBlock($event, VanillaBlocks::ACACIA_WOOD(), null, VanillaBlocks::ACACIA_LOG()),
+				[BlockLegacyIds::WOOD, 5] => $this->delayedResetBlock($event, VanillaBlocks::DARK_OAK_WOOD(), null, VanillaBlocks::DARK_OAK_LOG()),
+				[BlockLegacyIds::STRIPPED_OAK_LOG, 0] => $this->delayedResetBlock($event, VanillaBlocks::OAK_WOOD(), null, VanillaBlocks::OAK_LOG()),
+				[BlockLegacyIds::STRIPPED_SPRUCE_LOG, 0] => $this->delayedResetBlock($event, VanillaBlocks::SPRUCE_WOOD(), null, VanillaBlocks::SPRUCE_LOG()),
+				[BlockLegacyIds::STRIPPED_BIRCH_LOG, 0] => $this->delayedResetBlock($event, VanillaBlocks::BIRCH_WOOD(), null, VanillaBlocks::BIRCH_LOG()),
+				[BlockLegacyIds::STRIPPED_JUNGLE_LOG, 0] => $this->delayedResetBlock($event, VanillaBlocks::JUNGLE_WOOD(), null, VanillaBlocks::JUNGLE_LOG()),
+				[BlockLegacyIds::STRIPPED_ACACIA_LOG, 0] => $this->delayedResetBlock($event, VanillaBlocks::ACACIA_WOOD(), null, VanillaBlocks::ACACIA_LOG()),
+				[BlockLegacyIds::STRIPPED_DARK_OAK_LOG, 0] => $this->delayedResetBlock($event, VanillaBlocks::DARK_OAK_WOOD(), null, VanillaBlocks::DARK_OAK_LOG()),
 				[BlockLegacyIds::COAL_ORE, 0] => $this->delayedResetBlock($event, VanillaBlocks::COAL_ORE()),
 				[BlockLegacyIds::NETHERRACK, 0] => $this->delayedResetBlock($event, VanillaBlocks::NETHERRACK(), VanillaBlocks::BEDROCK()),
 				[BlockLegacyIds::NETHER_QUARTZ_ORE, 0] => $this->delayedResetBlock($event, VanillaBlocks::NETHER_QUARTZ_ORE()),
@@ -186,14 +192,14 @@ class Main extends PluginBase implements Listener
 
 			$cropData = $block->getId();
 			match ($cropData) {
-				BlockLegacyIds::WHEAT_BLOCK => $this->delayedResetBlock($event, VanillaBlocks::WHEAT()->setAge(7), null, 1200),
-				BlockLegacyIds::CARROT_BLOCK => $this->delayedResetBlock($event, VanillaBlocks::CARROTS()->setAge(7), null, 1200),
-				BlockLegacyIds::POTATO_BLOCK => $this->delayedResetBlock($event, VanillaBlocks::POTATOES()->setAge(7), null, 1200),
-				BlockLegacyIds::MELON_BLOCK => $this->delayedResetBlock($event, VanillaBlocks::MELON(), null, 1200),
-				BlockLegacyIds::PUMPKIN => $this->delayedResetBlock($event, VanillaBlocks::PUMPKIN(), null, 1200),
-				BlockLegacyIds::CACTUS => $this->delayedResetBlock($event, VanillaBlocks::CACTUS(), null, 1200),
-				BlockLegacyIds::COCOA_BLOCK => $this->delayedResetBlock($event, VanillaBlocks::COCOA_POD()->setAge(2), null, 1200),
-				BlockLegacyIds::NETHER_WART_PLANT => $this->delayedResetBlock($event, VanillaBlocks::NETHER_WART()->setAge(3), null, 1200),
+				BlockLegacyIds::WHEAT_BLOCK => $this->delayedResetBlock($event, VanillaBlocks::WHEAT()->setAge(7), null, null, 1200),
+				BlockLegacyIds::CARROT_BLOCK => $this->delayedResetBlock($event, VanillaBlocks::CARROTS()->setAge(7), null, null, 1200),
+				BlockLegacyIds::POTATO_BLOCK => $this->delayedResetBlock($event, VanillaBlocks::POTATOES()->setAge(7), null, null, 1200),
+				BlockLegacyIds::MELON_BLOCK => $this->delayedResetBlock($event, VanillaBlocks::MELON(), null, null, 1200),
+				BlockLegacyIds::PUMPKIN => $this->delayedResetBlock($event, VanillaBlocks::PUMPKIN(), null, null, 1200),
+				BlockLegacyIds::CACTUS => $this->delayedResetBlock($event, VanillaBlocks::CACTUS(), null, null, 1200),
+				BlockLegacyIds::COCOA_BLOCK => $this->delayedResetBlock($event, VanillaBlocks::COCOA_POD()->setAge(2), null, null, 1200),
+				BlockLegacyIds::NETHER_WART_PLANT => $this->delayedResetBlock($event, VanillaBlocks::NETHER_WART()->setAge(3), null, null, 1200),
 				default => false
 			};
 		}
