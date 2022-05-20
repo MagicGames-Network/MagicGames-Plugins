@@ -234,7 +234,7 @@ class IslandListener implements Listener
             $levelName = $level->getFolderName();
             $data = SkyBlock::getInstance()->getConfig();
 
-            $worlds = ["Mining"];
+            $worlds = ["MagicGames", "Mining"];
             foreach ($worlds as $world) {
                 if ($levelName === $world) {
                     $event->uncancel();
