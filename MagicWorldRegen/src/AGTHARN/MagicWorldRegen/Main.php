@@ -4,9 +4,11 @@ namespace AGTHARN\MagicWorldRegen;
 
 use pocketmine\block\Block;
 use pocketmine\world\World;
+use pocketmine\player\Player;
 use pocketmine\event\Listener;
 use pocketmine\world\Position;
 use pocketmine\promise\Promise;
+use Pushkar\McMMO\Main as McMMO;
 use pocketmine\plugin\PluginBase;
 use pocketmine\block\BlockFactory;
 use pocketmine\math\AxisAlignedBB;
@@ -115,7 +117,7 @@ class Main extends PluginBase implements Listener
 
 			$block = $event->getBlock();
 			$blockData = [$block->getId(), $block->getMeta()];
-			match ($blockData) {
+			$matchBlock = match ($blockData) {
 				[BlockLegacyIds::COAL_ORE, 0] => $this->delayedResetBlock($event, VanillaBlocks::COAL_ORE()),
 				[BlockLegacyIds::IRON_ORE, 0] => $this->delayedResetBlock($event, VanillaBlocks::IRON_ORE()),
 				[BlockLegacyIds::GOLD_ORE, 0] => $this->delayedResetBlock($event, VanillaBlocks::GOLD_ORE()),
@@ -139,6 +141,11 @@ class Main extends PluginBase implements Listener
 				[BlockLegacyIds::COBBLESTONE, 0] => $this->delayedResetBlock($event, VanillaBlocks::COBBLESTONE(), VanillaBlocks::BEDROCK()),
 				default => false
 			};
+
+			// HACK: For skills
+			if ($matchBlock) {
+				$this->addBlockBreakXP($event->getPlayer(), $block);
+			}
 		}
 	}
 
@@ -167,7 +174,7 @@ class Main extends PluginBase implements Listener
 			$block = $event->getBlock();
 			$blockData = [$block->getId(), $block->getMeta()];
 
-			match ($blockData) {
+			$matchBlock = match ($blockData) {
 				[BlockLegacyIds::WOOD, 0] => $this->delayedResetBlock($event, VanillaBlocks::OAK_WOOD(), null, VanillaBlocks::OAK_LOG()),
 				[BlockLegacyIds::WOOD, 1] => $this->delayedResetBlock($event, VanillaBlocks::SPRUCE_WOOD(), null, VanillaBlocks::SPRUCE_LOG()),
 				[BlockLegacyIds::WOOD, 2] => $this->delayedResetBlock($event, VanillaBlocks::BIRCH_WOOD(), null, VanillaBlocks::BIRCH_LOG()),
@@ -186,12 +193,11 @@ class Main extends PluginBase implements Listener
 				[BlockLegacyIds::GLOWSTONE, 0] => $this->delayedResetBlock($event, VanillaBlocks::GLOWSTONE()),
 				[BlockLegacyIds::END_STONE, 0] => $this->delayedResetBlock($event, VanillaBlocks::END_STONE(), VanillaBlocks::BEDROCK()),
 				[BlockLegacyIds::OBSIDIAN, 0] => $this->delayedResetBlock($event, VanillaBlocks::OBSIDIAN(), VanillaBlocks::BEDROCK()),
-				[BlockLegacyIds::DIRT, 0] => $this->delayedResetBlock($event, VanillaBlocks::DIRT(), VanillaBlocks::GRASS()),
 				default => false
 			};
 
 			$cropData = $block->getId();
-			match ($cropData) {
+			$matchCrop = match ($cropData) {
 				BlockLegacyIds::WHEAT_BLOCK => $this->delayedResetBlock($event, VanillaBlocks::WHEAT()->setAge(7), null, null, 1200),
 				BlockLegacyIds::CARROT_BLOCK => $this->delayedResetBlock($event, VanillaBlocks::CARROTS()->setAge(7), null, null, 1200),
 				BlockLegacyIds::POTATO_BLOCK => $this->delayedResetBlock($event, VanillaBlocks::POTATOES()->setAge(7), null, null, 1200),
@@ -202,6 +208,58 @@ class Main extends PluginBase implements Listener
 				BlockLegacyIds::NETHER_WART_PLANT => $this->delayedResetBlock($event, VanillaBlocks::NETHER_WART()->setAge(3), null, null, 1200),
 				default => false
 			};
+
+			// HACK: For skills
+			if ($matchBlock || $matchCrop) {
+				$this->addBlockBreakXP($event->getPlayer(), $block);
+			}
 		}
+	}
+
+	public function addBlockBreakXP(Player $player, Block $block): void
+	{
+        switch ($block->getId()) {
+            case BlockLegacyIds::WHEAT_BLOCK:
+            case BlockLegacyIds::BEETROOT_BLOCK:
+            case BlockLegacyIds::PUMPKIN_STEM:
+            case BlockLegacyIds::PUMPKIN:
+            case BlockLegacyIds::MELON_STEM:
+            case BlockLegacyIds::MELON_BLOCK:
+            case BlockLegacyIds::CARROT_BLOCK:
+            case BlockLegacyIds::POTATO_BLOCK:
+            case BlockLegacyIds::SUGARCANE_BLOCK:
+                McMMO::getInstance()->addXp(McMMO::FARMER, $player);
+                break;
+            case BlockLegacyIds::STONE:
+            case BlockLegacyIds::DIAMOND_ORE:
+            case BlockLegacyIds::GOLD_ORE;
+            case BlockLegacyIds::REDSTONE_ORE:
+            case BlockLegacyIds::IRON_ORE:
+            case BlockLegacyIds::COAL_ORE:
+            case BlockLegacyIds::EMERALD_ORE:
+            case BlockLegacyIds::OBSIDIAN:
+                McMMO::getInstance()->addXp(McMMO::MINER, $player);
+                break;
+            case BlockLegacyIds::LOG:
+            case BlockLegacyIds::LOG2:
+            case BlockLegacyIds::LEAVES:
+            case BlockLegacyIds::LEAVES2:
+                McMMO::getInstance()->addXp(McMMO::LUMBERJACK, $player);
+                break;
+            case BlockLegacyIds::DIRT:
+            case BlockLegacyIds::GRASS:
+            case BlockLegacyIds::GRASS_PATH:
+            case BlockLegacyIds::FARMLAND:
+            case BlockLegacyIds::SAND:
+            case BlockLegacyIds::GRAVEL:
+                McMMO::getInstance()->addXp(McMMO::EXCAVATION, $player);
+                break;
+            case BlockLegacyIds::TALL_GRASS:
+            case BlockLegacyIds::YELLOW_FLOWER:
+            case BlockLegacyIds::RED_FLOWER:
+            case BlockLegacyIds::CHORUS_FLOWER:
+                McMMO::getInstance()->addXp(McMMO::LAWN_MOWER, $player);
+                break;
+        }
 	}
 }

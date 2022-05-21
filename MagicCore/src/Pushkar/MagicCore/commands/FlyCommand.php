@@ -2,14 +2,14 @@
 
 namespace Pushkar\MagicCore\commands;
 
-use Pushkar\MagicCore\MagicCore;
 use pocketmine\player\Player;
 use pocketmine\command\Command;
+use Pushkar\MagicCore\MagicCore;
 use pocketmine\command\CommandSender;
 
 class FlyCommand extends Command
 {
-    private array $fly;
+    private array $fly = [];
 
     public function __construct()
     {
@@ -30,10 +30,10 @@ class FlyCommand extends Command
                 $this->fly[$sender->getName()] = 0;
                 $sender->setFlying(true);
                 $sender->sendMessage(" §eYour Fly Enabled Now!");
-            } else {
-                $sender->sendMessage(MagicCore::PREFIX . "You Don't Have Permission");
+                return true;
             }
-            return true;
+            $sender->sendMessage(MagicCore::PREFIX . "You Don't Have Permission");
+            return false;
         }
         return false;
     }
