@@ -11,6 +11,7 @@ use pocketmine\nbt\tag\ListTag;
 use pocketmine\block\BlockLegacyIds;
 use BhawaniSingh\HCMinion\utils\Utils;
 use pocketmine\event\player\PlayerQuitEvent;
+use BhawaniSingh\HCMinion\minions\MinionType;
 use BhawaniSingh\HCMinion\entities\MinionEntity;
 use pocketmine\event\player\PlayerInteractEvent;
 use BhawaniSingh\HCMinion\minions\MinionInformation;
@@ -37,8 +38,9 @@ class EventListener implements Listener
 
 				$entityPos = $block->getSide($event->getFace())->getPosition();
 				$entityPos = new Location($entityPos->x + 0.5, $entityPos->y, $entityPos->z + 0.5, $player->getWorld(), 0, 0);
-				if (Utils::checkPlacement($player, $entityPos)) {
-					$minionInformation = MinionInformation::nbtDeserialize($item->getNamedTag()->getTag('MinionInformation'));
+
+				$minionInformation = MinionInformation::nbtDeserialize($item->getNamedTag()->getTag('MinionInformation'));
+				if ($minionInformation->getType()->getActionType() === MinionType::FARMING_MINION || Utils::checkPlacement($player, $entityPos)) {
 					$nbt = Utils::createBaseNBT($entityPos);
 
 					$level = $minionInformation->getLevel();

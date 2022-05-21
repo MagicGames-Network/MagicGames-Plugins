@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace BhawaniSingh\HCMinion\entities\types;
 
+use pocketmine\block\Air;
 use pocketmine\item\Item;
 use pocketmine\utils\Random;
 use pocketmine\item\ItemFactory;
@@ -56,9 +57,9 @@ class LumberjackMinion extends MinionEntity
         }
     }
 
-    public function startWorking(): void
+    public function startWorking(): bool
     {
-        if ($this->target->getId() !== 0) {
+        if (!$this->target instanceof Air) {
             for ($y = 0; $y < 4; ++$y) {
                 $block = $this->getWorld()->getBlock($this->target->getPosition()->add(0, $y, 0));
                 if ($block->getId() !== $this->getMinionInformation()->getType()->getTargetId()) {
@@ -76,9 +77,10 @@ class LumberjackMinion extends MinionEntity
                     }
                 }
             }
-        } else {
-            $this->getWorld()->setBlock($this->target->getPosition(), $this->getMinionInformation()->getType()->toTree()->sapling, false);
+            return true;
         }
+        $this->getWorld()->setBlock($this->target->getPosition(), $this->getMinionInformation()->getType()->toTree()->sapling, false);
+        return false;
     }
 
     public function getTool(string $tool, bool $isNetheriteTool): ?Item

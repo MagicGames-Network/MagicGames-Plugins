@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace BhawaniSingh\HCMinion\entities;
 
-use pocketmine\Server;
 use pocketmine\nbt\NBT;
 use pocketmine\block\Air;
 use pocketmine\item\Item;
@@ -23,7 +22,6 @@ use pocketmine\item\ItemFactory;
 use pocketmine\utils\TextFormat;
 use pocketmine\item\VanillaItems;
 use onebone\economyapi\EconomyAPI;
-use pocketmine\world\format\Chunk;
 use pocketmine\block\BlockToolType;
 use pocketmine\block\VanillaBlocks;
 use pocketmine\inventory\Inventory;
@@ -558,7 +556,7 @@ abstract class MinionEntity extends Human
         return $this->target instanceof Air || ($this->target->getId() === $this->getMinionInformation()->getType()->getTargetId() && $this->target->getMeta() === $this->getMinionInformation()->getType()->getTargetMeta());
     }
 
-    public function startWorking(): void
+    public function startWorking(): bool
     {
         $this->getWorld()->addParticle($this->target->getPosition()->add(0.5, 0.5, 0.5), new BlockBreakParticle($this->target));
         $this->getWorld()->setBlock($this->target->getPosition(), $this->target instanceof Air ? $this->getMinionInformation()->getType()->toBlock() : VanillaBlocks::AIR(), false);
@@ -579,7 +577,9 @@ abstract class MinionEntity extends Human
                     }
                 }
             }
+            return true;
         }
+        return false;
     }
 
     public function stopWorking(): void
