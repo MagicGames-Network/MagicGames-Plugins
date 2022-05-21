@@ -25,7 +25,6 @@ class RecipesForm extends MenuForm
             new MenuOption("grid_tile§eENCHANTED ITEMS", new FormIcon("https://cdn-icons-png.flaticon.com/128/3556/3556661.png", FormIcon::IMAGE_TYPE_URL)),
             new MenuOption("grid_tile§eFOOD RECIPES", new FormIcon("https://cdn-icons-png.flaticon.com/128/2921/2921822.png", FormIcon::IMAGE_TYPE_URL)),
             new MenuOption("grid_tile§eHOE RECIPES", new FormIcon("https://cdn-icons-png.flaticon.com/128/521/521021.png", FormIcon::IMAGE_TYPE_URL)),
-            new MenuOption("grid_tile§eWAND RECIPES", new FormIcon("https://cdn-icons-png.flaticon.com/128/3204/3204021.png", FormIcon::IMAGE_TYPE_URL)),
             new MenuOption("grid_tile§eTALISMAN", new FormIcon("https://cdn-icons-png.flaticon.com/128/1625/1625674.png", FormIcon::IMAGE_TYPE_URL)),
             new MenuOption("grid_tile§eORE GENERATOR", new FormIcon("https://cdn-icons-png.flaticon.com/128/4831/4831062.png", FormIcon::IMAGE_TYPE_URL)),
             new MenuOption("grid_tile§eCUSTOM CRAFTING TABLE", new FormIcon("textures/blocks/crafting_table_top", FormIcon::IMAGE_TYPE_PATH))
@@ -50,7 +49,7 @@ class RecipesForm extends MenuForm
                 case 4:
                     $this->pickaxe($sender);
                     break;
-                    
+
                 case 5:
                     $this->runes($sender);
                     break;
@@ -72,18 +71,14 @@ class RecipesForm extends MenuForm
                     break;
 
                 case 10:
-                    $this->wand($sender);
-                    break;
-
-                case 11:
                     $sender->sendTitle("§r§l§eCOMMING SOON");
                     break;
 
-                case 12:
+                case 11:
                     $this->ore($sender);
                     break;
 
-                case 13:
+                case 12:
                     Server::getInstance()->dispatchCommand($sender, "invcraft");
                     break;
             }
@@ -158,7 +153,7 @@ class RecipesForm extends MenuForm
         $sender->sendForm($form);
         return $form;
     }
-    
+
     public function minions(Player $sender): Form
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
@@ -624,7 +619,7 @@ class RecipesForm extends MenuForm
         $sender->sendForm($form);
         return $form;
     }
-    
+
     public function armor2(Player $sender): Form
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
@@ -1401,7 +1396,7 @@ class RecipesForm extends MenuForm
         $sender->sendForm($form);
         return $form;
     }
-    
+
     public function ore(Player $sender): Form
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
@@ -1455,7 +1450,7 @@ class RecipesForm extends MenuForm
         $sender->sendForm($form);
         return $form;
     }
-    
+
     public function sword(Player $sender): Form
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
@@ -1530,7 +1525,7 @@ class RecipesForm extends MenuForm
         $sender->sendForm($form);
         return $form;
     }
-    
+
     public function axe(Player $sender): Form
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
@@ -1573,7 +1568,7 @@ class RecipesForm extends MenuForm
         $sender->sendForm($form);
         return $form;
     }
-    
+
     public function hoe(Player $sender): Form
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
@@ -1600,7 +1595,7 @@ class RecipesForm extends MenuForm
         $sender->sendForm($form);
         return $form;
     }
-    
+
     public function pickaxe(Player $sender): Form
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
@@ -1651,7 +1646,7 @@ class RecipesForm extends MenuForm
         $sender->sendForm($form);
         return $form;
     }
-    
+
     public function items(Player $sender): Form
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
@@ -1700,7 +1695,7 @@ class RecipesForm extends MenuForm
         $sender->sendForm($form);
         return $form;
     }
-    
+
     public function wand(Player $sender): Form
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
@@ -1799,31 +1794,31 @@ class RecipesForm extends MenuForm
                 case 0:
                     Server::getInstance()->dispatchCommand($sender, "invcraft view rune1");
                     break;
-                    
+
                 case 1:
                     Server::getInstance()->dispatchCommand($sender, "invcraft view rune2");
                     break;
-                    
+
                 case 2:
                     Server::getInstance()->dispatchCommand($sender, "invcraft view rune3");
                     break;
-                    
+
                 case 3:
                     Server::getInstance()->dispatchCommand($sender, "invcraft view rune4");
                     break;
-                    
+
                 case 4:
                     Server::getInstance()->dispatchCommand($sender, "invcraft view rune5");
                     break;
-                    
+
                 case 5:
                     Server::getInstance()->dispatchCommand($sender, "invcraft view rune6");
                     break;
-                    
+
                 case 6:
                     Server::getInstance()->dispatchCommand($sender, "invcraft view rune7");
                     break;
-                    
+
                 case 7:
                     Server::getInstance()->dispatchCommand($sender, "invcraft view rune8");
                     break;

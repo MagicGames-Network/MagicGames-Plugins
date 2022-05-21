@@ -13,6 +13,7 @@ use pocketmine\event\Listener;
 use _64FF00\PurePerms\PurePerms;
 use pocketmine\item\ItemFactory;
 use Pushkar\MagicCore\MagicCore;
+use pocketmine\item\VanillaItems;
 use jojoe77777\FormAPI\SimpleForm;
 use onebone\economyapi\EconomyAPI;
 use pocketmine\math\AxisAlignedBB;
@@ -29,6 +30,7 @@ use pocketmine\event\player\PlayerDeathEvent;
 use pocketmine\event\entity\EntityDamageEvent;
 use pocketmine\event\player\PlayerInteractEvent;
 use Pushkar\MagicCore\forms\anvil\AnvilMainForm;
+use pocketmine\event\player\PlayerBucketEmptyEvent;
 use pocketmine\network\mcpe\protocol\types\DeviceOS;
 use pocketmine\event\entity\EntityDamageByEntityEvent;
 use pocketmine\event\entity\EntityTrampleFarmlandEvent;
@@ -467,6 +469,16 @@ class EventListener implements Listener
             $player->sendMessage(" §eYou Can't Place Enchanted Blocks On Ground");
         }
     }
+
+    public function onBucket(PlayerBucketEmptyEvent $event): void
+    {
+        $player = $event->getPlayer();
+        $item = $event->getItem();
+        if ($item->getNamedTag()->getTag("infi_bucket") !== null) {
+            $player->getInventory()->setItemInHand($item);
+        }
+    }
+
 
     public function getPlayerPlatform(Player $player): string
     {

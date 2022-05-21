@@ -3,13 +3,14 @@
 namespace Pushkar\MagicCore\forms;
 
 use pocketmine\Server;
-use Pushkar\MagicCore\MagicCore;
 use jojoe77777\FormAPI\Form;
 use dktapps\pmforms\FormIcon;
 use dktapps\pmforms\MenuForm;
 use pocketmine\player\Player;
 use dktapps\pmforms\MenuOption;
 use pocketmine\item\ItemFactory;
+use Pushkar\MagicCore\MagicCore;
+use pocketmine\item\VanillaItems;
 use jojoe77777\FormAPI\SimpleForm;
 use pocketmine\data\bedrock\EnchantmentIdMap;
 use pocketmine\item\enchantment\EnchantmentInstance;
@@ -25,7 +26,7 @@ class ItemsForm extends MenuForm
     {
         /** @phpstan-ignore-next-line */
         $this->fakeEnchant = new EnchantmentInstance(EnchantmentIdMap::getInstance()->fromId(MagicCore::FAKE_ENCH_ID));
-        
+
         parent::__construct("§l§6RECIPES BOOK", "§bUse Only Custom Crafting Table To Craft Things, Do /customtable", [
             new MenuOption("§l§eMINION RECIPES\n§9»» §r§6Tap To Open", new FormIcon("https://cdn-icons-png.flaticon.com/128/891/891978.png", FormIcon::IMAGE_TYPE_URL)),
             new MenuOption("§l§eARMOR RECIPES\n§9»» §r§6Tap To Open", new FormIcon("https://cdn-icons-png.flaticon.com/128/361/361761.png", FormIcon::IMAGE_TYPE_URL)),
@@ -527,7 +528,7 @@ class ItemsForm extends MenuForm
                 case 12:
                     $item = ItemFactory::getInstance()->get(391, 0, 64);
                     $item->addEnchantment($this->fakeEnchant);
-                   $item->getNamedTag()->setString("enchantedblock", "carrot"); 
+                    $item->getNamedTag()->setString("enchantedblock", "carrot");
                     $item->setCustomName("§r§eEnchanted Carrot\n§7Use It To Craft Minion And Custom Armor\n\n§d§lEPIC");
                     $inv = $sender->getInventory();
                     $inv->addItem($item);
@@ -764,7 +765,7 @@ class ItemsForm extends MenuForm
         $sender->sendForm($form);
         return $form;
     }
-    
+
     public function sword(Player $sender): Form
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
@@ -928,7 +929,7 @@ class ItemsForm extends MenuForm
         $sender->sendForm($form);
         return $form;
     }
-    
+
     public function axe(Player $sender): Form
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
@@ -1012,7 +1013,7 @@ class ItemsForm extends MenuForm
         $sender->sendForm($form);
         return $form;
     }
-    
+
     public function hoe(Player $sender): Form
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
@@ -1059,7 +1060,7 @@ class ItemsForm extends MenuForm
         $sender->sendForm($form);
         return $form;
     }
-    
+
     public function pickaxe(Player $sender): Form
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
@@ -1176,7 +1177,7 @@ class ItemsForm extends MenuForm
         $sender->sendForm($form);
         return $form;
     }
-    
+
     public function items(Player $sender): Form
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
@@ -1221,28 +1222,51 @@ class ItemsForm extends MenuForm
                     break;
 
                 case 4:
-                    $name = $sender->getName();
-                    Server::getInstance()->dispatchCommand($sender, "buckets give $name water");
+                    $item = VanillaItems::WATER_BUCKET();
+                    $item->addEnchantment($this->fakeEnchant);
+                    $item->setCustomName("§r§b§lINFINITE WATER");
+                    $item->getNamedTag()->setString("infi_bucket", "item");
+                    $item->setLore(["§r§7Right Click/Tap To Place Water\n\n§r§l§fUNCOMMON"]);
+                    $sender->getInventory()->addItem($item);
                     break;
 
                 case 5:
-                    $name = $sender->getName();
-                    Server::getInstance()->dispatchCommand($sender, "buckets give $name lava");
+                    $item = VanillaItems::LAVA_BUCKET();
+                    $item->addEnchantment($this->fakeEnchant);
+                    $item->setCustomName("§r§c§lINFINITE LAVA");
+                    $item->getNamedTag()->setString("infi_bucket", "item");
+                    $item->setLore(["§r§7Right Click/Tap To Place Lava\n\n§r§l§fUNCOMMON"]);
+                    $sender->getInventory()->addItem($item);
                     break;
 
                 case 6:
-                    $name = $sender->getName();
-                    Server::getInstance()->dispatchCommand($sender, "buckets give $name water");
+                    $item = ItemFactory::getInstance()->get(1092, 0, 1);
+                    $item->addEnchantment($this->fakeEnchant);
+                    $item->setCustomName("§r§e§lBANK");
+                    $item->getNamedTag()->setString("bank", "item");
+                    $item->setLore(["§r§7Access Your Bank From Any Time And Anywhere\n\n§r§l§fUNCOMMON"]);
+                    $inv = $sender->getInventory();
+                    $inv->addItem($item);
                     break;
 
                 case 7:
-                    $name = $sender->getName();
-                    Server::getInstance()->dispatchCommand($sender, "buckets give $name water");
+                    $item = ItemFactory::getInstance()->get(1090, 0, 1);
+                    $item->addEnchantment($this->fakeEnchant);
+                    $item->setCustomName("§r§e§lBAG");
+                    $item->getNamedTag()->setString("bag", "item");
+                    $item->setLore(["§r§7Access Your Vault From Anywhere Anytime!\n\n§r§l§fUNCOMMON"]);
+                    $inv = $sender->getInventory();
+                    $inv->addItem($item);
                     break;
 
                 case 8:
-                    $name = $sender->getName();
-                    Server::getInstance()->dispatchCommand($sender, "buckets give $name water");
+                    $item = ItemFactory::getInstance()->get(1035, 0, 1);
+                    $item->addEnchantment($this->fakeEnchant);
+                    $item->setCustomName("§r§e§lPROFILE");
+                    $item->getNamedTag()->setString("profile", "item");
+                    $item->setLore(["§r§7View Your Profile On Server\n\n§r§l§fCOMMON"]);
+                    $inv = $sender->getInventory();
+                    $inv->addItem($item);
                     break;
 
                 case 9:
@@ -1264,7 +1288,7 @@ class ItemsForm extends MenuForm
         $sender->sendForm($form);
         return $form;
     }
-    
+
     public function wand(Player $sender): Form
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
@@ -1298,7 +1322,7 @@ class ItemsForm extends MenuForm
         $sender->sendForm($form);
         return $form;
     }
-    
+
     public function food(Player $sender): Form
     {
         $form = new SimpleForm(function (Player $sender, int $data = null) {
