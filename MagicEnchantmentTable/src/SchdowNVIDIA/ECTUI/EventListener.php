@@ -10,7 +10,6 @@ use pocketmine\player\Player;
 use CLADevs\VanillaX\VanillaX;
 use pocketmine\event\Listener;
 use jojoe77777\FormAPI\SimpleForm;
-use pocketmine\block\VanillaBlocks;
 use pocketmine\block\BlockLegacyIds;
 use pocketmine\world\sound\AnvilUseSound;
 use pocketmine\world\sound\AnvilFallSound;

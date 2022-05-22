@@ -19,7 +19,7 @@ class HealCommand extends Command
     {
         if ($sender instanceof Player) {
             if ($sender->hasPermission("heal.cmd")) {
-                $sender->setHealth(20);
+                $sender->setHealth($sender->getMaxHealth());
                 $sender->sendMessage(MagicCore::PREFIX . "Gods Healed You");
             } else {
                 $sender->sendMessage(MagicCore::PREFIX . "You Don't Have Permission");

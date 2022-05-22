@@ -2,9 +2,9 @@
 
 namespace Pushkar\MagicCore\commands;
 
-use Pushkar\MagicCore\MagicCore;
 use pocketmine\player\Player;
 use pocketmine\command\Command;
+use Pushkar\MagicCore\MagicCore;
 use pocketmine\command\CommandSender;
 
 class FeedCommand extends Command

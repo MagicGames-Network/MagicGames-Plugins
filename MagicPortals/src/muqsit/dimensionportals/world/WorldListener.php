@@ -4,21 +4,25 @@ declare(strict_types=1);
 
 namespace muqsit\dimensionportals\world;
 
-use muqsit\dimensionportals\player\PlayerManager;
-use pocketmine\event\entity\EntityTeleportEvent;
-use pocketmine\event\Listener;
-use pocketmine\event\world\ChunkLoadEvent;
-use pocketmine\event\world\ChunkUnloadEvent;
-use pocketmine\event\world\WorldLoadEvent;
-use pocketmine\event\world\WorldUnloadEvent;
-use pocketmine\player\Player;
 use pocketmine\Server;
+use pocketmine\player\Player;
+use pocketmine\event\Listener;
+use AGTHARN\MagicSync\MagicSync;
+use pocketmine\scheduler\ClosureTask;
+use pocketmine\event\world\ChunkLoadEvent;
+use pocketmine\event\world\WorldLoadEvent;
+use pocketmine\event\world\ChunkUnloadEvent;
+use pocketmine\event\world\WorldUnloadEvent;
+use pocketmine\event\entity\EntityTeleportEvent;
+use muqsit\dimensionportals\player\PlayerManager;
 
-final class WorldListener implements Listener{
+final class WorldListener implements Listener
+{
 
-	public function __construct(){
-		foreach(Server::getInstance()->getWorldManager()->getWorlds() as $world){
-			if(WorldManager::get($world) === null){
+	public function __construct()
+	{
+		foreach (Server::getInstance()->getWorldManager()->getWorlds() as $world) {
+			if (WorldManager::get($world) === null) {
 				WorldManager::autoRegister($world);
 			}
 		}
@@ -28,7 +32,8 @@ final class WorldListener implements Listener{
 	 * @param WorldLoadEvent $event
 	 * @priority MONITOR
 	 */
-	public function onWorldLoad(WorldLoadEvent $event) : void{
+	public function onWorldLoad(WorldLoadEvent $event): void
+	{
 		WorldManager::autoRegister($event->getWorld());
 	}
 
@@ -36,7 +41,8 @@ final class WorldListener implements Listener{
 	 * @param WorldUnloadEvent $event
 	 * @priority MONITOR
 	 */
-	public function onWorldUnload(WorldUnloadEvent $event) : void{
+	public function onWorldUnload(WorldUnloadEvent $event): void
+	{
 		WorldManager::destroy($event->getWorld());
 	}
 
@@ -68,16 +74,19 @@ final class WorldListener implements Listener{
 	 * @param EntityTeleportEvent $event
 	 * @priority MONITOR
 	 */
-	public function onEntityTeleport(EntityTeleportEvent $event) : void{
-		$player = $event->getEntity();
-		if($player instanceof Player){
-			$from_world = WorldManager::get($event->getFrom()->getWorld()) ?? WorldManager::getOverworld();
-			$to = $event->getTo();
-			$to_world = WorldManager::get($to->getWorld()) ?? WorldManager::getOverworld();
-			if($from_world->getNetworkDimensionId() !== $to_world->getNetworkDimensionId()){
-				// Player can be null if a plugin teleports the player before PlayerLoginEvent @ MONITOR
-				PlayerManager::getNullable($player)?->onBeginDimensionChange($to_world->getNetworkDimensionId(), $to->asVector3(), !$player->isAlive());
+	public function onEntityTeleport(EntityTeleportEvent $event): void
+	{
+		MagicSync::getInstance()->addEntityTeleport($event->getEntity(), new ClosureTask(function () use ($event): void {
+			$player = $event->getEntity();
+			if ($player instanceof Player) {
+				$from_world = WorldManager::get($event->getFrom()->getWorld()) ?? WorldManager::getOverworld();
+				$to = $event->getTo();
+				$to_world = WorldManager::get($to->getWorld()) ?? WorldManager::getOverworld();
+				if ($from_world->getNetworkDimensionId() !== $to_world->getNetworkDimensionId()) {
+					// Player can be null if a plugin teleports the player before PlayerLoginEvent @ MONITOR
+					PlayerManager::getNullable($player)?->onBeginDimensionChange($to_world->getNetworkDimensionId(), $to->asVector3(), !$player->isAlive());
+				}
 			}
-		}
+		}), "CHECKING DIMENSION CHANGE");
 	}
 }

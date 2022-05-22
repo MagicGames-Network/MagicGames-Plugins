@@ -12,8 +12,10 @@ use _64FF00\PurePerms\PPGroup;
 use pocketmine\event\Listener;
 use pocketmine\command\Command;
 use _64FF00\PurePerms\PurePerms;
+use AGTHARN\MagicSync\MagicSync;
 use pocketmine\plugin\PluginBase;
 use pocketmine\command\CommandSender;
+use pocketmine\scheduler\ClosureTask;
 use pocketmine\utils\TextFormat as C;
 use pocketmine\event\player\PlayerJoinEvent;
 
@@ -35,33 +37,35 @@ class Main extends PluginBase implements Listener
 
     public function onJoin(PlayerJoinEvent $event): void
     {
-        /** @var PurePerms */
-        $pp = $this->getServer()->getPluginManager()->getPlugin("PurePerms");
+        MagicSync::getInstance()->addPlayerJoin($event->getPlayer(), new ClosureTask(function () use ($event): void {
+            /** @var PurePerms */
+            $pp = $this->getServer()->getPluginManager()->getPlugin("PurePerms");
 
-        $player = $event->getPlayer();
-        $playername = $player->getName();
-        $time = $this->getTimeLeft($playername);
-        
-        $rank = $pp->getUserDataMgr()->getGroup($pp->getPlayer($playername));
-        if (!$rank instanceof PPGroup) {
-            return;
-        }
+            $player = $event->getPlayer();
+            $playername = $player->getName();
+            $time = $this->getTimeLeft($playername);
 
-        if ($time !== null && $time !== "No temprank") {
-            $msg = $this->config->get("Time Left Message");
-            $msg = str_replace(array("{time_left}", "{temprank}"), array($time, $rank), $msg);
-            $player->sendMessage($msg);
-        }
-        $exp = $this->getExpiryDate($playername);
-        if ($exp === null) {
-            return;
-        }
-        if (strtotime($exp) < time()) {
-            $msg = $this->config->get("Rank Expired Message");
-            $msg = str_replace("{temprank}", $rank->getName(), $msg);
-            $player->sendMessage($msg);
-            $this->removeRank($playername);
-        }
+            $rank = $pp->getUserDataMgr()->getGroup($pp->getPlayer($playername));
+            if (!$rank instanceof PPGroup) {
+                return;
+            }
+
+            if ($time !== null && $time !== "No temprank") {
+                $msg = $this->config->get("Time Left Message");
+                $msg = str_replace(array("{time_left}", "{temprank}"), array($time, $rank), $msg);
+                $player->sendMessage($msg);
+            }
+            $exp = $this->getExpiryDate($playername);
+            if ($exp === null) {
+                return;
+            }
+            if (strtotime($exp) < time()) {
+                $msg = $this->config->get("Rank Expired Message");
+                $msg = str_replace("{temprank}", $rank->getName(), $msg);
+                $player->sendMessage($msg);
+                $this->removeRank($playername);
+            }
+        }), "CHECKING TEMPORARY RANKS");
     }
 
     public function onCommand(CommandSender $sender, Command $command, string $label, array $args): bool

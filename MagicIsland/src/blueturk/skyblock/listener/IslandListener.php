@@ -15,9 +15,11 @@ use blueturk\skyblock\SkyBlock;
 use pocketmine\block\ItemFrame;
 use pocketmine\item\FlintSteel;
 use pocketmine\item\TieredTool;
+use AGTHARN\MagicSync\MagicSync;
 use pocketmine\item\LiquidBucket;
 use pocketmine\item\PaintingItem;
 use pocketmine\inventory\Inventory;
+use pocketmine\scheduler\ClosureTask;
 use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\event\block\BlockPlaceEvent;
 use pocketmine\event\player\PlayerJoinEvent;
@@ -33,11 +35,13 @@ class IslandListener implements Listener
 {
     public function onJoin(PlayerJoinEvent $event): void
     {
-        $player = $event->getPlayer();
-        $data = SkyBlock::getInstance()->getConfig();
-        if ($data->getNested($player->getName() . ".island") !== null) {
-            IslandManager::teleportToIsland($player);
-        }
+        MagicSync::getInstance()->addPlayerJoin($event->getPlayer(), new ClosureTask(function () use ($event): void {
+            $player = $event->getPlayer();
+            $data = SkyBlock::getInstance()->getConfig();
+            if ($data->getNested($player->getName() . ".island") !== null) {
+                IslandManager::teleportToIsland($player);
+            }
+        }), "TELEPORTING TO ISLAND");
     }
 
     public function onQuit(PlayerQuitEvent $event): void

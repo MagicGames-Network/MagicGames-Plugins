@@ -32,11 +32,13 @@ parameters:
         - MagicMinion
         - MagicSkills
         - MagicSpawners
+        - MagicSync
         - MagicQuest
         - MagicTrade
         - MagicWorldRegen
         - PortalsPE
         - PurePerms
+        - RPSolution
         - SellAll
         - SellWands
         - SmeltWands

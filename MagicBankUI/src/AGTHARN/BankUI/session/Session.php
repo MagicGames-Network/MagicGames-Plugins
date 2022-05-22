@@ -241,7 +241,8 @@ abstract class Session
         if (($status = EconomyAPI::getInstance()->addMoney($this->player ?? $this->name, $amount, true, "BANKUI")) === EconomyAPI::RET_SUCCESS) {
             if (!$amountIncludeTax) {
                 if ($this->money < $amount + $withdrawTax) {
-                    $this->handleMessage(" §cYou do not have enough money in your bank account to transfer this amount! " . $amount + $withdrawTax . " given!");
+                    $this->handleMessage(" §cYou do not have enough money in your bank account to withdraw this amount! " . $amount + $withdrawTax . " given!");
+                    EconomyAPI::getInstance()->reduceMoney($this->player ?? $this->name, $amount, true, "BANKUI");
                     return false;
                 }
                 $this->reduceMoney($withdrawTax);
@@ -282,7 +283,7 @@ abstract class Session
         };
 
         if ($amount < 100.00) {
-            $this->handleMessage(" §cError encountered - TRansfer amount must be greater than 100! $amount given!");
+            $this->handleMessage(" §cError encountered - Transfer amount must be greater than 100! $amount given!");
             return false;
         }
         if ($this->money < $amount) {

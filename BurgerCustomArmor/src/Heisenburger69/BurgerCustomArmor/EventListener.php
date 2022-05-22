@@ -7,6 +7,7 @@ use pocketmine\nbt\tag\Tag;
 use pocketmine\item\ItemIds;
 use pocketmine\player\Player;
 use pocketmine\event\Listener;
+use AGTHARN\MagicSync\MagicSync;
 use pocketmine\scheduler\ClosureTask;
 use pocketmine\inventory\ArmorInventory;
 use pocketmine\event\player\PlayerJoinEvent;
@@ -47,7 +48,9 @@ class EventListener implements Listener
      */
     public function onJoin(PlayerJoinEvent $event): void
     {
-        EquipmentUtils::updateSetUsage($event->getPlayer());
+        MagicSync::getInstance()->addPlayerJoin($event->getPlayer(), new ClosureTask(function () use ($event): void {
+            EquipmentUtils::updateSetUsage($event->getPlayer());
+        }), "UPDATING CUSTOM ARMOR SETS");
     }
 
     /**

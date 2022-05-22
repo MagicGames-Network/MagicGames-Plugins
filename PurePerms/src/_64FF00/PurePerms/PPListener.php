@@ -4,8 +4,11 @@ namespace _64FF00\PurePerms;
 
 use pocketmine\player\Player;
 use pocketmine\event\Listener;
+use _64FF00\PurePerms\PurePerms;
+use AGTHARN\MagicSync\MagicSync;
 use pocketmine\utils\TextFormat;
 use pocketmine\lang\Translatable;
+use pocketmine\scheduler\ClosureTask;
 use pocketmine\event\player\PlayerQuitEvent;
 use pocketmine\event\player\PlayerLoginEvent;
 use pocketmine\event\entity\EntityTeleportEvent;
@@ -36,14 +39,16 @@ class PPListener implements Listener
      */
     public function onLevelChange(EntityTeleportEvent $event): void
     {
-        if ($event->isCancelled()) {
-            return;
-        }
+        MagicSync::getInstance()->addEntityTeleport($event->getEntity(), new ClosureTask(function () use ($event): void {
+            if ($event->isCancelled()) {
+                return;
+            }
 
-        $player = $event->getEntity();
-        if ($player instanceof Player) {
-            $this->plugin->updatePermissions($player, $event->getTo()->getWorld()->getFolderName());
-        }
+            $player = $event->getEntity();
+            if ($player instanceof Player) {
+                $this->plugin->updatePermissions($player, $event->getTo()->getWorld()->getFolderName());
+            }
+        }), "CHECKING PERMISSIONS");
     }
 
     public function onPlayerCommand(PlayerCommandPreprocessEvent $event): void

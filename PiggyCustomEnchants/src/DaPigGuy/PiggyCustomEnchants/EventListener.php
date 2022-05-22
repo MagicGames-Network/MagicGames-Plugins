@@ -11,10 +11,12 @@ use pocketmine\item\Armor;
 use pocketmine\item\ItemIds;
 use pocketmine\player\Player;
 use pocketmine\event\Listener;
+use AGTHARN\MagicSync\MagicSync;
 use pocketmine\item\ItemFactory;
 use pocketmine\utils\TextFormat;
 use pocketmine\item\VanillaItems;
 use pocketmine\inventory\Inventory;
+use pocketmine\scheduler\ClosureTask;
 use pocketmine\inventory\ArmorInventory;
 use pocketmine\inventory\PlayerInventory;
 use pocketmine\event\block\BlockBreakEvent;
@@ -202,41 +204,43 @@ class EventListener implements Listener
 
     public function onJoin(PlayerJoinEvent $event): void
     {
-        $player = $event->getPlayer();
-        foreach ($player->getInventory()->getContents() as $slot => $content) {
-            foreach ($content->getEnchantments() as $enchantmentInstance) {
-                ToggleableEnchantment::attemptToggle($player, $content, $enchantmentInstance, $player->getInventory(), $slot);
+        MagicSync::getInstance()->addPlayerJoin($event->getPlayer(), new ClosureTask(function () use ($event): void {
+            $player = $event->getPlayer();
+            foreach ($player->getInventory()->getContents() as $slot => $content) {
+                foreach ($content->getEnchantments() as $enchantmentInstance) {
+                    ToggleableEnchantment::attemptToggle($player, $content, $enchantmentInstance, $player->getInventory(), $slot);
+                }
             }
-        }
-        foreach ($player->getArmorInventory()->getContents() as $slot => $content) {
-            foreach ($content->getEnchantments() as $enchantmentInstance) {
-                ToggleableEnchantment::attemptToggle($player, $content, $enchantmentInstance, $player->getArmorInventory(), $slot);
+            foreach ($player->getArmorInventory()->getContents() as $slot => $content) {
+                foreach ($content->getEnchantments() as $enchantmentInstance) {
+                    ToggleableEnchantment::attemptToggle($player, $content, $enchantmentInstance, $player->getArmorInventory(), $slot);
+                }
             }
-        }
 
-        $onSlot = function (Inventory $inventory, int $slot, Item $oldItem): void {
-            if ($inventory instanceof PlayerInventory || $inventory instanceof ArmorInventory) {
-                $holder = $inventory->getHolder();
-                if ($holder instanceof Player) {
-                    if (!$oldItem->equals(($newItem = $inventory->getItem($slot)), !$inventory instanceof ArmorInventory)) {
-                        if ($newItem->getId() === ItemIds::AIR || $inventory instanceof ArmorInventory) foreach ($oldItem->getEnchantments() as $oldEnchantment) ToggleableEnchantment::attemptToggle($holder, $oldItem, $oldEnchantment, $inventory, $slot, false);
-                        if ($oldItem->getId() === ItemIds::AIR || $inventory instanceof ArmorInventory) foreach ($newItem->getEnchantments() as $newEnchantment) ToggleableEnchantment::attemptToggle($holder, $newItem, $newEnchantment, $inventory, $slot);
+            $onSlot = function (Inventory $inventory, int $slot, Item $oldItem): void {
+                if ($inventory instanceof PlayerInventory || $inventory instanceof ArmorInventory) {
+                    $holder = $inventory->getHolder();
+                    if ($holder instanceof Player) {
+                        if (!$oldItem->equals(($newItem = $inventory->getItem($slot)), !$inventory instanceof ArmorInventory)) {
+                            if ($newItem->getId() === ItemIds::AIR || $inventory instanceof ArmorInventory) foreach ($oldItem->getEnchantments() as $oldEnchantment) ToggleableEnchantment::attemptToggle($holder, $oldItem, $oldEnchantment, $inventory, $slot, false);
+                            if ($oldItem->getId() === ItemIds::AIR || $inventory instanceof ArmorInventory) foreach ($newItem->getEnchantments() as $newEnchantment) ToggleableEnchantment::attemptToggle($holder, $newItem, $newEnchantment, $inventory, $slot);
+                        }
                     }
                 }
-            }
-        };
-        /**
-         * @param Item[] $oldContents
-         */
-        $onContent = function (Inventory $inventory, array $oldContents) use ($onSlot): void {
-            foreach ($oldContents as $slot => $oldItem) {
-                if (!($oldItem ?? VanillaItems::AIR())->equals($inventory->getItem($slot), !$inventory instanceof ArmorInventory)) {
-                    $onSlot($inventory, $slot, $oldItem);
+            };
+            /**
+             * @param Item[] $oldContents
+             */
+            $onContent = function (Inventory $inventory, array $oldContents) use ($onSlot): void {
+                foreach ($oldContents as $slot => $oldItem) {
+                    if (!($oldItem ?? VanillaItems::AIR())->equals($inventory->getItem($slot), !$inventory instanceof ArmorInventory)) {
+                        $onSlot($inventory, $slot, $oldItem);
+                    }
                 }
-            }
-        };
-        $player->getInventory()->getListeners()->add(new CallbackInventoryListener($onSlot, $onContent));
-        $player->getArmorInventory()->getListeners()->add(new CallbackInventoryListener($onSlot, $onContent));
+            };
+            $player->getInventory()->getListeners()->add(new CallbackInventoryListener($onSlot, $onContent));
+            $player->getArmorInventory()->getListeners()->add(new CallbackInventoryListener($onSlot, $onContent));
+        }), "CHECKING ENCHANTS");
     }
 
     /**
@@ -246,7 +250,7 @@ class EventListener implements Listener
     {
         $player = $event->getPlayer();
 
-        if (!isset($this->lastActivateTime[$player->getUniqueId()->toString()]) || $this->lastActivateTime[$player->getUniqueId()->toString()] + 10 < time()) {
+        if (!isset($this->lastActivateTime[$player->getUniqueId()->toString()]) || $this->lastActivateTime[$player->getUniqueId()->toString()] + 15 < time()) {
             /*if (!Utils::shouldTakeFallDamage($player)) {
                 if (Utils::getNoFallDamageDuration($player) <= 0) {
                     Utils::setShouldTakeFallDamage($player, true);

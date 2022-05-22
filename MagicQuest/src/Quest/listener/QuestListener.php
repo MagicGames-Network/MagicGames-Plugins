@@ -6,6 +6,8 @@ use Quest\Quest;
 use pocketmine\Server;
 use pocketmine\item\Item;
 use pocketmine\event\Listener;
+use AGTHARN\MagicSync\MagicSync;
+use pocketmine\scheduler\ClosureTask;
 use Ifera\ScoreHud\scoreboard\ScoreTag;
 use Quest\event\PlayerQuestFinishEvent;
 use Quest\event\PlayerQuestChangedEvent;
@@ -22,17 +24,19 @@ class QuestListener implements Listener
 
     public function onJoin(PlayerJoinEvent $event): void
     {
-        $player = $event->getPlayer();
-        $quest = Quest::getInstance();
-        $provider = $quest->getProvider();
-        $questConfig = $quest->getQuest();
-        if (!$provider->hasQuest($player->getName())) {
-            $randomQuest = array_keys($questConfig->get("quests"));
-            $randomQuest  = $randomQuest[array_rand($randomQuest)];
-            $provider->addQuest($player->getName(), (string)$randomQuest);
-            (new PlayerQuestChangedEvent($player, (string)$randomQuest))->call();
-            $player->sendMessage("  §6§lNEW OBJECTIVE\n  §r§f" . $randomQuest);
-        }
+        MagicSync::getInstance()->addPlayerJoin($event->getPlayer(), new ClosureTask(function () use ($event): void {
+            $player = $event->getPlayer();
+            $quest = Quest::getInstance();
+            $provider = $quest->getProvider();
+            $questConfig = $quest->getQuest();
+            if (!$provider->hasQuest($player->getName())) {
+                $randomQuest = array_keys($questConfig->get("quests"));
+                $randomQuest  = $randomQuest[array_rand($randomQuest)];
+                $provider->addQuest($player->getName(), (string)$randomQuest);
+                (new PlayerQuestChangedEvent($player, (string)$randomQuest))->call();
+                $player->sendMessage("  §6§lNEW OBJECTIVE\n  §r§f" . $randomQuest);
+            }
+        }), "CHECKING QUESTS");
     }
 
     public function onBlockBreak(BlockBreakEvent $event): void

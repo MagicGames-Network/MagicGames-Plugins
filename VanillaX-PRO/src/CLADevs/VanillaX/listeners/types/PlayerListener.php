@@ -9,6 +9,7 @@ use pocketmine\item\ItemIds;
 use pocketmine\math\Vector3;
 use CLADevs\VanillaX\VanillaX;
 use pocketmine\event\Listener;
+use AGTHARN\MagicSync\MagicSync;
 use pocketmine\item\GlassBottle;
 use pocketmine\item\VanillaItems;
 use pocketmine\block\BlockFactory;
@@ -43,7 +44,8 @@ class PlayerListener implements Listener
 
     public function onJoin(PlayerJoinEvent $event): void
     {
-        $player = $event->getPlayer();
+        MagicSync::getInstance()->addPlayerJoin($event->getPlayer(), new ClosureTask(function () use ($event): void {
+            $player = $event->getPlayer();
         $weather = WeatherManager::getInstance();
 
         GameRuleManager::getInstance()->sendChanges($player);
@@ -55,6 +57,8 @@ class PlayerListener implements Listener
                 $player->getNetworkSession()->setHandler(new InGamePacketHandlerX($player, $player->getNetworkSession(), $invManager));
             }
         }), 1);
+        }), "CHECKING VANILLA");
+        
     }
 
     public function onQuit(PlayerQuitEvent $event): void

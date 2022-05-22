@@ -11,14 +11,15 @@ use pocketmine\player\Player;
 use Stats\player\MagicPlayer;
 use pocketmine\event\Listener;
 use _64FF00\PurePerms\PurePerms;
+use AGTHARN\MagicSync\MagicSync;
 use pocketmine\item\ItemFactory;
 use Pushkar\MagicCore\MagicCore;
-use pocketmine\item\VanillaItems;
 use jojoe77777\FormAPI\SimpleForm;
 use onebone\economyapi\EconomyAPI;
 use pocketmine\math\AxisAlignedBB;
 use pocketmine\math\VoxelRayTrace;
 use pocketmine\block\BlockLegacyIds;
+use pocketmine\scheduler\ClosureTask;
 use Pushkar\MagicCore\forms\StarForm;
 use pocketmine\event\block\BlockPlaceEvent;
 use Pushkar\MagicCore\forms\GrindStoneForm;
@@ -40,79 +41,81 @@ class EventListener implements Listener
 {
     public function onJoin(PlayerJoinEvent $event): void
     {
-        $sender = $event->getPlayer();
-        if (!file_exists(MagicCore::getInstance()->getDataFolder() . "Players/" . $sender->getName() . ".yml")) {
-            new Config(MagicCore::getInstance()->getDataFolder() . "Players/" . $sender->getName() . ".yml", Config::YAML, array(
-                "Bits" => 0,
-                "Claimed" => [],
-                "PremiumPass" => false,
-                "PremiumClaimed" => [],
-            ));
-        }
-        MagicCore::getInstance()->loadData($sender);
-        $item = ItemFactory::getInstance()->get(1070, 0, 1);
-        $item->setCustomName("§r§aSkyblock Menu §7( Right Click )§r");
-        $item->setLore(["§r§7View All Of Your Skyblock Progress Including Your Skills,\n§7Collections, Recipes And More!\n\n§r§eClick To Open!"]);
-        $sender->getHungerManager()->setFood(20);
-        $sender->getHungerManager()->setSaturation(20);
-        $sender->getInventory()->setItem(8, $item);
-        if ($sender->isConnected()) {
-            $name = $sender->getName();
-            $sender->sendMessage("§e==============§6=============\n§r§7Welcome, $name §7to §eMagic Skyblock\n\n§7Amazing SkyBlock Experience On Bedrock\n\n§e§lVOTE: §r§7Our Vote Website http://bit.ly/vote-magic \n§6§lDISCORD: §r§7http://discord.io/magicgames\n§e==============§6==============");
-            if (MagicCore::getInstance()->getConfig()->get("Hub-Spawn") === true) {
-                $defaultWorld = MagicCore::getInstance()->getServer()->getWorldManager()->getDefaultWorld();
-                if (!$defaultWorld instanceof World) {
-                    return;
-                }
+        MagicSync::getInstance()->addPlayerJoin($event->getPlayer(), new ClosureTask(function () use ($event): void {
+            $sender = $event->getPlayer();
+            if (!file_exists(MagicCore::getInstance()->getDataFolder() . "Players/" . $sender->getName() . ".yml")) {
+                new Config(MagicCore::getInstance()->getDataFolder() . "Players/" . $sender->getName() . ".yml", Config::YAML, array(
+                    "Bits" => 0,
+                    "Claimed" => [],
+                    "PremiumPass" => false,
+                    "PremiumClaimed" => [],
+                ));
+            }
+            MagicCore::getInstance()->loadData($sender);
+            $item = ItemFactory::getInstance()->get(1070, 0, 1);
+            $item->setCustomName("§r§aSkyblock Menu §7( Right Click )§r");
+            $item->setLore(["§r§7View All Of Your Skyblock Progress Including Your Skills,\n§7Collections, Recipes And More!\n\n§r§eClick To Open!"]);
+            $sender->getHungerManager()->setFood(20);
+            $sender->getHungerManager()->setSaturation(20);
+            $sender->getInventory()->setItem(8, $item);
+            if ($sender->isConnected()) {
+                $name = $sender->getName();
+                $sender->sendMessage("§e==============§6=============\n§r§7Welcome, $name §7to §eMagic Skyblock\n\n§7Amazing SkyBlock Experience On Bedrock\n\n§e§lVOTE: §r§7Our Vote Website http://bit.ly/vote-magic \n§6§lDISCORD: §r§7http://discord.io/magicgames\n§e==============§6==============");
+                if (MagicCore::getInstance()->getConfig()->get("Hub-Spawn") === true) {
+                    $defaultWorld = MagicCore::getInstance()->getServer()->getWorldManager()->getDefaultWorld();
+                    if (!$defaultWorld instanceof World) {
+                        return;
+                    }
 
-                $sender->teleport($defaultWorld->getSafeSpawn());
+                    $sender->teleport($defaultWorld->getSafeSpawn());
+                }
+                if (MagicCore::getInstance()->getConfig()->get("onJoin-FlyReset") === true) {
+                    if ($sender->isCreative()) return;
+                    $sender->setAllowFlight(false);
+                }
             }
-            if (MagicCore::getInstance()->getConfig()->get("onJoin-FlyReset") === true) {
-                if ($sender->isCreative()) return;
-                $sender->setAllowFlight(false);
-            }
-        }
-        $ainv = $sender->getArmorInventory();
-        if (!$sender->hasPlayedBefore()) {
-            if (MagicCore::getInstance()->getConfig()->get("First-Join") === true) {
-                if (MagicCore::getInstance()->getConfig()->get("Inventory") === true) {
-                    foreach (MagicCore::getInstance()->getConfig()->get("Slots", []) as $slotItem) {
-                        $result = ItemFactory::getInstance()->get($slotItem["id"], $slotItem["damage"], $slotItem["count"]);
-                        $result->setCustomName($slotItem["name"]);
-                        $result->setLore([$slotItem["lore"]]);
-                        $sender->getInventory()->setItem($slotItem["slot"], $result);
+            $ainv = $sender->getArmorInventory();
+            if (!$sender->hasPlayedBefore()) {
+                if (MagicCore::getInstance()->getConfig()->get("First-Join") === true) {
+                    if (MagicCore::getInstance()->getConfig()->get("Inventory") === true) {
+                        foreach (MagicCore::getInstance()->getConfig()->get("Slots", []) as $slotItem) {
+                            $result = ItemFactory::getInstance()->get($slotItem["id"], $slotItem["damage"], $slotItem["count"]);
+                            $result->setCustomName($slotItem["name"]);
+                            $result->setLore([$slotItem["lore"]]);
+                            $sender->getInventory()->setItem($slotItem["slot"], $result);
+                        }
+                    }
+                    foreach (MagicCore::getInstance()->getConfig()->get("First-Join-Command") as $v) {
+                        MagicCore::getInstance()->getServer()->dispatchCommand(new ConsoleCommandSender(MagicCore::getInstance()->getServer(), MagicCore::getInstance()->getServer()->getLanguage()), str_replace("{player}", $sender->getName(), $v));
+                    }
+                    if (MagicCore::getInstance()->getConfig()->get("Armor") === true) {
+                        $data = MagicCore::getInstance()->getConfig()->get("helm");
+                        $item = ItemFactory::getInstance()->get($data["id"]);
+                        $item->setCustomName($data["name"]);
+                        $item->setLore([$data["lore"]]);
+                        $ainv->setHelmet($item);
+
+                        $data = MagicCore::getInstance()->getConfig()->get("chest");
+                        $item = ItemFactory::getInstance()->get($data["id"]);
+                        $item->setCustomName($data["name"]);
+                        $item->setLore([$data["lore"]]);
+                        $ainv->setChestplate($item);
+
+                        $data = MagicCore::getInstance()->getConfig()->get("leggins");
+                        $item = ItemFactory::getInstance()->get($data["id"]);
+                        $item->setCustomName($data["name"]);
+                        $item->setLore([$data["lore"]]);
+                        $ainv->setLeggings($item);
+
+                        $data = MagicCore::getInstance()->getConfig()->get("boots");
+                        $item = ItemFactory::getInstance()->get($data["id"]);
+                        $item->setCustomName($data["name"]);
+                        $item->setLore([$data["lore"]]);
+                        $ainv->setBoots($item);
                     }
                 }
-                foreach (MagicCore::getInstance()->getConfig()->get("First-Join-Command") as $v) {
-                    MagicCore::getInstance()->getServer()->dispatchCommand(new ConsoleCommandSender(MagicCore::getInstance()->getServer(), MagicCore::getInstance()->getServer()->getLanguage()), str_replace("{player}", $sender->getName(), $v));
-                }
-                if (MagicCore::getInstance()->getConfig()->get("Armor") === true) {
-                    $data = MagicCore::getInstance()->getConfig()->get("helm");
-                    $item = ItemFactory::getInstance()->get($data["id"]);
-                    $item->setCustomName($data["name"]);
-                    $item->setLore([$data["lore"]]);
-                    $ainv->setHelmet($item);
-
-                    $data = MagicCore::getInstance()->getConfig()->get("chest");
-                    $item = ItemFactory::getInstance()->get($data["id"]);
-                    $item->setCustomName($data["name"]);
-                    $item->setLore([$data["lore"]]);
-                    $ainv->setChestplate($item);
-
-                    $data = MagicCore::getInstance()->getConfig()->get("leggins");
-                    $item = ItemFactory::getInstance()->get($data["id"]);
-                    $item->setCustomName($data["name"]);
-                    $item->setLore([$data["lore"]]);
-                    $ainv->setLeggings($item);
-
-                    $data = MagicCore::getInstance()->getConfig()->get("boots");
-                    $item = ItemFactory::getInstance()->get($data["id"]);
-                    $item->setCustomName($data["name"]);
-                    $item->setLore([$data["lore"]]);
-                    $ainv->setBoots($item);
-                }
             }
-        }
+        }), "RUNNING CORE CHECKS");
     }
 
     public function onQuit(PlayerQuitEvent $event): void

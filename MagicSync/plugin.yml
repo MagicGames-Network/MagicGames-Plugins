@@ -1,0 +1,5 @@
+name: MagicSync
+version: 1.0.0
+main: AGTHARN\MagicSync\MagicSync
+author: AGTHARN
+api: 4.0.0
