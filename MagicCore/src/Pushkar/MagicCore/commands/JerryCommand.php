@@ -17,7 +17,7 @@ class JerryCommand extends Command
     public function execute(CommandSender $sender, string $commandLabel, array $args): mixed
     {
         if ($sender instanceof Player) {
-            $sender->sendForm(new JerryForm());
+            $sender->sendForm(new JerryForm($sender));
             return true;
         }
         $sender->sendMessage("Use this command in-game");

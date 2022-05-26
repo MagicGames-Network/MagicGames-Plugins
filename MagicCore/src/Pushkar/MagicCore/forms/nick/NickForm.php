@@ -14,7 +14,7 @@ class NickForm extends MenuForm
     public function __construct()
     {
         parent::__construct(
-            "§9§l« §r§1Nickname Menu §9§l»§r",
+            "§6§l« §r§eNickname Menu §6§l»§r",
             "",
             [
                 new MenuOption("§a§lCHANGE NICKNAME\n§r§8Tap to continue", new FormIcon("textures/ui/confirm", FormIcon::IMAGE_TYPE_PATH)),

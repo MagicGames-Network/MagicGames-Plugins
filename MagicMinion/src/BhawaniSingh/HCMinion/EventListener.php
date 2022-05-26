@@ -8,6 +8,7 @@ use pocketmine\entity\Skin;
 use pocketmine\event\Listener;
 use pocketmine\entity\Location;
 use pocketmine\nbt\tag\ListTag;
+use pocketmine\math\AxisAlignedBB;
 use pocketmine\block\BlockLegacyIds;
 use BhawaniSingh\HCMinion\utils\Utils;
 use pocketmine\event\player\PlayerQuitEvent;
@@ -35,6 +36,12 @@ class EventListener implements Listener
 					return;
 				}
 				$event->cancel();
+
+				$collisionBox = AxisAlignedBB::one()->offsetCopy((float) $block->getPosition()->x, (float) $block->getPosition()->y + 1.00, (float) $block->getPosition()->z);
+				if (count($player->getWorld()->getNearbyEntities($collisionBox, $player)) > 0) {
+					$player->sendMessage(" §cThere are entities too close to the minion you tried placing! Please use another location!");
+					return;
+				}
 
 				$entityPos = $block->getSide($event->getFace())->getPosition();
 				$entityPos = new Location($entityPos->x + 0.5, $entityPos->y, $entityPos->z + 0.5, $player->getWorld(), 0, 0);

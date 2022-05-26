@@ -20,6 +20,7 @@ use pocketmine\item\enchantment\ItemFlags;
 use pocketmine\item\enchantment\Enchantment;
 use pocketmine\data\bedrock\EnchantmentIdMap;
 use Pushkar\MagicCore\listener\EventListener;
+use Pushkar\MagicCore\listener\ScoreHudTags;
 use pocketmine\utils\Config;
 use Pushkar\MagicCore\managers\CommandManager;
 

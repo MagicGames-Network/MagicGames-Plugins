@@ -184,7 +184,7 @@ RL-FIVE-CONTENT: "§bMVP§e+§c+ §aRank Features §eMagic§6Games\n§a» §e/fl
 #Ranklist menu #6
 RL-SIX-TITLE: "§cYOUTUBE"
 
-RL-SIX-CONTENT: "§cYOUTUBE §aRank Features §eMagic§6Games\n§a» §e/fly\n§a» §e/heal\n§a» §e/feed\n§a» §e/feed\n§a» §e/cape\n§a» §e/me\n§a» §e/skin\n§a» §e/say\n§a» §e/vanish\n§a» §e/vision\n§a» §e/pets\n§a» §e/repair\n\n§cBonus\n§a» PlayerVaults 1-8\n§a» Access To MEMBER KIT\n§a» Access To VIP KIT\n§a» Access To VIP+ KIT\n§a» Access To §cYOUTUBE§a KIT\n\n§aWant To Get This Rank?\n§aJoin In Discord And Make Ticket\n§a» §bhttps://discord.io/magicgames\n\n§eRequirement:\n§a» §e300subs\n§a» §eMust Make 1 Video On Server"
+RL-SIX-CONTENT: "§cYOUTUBE §aRank Features §eMagic§6Games\n§a» §e/fly\n§a» §e/heal\n§a» §e/feed\n§a» §e/feed\n§a» §e/cape\n§a» §e/me\n§a» §e/skin\n§a» §e/say\n§a» §e/vanish\n§a» §e/vision\n§a» §e/pets\n§a» §e/repair\n\n§cBonus\n§a» PlayerVaults 1-8\n§a» Access To MEMBER KIT\n§a» Access To VIP KIT\n§a» Access To VIP+ KIT\n§a» Access To §cYOUTUBE§a KIT\n\n§d» Special Joining Message\n\n§aWant To Get This Rank?\n§aJoin In Discord And Make Ticket\n§a» §bhttps://discord.gg/magicgames\n\n§eRequirement:\n§a» §e300subs\n§a» §eMust Make 1 Video On Server"
 #
 #=========================================
 #Social media menu
@@ -198,7 +198,7 @@ SM-CONTENT-MENU: "§aMagicGames Social Media"
 #
 SM-BTN-ONE: "§1§lDISCORD\n§r§8Tap to check"
 SM-BTN-TWO: "§b§lTWITTER\n§r§8Tap to check"
-SM-BTN-THREE: "§a§lWHATSAPP\n§r§8Tap to check"
+SM-BTN-THREE: "§a§lWEBSITE\n§r§8Tap to check"
 SM-BTN-FOR: "§d§lINSTAGRAM\n§r§8Tap to check"
 SM-BTN-FIVE: "§4§lYOUTUBE\n§r§8Tap to check"
 #
@@ -207,7 +207,7 @@ SM-BTN-FIVE: "§4§lYOUTUBE\n§r§8Tap to check"
 #
 SM-ONE-TITLE: "§1§lDISCORD"
 
-SM-ONE-CONTENT: "https://discord.io/magicgames"
+SM-ONE-CONTENT: "https://discord.gg/magicgames"
 #
 #==========================================
 #menu SM-BTN-TWO config
@@ -219,7 +219,7 @@ SM-TWO-CONTENT: "§bCOMMING SOON"
 #==========================================
 #menu SM-BTN-THREE config
 #
-SM-THREE-TITLE: "§a§lWHATSAPP"
+SM-THREE-TITLE: "§a§lWEBSITE"
 
 SM-THREE-CONTENT: "§7§oCOMMING SOON"
 #
@@ -235,7 +235,7 @@ SM-FOR-CONTENT: "§7§ofollow meh on insta §a@Me._.Pushkar"
 #
 SM-FIVE-TITLE: "§4§lYOUTUBE"
 
-SM-FIVE-CONTENT: "§bSUBSCRIBE PUSHKAR GAMING"
+SM-FIVE-CONTENT: "§bhttps://bitly.com/magicgamesyt"
 #
 #==========================================
 #Announcement menu
@@ -254,7 +254,7 @@ CONTENT-EVENT: "§5§lEVENT LIST:\n§r§bEvent: §r\n§7No Event Today!"
 ######## RankShop ##########
 member.feature: "§aMEMBER Rank Features §eMagic§6Games\n\n§cBonus\n§a» PlayerVaults 1\n§a» Access To MEMBER KIT\n\n§aThis Is A Default Rank"
 voter.feature: "§aVOTER Rank Features §eMagic§6Games\n§a» §e/heal\n§a» §e/feed\n\n§cBonus\n§a» You Will Get 3x Vote Keys\n§a» PlayerVaults 1\n§a» You Will Get §b$10000§r\n§a» Access To MEMBER KIT\n\n§aWant To Get This Rank?\n§aVote Us On Mcpe Website\n§a» §bhttps://bitly.com/mg-vote"
-youtube.feature: "§cYOUTUBE §aRank Features §eMagic§6Games\n§a» §e/fly\n§a» §e/heal\n§a» §e/feed\n§a» §e/feed\n§a» §e/cape\n§a» §e/me\n§a» §e/skin\n§a» §e/say\n§a» §e/vanish\n§a» §e/vision\n§a» §e/pets\n§a» §e/repair\n\n§cBonus\n§a» PlayerVaults 1-8\n§a» Access To MEMBER KIT\n§a» Access To VIP KIT\n§a» Access To VIP+ KIT\n§a» Access To §cYOUTUBE§a KIT\n\n§aWant To Get This Rank?\n§aJoin In Discord And Make Ticket\n§a» §bhttps://discord.io/magicgames\n\n§eRequirement:\n§a» §e300subs\n§a» §eMust Make 1 Video On Server"
+youtube.feature: "§cYOUTUBE §aRank Features §eMagic§6Games\n§a» §e/fly\n§a» §e/heal\n§a» §e/feed\n§a» §e/feed\n§a» §e/cape\n§a» §e/me\n§a» §e/skin\n§a» §e/say\n§a» §e/vanish\n§a» §e/vision\n§a» §e/pets\n§a» §e/repair\n\n§cBonus\n§a» PlayerVaults 1-8\n§a» Access To MEMBER KIT\n§a» Access To VIP KIT\n§a» Access To VIP+ KIT\n§a» Access To §cYOUTUBE§a KIT\n\n§aWant To Get This Rank?\n§aJoin In Discord And Make Ticket\n§a» §bhttps://discord.io/magicgames\n\n§eRequirement:\n§a» §e500subs\n§a» §eMust Make 1 Video On Server"
 #VIP RANK 
 vip.name: VIP
 vip.cost: 5000000

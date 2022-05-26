@@ -1,11 +1,15 @@
 name: MagicCore
 main: Pushkar\MagicCore\MagicCore
-version: 5.0.0
+version: 5.1.1
 api: 4.0.0
 author: ["Pushkar", "Bynamless", "Agtharn"]
-description: Core v5.0.0 Made For MagicGames
+description: Core v5.1.1 Made For MagicGames
 
 permissions:
+  god.cmd:
+    default: op
+  pets.cmd:
+    default: op
   giveadminrank.cmd:
     default: op
   giverank.cmd:

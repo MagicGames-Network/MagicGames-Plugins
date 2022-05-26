@@ -6,6 +6,7 @@ use dktapps\pmforms\FormIcon;
 use dktapps\pmforms\MenuForm;
 use pocketmine\player\Player;
 use dktapps\pmforms\MenuOption;
+use Pushkar\MagicCore\forms\GrindStoneForm;
 
 class AnvilMainForm extends MenuForm
 {
@@ -13,7 +14,7 @@ class AnvilMainForm extends MenuForm
     public function __construct()
     {
         parent::__construct(
-            "§l§4MagicGames AnivilUI",
+            "§l§eMagicGames AnivilUI",
             "§eRepair/Rename\n",
             [
                 new MenuOption("§l§3REPAIR\n§l§9»» §r§oTap to open", new FormIcon("https://cdn-icons-png.flaticon.com/128/3014/3014275.png", FormIcon::IMAGE_TYPE_URL)),

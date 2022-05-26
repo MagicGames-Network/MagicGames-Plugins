@@ -21,7 +21,6 @@ use pocketmine\event\inventory\CraftItemEvent;
 
 class QuestListener implements Listener
 {
-
     public function onJoin(PlayerJoinEvent $event): void
     {
         MagicSync::getInstance()->addPlayerJoin($event->getPlayer(), new ClosureTask(function () use ($event): void {
@@ -39,17 +38,18 @@ class QuestListener implements Listener
         }), "CHECKING QUESTS");
     }
 
+    /** @handleCancelled */
     public function onBlockBreak(BlockBreakEvent $event): void
     {
         $player = $event->getPlayer();
+
         $block = $event->getBlock();
         $quest = Quest::getInstance();
         $provider = $quest->getProvider();
         $questConfig = $quest->getQuest();
         if ($provider->hasQuest($player->getName()) && explode(" ", $provider->getQuestFromPlayer($player->getName())["quest"])[0] == "Break") {
-
             $questConfigg = $questConfig->get("quests")[$provider->getQuestFromPlayer($player->getName())["quest"]];
-            if ($questConfigg["item"]["id"] === $block->getId() and $questConfigg["item"]["meta"] === $block->getMeta()) {
+            if ($questConfigg["item"]["id"] === $block->getId() && $questConfigg["item"]["meta"] === $block->getMeta()) {
                 if ($provider->getQuestFromPlayer($player->getName())["progress"] + 1 === $questConfig->get("quests")[$provider->getQuestFromPlayer($player->getName())["quest"]]["progress"]) {
                     (new PlayerQuestFinishEvent($player, $provider->getQuestFromPlayer($player->getName())["quest"]))->call();
                     $randomQuest = array_keys($questConfig->get("quests"));

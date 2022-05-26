@@ -195,14 +195,14 @@ abstract class Session
                 $this->handleKick("MagicBankUI: Failed to save when depositing money. Please report this immediately!");
                 return false;
             }
-            $this->transactionLogs[] = [
+            $this->addTransaction([
                 "time" => time(),
                 "date" => date("§b[d/m/y]"),
                 "type" => Banks::TRANSACTION_TYPE_DEPOSIT,
                 "amount" => $amount,
                 "balanceBefore" => $this->money - $amount,
                 "balanceAfter" => $this->money
-            ];
+            ]);
             $this->saveData();
 
             $this->handleMessage(" §aSuccessfully deposited §f$" . number_format($amount, 2) . "§a into your bank account! Taxes: §f$" . $depositTax);
@@ -253,14 +253,14 @@ abstract class Session
                 $this->handleKick("MagicBankUI: Failed to save when withdrawing money. Please report this immediately!");
                 return false;
             }
-            $this->transactionLogs[] = [
+            $this->addTransaction([
                 "time" => time(),
                 "date" => date("§b[d/m/y]"),
                 "type" => Banks::TRANSACTION_TYPE_WITHDRAW,
                 "amount" => $amount,
                 "balanceBefore" => $this->money + $amount,
                 "balanceAfter" => $this->money
-            ];
+            ]);
             $this->saveData();
 
             $this->handleMessage(" §aSuccessfully withdrew §f$" . number_format($amount, 2) . "§a from your bank account! Taxes: §f$" . $withdrawTax);
@@ -310,7 +310,7 @@ abstract class Session
                 $this->handleKick("MagicBankUI: Failed to save when transferring money. Please report this immediately!");
                 return false;
             }
-            $this->transactionLogs[] = [
+            $this->addTransaction([
                 "time" => time(),
                 "date" => date("§b[d/m/y]"),
                 "type" => Banks::TRANSACTION_TYPE_TRANSFER,
@@ -318,7 +318,7 @@ abstract class Session
                 "receiver" => $receiverName,
                 "balanceBefore" => $this->money + $amount,
                 "balanceAfter" => $this->money
-            ];
+            ]);
 
             Main::getInstance()->getSessionManager()->getSession($receiver)->addMoney($amount);
             $this->handleMessage(" §aSuccessfully transferred §f$" . number_format($amount, 2) . "§a to $receiverName! Taxes: §f$" . $transferTax);
@@ -338,14 +338,14 @@ abstract class Session
                 $this->handleKick("MagicBankUI: Failed to save when transferring money. Please report this immediately!");
                 return false;
             }
-            $this->transactionLogs[] = [
+            $this->addTransaction([
                 "time" => time(),
                 "date" => date("§b[d/m/y]"),
                 "type" => Banks::TRANSACTION_TYPE_TRANSFER,
                 "amount" => $amount,
                 "balanceBefore" => $this->money + $amount,
                 "balanceAfter" => $this->money
-            ];
+            ]);
 
             $receiverSession = Main::getInstance()->getSessionManager()->getSession($receiverName);
             $receiverSession->addMoney($amount);
@@ -401,17 +401,17 @@ abstract class Session
             $item = ItemFactory::getInstance()->get(1091, 0, 1);
             $item->setCustomName("§r§l§6$" . $amount . " §aBANK NOTE");
             $item->setLore(["§r§7Right Click To Redeem This §aBank Note§7\n§r§7Withdrawn By §f" . $this->name . "\n§r§7Date »" . date("§f d/m/y") . "\n\n§r§7Value » §a$" . $amount]);
-            $item->getNamedTag()->setFloat("Amount", $amount);
+            $item->getNamedTag()->setFloat("noteAmount", $amount);
             
             $this->player?->getInventory()->addItem($item);
-            $this->transactionLogs[] = [
+            $this->addTransaction([
                 "time" => time(),
                 "date" => date("§b[d/m/y]"),
                 "type" => Banks::TRANSACTION_TYPE_CONVERT,
                 "amount" => $amount,
                 "balanceBefore" => $this->money + $amount,
                 "balanceAfter" => $this->money
-            ];
+            ]);
             $this->saveData();
 
             $this->handleMessage(" §aSuccessfully withdrew §f$" . number_format($amount, 2) . "§a from your bank account! Taxes: §f$" . $withdrawTax);
@@ -419,6 +419,14 @@ abstract class Session
         }
         $this->handleMessage(" §cError encountered - Player does not exist!");
         return false;
+    }
+
+    public function addTransaction(array $data): void
+    {
+        $this->transactionLogs[] = $data;
+        if (count($this->transactionLogs) > 10) {
+            array_shift($this->transactionLogs);
+        }
     }
 
     public function getInterestAmount(): float

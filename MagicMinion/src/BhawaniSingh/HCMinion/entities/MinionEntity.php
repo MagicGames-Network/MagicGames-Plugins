@@ -67,6 +67,9 @@ abstract class MinionEntity extends Human
 
     private float $money = 0;
 
+    public int $lastUnload = 0;
+    public bool $isPlace = true;
+
     protected EnchantmentInstance $fakeEnchant;
 
     /** @var float */
@@ -88,9 +91,8 @@ abstract class MinionEntity extends Human
                 NBT::TAG_Compound
             ));
         }
-        if (isset($this->money)) {
-            $nbt->setFloat('Money', $this->money);
-        }
+        $nbt->setFloat('Money', $this->money);
+        $nbt->setInt('LastUnload', time());
 
         return $nbt;
     }
@@ -358,7 +360,7 @@ abstract class MinionEntity extends Human
             $this->getNetworkProperties()->clearDirtyProperties();
         }
 
-        if ($this->location->y <= World::Y_MIN - 16 && $this->isAlive()) {
+        if ($this->location->y <= World::Y_MIN && $this->isAlive()) {
             $this->destroy();
             $hasUpdate = true;
         }
@@ -366,24 +368,14 @@ abstract class MinionEntity extends Human
         // █▀▄▀█ █ █▄░█ █ █▀█ █▄░█  █▀▀ █▄░█ ▀█▀ █ ▀█▀ █▄█
         // █░▀░█ █ █░▀█ █ █▄█ █░▀█  ██▄ █░▀█ ░█░ █ ░█░ ░█░
 
-        if (!isset($this->queueNumber) || !isset(BetterMinion::$minionQueue[$this->queueNumber])) {
+        if (!isset($this->queueNumber) || !isset(BetterMinion::$minionQueue[$this->getWorld()->getFolderName()][$this->queueNumber])) {
             if (!$this->isInsideOfSolid() && $this->checkFull() && !$this->closed && !$this->isFlaggedForDespawn() && isset($this->minionInformation) && !$this->isViewingInv) {
                 $this->queueNumber = BetterMinion::$queueNumber++;
-                $this->inQueueTime = 0;
-                BetterMinion::$minionQueue[$this->queueNumber] = $this;
-                if (count(BetterMinion::$minionQueue) > BetterMinion::QUEUE_CYCLE) {
-                    $this->setNameTag("§l§6" . strtoupper($this->getMinionInformation()->getType()->getTargetName()) . "§r\n§e" . $this->getMinionInformation()->getOwner() . "'s Minion §r(§gQUEUE-" . (count(BetterMinion::$minionQueue) - BetterMinion::QUEUE_CYCLE) . "§r)");
-                    $this->setNameTagAlwaysVisible(false);
-                }
+                BetterMinion::$minionQueue[$this->getWorld()->getFolderName()][$this->queueNumber] = $this;
+                
+                $this->setNameTag("§l§6" . strtoupper($this->getMinionInformation()->getType()->getTargetName()) . "§r\n§e" . $this->getMinionInformation()->getOwner() . "'s Minion §r(§gQUEUED§r)");
+                $this->setNameTagAlwaysVisible(false);
             }
-            // In the case there is a mismatch, it will reset the minion's state.
-        } elseif (!$this->isInventoryFull() && $this->inQueueTime++ > 20) {
-            BetterMinion::getInstance()->getLogger()->info("Minion timed out in queue. Removing " . $this->getMinionInformation()->getOwner() . " from the queue.");
-            if (isset(BetterMinion::$minionQueue[$this->queueNumber])) {
-                unset(BetterMinion::$minionQueue[$this->queueNumber]);
-            }
-            unset($this->queueNumber);
-            $this->inQueueTime = 0;
         }
 
         Timings::$livingEntityBaseTick->stopTiming();
@@ -426,6 +418,7 @@ abstract class MinionEntity extends Human
         $this->minionInventory = new MinionInventory(15);
         $this->minionInventory->setSize($this->minionInformation->getLevel());
         $this->money = $nbt->getFloat('Money', 0);
+        $this->lastUnload = $nbt->getInt('LastUnload', 0);
 
         /** @phpstan-ignore-next-line */
         $this->fakeEnchant = new EnchantmentInstance(EnchantmentIdMap::getInstance()->fromId(BetterMinion::FAKE_ENCH_ID));
@@ -439,6 +432,25 @@ abstract class MinionEntity extends Human
                 fn (CompoundTag $itemTag) => Item::nbtDeserialize($itemTag),
                 $itemTags
             ));
+        }
+
+        if (!$this->isPlace) {
+            $drops = $this->getTargetDrops();
+            $timeSinceLastUnload = time() - $this->lastUnload;
+            for ($i = 0; $i < $timeSinceLastUnload; $i = $i + 3) {
+                foreach ($drops as $drop) {
+                    if (!$drop instanceof Item) {
+                        continue;
+                    }
+                    if (!$this->getMinionInventory()->canAddItem($drop)) {
+                        break 2;
+                    }
+
+                    $this->getMinionInventory()->addItem(ItemFactory::getInstance()->get($drop->getId(), $drop->getMeta()));
+                }
+            }
+        } else {
+            $this->isPlace = false;
         }
 
         $colorData = [$this->getMinionInformation()->getType()->getTargetId(), $this->getMinionInformation()->getType()->getTargetMeta()];

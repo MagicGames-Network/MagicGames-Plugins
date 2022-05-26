@@ -111,6 +111,8 @@ final class TradeQueue
 	public function done(): void
 	{
 		$this->done = true;
+		$this->removeFrom();
+
 		$plugin = PlayerTrade::getInstance();
 		$senderRemains = [];
 		$receiverRemains = [];
@@ -136,9 +138,8 @@ final class TradeQueue
 			foreach ($receiverRemains as $remain)
 				$this->receiver->dropItem($remain);
 		}
-		$this->senderMenu->onClose($this->sender);
-		$this->receiverMenu->onClose($this->receiver);
-		$this->removeFrom();
+		$this->sender->removeCurrentWindow();
+		$this->receiver->removeCurrentWindow();
 		$this->sender->sendMessage(PlayerTrade::$prefix . $plugin->getLanguage()->translateString("trade.success"));
 		$this->receiver->sendMessage(PlayerTrade::$prefix . $plugin->getLanguage()->translateString("trade.success"));
 		(new TradeEndEvent($this->sender, $this->receiver, TradeEndEvent::REASON_SUCCESS))->call();
@@ -147,6 +148,8 @@ final class TradeQueue
 	public function cancel(bool $offline = true, bool $causedBySender = false): void
 	{
 		$this->done = true;
+		$this->removeFrom();
+
 		$plugin = PlayerTrade::getInstance();
 		foreach (self::SENDER_SLOTS as $slot) {
 			$item = $this->senderMenu->getInventory()->getItem($slot);
@@ -184,7 +187,6 @@ final class TradeQueue
 			}
 		}
 		(new TradeEndEvent($this->sender, $this->receiver, $causedBySender ? ($offline ? TradeEndEvent::REASON_SENDER_QUIT : TradeEndEvent::REASON_RECEIVER_QUIT) : TradeEndEvent::REASON_RECEIVER_CANCEL));
-		$this->removeFrom();
 	}
 
 	public function removeFrom(): void

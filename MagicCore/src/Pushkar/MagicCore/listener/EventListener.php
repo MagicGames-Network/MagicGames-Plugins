@@ -51,13 +51,31 @@ class EventListener implements Listener
                     "PremiumClaimed" => [],
                 ));
             }
+            /** @var PurePerms */
+            $purePerms = Server::getInstance()->getPluginManager()->getPlugin("PurePerms");
+
             MagicCore::getInstance()->loadData($sender);
+            ScoreHudTags::updateScoreHud($sender, MagicCore::getInstance()->getBitsBalance($sender->getName()));
             $item = ItemFactory::getInstance()->get(1070, 0, 1);
             $item->setCustomName("§r§aSkyblock Menu §7( Right Click )§r");
             $item->setLore(["§r§7View All Of Your Skyblock Progress Including Your Skills,\n§7Collections, Recipes And More!\n\n§r§eClick To Open!"]);
             $sender->getHungerManager()->setFood(20);
             $sender->getHungerManager()->setSaturation(20);
             $sender->getInventory()->setItem(8, $item);
+
+            $name = $sender->getName();
+            $event->setJoinMessage("");
+            switch ($purePerms->getUserDataMgr()->getData($sender)["group"]) {
+                case "LORD":
+                    Server::getInstance()->broadcastMessage(" §r§l§d[LORD]§r§e $name §bHas Joined The Game");
+                    break;
+                case "LORDPLUS":
+                    Server::getInstance()->broadcastMessage(" §r§l§d[LORD§b+§d]§r§e $name §bHas Joined The Game");
+                    break;
+                case "YouTube":
+                    Server::getInstance()->broadcastMessage(" §r§l§c[§fYOUTUBE§c]§r§c $name §bHas Joined The Game");
+                    break;
+            }
             if ($sender->isConnected()) {
                 $name = $sender->getName();
                 $sender->sendMessage("§e==============§6=============\n§r§7Welcome, $name §7to §eMagic Skyblock\n\n§7Amazing SkyBlock Experience On Bedrock\n\n§e§lVOTE: §r§7Our Vote Website http://bit.ly/vote-magic \n§6§lDISCORD: §r§7http://discord.io/magicgames\n§e==============§6==============");
@@ -181,13 +199,19 @@ class EventListener implements Listener
                 //    $explosion->explodeB();
                 //}
                 if ($item->getNamedTag()->getTag("leaping_sword") !== null) {
-                    $sender->setMotion(new Vector3(mt_rand(1, 3), mt_rand(1, 3), mt_rand(1, 3)));
+                    $sender->setMotion(new Vector3(mt_rand(1, 2), mt_rand(1, 2), mt_rand(1, 2)));
                 }
                 if ($item->getNamedTag()->getTag("voterank") !== null) {
-                    $item->setCount($item->getCount() - 1);
-                    $sender->getInventory()->setItemInHand($item);
-                    MagicCore::getInstance()->getServer()->dispatchCommand(new ConsoleCommandSender(MagicCore::getInstance()->getServer(), MagicCore::getInstance()->getServer()->getLanguage()), str_replace("{player}", $sender->getName(), MagicCore::getInstance()->getConfig()->get("Vote-Voucher-Command")));
-                    $sender->sendMessage(" §eVote Rank Voucher Successfully Claimed");
+                    /** @var PurePerms */
+                    $purePerms = Server::getInstance()->getPluginManager()->getPlugin("PurePerms");
+                    if ($purePerms->getUserDataMgr()->getData($sender)["group"] === "Member") {
+                        $item->setCount($item->getCount() - 1);
+                        $sender->getInventory()->setItemInHand($item);
+                        MagicCore::getInstance()->getServer()->dispatchCommand(new ConsoleCommandSender(MagicCore::getInstance()->getServer(), MagicCore::getInstance()->getServer()->getLanguage()), str_replace("{player}", $sender->getName(), MagicCore::getInstance()->getConfig()->get("Vote-Voucher-Command")));
+                        $sender->sendMessage(" §eVote Rank Voucher Successfully Claimed");
+                    } else {
+                        $sender->sendMessage(" §ePeople Having Member Rank Can Only Claim Voter Rank");
+                    }
                 }
 
                 if ($item->getNamedTag()->getTag("profile") !== null) {

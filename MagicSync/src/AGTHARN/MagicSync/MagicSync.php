@@ -11,6 +11,8 @@ use pocketmine\scheduler\ClosureTask;
 
 class MagicSync extends PluginBase
 {
+    public const QUEUE_CYCLE = 3;
+
     private static MagicSync $instance;
 
     public array $playersJoined = [];

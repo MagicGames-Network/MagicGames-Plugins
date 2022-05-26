@@ -2,19 +2,19 @@
 
 namespace Quest\forms;
 
-use dktapps\pmforms\MenuForm;
-use pocketmine\player\Player;
 use Quest\Quest;
 use Quest\utils\Utils;
+use dktapps\pmforms\MenuForm;
+use pocketmine\player\Player;
 
 class QuestInfoForm extends MenuForm
 {
-    
+
     public function __construct(Player $player)
     {
         $provider = Quest::getInstance()->getProvider();
         $quest = [];
-        if ($provider->hasQuest($player->getName())){
+        if ($provider->hasQuest($player->getName())) {
 
             $questInformation = $provider->getQuestFromPlayer($player->getName());
             $quest = [
@@ -31,7 +31,7 @@ class QuestInfoForm extends MenuForm
                 "  §fMeta: §a" . Quest::getInstance()->getQuest()->get("quests")[$questInformation["quest"]]["item"]["meta"],
                 "§6====================="
             ];
-        }else{
+        } else {
             $quest = [
                 "§6=====================§r",
                 "§fQuest Name: §aNO Quest",
@@ -45,9 +45,9 @@ class QuestInfoForm extends MenuForm
                 "  §fId: §aNO Quest",
                 "  §fMeta: §aNO Quest",
                 "§6====================="
-                ];
+            ];
         }
-        parent::__construct("§a» §eRunning Quests §a«", implode("\n", $quest), [], function (): void{});
+        parent::__construct("§a» §eRunning Quests §a«", implode("\n", $quest), [], function (): void {
+        });
     }
-
 }

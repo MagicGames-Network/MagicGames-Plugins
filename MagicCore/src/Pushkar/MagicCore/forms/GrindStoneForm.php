@@ -7,6 +7,7 @@ use dktapps\pmforms\FormIcon;
 use dktapps\pmforms\MenuForm;
 use pocketmine\player\Player;
 use dktapps\pmforms\MenuOption;
+use Pushkar\MagicCore\forms\anvil\AnvilMainForm;
 
 class GrindStoneForm extends MenuForm
 {
@@ -18,7 +19,7 @@ class GrindStoneForm extends MenuForm
             "§dTap To Remove Enchantment Of Item Hold In Your Hand",
             [
                 new MenuOption("§l§eREMOVE ENCHANTMENT\n§9»» §r§6Tap To Remove", new FormIcon("https://cdn-icons-png.flaticon.com/128/2466/2466942.png", FormIcon::IMAGE_TYPE_URL)),
-                new MenuOption("§cEXIT\n§9»» §r§cTap To Exit", new FormIcon("textures/ui/redX1", FormIcon::IMAGE_TYPE_PATH))
+                new MenuOption("§cBack\n§9»» §r§cTap To Go Back", new FormIcon("textures/ui/redX1", FormIcon::IMAGE_TYPE_PATH))
             ],
             function (Player $player, int $selected): void {
                 switch ($selected) {
@@ -29,6 +30,7 @@ class GrindStoneForm extends MenuForm
                         break;
 
                     case 1:
+                      $player->sendForm(new AnvilMainForm());
                         break;
                 }
             }

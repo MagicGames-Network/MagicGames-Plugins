@@ -438,7 +438,7 @@ class RankshopForm extends MenuForm
             }
         });
         $form->setTitle("§dlord");
-        $form->setContent("§dLord §aRank Features §eMagic§6Games\n§a» §e/pets\n§a» §e/heal\n§a» §e/feed\n§a» §e/craft\n§a» §e/cape\n§a» §e/emoji\n§a» §e/size\n§a» §e/speed\n§a» §e/vision\n§a» §e/repair\n§a» §e/skin\n§a» §e/fly\n§a» §e/vanish\n§a» §e/sit\n\n§cBonus\n§a» PlayerVaults 1-12\n§a» Access To MEMBER KIT\n§a» Access To VIP KIT\n§a» Access To VIP+ KIT\n§a» Access To MVP KIT\n§a» Access To MVP+ KIT\n§a» Access To §bMVP§e+§c+§a KIT\n§a» Access To LORD Kit\n\n§l§ePRICE: §e$13\n§r§aWant To Buy Rank?\n§aVisit https://magicgames.tebex.io");
+        $form->setContent("§dLord §aRank Features §eMagic§6Games\n§a» §e/pets\n§a» §e/heal\n§a» §e/feed\n§a» §e/craft\n§a» §e/cape\n§a» §e/emoji\n§a» §e/size\n§a» §e/speed\n§a» §e/vision\n§a» §e/repair\n§a» §e/skin\n§a» §e/fly\n§a» §e/vanish\n§a» §e/sit\n\n§cBonus\n§a» PlayerVaults 1-12\n§a» Access To MEMBER KIT\n§a» Access To VIP KIT\n§a» Access To VIP+ KIT\n§a» Access To MVP KIT\n§a» Access To MVP+ KIT\n§a» Access To §bMVP§e+§c+§a KIT\n§a» Access To LORD Kit\n\n§d» Special Joining Message\n§d» No chat cooldown\n§d» Daily Rewards Half Cooldown\n\n§l§ePRICE: §e$13\n§r§aWant To Buy Rank?\n§aVisit https://magicgames.tebex.io");
         $form->addButton("§cBack", 0, "textures/blocks/barrier");
         $sender->sendForm($form);
     }
@@ -456,7 +456,7 @@ class RankshopForm extends MenuForm
             }
         });
         $form->setTitle("§dlord+");
-        $form->setContent("§dLord+ §aRank Features §eMagic§6Games\n§a» §e/pets\n§a» §e/heal\n§a» §e/feed\n§a» §e/craft\n§a» §e/cape\n§a» §e/emoji\n§a» §e/size\n§a» §e/speed\n§a» §e/vision\n§a» §e/repair\n§a» §e/skin\n§a» §e/fly\n§a» §e/vanish\n§a» §e/god\n§a» §e/lay\n§a» §e/sit\n\n§cBonus\n§a» PlayerVaults 1-14\n§a» Access To MEMBER KIT\n§a» Access To VIP KIT\n§a» Access To VIP+ KIT\n§a» Access To MVP KIT\n§a» Access To MVP+ KIT\n§a» Access To §bMVP§e+§c+§a KIT\n§a» Access To LORD Kit\n§a» Access To LORD+ Kit\n\n§l§ePRICE: §e$15\n§r§aWant To Buy Rank?\n§aVisit https://magicgames.tebex.io");
+        $form->setContent("§dLord+ §aRank Features §eMagic§6Games\n§a» §e/pets\n§a» §e/heal\n§a» §e/feed\n§a» §e/craft\n§a» §e/cape\n§a» §e/emoji\n§a» §e/size\n§a» §e/speed\n§a» §e/vision\n§a» §e/repair\n§a» §e/skin\n§a» §e/fly\n§a» §e/vanish\n§a» §e/god\n§a» §e/lay\n§a» §e/sit\n\n§cBonus\n§a» PlayerVaults 1-14\n§a» Access To MEMBER KIT\n§a» Access To VIP KIT\n§a» Access To VIP+ KIT\n§a» Access To MVP KIT\n§a» Access To MVP+ KIT\n§a» Access To §bMVP§e+§c+§a KIT\n§a» Access To LORD Kit\n§a» Access To LORD+ Kit\n\n§d» Special Joining Message\n§d» No chat cooldown\n§d» Daily Rewards Half Cooldown\n§d» EnderDragon Pet Unlock\n§d» Wither Pet Unlock\n\n§l§ePRICE: §e$15\n§r§aWant To Buy Rank?\n§aVisit https://magicgames.tebex.io");
         $form->addButton("§cBack", 0, "textures/blocks/barrier");
         $sender->sendForm($form);
     }

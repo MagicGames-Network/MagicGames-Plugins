@@ -33,8 +33,8 @@ class EventListener implements Listener
     {
         $player = $event->getPlayer();
         $item = $event->getItem();
-        if ($item->getNamedTag()->getTag("Amount") !== null) {
-            $amount = $item->getNamedTag()->getFloat("Amount");
+        if ($item->getNamedTag()->getTag("noteAmount") !== null) {
+            $amount = $item->getNamedTag()->getFloat("noteAmount");
 
             $item->setCount($item->getCount() - 1);
             $player->getInventory()->setItemInHand($item);

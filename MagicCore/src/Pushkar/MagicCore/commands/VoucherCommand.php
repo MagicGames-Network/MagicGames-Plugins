@@ -40,8 +40,8 @@ class VoucherCommand extends Command
             switch ($args[1]) {
                 case "vote":
                     $item = ItemFactory::getInstance()->get(339, 0, 1);
-                    $item->setCustomName("§r§eVoter Rank §aVoucher");
-                    $item->setLore(["§r§aVoucher Reward: §eVoter Rank\n\n§r§7Tap The Voucher On Ground To Claim"]);
+                    $item->setCustomName("§r§l§6VOTER RANK§r§e Voucher");
+                    $item->setLore(["§r§eVoucher Reward: §6§lVoter Rank\n§r§eCreator: §l§6" . $player->getName() . "\n\n§r§7Tap The Voucher On Ground To Claim"]);
                     $item->getNamedTag()->setString("voterank", "voucher");
                     $item->addEnchantment($this->fakeEnchant);
                     $player->getInventory()->addItem($item);

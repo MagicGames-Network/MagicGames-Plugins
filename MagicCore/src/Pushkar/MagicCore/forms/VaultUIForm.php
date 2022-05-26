@@ -27,7 +27,11 @@ class VaultUIForm extends MenuForm
             new MenuOption("§l§bVAULT 7\n§l§9»» §bMVP§c+§r Rank Required", new FormIcon("https://i.imgur.com/kwFuyP3.png", FormIcon::IMAGE_TYPE_URL)),
             new MenuOption("§l§bVAULT 8\n§l§9»» §bMVP§c+§r Rank Required", new FormIcon("https://i.imgur.com/kwFuyP3.png", FormIcon::IMAGE_TYPE_URL)),
             new MenuOption("§l§bVAULT 9\n§l§9»» §bMVP§e+§c+§r Rank Required", new FormIcon("https://i.imgur.com/kwFuyP3.png", FormIcon::IMAGE_TYPE_URL)),
-            new MenuOption("§l§bVAULT 10\n§l§9»» §bMVP§e+§c+§r Rank Required", new FormIcon("https://i.imgur.com/kwFuyP3.png", FormIcon::IMAGE_TYPE_URL))
+            new MenuOption("§l§bVAULT 10\n§l§9»» §bMVP§e+§c+§r Rank Required", new FormIcon("https://i.imgur.com/kwFuyP3.png", FormIcon::IMAGE_TYPE_URL)),
+            new MenuOption("§l§bVAULT 11\n§l§9»» §dLORD§r Rank Required", new FormIcon("https://i.imgur.com/kwFuyP3.png", FormIcon::IMAGE_TYPE_URL)),
+            new MenuOption("§l§bVAULT 12\n§l§9»» §dLORD§r Rank Required", new FormIcon("https://i.imgur.com/kwFuyP3.png", FormIcon::IMAGE_TYPE_URL)),
+            new MenuOption("§l§bVAULT 13\n§l§9»» §dLORD§e+§r Rank Required", new FormIcon("https://i.imgur.com/kwFuyP3.png", FormIcon::IMAGE_TYPE_URL)),
+            new MenuOption("§l§bVAULT 14\n§l§9»» §dLORD§e+§r Rank Required", new FormIcon("https://i.imgur.com/kwFuyP3.png", FormIcon::IMAGE_TYPE_URL))
         ], function (Player $sender, int $selected): void {
             switch ($selected) {
                 case 0:
@@ -62,6 +66,18 @@ class VaultUIForm extends MenuForm
                     break;
                 case 10:
                   Server::getInstance()->dispatchCommand($sender, "pv 10");
+                    break;
+                case 11:
+                  Server::getInstance()->dispatchCommand($sender, "pv 11");
+                    break;
+                case 12:
+                  Server::getInstance()->dispatchCommand($sender, "pv 12");
+                    break;
+                case 13:
+                  Server::getInstance()->dispatchCommand($sender, "pv 13");
+                    break;
+                case 14:
+                  Server::getInstance()->dispatchCommand($sender, "pv 14");
                     break;
             }
         });

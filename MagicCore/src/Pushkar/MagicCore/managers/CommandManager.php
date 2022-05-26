@@ -7,7 +7,9 @@ use Pushkar\MagicCore\commands\IDCommand;
 use Pushkar\MagicCore\commands\FlyCommand;
 use Pushkar\MagicCore\commands\HubCommand;
 use Pushkar\MagicCore\commands\XyzCommand;
+use Pushkar\MagicCore\commands\GodCommand;
 use Pushkar\MagicCore\commands\FeedCommand;
+use Pushkar\MagicCore\commands\PetsCommand;
 use Pushkar\MagicCore\commands\BitsCommand;
 use Pushkar\MagicCore\commands\HealCommand;
 use Pushkar\MagicCore\commands\HideCommand;
@@ -34,18 +36,18 @@ use Pushkar\MagicCore\commands\EnchantCommand;
 use Pushkar\MagicCore\commands\ProfileCommand;
 use Pushkar\MagicCore\commands\RecipesCommand;
 use Pushkar\MagicCore\commands\ServersCommand;
-use Pushkar\MagicCore\commands\FeaturesCommand;
 use Pushkar\MagicCore\commands\VoucherCommand;
+use Pushkar\MagicCore\commands\FeaturesCommand;
 use Pushkar\MagicCore\commands\InvClearCommand;
 use Pushkar\MagicCore\commands\RanklistCommand;
 use Pushkar\MagicCore\commands\RankshopCommand;
+use Pushkar\MagicCore\commands\GiverankCommand;
 use Pushkar\MagicCore\commands\SettingsCommand;
 use Pushkar\MagicCore\commands\ChangelogCommand;
 use Pushkar\MagicCore\commands\StafflistCommand;
 use Pushkar\MagicCore\commands\TotorialsCommand;
 use Pushkar\MagicCore\commands\InformationCommand;
 use Pushkar\MagicCore\commands\SocialmediaCommand;
-use Pushkar\MagicCore\commands\GiverankCommand;
 use Pushkar\MagicCore\commands\AnnouncementCommand;
 use Pushkar\MagicCore\commands\CommunityShopCommand;
 
@@ -105,6 +107,8 @@ final class CommandManager
             "communityshop" => new CommunityShopCommand(),
             "voucher" => new VoucherCommand(),
             "giverank" => new GiverankCommand(),
+            "pets" => new PetsCommand(),
+            "god" => new GodCommand(),
             "profile" => new ProfileCommand()
         ];
     }
