@@ -112,10 +112,11 @@ class Config
         $this->comment .= " * ░░░██║░░░██║░░██║███████╗██║░░░░░██║░╚═╝░██║██████╔╝╚██████╔╝╚█████╔╝" . PHP_EOL;
         $this->comment .= " * ░░░╚═╝░░░╚═╝░░╚═╝╚══════╝╚═╝░░░░░╚═╝░░░░░╚═╝╚═════╝░░╚═════╝░░╚════╝░" . PHP_EOL;
         $this->comment .= " * " . PHP_EOL;
-        $this->comment .= " * This is a project made by ThePMDuo and is only available for patreon/ko-fi members." . PHP_EOL;
-        $this->comment .= " * Under no circumstance are you able to distribute this resource to non-patreon/ko-fi members." . PHP_EOL;
+        $this->comment .= " * This is a project supported by ThePMDuo and this obfuscator is used for MagicGames." . PHP_EOL;
+        $this->comment .= " * Under no circumstance are you able to distribute this resource to anybody." . PHP_EOL;
+        $this->comment .= " * Anyways, if you do, good luck." . PHP_EOL;
         $this->comment .= " * " . PHP_EOL;
-        $this->comment .= " * If you are a non-patreon/ko-fi member and have gotten hold of this resource, please contact us immediately." . PHP_EOL;
+        $this->comment .= " * If you have gotten hold of this resource, please contact us immediately." . PHP_EOL;
         $this->comment .= " * " . PHP_EOL;
         $this->comment .= " * Twitter: https://twitter.com/thepmduo" . PHP_EOL;
         $this->comment .= " * Instagram: https://www.instagram.com/thepmduo/" . PHP_EOL;

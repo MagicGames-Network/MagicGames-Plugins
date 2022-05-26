@@ -1,6 +1,0 @@
-name: MagicEnchantmentTable
-version: 1.0.0
-main: SchdowNVIDIA\ECTUI\Main
-api: 4.0.0
-
-depend: [VanillaX-PRO]

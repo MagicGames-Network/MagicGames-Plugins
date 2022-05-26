@@ -161,11 +161,11 @@ function check_config_file($filename)      // self-explanatory
 function create_context_directories($target_directory)      // self-explanatory
 {
     foreach (["$target_directory/yakpro-po", "$target_directory/yakpro-po/obfuscated", "$target_directory/yakpro-po/context"] as $dummy => $dir) {
-        if (!file_exists($dir)) {
-            mkdir($dir, 0777, true);
-            fprintf(STDERR, "Error:\tCannot create directory [%s]%s", $dir, PHP_EOL);
-            exit(51);
-        }
+        //if (!file_exists($dir)) {
+        //    mkdir($dir, 0777, true);
+        //    fprintf(STDERR, "Error:\tCannot create directory [%s]%s", $dir, PHP_EOL);
+        //    exit(51);
+        //}
     }
     $target_directory = realpath($target_directory);
     if (!file_exists("$target_directory/yakpro-po/.yakpro-po-directory")) {
