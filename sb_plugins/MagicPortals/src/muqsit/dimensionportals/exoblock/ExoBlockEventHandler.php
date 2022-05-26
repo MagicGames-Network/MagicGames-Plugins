@@ -10,16 +10,18 @@ use pocketmine\event\block\BlockUpdateEvent;
 use pocketmine\event\player\PlayerMoveEvent;
 use pocketmine\event\player\PlayerInteractEvent;
 
-final class ExoBlockEventHandler implements Listener{
+final class ExoBlockEventHandler implements Listener
+{
 
 	/**
 	 * @param BlockUpdateEvent $event
 	 * @priority NORMAL
 	 */
-	public function onBlockUpdate(BlockUpdateEvent $event) : void{
+	public function onBlockUpdate(BlockUpdateEvent $event): void
+	{
 		$block = $event->getBlock();
 		$exo_block = ExoBlockFactory::get($block);
-		if($exo_block !== null && $exo_block->update($block)){
+		if ($exo_block !== null && $exo_block->update($block)) {
 			$event->cancel();
 		}
 	}
@@ -28,10 +30,11 @@ final class ExoBlockEventHandler implements Listener{
 	 * @param BlockBreakEvent $event
 	 * @priority NORMAL
 	 */
-	public function onBlockBreak(BlockBreakEvent $event) : void{
+	public function onBlockBreak(BlockBreakEvent $event): void
+	{
 		$block = $event->getBlock();
 		$exo_block = ExoBlockFactory::get($block);
-		if($exo_block !== null && $exo_block->update($block)){
+		if ($exo_block !== null && $exo_block->update($block)) {
 			$event->cancel();
 		}
 	}
@@ -40,11 +43,12 @@ final class ExoBlockEventHandler implements Listener{
 	 * @param PlayerInteractEvent $event
 	 * @priority NORMAL
 	 */
-	public function onPlayerInteract(PlayerInteractEvent $event) : void{
-		if($event->getAction() === PlayerInteractEvent::RIGHT_CLICK_BLOCK){
+	public function onPlayerInteract(PlayerInteractEvent $event): void
+	{
+		if ($event->getAction() === PlayerInteractEvent::RIGHT_CLICK_BLOCK) {
 			$block = $event->getBlock();
 			$exo_block = ExoBlockFactory::get($block);
-			if($exo_block !== null && $exo_block->interact($block, $event->getPlayer(), $event->getItem(), $event->getFace())){
+			if ($exo_block !== null && $exo_block->interact($block, $event->getPlayer(), $event->getItem(), $event->getFace())) {
 				$event->cancel();
 			}
 		}
@@ -54,14 +58,15 @@ final class ExoBlockEventHandler implements Listener{
 	 * @param PlayerMoveEvent $event
 	 * @priority MONITOR
 	 */
-	public function onPlayerMove(PlayerMoveEvent $event) : void{
+	public function onPlayerMove(PlayerMoveEvent $event): void
+	{
 		$from = $event->getFrom();
 		$from_f = $from->floor();
 
 		$to = $event->getTo();
 		$to_f = $to->floor();
 
-		if(!$from_f->equals($to_f)){
+		if (!$from_f->equals($to_f)) {
 			$player = $event->getPlayer();
 
 			$from_block = ExoBlockFactory::get($block = $from->world->getBlockAt($from_f->x, $from_f->y, $from_f->z));

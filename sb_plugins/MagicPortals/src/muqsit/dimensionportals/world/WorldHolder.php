@@ -7,7 +7,8 @@ namespace muqsit\dimensionportals\world;
 use pocketmine\utils\Utils;
 use pocketmine\world\World;
 
-final class WorldHolder{
+final class WorldHolder
+{
 
 	private WorldInstance $instance;
 
@@ -19,15 +20,17 @@ final class WorldHolder{
 	 */
 	public function __construct(
 		private string $class
-	){
+	) {
 		Utils::testValidInstance($this->class, WorldInstance::class);
 	}
 
-	public function create(World $world) : void{
+	public function create(World $world): void
+	{
 		$this->instance = new $this->class($world);
 	}
 
-	public function getWorldInstance() : WorldInstance{
+	public function getWorldInstance(): WorldInstance
+	{
 		return $this->instance;
 	}
 }

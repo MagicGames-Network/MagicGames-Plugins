@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace muqsit\dimensionportals\config;
 
-final class EndConfiguration{
+final class EndConfiguration
+{
 
 	/**
 	 * @param array $data
@@ -12,7 +13,8 @@ final class EndConfiguration{
 	 *
 	 * @phpstan-param array<string, mixed> $data
 	 */
-	public static function fromData(array $data) : self{
+	public static function fromData(array $data): self
+	{
 		$instance = new self(
 			ConfigurationHelper::readString($data, "world"),
 			ConfigurationHelper::readOptional($data, "sub-worlds", []),
@@ -31,20 +33,24 @@ final class EndConfiguration{
 		private string $world,
 		private array $sub_worlds,
 		private int $teleportation_duration
-	){}
+	) {
+	}
 
-	public function getWorld() : string{
+	public function getWorld(): string
+	{
 		return $this->world;
 	}
 
 	/**
 	 * @return string[]
 	 */
-	public function getSubWorlds() : array{
+	public function getSubWorlds(): array
+	{
 		return $this->sub_worlds;
 	}
 
-	public function getTeleportationDuration() : int{
+	public function getTeleportationDuration(): int
+	{
 		return $this->teleportation_duration;
 	}
 }

@@ -61,7 +61,7 @@ $conf->obfuscate_variable_name          = true;         // self explanatory
 $conf->obfuscate_function_name          = false;         // self explanatory
 $conf->obfuscate_class_name             = false;         // self explanatory
 $conf->obfuscate_interface_name         = false;         // self explanatory
-$conf->obfuscate_trait_name             = true;         // self explanatory
+$conf->obfuscate_trait_name             = false;         // self explanatory
 $conf->obfuscate_class_constant_name    = false;         // self explanatory
 $conf->obfuscate_property_name          = false;         // self explanatory
 $conf->obfuscate_method_name            = false;         // self explanatory
@@ -87,7 +87,7 @@ $conf->source_directory                 = null;         // self explanatory
 $conf->target_directory                 = null;         // self explanatory
 
 $conf->t_keep                           = null;         // array of directory or file pathnames, to keep 'as is' (i.e. not obfuscate.)
-$conf->t_skip                           = null;         // array of directory or file pathnames, to skip when exploring source tree structure ... they will not be on target!
+$conf->t_skip                           = ["MagicPortals", "PiggyCustomEnchants", "MagicKits", "MagicBookShop", "AggressiveOptz", "MagicQuest", "PortalsPE", "MagicTags"];         // array of directory or file pathnames, to skip when exploring source tree structure ... they will not be on target!
 $conf->allow_and_overwrite_empty_files  = true;         // allow empty files to be kept as is
 
 $conf->max_nested_directory             =   99;

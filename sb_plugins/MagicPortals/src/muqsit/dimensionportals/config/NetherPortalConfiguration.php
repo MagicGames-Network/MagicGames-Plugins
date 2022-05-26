@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace muqsit\dimensionportals\config;
 
-final class NetherPortalConfiguration{
+final class NetherPortalConfiguration
+{
 
 	/**
 	 * @param array $data
@@ -12,7 +13,8 @@ final class NetherPortalConfiguration{
 	 *
 	 * @phpstan-param array<string, mixed> $data
 	 */
-	public static function fromData(array $data) : self{
+	public static function fromData(array $data): self
+	{
 		$instance = new self(
 			ConfigurationHelper::readString($data, "frame-block"),
 			ConfigurationHelper::readInt($data, "max-width", 1),
@@ -26,17 +28,21 @@ final class NetherPortalConfiguration{
 		private string $frame_block,
 		private int $max_width,
 		private int $max_height
-	){}
+	) {
+	}
 
-	public function getFrameBlock() : string{
+	public function getFrameBlock(): string
+	{
 		return $this->frame_block;
 	}
 
-	public function getMaxWidth() : int{
+	public function getMaxWidth(): int
+	{
 		return $this->max_width;
 	}
 
-	public function getMaxHeight() : int{
+	public function getMaxHeight(): int
+	{
 		return $this->max_height;
 	}
 }

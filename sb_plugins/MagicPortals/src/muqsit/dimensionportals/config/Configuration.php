@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace muqsit\dimensionportals\config;
 
-final class Configuration{
+final class Configuration
+{
 
 	/**
 	 * @param array $data
@@ -12,7 +13,8 @@ final class Configuration{
 	 *
 	 * @phpstan-param array<string, mixed> $data
 	 */
-	public static function fromData(array $data) : self{
+	public static function fromData(array $data): self
+	{
 		$overworld = OverworldConfiguration::fromData(ConfigurationHelper::readMap($data, "overworld"));
 		$nether = NetherConfiguration::fromData(ConfigurationHelper::readMap($data, "nether"));
 		$end = EndConfiguration::fromData(ConfigurationHelper::readMap($data, "end"));
@@ -24,17 +26,21 @@ final class Configuration{
 		private OverworldConfiguration $overworld,
 		private NetherConfiguration $nether,
 		private EndConfiguration $end
-	){}
+	) {
+	}
 
-	public function getOverworld() : OverworldConfiguration{
+	public function getOverworld(): OverworldConfiguration
+	{
 		return $this->overworld;
 	}
 
-	public function getNether() : NetherConfiguration{
+	public function getNether(): NetherConfiguration
+	{
 		return $this->nether;
 	}
 
-	public function getEnd() : EndConfiguration{
+	public function getEnd(): EndConfiguration
+	{
 		return $this->end;
 	}
 }

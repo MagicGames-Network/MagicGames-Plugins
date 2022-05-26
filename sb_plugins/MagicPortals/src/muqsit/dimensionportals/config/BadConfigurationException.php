@@ -6,5 +6,6 @@ namespace muqsit\dimensionportals\config;
 
 use RuntimeException;
 
-class BadConfigurationException extends RuntimeException{
+class BadConfigurationException extends RuntimeException
+{
 }

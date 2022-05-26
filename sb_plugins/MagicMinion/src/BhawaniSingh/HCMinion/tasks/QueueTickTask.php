@@ -25,7 +25,7 @@ class QueueTickTask extends Task
                     $i[$worldName] = 0;
                 }
 
-                if ($i[$worldName] > BetterMinion::QUEUE_CYCLE) {
+                if ($i[$worldName] > BetterMinion::QUEUE_CYCLE || $entity->lastTick + 3 < time() ) {
                     break;
                 }
 

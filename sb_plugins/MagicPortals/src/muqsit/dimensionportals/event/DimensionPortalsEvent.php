@@ -6,5 +6,6 @@ namespace muqsit\dimensionportals\event;
 
 use pocketmine\event\Event;
 
-abstract class DimensionPortalsEvent extends Event{
+abstract class DimensionPortalsEvent extends Event
+{
 }

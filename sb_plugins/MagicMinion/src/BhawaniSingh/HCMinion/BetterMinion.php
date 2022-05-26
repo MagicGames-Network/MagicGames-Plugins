@@ -97,7 +97,7 @@ class BetterMinion extends PluginBase
         $this->getServer()->getCommandMap()->register('Minion', new MinionCommand($this, 'minion', 'MagicMinion Main Command'));
         $this->getServer()->getPluginManager()->registerEvents(new EventListener(), $this);
 
-        $this->getScheduler()->scheduleRepeatingTask(new QueueTickTask(), 30);
+        $this->getScheduler()->scheduleRepeatingTask(new QueueTickTask(), 5);
     }
 
     public function getProvider(): SQLiteProvider

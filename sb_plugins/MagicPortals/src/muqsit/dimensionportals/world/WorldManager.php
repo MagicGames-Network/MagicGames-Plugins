@@ -14,7 +14,8 @@ use pocketmine\network\mcpe\protocol\types\DimensionIds;
 use muqsit\dimensionportals\world\nether\NetherWorldInstance;
 use muqsit\dimensionportals\world\overworld\OverworldInstance;
 
-final class WorldManager{
+final class WorldManager
+{
 
 	private const TYPE_OVERWORLD = 0;
 	private const TYPE_NETHER = 1;
@@ -32,7 +33,8 @@ final class WorldManager{
 	/** @var WorldHolder[] */
 	private static array $worlds = [];
 
-	public static function init(Loader $plugin) : void{
+	public static function init(Loader $plugin): void
+	{
 		$config = $plugin->getConfiguration();
 		self::$main_worlds = [
 			self::TYPE_OVERWORLD => $config->getOverworld()->getWorld(),
@@ -44,15 +46,15 @@ final class WorldManager{
 		self::$world_types[$config->getNether()->getWorld()] = self::TYPE_NETHER;
 		self::$world_types[$config->getEnd()->getWorld()] = self::TYPE_END;
 
-		foreach($config->getNether()->getSubWorlds() as $sub_world){
-			if(isset(self::$world_types[$sub_world]) && self::$world_types[$sub_world] !== self::TYPE_NETHER){
+		foreach ($config->getNether()->getSubWorlds() as $sub_world) {
+			if (isset(self::$world_types[$sub_world]) && self::$world_types[$sub_world] !== self::TYPE_NETHER) {
 				throw new RuntimeException("Tried overriding sub-world {$sub_world}'s dimension from " . self::$world_types[$sub_world] . " to " . self::TYPE_NETHER);
 			}
 			self::$world_types[$sub_world] = self::TYPE_NETHER;
 		}
 
-		foreach($config->getEnd()->getSubWorlds() as $sub_world){
-			if(isset(self::$world_types[$sub_world]) && self::$world_types[$sub_world] !== self::TYPE_END){
+		foreach ($config->getEnd()->getSubWorlds() as $sub_world) {
+			if (isset(self::$world_types[$sub_world]) && self::$world_types[$sub_world] !== self::TYPE_END) {
 				throw new RuntimeException("Tried overriding sub-world {$sub_world}'s dimension from " . self::$world_types[$sub_world] . " to " . self::TYPE_END);
 			}
 			self::$world_types[$sub_world] = self::TYPE_END;
@@ -65,61 +67,70 @@ final class WorldManager{
 		$plugin->getServer()->getPluginManager()->registerEvents(new WorldListener(), $plugin);
 	}
 
-	public static function register(string $world_name, WorldHolder $holder) : void{
-		if(isset(self::$worlds[$world_name])){
+	public static function register(string $world_name, WorldHolder $holder): void
+	{
+		if (isset(self::$worlds[$world_name])) {
 			throw new RuntimeException("World {$world_name} is already registered");
 		}
 
 		self::$worlds[$world_name] = $holder;
 
 		$world_manager = Server::getInstance()->getWorldManager();
-		if(!$world_manager->loadWorld($world_name) && !$world_manager->generateWorld($world_name, WorldCreationOptions::create())){
+		if (!$world_manager->loadWorld($world_name) && !$world_manager->generateWorld($world_name, WorldCreationOptions::create())) {
 			throw new RuntimeException("Failed to load world " . $world_name);
 		}
 
 		self::$worlds[$world_name]->create($world_manager->getWorldByName($world_name));
 	}
 
-	private static function registerWorldHolder(int $type, WorldHolder $holder) : void{
+	private static function registerWorldHolder(int $type, WorldHolder $holder): void
+	{
 		self::$world_type_holders[$type] = $holder;
 		self::register(self::$main_worlds[$type], $holder);
 	}
 
-	public static function autoRegister(World $world) : void{
+	public static function autoRegister(World $world): void
+	{
 		self::register($world_name = $world->getFolderName(), self::$world_type_holders[self::$world_types[$world_name] ?? self::TYPE_OVERWORLD]);
 	}
 
-	public static function destroy(World $world) : void{
-		if(isset(self::$worlds[$folder = $world->getFolderName()]) && self::$main_worlds[self::$worlds[$folder]->getWorldInstance()->getNetworkDimensionId()] === $folder){
+	public static function destroy(World $world): void
+	{
+		if (isset(self::$worlds[$folder = $world->getFolderName()]) && self::$main_worlds[self::$worlds[$folder]->getWorldInstance()->getNetworkDimensionId()] === $folder) {
 			throw new RuntimeException("Tried to unload permanent world " . $folder . " on runtime.");
 		}
 
 		unset(self::$worlds[$folder]);
 	}
 
-	public static function get(World $world) : ?WorldInstance{
+	public static function get(World $world): ?WorldInstance
+	{
 		return isset(self::$worlds[$folder = $world->getFolderName()]) ? self::$worlds[$folder]->getWorldInstance() : null;
 	}
 
-	public static function getOverworld() : OverworldInstance{
+	public static function getOverworld(): OverworldInstance
+	{
 		$world = self::getFromType(self::TYPE_OVERWORLD);
 		assert($world instanceof OverworldInstance);
 		return $world;
 	}
 
-	public static function getNether() : NetherWorldInstance{
+	public static function getNether(): NetherWorldInstance
+	{
 		$world = self::getFromType(self::TYPE_NETHER);
 		assert($world instanceof NetherWorldInstance);
 		return $world;
 	}
 
-	public static function getEnd() : EndWorldInstance{
+	public static function getEnd(): EndWorldInstance
+	{
 		$world = self::getFromType(self::TYPE_END);
 		assert($world instanceof EndWorldInstance);
 		return $world;
 	}
 
-	private static function getFromType(int $type) : WorldInstance{
+	private static function getFromType(int $type): WorldInstance
+	{
 		return self::$worlds[self::$main_worlds[$type]]->getWorldInstance();
 	}
 }

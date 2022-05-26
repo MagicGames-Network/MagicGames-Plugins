@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace muqsit\dimensionportals\config;
 
-final class OverworldConfiguration{
+final class OverworldConfiguration
+{
 
 	/**
 	 * @param array $data
@@ -12,7 +13,8 @@ final class OverworldConfiguration{
 	 *
 	 * @phpstan-param array<string, mixed> $data
 	 */
-	public static function fromData(array $data) : self{
+	public static function fromData(array $data): self
+	{
 		$instance = new self(ConfigurationHelper::readString($data, "world"));
 		ConfigurationHelper::checkForUnread($data);
 		return $instance;
@@ -20,9 +22,11 @@ final class OverworldConfiguration{
 
 	public function __construct(
 		private string $world
-	){}
+	) {
+	}
 
-	public function getWorld() : string{
+	public function getWorld(): string
+	{
 		return $this->world;
 	}
 }

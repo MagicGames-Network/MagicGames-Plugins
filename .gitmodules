@@ -32,3 +32,6 @@
 [submodule ".github/phpstan/libasynql"]
 	path = .github/phpstan/libasynql
 	url = https://github.com/poggit/libasynql
+[submodule ".github/yakpro-po/PHP-Parser"]
+	path = .github/yakpro-po/PHP-Parser
+	url = https://github.com/nikic/PHP-Parser

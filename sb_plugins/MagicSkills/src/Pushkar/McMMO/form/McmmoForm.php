@@ -8,8 +8,7 @@ use jojoe77777\FormAPI\SimpleForm;
 
 class McmmoForm
 {
-    /** @var Main */
-    private $plugin;
+    private Main $plugin;
 
     public function __construct(Main $plugin)
     {

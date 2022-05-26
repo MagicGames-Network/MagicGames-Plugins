@@ -4,5 +4,6 @@ declare(strict_types=1);
 
 namespace muqsit\dimensionportals\event\player;
 
-class PlayerCreateNetherPortalEvent extends PlayerCreatePortalEvent{
+class PlayerCreateNetherPortalEvent extends PlayerCreatePortalEvent
+{
 }

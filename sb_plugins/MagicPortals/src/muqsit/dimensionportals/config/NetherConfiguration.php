@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace muqsit\dimensionportals\config;
 
-final class NetherConfiguration{
+final class NetherConfiguration
+{
 
 	/**
 	 * @param array $data
@@ -12,7 +13,8 @@ final class NetherConfiguration{
 	 *
 	 * @phpstan-param array<string, mixed> $data
 	 */
-	public static function fromData(array $data) : self{
+	public static function fromData(array $data): self
+	{
 		$instance = new self(
 			ConfigurationHelper::readString($data, "world"),
 			ConfigurationHelper::readOptional($data, "sub-worlds", []),
@@ -34,24 +36,29 @@ final class NetherConfiguration{
 		private array $sub_worlds,
 		private int $teleportation_duration,
 		private NetherPortalConfiguration $portal
-	){}
+	) {
+	}
 
-	public function getWorld() : string{
+	public function getWorld(): string
+	{
 		return $this->world;
 	}
 
 	/**
 	 * @return string[]
 	 */
-	public function getSubWorlds() : array{
+	public function getSubWorlds(): array
+	{
 		return $this->sub_worlds;
 	}
 
-	public function getTeleportationDuration() : int{
+	public function getTeleportationDuration(): int
+	{
 		return $this->teleportation_duration;
 	}
 
-	public function getPortal() : NetherPortalConfiguration{
+	public function getPortal(): NetherPortalConfiguration
+	{
 		return $this->portal;
 	}
 }

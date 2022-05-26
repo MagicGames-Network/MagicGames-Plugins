@@ -15,13 +15,16 @@ use Stats\player\MagicPlayer;
 use pocketmine\event\Listener;
 use pocketmine\command\Command;
 use _64FF00\PurePerms\PurePerms;
+use AGTHARN\MagicSync\MagicSync;
 use pocketmine\plugin\PluginBase;
 use Pushkar\McMMO\form\McmmoForm;
 use onebone\economyapi\EconomyAPI;
 use pocketmine\command\CommandSender;
+use pocketmine\scheduler\ClosureTask;
 use Pushkar\McMMO\entity\FloatingText;
 use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\event\block\BlockPlaceEvent;
+use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\event\player\PlayerLoginEvent;
 use pocketmine\event\entity\EntityDamageEvent;
 use pocketmine\block\BlockLegacyIds as BlockIds;
@@ -161,9 +164,7 @@ class Main extends PluginBase implements Listener
     {
         $this->database["level"][$type][strtolower($player->getName())]++;
         $a = ["Lumberjack", "Farmer", "Excavation", "Miner", "Killer", "Combat", "Builder", "Consumer", "Archer", "Lawn Mower"];
-        $health = mt_rand(1, 8);
-        $defense = mt_rand(1, 8);
-        $player->sendMessage("§3§l========================\n §l§bSKILL LEVEL UP§r§3 " . $a[$type] . "\n\n §l§aREWARDS§r\n   §e" . $a[$type] . " " . $this->getLevel($type, $player) . "\n   §8+§6" . $this->getLevel($type, $player) * 1000 . " §7Coins\n   §8+§c  $health Health\n   §8+§a  $defense Defense\n   §8+§4  1 Damage\n§3§l========================");
+        $player->sendMessage("§3§l========================\n §l§bSKILL LEVEL UP§r§3 " . $a[$type] . "\n\n §l§aREWARDS§r\n   §e" . $a[$type] . " " . $this->getLevel($type, $player) . "\n   §8+§6" . $this->getLevel($type, $player) * 1000 . " §7Coins\n   §8+§c  2 Health\n   §8+§a  2 Defense\n   §8+§4  1 Damage\n§3§l========================");
 
         /** @var PurePerms $purePerms */
         $purePerms = $this->getServer()->getPluginManager()->getPlugin('PurePerms');
@@ -212,9 +213,9 @@ class Main extends PluginBase implements Listener
             $maxheal = $player->getMaxHealth();
             $adefense = $player->getDefense();
             $adamage = $player->getDamage();
-            $x = ($maxheal + $health);
-            $y = ($adefense + $defense);
-            $z = ($adamage + 1);
+            $x = 2 + $maxheal;
+            $y = 2 + $adefense;
+            $z = $adamage + 1;
 
             $player->setMaxHealth($x);
             $player->setStats("Defense", $y);
@@ -238,6 +239,34 @@ class Main extends PluginBase implements Listener
         }
     }
 
+    public function onJoin(PlayerJoinEvent $event): void
+    {
+        MagicSync::getInstance()->addPlayerJoin($event->getPlayer(), new ClosureTask(function () use ($event): void {
+            $player = $event->getPlayer();
+
+            $totalLevel = 1;
+            for ($i = 0; $i < 10; $i++) {
+                $totalLevel += $this->database["level"][$i][strtolower($player->getName())];
+            }
+
+            $health = 2 * $totalLevel;
+            $defense = 2 * $totalLevel;
+
+            if ($player instanceof MagicPlayer) {
+                $maxheal = $player->getMaxHealth();
+                $adefense = $player->getDefense();
+                $adamage = $player->getDamage();
+                $x = ($maxheal + $health);
+                $y = ($adefense + $defense);
+                $z = ($adamage + 1);
+
+                $player->setMaxHealth($x);
+                $player->setStats("Defense", $y);
+                $player->setStats("Damage", $z);
+            }
+        }), "CALCULATING HEALTH DEFENSE");
+    }
+
     /**
      * @priority HIGHEST
      */
@@ -246,7 +275,7 @@ class Main extends PluginBase implements Listener
         if ($event->isCancelled()) {
             return;
         }
-        
+
         $player = $event->getPlayer();
         $block = $event->getBlock();
         switch ($block->getId()) {
@@ -319,7 +348,7 @@ class Main extends PluginBase implements Listener
         if ($event->isCancelled()) {
             return;
         }
-        
+
         if ($event->getEntity() instanceof FloatingText) {
             $event->cancel();
             return;
