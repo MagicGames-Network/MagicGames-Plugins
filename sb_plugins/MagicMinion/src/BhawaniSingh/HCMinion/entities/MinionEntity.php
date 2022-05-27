@@ -372,7 +372,6 @@ abstract class MinionEntity extends Human
         if (!isset($this->queueNumber) || !isset(BetterMinion::$minionQueue[$this->getWorld()->getFolderName()][$this->queueNumber])) {
             if (!$this->isInsideOfSolid() && $this->checkFull() && !$this->closed && !$this->isFlaggedForDespawn() && isset($this->minionInformation) && !$this->isViewingInv) {
                 $this->queueNumber = BetterMinion::$queueNumber++;
-                $this->lastTick = time();
                 BetterMinion::$minionQueue[$this->getWorld()->getFolderName()][$this->queueNumber] = $this;
                 
                 $this->setNameTag("§l§6" . strtoupper($this->getMinionInformation()->getType()->getTargetName()) . "§r\n§e" . $this->getMinionInformation()->getOwner() . "'s Minion §r(§gQUEUED§r)");

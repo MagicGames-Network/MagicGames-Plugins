@@ -164,7 +164,7 @@ class Main extends PluginBase implements Listener
     {
         $this->database["level"][$type][strtolower($player->getName())]++;
         $a = ["Lumberjack", "Farmer", "Excavation", "Miner", "Killer", "Combat", "Builder", "Consumer", "Archer", "Lawn Mower"];
-        $player->sendMessage("§3§l========================\n §l§bSKILL LEVEL UP§r§3 " . $a[$type] . "\n\n §l§aREWARDS§r\n   §e" . $a[$type] . " " . $this->getLevel($type, $player) . "\n   §8+§6" . $this->getLevel($type, $player) * 1000 . " §7Coins\n   §8+§c  2 Health\n   §8+§a  2 Defense\n   §8+§4  1 Damage\n§3§l========================");
+        $player->sendMessage("§3§l========================\n §l§bSKILL LEVEL UP§r§3 " . $a[$type] . "\n\n §l§aREWARDS§r\n   §e" . $a[$type] . " " . $this->getLevel($type, $player) . "\n   §8+§6" . $this->getLevel($type, $player) * 1000 . " §7Coins\n   §8+§c  1 Health\n   §8+§a  1 Defense\n   §8+§4  1 Damage\n§3§l========================");
 
         /** @var PurePerms $purePerms */
         $purePerms = $this->getServer()->getPluginManager()->getPlugin('PurePerms');
@@ -210,16 +210,9 @@ class Main extends PluginBase implements Listener
         $cost = ($this->getLevel($type, $player) * 1000);
         $this->eco->addMoney($player, $cost);
         if ($player instanceof MagicPlayer) {
-            $maxheal = $player->getMaxHealth();
-            $adefense = $player->getDefense();
-            $adamage = $player->getDamage();
-            $x = 2 + $maxheal;
-            $y = 2 + $adefense;
-            $z = $adamage + 1;
-
-            $player->setMaxHealth($x);
-            $player->setStats("Defense", $y);
-            $player->setStats("Damage", $z);
+            $player->setMaxHealth($player->getMaxHealth() + 1);
+            $player->setStats("Defense", $player->getDefense() + 1);
+            $player->setStats("Damage", $player->getDamage() + 1);
         }
     }
 
@@ -249,20 +242,14 @@ class Main extends PluginBase implements Listener
                 $totalLevel += $this->database["level"][$i][strtolower($player->getName())];
             }
 
-            $health = 2 * $totalLevel;
-            $defense = 2 * $totalLevel;
+            if ($totalLevel > 40) {
+                $totalLevel = 40;
+            }
 
             if ($player instanceof MagicPlayer) {
-                $maxheal = $player->getMaxHealth();
-                $adefense = $player->getDefense();
-                $adamage = $player->getDamage();
-                $x = ($maxheal + $health);
-                $y = ($adefense + $defense);
-                $z = ($adamage + 1);
-
-                $player->setMaxHealth($x);
-                $player->setStats("Defense", $y);
-                $player->setStats("Damage", $z);
+                $player->setMaxHealth($player->getMaxHealth() + $totalLevel);
+                $player->setStats("Defense", $player->getDefense() + $totalLevel);
+                $player->setStats("Damage", $player->getDamage() + ($totalLevel / 2));
             }
         }), "CALCULATING HEALTH DEFENSE");
     }

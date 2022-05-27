@@ -11,7 +11,6 @@ use pocketmine\promise\Promise;
 use Pushkar\McMMO\Main as McMMO;
 use pocketmine\plugin\PluginBase;
 use pocketmine\block\BlockFactory;
-use pocketmine\math\AxisAlignedBB;
 use pocketmine\world\format\Chunk;
 use pocketmine\block\VanillaBlocks;
 use pocketmine\block\BlockLegacyIds;
@@ -22,8 +21,6 @@ class Main extends PluginBase implements Listener
 {
 	private array $blockStates = [];
 	private int $blockIterator = 0;
-
-	private array $blockedAreas = [];
 
 	public function onEnable(): void
 	{
@@ -52,10 +49,6 @@ class Main extends PluginBase implements Listener
 			}
 			@unlink($file);
 		}
-
-		$this->blockedAreas = [
-			"MagicGames" => [$this->getServer()->getWorldManager()->getWorldByName("MagicGames"), new AxisAlignedBB(-50, 0, -90, 14, World::Y_MAX, -47)]
-		];
 	}
 
 	public function onDisable(): void
@@ -157,23 +150,9 @@ class Main extends PluginBase implements Listener
 		$whiteList = ["MagicGames"];
 		if (in_array($event->getPlayer()->getWorld()->getFolderName(), $whiteList)) {
 			$event->cancel();
-			foreach ($this->blockedAreas as $worldData) {
-				/** @var World $world */
-				$world = $worldData[0];
-				/** @var AxisAlignedBB $aabb */
-				$aabb = $worldData[1];
-				if ($event->getPlayer()->getWorld()->getFolderName() !== $world->getFolderName()) {
-					continue;
-				}
-
-				if ($aabb->isVectorInside($event->getPlayer()->getPosition())) {
-					return;
-				}
-			}
 
 			$block = $event->getBlock();
 			$blockData = [$block->getId(), $block->getMeta()];
-
 			$matchBlock = match ($blockData) {
 				[BlockLegacyIds::WOOD, 0] => $this->delayedResetBlock($event, VanillaBlocks::OAK_WOOD(), null, VanillaBlocks::OAK_LOG()),
 				[BlockLegacyIds::WOOD, 1] => $this->delayedResetBlock($event, VanillaBlocks::SPRUCE_WOOD(), null, VanillaBlocks::SPRUCE_LOG()),

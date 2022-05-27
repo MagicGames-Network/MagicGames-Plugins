@@ -33,6 +33,7 @@ class QueueTickTask extends Task
                     $entity->updateTarget();
                     if (!$entity->checkFull()) {
                         unset(BetterMinion::$minionQueue[$worldName][$queueNumber]);
+                        $entity->lastTick = time();
                         $i[$worldName]++;
                         continue;
                     }
@@ -48,6 +49,7 @@ class QueueTickTask extends Task
                         $entity->stopWorking();
 
                         unset(BetterMinion::$minionQueue[$worldName][$queueNumber]);
+                        $entity->lastTick = time();
                         $i[$worldName]++;
                         continue;
                     }
@@ -96,6 +98,7 @@ class QueueTickTask extends Task
                     $i[$worldName]++;
                 }
                 unset(BetterMinion::$minionQueue[$worldName][$queueNumber]);
+                $entity->lastTick = time();
             }
         }
     }
