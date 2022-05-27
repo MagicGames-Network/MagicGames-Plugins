@@ -209,11 +209,27 @@ class Main extends PluginBase implements Listener
         $player->sendTitle("§6Level Up ", "§e$a[$type]",);
         $cost = ($this->getLevel($type, $player) * 1000);
         $this->eco->addMoney($player, $cost);
-        if ($player instanceof MagicPlayer) {
-            $player->setMaxHealth($player->getMaxHealth() + 1);
-            $player->setStats("Defense", $player->getDefense() + 1);
-            $player->setStats("Damage", $player->getDamage() + 1);
-        }
+
+        $this->calculateHealthDefense($player);
+    }
+
+    public function calculateHealthDefense(Player $player): void
+    {
+        $totalLevel = 1;
+            for ($i = 0; $i < 10; $i++) {
+                $totalLevel += $this->database["level"][$i][strtolower($player->getName())];
+            }
+
+            if ($totalLevel > 40) {
+                $totalLevel = 40;
+            }
+
+            if ($player instanceof MagicPlayer) {
+                $player->setMaxHealth(20 + $totalLevel);
+                $player->setHealth($player->getMaxHealth());
+                $player->setStats("Defense", $player->getDefense() + $totalLevel);
+                $player->setStats("Damage", $player->getDamage() + ($totalLevel / 2));
+            }
     }
 
     public function getAll(int $type): array
@@ -235,22 +251,7 @@ class Main extends PluginBase implements Listener
     public function onJoin(PlayerJoinEvent $event): void
     {
         MagicSync::getInstance()->addPlayerJoin($event->getPlayer(), new ClosureTask(function () use ($event): void {
-            $player = $event->getPlayer();
-
-            $totalLevel = 1;
-            for ($i = 0; $i < 10; $i++) {
-                $totalLevel += $this->database["level"][$i][strtolower($player->getName())];
-            }
-
-            if ($totalLevel > 40) {
-                $totalLevel = 40;
-            }
-
-            if ($player instanceof MagicPlayer) {
-                $player->setMaxHealth($player->getMaxHealth() + $totalLevel);
-                $player->setStats("Defense", $player->getDefense() + $totalLevel);
-                $player->setStats("Damage", $player->getDamage() + ($totalLevel / 2));
-            }
+            $this->calculateHealthDefense($event->getPlayer());
         }), "CALCULATING HEALTH DEFENSE");
     }
 

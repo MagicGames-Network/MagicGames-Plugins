@@ -490,7 +490,6 @@ class EventListener implements Listener
     {
         $player = $event->getPlayer();
         $item = $event->getItem();
-        $block = $event->getBlock();
         if ($item->getNamedTag()->getTag("enchantedblock") !== null) {
             $event->cancel();
             $player->sendMessage(" §eYou Can't Place Enchanted Blocks On Ground");
@@ -505,7 +504,6 @@ class EventListener implements Listener
             $player->getInventory()->setItemInHand($item);
         }
     }
-
 
     public function getPlayerPlatform(Player $player): string
     {

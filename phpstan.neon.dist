@@ -17,34 +17,35 @@ parameters:
         - '#Call to method [a-zA-Z0-9\\_()]+ on an unknown class CLADevs\\VanillaX\\enchantments\\utils\\EnchantmentTrait.#'
         - '#PHPDoc tag @var for variable \$[a-zA-Z0-9\\_()]+ contains unknown class CLADevs\\VanillaX\\enchantments\\utils\\EnchantmentTrait.#'
     paths:
-        - BlankFix
-        - BurgerCustomArmor
-        - CosmicSpawners
-        - GrapplingHook
-        - MagicBankUI
-        - MagicBookShop
-        - MagicCraft
-        - MagicCommandSpy
-        - MagicCore
-        - MagicEnchantmentTable
-        - MagicHealthDefense
-        - MagicIsland
-        - MagicMinion
-        - MagicSkills
-        - MagicSpawners
-        - MagicSync
-        - MagicQuest
-        - MagicTrade
-        - MagicWorldRegen
-        - PortalsPE
-        - PurePerms
-        - SellAll
-        - SellWands
-        - SmeltWands
-        - TempRanks
+        - sb_plugins/BlankFix
+        - sb_plugins/BurgerCustomArmor
+        - sb_plugins/CosmicSpawners
+        - sb_plugins/GrapplingHook
+        - sb_plugins/MagicBankUI
+        - sb_plugins/MagicBookShop
+        - sb_plugins/MagicCraft
+        - sb_plugins/MagicCommandSpy
+        - sb_plugins/MagicCore
+        - sb_plugins/MagicChat
+        - sb_plugins/MagicEnchantmentTable
+        - sb_plugins/MagicHealthDefense
+        - sb_plugins/MagicIsland
+        - sb_plugins/MagicMinion
+        - sb_plugins/MagicSkills
+        - sb_plugins/MagicSpawners
+        - sb_plugins/MagicSync
+        - sb_plugins/MagicQuest
+        - sb_plugins/MagicTrade
+        - sb_plugins/MagicWorldRegen
+        - sb_plugins/PortalsPE
+        - sb_plugins/PurePerms
+        - sb_plugins/SellAll
+        - sb_plugins/SellWands
+        - sb_plugins/SmeltWands
+        - sb_plugins/TempRanks
     excludePaths:
         analyse:
-            - BurgerCustomArmor/src/Heisenburger69/BurgerCustomArmor/Abilities/AbilityUtils.php
+            - sb_plugins/BurgerCustomArmor/src/Heisenburger69/BurgerCustomArmor/Abilities/AbilityUtils.php
             - vendor
         analyseAndScan:
             - vendor/pocketmine/pocketmine-mp/src/event/Listener.php

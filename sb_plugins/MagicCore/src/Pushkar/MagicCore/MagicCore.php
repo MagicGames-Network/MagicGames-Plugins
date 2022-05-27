@@ -10,6 +10,7 @@
 namespace Pushkar\MagicCore;
 
 use pocketmine\Server;
+use pocketmine\utils\Config;
 use pocketmine\player\Player;
 use pocketmine\event\Listener;
 use pocketmine\command\Command;
@@ -20,8 +21,6 @@ use pocketmine\item\enchantment\ItemFlags;
 use pocketmine\item\enchantment\Enchantment;
 use pocketmine\data\bedrock\EnchantmentIdMap;
 use Pushkar\MagicCore\listener\EventListener;
-use Pushkar\MagicCore\listener\ScoreHudTags;
-use pocketmine\utils\Config;
 use Pushkar\MagicCore\managers\CommandManager;
 
 class MagicCore extends PluginBase implements Listener
@@ -30,13 +29,13 @@ class MagicCore extends PluginBase implements Listener
     public const VERSION = "v4.0.0";
     public const FAKE_ENCH_ID = -1;
     public const NO_ACCOUNT = 0;
-    
+
     private static MagicCore $instance;
 
     public array $skin = [];
-    
+
     public array $bitsMoney = [];
-    
+
     public function onLoad(): void
     {
         self::$instance = $this;
@@ -57,7 +56,7 @@ class MagicCore extends PluginBase implements Listener
         if (!InvMenuHandler::isRegistered()) {
             InvMenuHandler::register($this);
         }
-        
+
         @mkdir($this->getDataFolder() . "Players");
 
         $cmdMap = $this->getServer()->getCommandMap();
@@ -89,7 +88,7 @@ class MagicCore extends PluginBase implements Listener
         CommandManager::initalize();
         Server::getInstance()->getPluginManager()->registerEvents(new EventListener(), $this);
     }
-    
+
     public static function getInstance(): MagicCore
     {
         return self::$instance;
@@ -137,7 +136,7 @@ class MagicCore extends PluginBase implements Listener
                 break;
         }
     }
-    
+
     public function saveAllData(): void
     {
         foreach ($this->bitsMoney as $player => $amount) {
@@ -146,13 +145,13 @@ class MagicCore extends PluginBase implements Listener
             $bits->save();
         }
     }
-    
+
     public function loadData(Player $player): void
     {
         $bits = new Config($this->getDataFolder() . "Players/" . $player->getName() . ".yml", Config::YAML);
         $this->bitsMoney[$player->getName()] = $bits->get("Bits");
     }
-    
+
     public function saveData(Player $player): void
     {
         if (isset($this->bitsMoney[$player->getName()])) {
@@ -161,7 +160,7 @@ class MagicCore extends PluginBase implements Listener
             $bits->save();
         }
     }
-    
+
     public function giveBitsBalance(string $player, float $amount): void
     {
         if ($this->getServer()->getPlayerExact($player) instanceof Player && isset($this->bitsMoney[$player]) && is_numeric($this->bitsMoney[$player])) {
@@ -183,7 +182,7 @@ class MagicCore extends PluginBase implements Listener
             $bits->save();
         }
     }
-    
+
     public function getBitsBalance(string $player): float
     {
         if ($this->getServer()->getPlayerExact($player) instanceof Player && isset($this->bitsMoney[$player])) {

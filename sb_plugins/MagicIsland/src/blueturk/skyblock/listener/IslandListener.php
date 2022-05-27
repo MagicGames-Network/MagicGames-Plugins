@@ -20,6 +20,7 @@ use pocketmine\item\LiquidBucket;
 use pocketmine\item\PaintingItem;
 use pocketmine\inventory\Inventory;
 use pocketmine\scheduler\ClosureTask;
+use pocketmine\event\block\BlockBurnEvent;
 use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\event\block\BlockPlaceEvent;
 use pocketmine\event\player\PlayerJoinEvent;
@@ -330,6 +331,15 @@ class IslandListener implements Listener
             if (SkyBlock::getInstance()->getConfig()->getNested($player->getName() . ".island") != null) {
                 $event->cancel();
             }
+        }
+    }
+
+    public function onBurn(BlockBurnEvent $event): void
+    {
+        $block = $event->getBlock();
+        $worlds = ["MagicGames", "Mining"];
+        if (in_array($block->getPosition()->getWorld()->getFolderName(), $worlds)) {
+            $event->cancel();
         }
     }
 }
