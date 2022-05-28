@@ -6,6 +6,7 @@ use pocketmine\Server;
 use pocketmine\player\Player;
 use pocketmine\command\Command;
 use Pushkar\MagicCore\MagicCore;
+use Pushkar\MagicCore\utils\Utils;
 use pocketmine\command\CommandSender;
 use Pushkar\MagicCore\listener\ScoreHudTags;
 
@@ -36,7 +37,7 @@ class BitsCommand extends Command
                     $player = Server::getInstance()->getPlayerExact($args[1]);
                     if ($player instanceof Player) {
                         $player->sendMessage(" §7You Got §e" . $args[2] . "§7 Bits");
-                        ScoreHudTags::updateScoreHud($player, MagicCore::getInstance()->getBitsBalance($player->getName()));
+                        Utils::updateScoreHud($player, MagicCore::getInstance()->getBitsBalance($player->getName()));
                     }
                     break;
                 case "balance":
@@ -51,7 +52,7 @@ class BitsCommand extends Command
                     $sender->sendMessage(" §7Removed §e" . $args[2] . "§7 Bits From §e" . $args[1]);
                     $player = Server::getInstance()->getPlayerExact($args[1]);
                     if ($player instanceof Player) {
-                        ScoreHudTags::updateScoreHud($player, MagicCore::getInstance()->getBitsBalance($player->getName()));
+                        Utils::updateScoreHud($player, MagicCore::getInstance()->getBitsBalance($player->getName()));
                     }
                     break;
                 default:

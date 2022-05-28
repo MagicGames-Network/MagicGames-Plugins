@@ -28,6 +28,7 @@ use pocketmine\event\player\PlayerInteractEvent;
 use Pushkar\MagicCore\forms\anvil\AnvilMainForm;
 use pocketmine\event\player\PlayerBucketEmptyEvent;
 use pocketmine\event\entity\EntityDamageByEntityEvent;
+use Pushkar\MagicCore\utils\Utils;
 
 class PlayerListener implements Listener
 {
@@ -49,7 +50,7 @@ class PlayerListener implements Listener
             $item = ItemFactory::getInstance()->get(1070, 0, 1);
 
             MagicCore::getInstance()->loadData($player);
-            ScoreHudTags::updateScoreHud($player, MagicCore::getInstance()->getBitsBalance($player->getName()));
+            Utils::updateScoreHud($player, MagicCore::getInstance()->getBitsBalance($player->getName()));
             $event->setJoinMessage("");
 
             $item->setCustomName("§r§aSkyblock Menu §7( Right Click )§r");

@@ -4,6 +4,8 @@ namespace Pushkar\MagicCore\utils;
 
 use pocketmine\player\Player;
 use Pushkar\MagicCore\MagicCore;
+use Ifera\ScoreHud\scoreboard\ScoreTag;
+use Ifera\ScoreHud\event\PlayerTagUpdateEvent;
 use pocketmine\network\mcpe\protocol\types\DeviceOS;
 
 final class Utils
@@ -68,5 +70,14 @@ final class Utils
             DeviceOS::WINDOWS_PHONE => "Windows Phone",
             default => "Unknown"
         };
+    }
+
+    public static function updateScoreHud(Player $player, float $money): void
+    {
+        $ev = new PlayerTagUpdateEvent(
+            $player,
+            new ScoreTag("bits.magiccore", (string)$money)
+        );
+        $ev->call();
     }
 }
