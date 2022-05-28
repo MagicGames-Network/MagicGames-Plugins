@@ -1,6 +1,6 @@
 <?php
 
-namespace Pushkar\MagicCore\listener;
+namespace Pushkar\MagicCore\listener\type;
 
 use pocketmine\player\Player;
 use pocketmine\event\Listener;

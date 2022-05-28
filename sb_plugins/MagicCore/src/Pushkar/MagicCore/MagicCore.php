@@ -9,7 +9,6 @@
 
 namespace Pushkar\MagicCore;
 
-use pocketmine\Server;
 use pocketmine\utils\Config;
 use pocketmine\player\Player;
 use pocketmine\event\Listener;
@@ -21,8 +20,8 @@ use pocketmine\item\enchantment\ItemFlags;
 use Pushkar\MagicCore\utils\Configuration;
 use pocketmine\item\enchantment\Enchantment;
 use pocketmine\data\bedrock\EnchantmentIdMap;
-use Pushkar\MagicCore\listener\EventListener;
 use Pushkar\MagicCore\managers\CommandManager;
+use Pushkar\MagicCore\listener\ListenerManager;
 
 class MagicCore extends PluginBase implements Listener
 {
@@ -82,7 +81,7 @@ class MagicCore extends PluginBase implements Listener
         $this->reloadConfig();
 
         CommandManager::initalize();
-        Server::getInstance()->getPluginManager()->registerEvents(new EventListener(), $this);
+        (new ListenerManager)->startup();
     }
 
     public static function getInstance(): MagicCore
@@ -187,5 +186,10 @@ class MagicCore extends PluginBase implements Listener
             $bits->save();
             return $money;
         }
+    }
+
+    public function getFile(): string
+    {
+        return parent::getFile();
     }
 }
