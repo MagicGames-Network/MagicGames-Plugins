@@ -18,6 +18,7 @@ use pocketmine\plugin\PluginBase;
 use muqsit\invmenu\InvMenuHandler;
 use onebone\economyapi\EconomyAPI;
 use pocketmine\item\enchantment\ItemFlags;
+use Pushkar\MagicCore\utils\Configuration;
 use pocketmine\item\enchantment\Enchantment;
 use pocketmine\data\bedrock\EnchantmentIdMap;
 use Pushkar\MagicCore\listener\EventListener;
@@ -28,7 +29,6 @@ class MagicCore extends PluginBase implements Listener
     public const PREFIX = " §e";
     public const VERSION = "v4.0.0";
     public const FAKE_ENCH_ID = -1;
-    public const NO_ACCOUNT = 0;
 
     private static MagicCore $instance;
 
@@ -39,12 +39,9 @@ class MagicCore extends PluginBase implements Listener
     public function onLoad(): void
     {
         self::$instance = $this;
-        $this->getLogger()->info("§eLoading MagicGamesCore");
 
-        /** @var array $loadWorlds */
-        $loadWorlds = $this->getConfig()->get("load-worlds");
         /** @var string $world */
-        foreach ($loadWorlds as $world) {
+        foreach (Configuration::$worldsToLoad as $world) {
             if ($this->getServer()->getWorldManager()->loadWorld($world)) {
                 $this->getLogger()->info("§eWorld ${world} Has Been Successfully Loaded");
             }
@@ -70,7 +67,6 @@ class MagicCore extends PluginBase implements Listener
         $pmmpver instanceof Command ? $cmdMap->unregister($pmmpver) : null;
         $pmmpclear instanceof Command ? $cmdMap->unregister($pmmpclear) : null;
 
-        //$this->getServer()->getNetwork()->setName($this->getConfig()->get("server-modt"));
         EnchantmentIdMap::getInstance()->register(self::FAKE_ENCH_ID, new Enchantment("Glow", 1, ItemFlags::ALL, ItemFlags::NONE, 1));
 
         $this->getServer()->getPluginManager()->registerEvents($this, $this);
@@ -96,28 +92,26 @@ class MagicCore extends PluginBase implements Listener
 
     public function onDisable(): void
     {
-        Server::getInstance()->broadcastMessage("§l§e§k!!!§r §l§cSERVER RESTARTING §e§k!!!");
         $this->saveAllData();
-        if ($this->getConfig()->get("Crash-Rejoin") === true) {
-            foreach ($this->getServer()->getOnlinePlayers() as $sender) {
-                $sender->sendTitle("§cServer Restarting");
-                $sender->transfer($this->getConfig()->get("IP"), $this->getConfig()->get("Port"));
-                $name = $sender->getName();
-                $this->getLogger()->info("§ePlayer ${name} Has Been Successfully Transfered");
+        if (Configuration::$rejoinOnStop) {
+            foreach ($this->getServer()->getOnlinePlayers() as $player) {
+                $playerName = $player->getName();
+
+                $player->sendTitle("§cServer Restarting");
+                $player->transfer(Configuration::$rejoinIP, (int) Configuration::$rejoinPort);
+                $this->getLogger()->info("§ePlayer ${playerName} Has Been Successfully Transfered");
             }
         }
     }
 
     public function naturalMoneyLoss(Player $sender, float $senderMoney): void
     {
-        if (!$this->getConfig()->get("LoseMoneyNaturally")) return;
-
-        $moneyLoss = $this->getConfig()->get("Money-Loss");
-        if (!is_numeric($moneyLoss)) {
+        if (Configuration::$naturalMoneyLost) {
             return;
         }
 
-        switch ($this->getConfig()->get("Type")) {
+        $moneyLoss = Configuration::$moneyLoseAmount;
+        switch (Configuration::$loseMoneyType) {
             case "all":
                 $sender->sendMessage("§c§lINFO > §r§bYou Died And Lost §e$" . $senderMoney);
                 EconomyAPI::getInstance()->reduceMoney($sender, $senderMoney);
@@ -127,12 +121,12 @@ class MagicCore extends PluginBase implements Listener
                 EconomyAPI::getInstance()->reduceMoney($sender, $senderMoney / 2);
                 break;
             case "amount":
-                $sender->sendMessage("§c§lINFO > §r§bYou Died And Lost §e$" . (float)$moneyLoss);
-                EconomyAPI::getInstance()->reduceMoney($sender, (float)$moneyLoss);
+                $sender->sendMessage("§c§lINFO > §r§bYou Died And Lost §e$" . $moneyLoss);
+                EconomyAPI::getInstance()->reduceMoney($sender, $moneyLoss);
                 break;
             case "percent":
-                $sender->sendMessage("§c§lINFO > §r§bYou Died And Lost §e$" . ((float)$moneyLoss / 100) * $senderMoney);
-                EconomyAPI::getInstance()->reduceMoney($sender, ((float)$moneyLoss / 100) * $senderMoney);
+                $sender->sendMessage("§c§lINFO > §r§bYou Died And Lost §e$" . ($moneyLoss / 100) * $senderMoney);
+                EconomyAPI::getInstance()->reduceMoney($sender, ($moneyLoss / 100) * $senderMoney);
                 break;
         }
     }

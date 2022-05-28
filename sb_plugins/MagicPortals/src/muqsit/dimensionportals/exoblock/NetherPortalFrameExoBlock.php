@@ -67,19 +67,15 @@ class NetherPortalFrameExoBlock implements ExoBlock
 		$world = $pos->getWorld();
 		$metadata = $wrapping->getMeta();
 
-		if ($wrapping->getSide(Facing::UP)->getId() === BlockLegacyIds::PORTAL) {
-			$this->fill2($world, $wrapping->getSide(Facing::UP)->getPosition(), $metadata);
-		} elseif ($wrapping->getSide(Facing::DOWN)->getId() === BlockLegacyIds::PORTAL) {
-			$this->fill2($world, $wrapping->getSide(Facing::DOWN)->getPosition(), $metadata);
-		} elseif ($wrapping->getSide(Facing::NORTH)->getId() === BlockLegacyIds::PORTAL) {
-			$this->fill2($world, $wrapping->getSide(Facing::NORTH)->getPosition(), $metadata);
-		} elseif ($wrapping->getSide(Facing::SOUTH)->getId() === BlockLegacyIds::PORTAL) {
-			$this->fill2($world, $wrapping->getSide(Facing::SOUTH)->getPosition(), $metadata);
-		} elseif ($wrapping->getSide(Facing::EAST)->getId() === BlockLegacyIds::PORTAL) {
-			$this->fill2($world, $wrapping->getSide(Facing::EAST)->getPosition(), $metadata);
-		} elseif ($wrapping->getSide(Facing::WEST)->getId() === BlockLegacyIds::PORTAL) {
-			$this->fill2($world, $wrapping->getSide(Facing::WEST)->getPosition(), $metadata);
-		}
+		match (BlockLegacyIds::PORTAL) {
+			$wrapping->getSide(Facing::UP)->getId() => $this->fill2($world, $wrapping->getSide(Facing::UP)->getPosition(), $metadata),
+			$wrapping->getSide(Facing::DOWN)->getId() => $this->fill2($world, $wrapping->getSide(Facing::DOWN)->getPosition(), $metadata),
+			$wrapping->getSide(Facing::NORTH)->getId() => $this->fill2($world, $wrapping->getSide(Facing::NORTH)->getPosition(), $metadata),
+			$wrapping->getSide(Facing::SOUTH)->getId() => $this->fill2($world, $wrapping->getSide(Facing::SOUTH)->getPosition(), $metadata),
+			$wrapping->getSide(Facing::EAST)->getId() => $this->fill2($world, $wrapping->getSide(Facing::EAST)->getPosition(), $metadata),
+			$wrapping->getSide(Facing::WEST)->getId() => $this->fill2($world, $wrapping->getSide(Facing::WEST)->getPosition(), $metadata),
+			default => null
+		};
 
 		return false;
 	}

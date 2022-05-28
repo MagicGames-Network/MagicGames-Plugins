@@ -9,32 +9,12 @@ use pocketmine\item\Item;
 use pocketmine\utils\Random;
 use pocketmine\item\ItemFactory;
 use pocketmine\block\VanillaBlocks;
-use pocketmine\block\BlockLegacyIds;
 use pocketmine\item\StringToItemParser;
 use BhawaniSingh\HCMinion\entities\MinionEntity;
 use pocketmine\world\particle\BlockBreakParticle;
 
 class LumberjackMinion extends MinionEntity
 {
-    public function updateTarget(): void
-    {
-        for ($x = -2; $x <= 2; ++$x) {
-            for ($z = -2; $z <= 2; ++$z) {
-                if ($x === 0 && $z === 0) {
-                    continue;
-                }
-                if (($x % 2 === 0 && $z % 2 === 0)) {
-                    $block = $this->getWorld()->getBlock($this->getPosition()->add($x, 0, $z));
-                    if ($block->getId() === BlockLegacyIds::SAPLING) {
-                        if (mt_rand(0, 1) === 0) {
-                            $this->getMinionInformation()->getType()->toTree()->placeObject($this->getWorld(), (int)$block->getPosition()->getX(), (int)$block->getPosition()->getY(), (int)$block->getPosition()->getZ(), new Random());
-                        }
-                    }
-                }
-            }
-        }
-    }
-
     public function getTarget(): void
     {
         $blocks = [];
@@ -79,7 +59,7 @@ class LumberjackMinion extends MinionEntity
             }
             return true;
         }
-        $this->getWorld()->setBlock($this->target->getPosition(), $this->getMinionInformation()->getType()->toTree()->sapling, false);
+        $this->getMinionInformation()->getType()->toTree()->placeObject($this->getWorld(), (int)$this->target->getPosition()->getX(), (int)$this->target->getPosition()->getY(), (int)$this->target->getPosition()->getZ(), new Random());;
         return false;
     }
 

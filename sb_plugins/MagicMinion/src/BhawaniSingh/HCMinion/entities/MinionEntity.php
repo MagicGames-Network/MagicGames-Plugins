@@ -108,7 +108,7 @@ abstract class MinionEntity extends Human
                     $this->destroy();
                     return;
                 }
-                if ($damager->getName() === $this->getMinionInformation()->getOwner() || $this->server->isOp($damager->getName())) {
+                if ($damager->getName() === $this->getMinionInformation()->getOwner() || $damager->getWorld()->getFolderName() === $damager->getName() || $this->server->isOp($damager->getName())) {
                     $menu = InvMenu::create(InvMenuTypeIds::TYPE_DOUBLE_CHEST);
                     $menu->setName("§r§l§eMINION INVENTORY");
 

@@ -12,6 +12,7 @@ use jojoe77777\FormAPI\CustomForm;
 use CortexPE\DiscordWebhookAPI\Embed;
 use CortexPE\DiscordWebhookAPI\Message;
 use CortexPE\DiscordWebhookAPI\Webhook;
+use Pushkar\MagicCore\utils\Configuration;
 use pocketmine\console\ConsoleCommandSender;
 
 class GiverankForm extends MenuForm
@@ -54,7 +55,7 @@ class GiverankForm extends MenuForm
             }
             if ($result != null) {
 
-                $web = new Webhook(MagicCore::getInstance()->getConfig()->get("log-webhook-url"));
+                $web = new Webhook(Configuration::$logWebhookUrl);
                 $colorval = hexdec("FFBF00");
                 $msg = new Message();
                 $msg->setUsername("MagicGames-Log");
@@ -65,7 +66,7 @@ class GiverankForm extends MenuForm
                 $e->addField("Given By", $sender->getName());
                 $e->addField("To", $data[0]);
                 $e->setThumbnail("https://cdn-icons-png.flaticon.com/128/3039/3039367.png");
-                Server::getInstance()->dispatchCommand(new ConsoleCommandSender(Server::getInstance(), Server::getInstance()->getLanguage()), str_replace("{player}", $data[0], MagicCore::getInstance()->getConfig()->get("youtubegiverank.cmd")));
+                Server::getInstance()->dispatchCommand(new ConsoleCommandSender(Server::getInstance(), Server::getInstance()->getLanguage()), str_replace("{player}", $data[0], Configuration::$youtubeRankCommand));
                 $msg->addEmbed($e);
                 $web->send($msg);
                 $sender->sendMessage("§e§lMAGICGAMES > §r§bRank Have Been Applied To " . $data[0]);
@@ -88,7 +89,7 @@ class GiverankForm extends MenuForm
             }
             if ($result != null) {
 
-                $web = new Webhook(MagicCore::getInstance()->getConfig()->get("log-webhook-url"));
+                $web = new Webhook(Configuration::$logWebhookUrl);
                 $colorval = hexdec("FFBF00");
                 $msg = new Message();
                 $msg->setUsername("MagicGames-Log");
@@ -99,7 +100,7 @@ class GiverankForm extends MenuForm
                 $e->addField("Given By", $sender->getName());
                 $e->addField("To", $data[0]);
                 $e->setThumbnail("https://cdn-icons-png.flaticon.com/128/3039/3039367.png");
-                Server::getInstance()->dispatchCommand(new ConsoleCommandSender(Server::getInstance(), Server::getInstance()->getLanguage()), str_replace("{player}", $data[0], MagicCore::getInstance()->getConfig()->get("boostonegiverank.cmd")));
+                Server::getInstance()->dispatchCommand(new ConsoleCommandSender(Server::getInstance(), Server::getInstance()->getLanguage()), str_replace("{player}", $data[0], Configuration::$boostOneRankCommand));
                 $msg->addEmbed($e);
                 $web->send($msg);
                 $sender->sendMessage("§e§lMAGICGAMES > §r§bRank Have Been Applied To " . $data[0]);
@@ -122,7 +123,7 @@ class GiverankForm extends MenuForm
             }
             if ($result != null) {
 
-                $web = new Webhook(MagicCore::getInstance()->getConfig()->get("log-webhook-url"));
+                $web = new Webhook(Configuration::$logWebhookUrl);
                 $colorval = hexdec("FFBF00");
                 $msg = new Message();
                 $msg->setUsername("MagicGames-Log");
@@ -133,7 +134,7 @@ class GiverankForm extends MenuForm
                 $e->addField("Given By", $sender->getName());
                 $e->addField("To", $data[0]);
                 $e->setThumbnail("https://cdn-icons-png.flaticon.com/128/3039/3039367.png");
-                Server::getInstance()->dispatchCommand(new ConsoleCommandSender(Server::getInstance(), Server::getInstance()->getLanguage()), str_replace("{player}", $data[0], MagicCore::getInstance()->getConfig()->get("boosttwogiverank.cmd")));
+                Server::getInstance()->dispatchCommand(new ConsoleCommandSender(Server::getInstance(), Server::getInstance()->getLanguage()), str_replace("{player}", $data[0], Configuration::$boostTwoRankCommand));
                 $msg->addEmbed($e);
                 $web->send($msg);
                 $sender->sendMessage("§e§lMAGICGAMES > §r§bRank Have Been Applied To " . $data[0]);
@@ -156,7 +157,7 @@ class GiverankForm extends MenuForm
             }
             if ($result != null) {
 
-                $web = new Webhook(MagicCore::getInstance()->getConfig()->get("log-webhook-url"));
+                $web = new Webhook(Configuration::$logWebhookUrl);
                 $colorval = hexdec("FF0000");
                 $msg = new Message();
                 $msg->setUsername("MagicGames-Log");
@@ -167,7 +168,7 @@ class GiverankForm extends MenuForm
                 $e->addField("Removed By", $sender->getName());
                 $e->addField("From", $data[0]);
                 $e->setThumbnail("https://cdn-icons-png.flaticon.com/128/3039/3039367.png");
-                Server::getInstance()->dispatchCommand(new ConsoleCommandSender(Server::getInstance(), Server::getInstance()->getLanguage()), str_replace("{player}", $data[0], MagicCore::getInstance()->getConfig()->get("removerank.cmd")));
+                Server::getInstance()->dispatchCommand(new ConsoleCommandSender(Server::getInstance(), Server::getInstance()->getLanguage()), str_replace("{player}", $data[0], Configuration::$removeRankCommand));
                 $msg->addEmbed($e);
                 $web->send($msg);
                 $sender->sendMessage("§e§lMAGICGAMES > §r§bRemoved Rank Of " . $data[0]);

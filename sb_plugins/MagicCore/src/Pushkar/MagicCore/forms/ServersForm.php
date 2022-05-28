@@ -3,7 +3,6 @@
 namespace Pushkar\MagicCore\forms;
 
 use pocketmine\Server;
-use Pushkar\MagicCore\MagicCore;
 use dktapps\pmforms\FormIcon;
 use dktapps\pmforms\MenuForm;
 use pocketmine\player\Player;
@@ -27,23 +26,23 @@ class ServersForm extends MenuForm
             switch ($selected) {
                 case 0:
                     $sender->sendTitle("§l§6Transfering", FormIcon::IMAGE_TYPE_URL);
-                    Server::getInstance()->dispatchCommand(new ConsoleCommandSender(Server::getInstance(), Server::getInstance()->getLanguage()), str_replace("{player}", $sender->getName(), MagicCore::getInstance()->getConfig()->get("hubserver.cmd")));
+                    Server::getInstance()->dispatchCommand(new ConsoleCommandSender(Server::getInstance(), Server::getInstance()->getLanguage()), str_replace("{player}", $sender->getName(), ""));
                     break;
                 case 1:
                     $sender->sendTitle("§l§6Transfering", FormIcon::IMAGE_TYPE_URL);
-                    Server::getInstance()->dispatchCommand(new ConsoleCommandSender(Server::getInstance(), Server::getInstance()->getLanguage()), str_replace("{player}", $sender->getName(), MagicCore::getInstance()->getConfig()->get("fireserver.cmd")));
+                    Server::getInstance()->dispatchCommand(new ConsoleCommandSender(Server::getInstance(), Server::getInstance()->getLanguage()), str_replace("{player}", $sender->getName(), ""));
                     break;
                 case 2:
                     $sender->sendTitle("§l§6Transfering", FormIcon::IMAGE_TYPE_URL);
-                    Server::getInstance()->dispatchCommand(new ConsoleCommandSender(Server::getInstance(), Server::getInstance()->getLanguage()), str_replace("{player}", $sender->getName(), MagicCore::getInstance()->getConfig()->get("iceserver.cmd")));
+                    Server::getInstance()->dispatchCommand(new ConsoleCommandSender(Server::getInstance(), Server::getInstance()->getLanguage()), str_replace("{player}", $sender->getName(), ""));
                     break;
                 case 3:
                     $sender->sendTitle("§l§6Transfering", FormIcon::IMAGE_TYPE_URL);
-                    Server::getInstance()->dispatchCommand(new ConsoleCommandSender(Server::getInstance(), Server::getInstance()->getLanguage()), str_replace("{player}", $sender->getName(), MagicCore::getInstance()->getConfig()->get("earthserver.cmd")));
+                    Server::getInstance()->dispatchCommand(new ConsoleCommandSender(Server::getInstance(), Server::getInstance()->getLanguage()), str_replace("{player}", $sender->getName(), ""));
                     break;
                 case 4:
                     $sender->sendTitle("§l§6Transfering", FormIcon::IMAGE_TYPE_URL);
-                    Server::getInstance()->dispatchCommand(new ConsoleCommandSender(Server::getInstance(), Server::getInstance()->getLanguage()), str_replace("{player}", $sender->getName(), MagicCore::getInstance()->getConfig()->get("survivalserver.cmd")));
+                    Server::getInstance()->dispatchCommand(new ConsoleCommandSender(Server::getInstance(), Server::getInstance()->getLanguage()), str_replace("{player}", $sender->getName(), ""));
                     break;
                 case 5:
                     break;

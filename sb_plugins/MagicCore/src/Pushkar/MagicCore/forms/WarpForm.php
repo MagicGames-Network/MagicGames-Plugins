@@ -3,6 +3,7 @@
 namespace Pushkar\MagicCore\forms;
 
 use pocketmine\Server;
+use pocketmine\world\World;
 use dktapps\pmforms\FormIcon;
 use dktapps\pmforms\MenuForm;
 use pocketmine\player\Player;
@@ -35,78 +36,89 @@ class WarpForm extends MenuForm
             function (Player $player, int $selected) use ($MagicCore): void {
                 switch ($selected) {
                     case 0:
-                        $world = $MagicCore->getConfig()->get("pvp-world");
-                        $player->sendMessage(" §eComming Soon In 1-2 Days");
-                        #$player->teleport(new Position(floatval($MagicCore->getConfig()->get("pvp-x")), floatval($MagicCore->getConfig()->get("pvp-y")), floatval($MagicCore->getConfig()->get("pvp-z")), $MagicCore->getServer()->getWorldManager()->getWorldByName($world)));
-                        #$player->sendTitle("§e§lPVP");
+                        $player->sendMessage(" §eComing Soon!");
                         break;
-
                     case 1:
-                        $world = $MagicCore->getConfig()->get("forest-world");
+                        $world = $MagicCore->getServer()->getWorldManager()->getWorldByName("MagicGames");
+                        if (!$world instanceof World) {
+                            break;
+                        }
 
-                        $player->teleport(new Position(floatval($MagicCore->getConfig()->get("forest-x")), floatval($MagicCore->getConfig()->get("forest-y")), floatval($MagicCore->getConfig()->get("forest-z")), $MagicCore->getServer()->getWorldManager()->getWorldByName($world)));
+                        $player->teleport(new Position(-279, 82, -12, $world));
                         $player->sendTitle("§e§lFOREST");
                         break;
-
                     case 2:
-                        $world = $MagicCore->getConfig()->get("mine-world");
-                        $player->teleport(new Position(floatval($MagicCore->getConfig()->get("mine-x")), floatval($MagicCore->getConfig()->get("mine-y")), floatval($MagicCore->getConfig()->get("mine-z")), $MagicCore->getServer()->getWorldManager()->getWorldByName($world)));
+                        $world = $MagicCore->getServer()->getWorldManager()->getWorldByName("Mining");
+                        if (!$world instanceof World) {
+                            break;
+                        }
+
+                        $player->teleport(new Position(-300, 111, 107, $world));
                         $player->sendTitle("§e§lMINE");
                         break;
-
                     case 3:
-                        $world = $MagicCore->getConfig()->get("farm-world");
+                        $world = $MagicCore->getServer()->getWorldManager()->getWorldByName("MagicGames");
+                        if (!$world instanceof World) {
+                            break;
+                        }
 
-                        $player->teleport(new Position(floatval($MagicCore->getConfig()->get("farm-x")), floatval($MagicCore->getConfig()->get("farm-y")), floatval($MagicCore->getConfig()->get("farm-z")), $MagicCore->getServer()->getWorldManager()->getWorldByName($world)));
+                        $player->teleport(new Position(115, 71, -211, $world));
                         $player->sendTitle("§e§lFARM");
                         break;
-
                     case 4:
-                        $world = $MagicCore->getConfig()->get("grave-world");
+                        $world = $MagicCore->getServer()->getWorldManager()->getWorldByName("MagicGames");
+                        if (!$world instanceof World) {
+                            break;
+                        }
 
-                        $player->teleport(new Position(floatval($MagicCore->getConfig()->get("grave-x")), floatval($MagicCore->getConfig()->get("grave-y")), floatval($MagicCore->getConfig()->get("grave-z")), $MagicCore->getServer()->getWorldManager()->getWorldByName($world)));
+                        $player->teleport(new Position(-104, 72, -137, $world));
                         $player->sendTitle("§e§lGRAVEYARD");
                         break;
-
                     case 5:
                         Server::getInstance()->dispatchCommand($player, "liftui");
                         break;
-
                     case 6:
                         Server::getInstance()->dispatchCommand($player, "join");
                         $player->sendTitle("§e§lISLAND");
                         break;
-
                     case 7:
                         Server::getInstance()->dispatchCommand($player, "hub");
                         $player->sendTitle("§e§lHUB");
                         break;
-
                     case 8:
-                        $world = $MagicCore->getConfig()->get("nether-world");
+                        $world = $MagicCore->getServer()->getWorldManager()->getWorldByName("MagicGames");
+                        if (!$world instanceof World) {
+                            break;
+                        }
 
-                        $player->teleport(new Position(floatval($MagicCore->getConfig()->get("nether-x")), floatval($MagicCore->getConfig()->get("nether-y")), floatval($MagicCore->getConfig()->get("nether-z")), $MagicCore->getServer()->getWorldManager()->getWorldByName($world)));
+                        $player->teleport(new Position(-309, 83, -385, $world));
                         $player->sendTitle("§e§lNETHER");
                         break;
-
                     case 9:
-                        $world = $MagicCore->getConfig()->get("end-world");
+                        $world = $MagicCore->getServer()->getWorldManager()->getWorldByName("MagicGames");
+                        if (!$world instanceof World) {
+                            break;
+                        }
 
-                        $player->teleport(new Position(floatval($MagicCore->getConfig()->get("end-x")), floatval($MagicCore->getConfig()->get("end-y")), floatval($MagicCore->getConfig()->get("end-z")), $MagicCore->getServer()->getWorldManager()->getWorldByName($world)));
+                        $player->teleport(new Position(-608, 22, -275, $world));
                         $player->sendTitle("§e§lEND");
                         break;
-
                     case 10:
-                        $world = $MagicCore->getConfig()->get("crates-world");
+                        $world = $MagicCore->getServer()->getWorldManager()->getWorldByName("MagicGames");
+                        if (!$world instanceof World) {
+                            break;
+                        }
 
-                        $player->teleport(new Position(floatval($MagicCore->getConfig()->get("crates-x")), floatval($MagicCore->getConfig()->get("crates-y")), floatval($MagicCore->getConfig()->get("crates-z")), $MagicCore->getServer()->getWorldManager()->getWorldByName($world)));
+                        $player->teleport(new Position(4, 73, -107, $world));
                         $player->sendTitle("§e§lCRATES");
                         break;
-
                     case 11:
-                        $world = $MagicCore->getConfig()->get("leaderboard-world");
+                        $world = $MagicCore->getServer()->getWorldManager()->getWorldByName("MagicGames");
+                        if (!$world instanceof World) {
+                            break;
+                        }
 
-                        $player->teleport(new Position(floatval($MagicCore->getConfig()->get("leaderboard-x")), floatval($MagicCore->getConfig()->get("leaderboard-y")), floatval($MagicCore->getConfig()->get("leaderboard-z")), $MagicCore->getServer()->getWorldManager()->getWorldByName($world)));
+                        $player->teleport(new Position(4, 73, 152, $world));
                         $player->sendTitle("§e§lLEADERBOARD");
                         break;
                 }

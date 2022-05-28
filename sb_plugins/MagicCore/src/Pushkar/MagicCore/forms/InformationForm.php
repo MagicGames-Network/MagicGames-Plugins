@@ -8,6 +8,7 @@ use dktapps\pmforms\MenuForm;
 use pocketmine\player\Player;
 use Stats\player\MagicPlayer;
 use dktapps\pmforms\MenuOption;
+use _64FF00\PurePerms\PurePerms;
 use Pushkar\MagicCore\MagicCore;
 use jojoe77777\FormAPI\CustomForm;
 use jojoe77777\FormAPI\SimpleForm;
@@ -20,56 +21,56 @@ class InformationForm extends MenuForm
 
     public function __construct()
     {
-        parent::__construct(MagicCore::getInstance()->getConfig()->get("TITLE-MENU"), MagicCore::getInstance()->getConfig()->get("CONTENT-MENU"), [
-            new MenuOption(MagicCore::getInstance()->getConfig()->get("INFO-BTN-ONE"), new FormIcon("https://i.imgur.com/xbYrpSW.png", FormIcon::IMAGE_TYPE_URL)),
-            new MenuOption(MagicCore::getInstance()->getConfig()->get("INFO-BTN-TWO"), new FormIcon("https://i.imgur.com/UQvACCH.png", FormIcon::IMAGE_TYPE_URL)),
-            new MenuOption(MagicCore::getInstance()->getConfig()->get("INFO-BTN-THREE"), new FormIcon("https://i.imgur.com/RDDn4S8.png", FormIcon::IMAGE_TYPE_URL)),
-            new MenuOption(MagicCore::getInstance()->getConfig()->get("INFO-BTN-FOR"), new FormIcon("https://i.imgur.com/nVQ64qx.png", FormIcon::IMAGE_TYPE_URL)),
-            new MenuOption(MagicCore::getInstance()->getConfig()->get("INFO-BTN-FIVE"), new FormIcon("https://i.imgur.com/2VRM6BT.png", FormIcon::IMAGE_TYPE_URL)),
-            new MenuOption(MagicCore::getInstance()->getConfig()->get("INFO-BTN-SIX"), new FormIcon("https://i.imgur.com/9u10Avf.png", FormIcon::IMAGE_TYPE_URL)),
-            new MenuOption(MagicCore::getInstance()->getConfig()->get("INFO-BTN-SEVEN"), new FormIcon("https://i.imgur.com/gICdeHW.png", FormIcon::IMAGE_TYPE_URL)),
-            new MenuOption(MagicCore::getInstance()->getConfig()->get("INFO-BTN-EIGHT"), new FormIcon("https://i.imgur.com/2jjvcKo.png", FormIcon::IMAGE_TYPE_URL)),
-            new MenuOption(MagicCore::getInstance()->getConfig()->get("INFO-BTN-NINE"), new FormIcon("https://i.imgur.com/XNl95R5.png", FormIcon::IMAGE_TYPE_URL)),
-            new MenuOption(MagicCore::getInstance()->getConfig()->get("INFO-BTN-TEN"), new FormIcon("https://i.imgur.com/erHwlje.png", FormIcon::IMAGE_TYPE_URL))
-        ], function (Player $sender, int $selected): void {
+        parent::__construct("§3§l«§r §bINFORMATIONS §3§l»", "§eSelect the category listed below:", [
+            new MenuOption("§b§lABOUT\n§r§8Tap to check", new FormIcon("https://i.imgur.com/xbYrpSW.png", FormIcon::IMAGE_TYPE_URL)),
+            new MenuOption("§a§lCHANGELOG\n§r§8Tap to check", new FormIcon("https://i.imgur.com/UQvACCH.png", FormIcon::IMAGE_TYPE_URL)),
+            new MenuOption("§3§lFEATURES\n§r§8Tap to check", new FormIcon("https://i.imgur.com/RDDn4S8.png", FormIcon::IMAGE_TYPE_URL)),
+            new MenuOption("§c§lRULES\n§r§8Tap to check", new FormIcon("https://i.imgur.com/nVQ64qx.png", FormIcon::IMAGE_TYPE_URL)),
+            new MenuOption("§5§lSTAFF-LIST\n§r§8Tap to check", new FormIcon("https://i.imgur.com/2VRM6BT.png", FormIcon::IMAGE_TYPE_URL)),
+            new MenuOption("§6§lTUTORIAL\n§r§8Tap to check", new FormIcon("https://i.imgur.com/9u10Avf.png", FormIcon::IMAGE_TYPE_URL)),
+            new MenuOption("§1§lRANK-LIST\n§r§8Tap to check", new FormIcon("https://i.imgur.com/gICdeHW.png", FormIcon::IMAGE_TYPE_URL)),
+            new MenuOption("§9§lSOCIAL-MEDIA\n§r§8Tap to check", new FormIcon("https://i.imgur.com/2jjvcKo.png", FormIcon::IMAGE_TYPE_URL)),
+            new MenuOption("§6§lANNOUNCEMENTS\n§r§8Tap to check", new FormIcon("https://i.imgur.com/XNl95R5.png", FormIcon::IMAGE_TYPE_URL)),
+            new MenuOption("§5§lEVENT\n§r§8Tap to check", new FormIcon("https://i.imgur.com/erHwlje.png", FormIcon::IMAGE_TYPE_URL))
+        ], function (Player $player, int $selected): void {
             switch ($selected) {
                 case 0:
-                    $this->INFOONE($sender);
+                    $this->INFOONE($player);
                     break;
                 case 1:
-                    $this->INFOTWO($sender);
+                    $this->INFOTWO($player);
                     break;
                 case 2:
-                    $this->INFOTHREE($sender);
+                    $this->INFOTHREE($player);
                     break;
                 case 3:
-                    $this->INFOFOR($sender);
+                    $this->INFOFOR($player);
                     break;
                 case 4:
-                    $this->INFOFIVE($sender);
+                    $this->INFOFIVE($player);
                     break;
                 case 5:
-                    $this->INFOSIX($sender);
+                    $this->INFOSIX($player);
                     break;
                 case 6:
-                    $sender->sendForm(new RankshopForm());
+                    $player->sendForm(new RankshopForm());
                     break;
                 case 7:
-                    $this->INFOEIGHT($sender);
+                    $this->INFOEIGHT($player);
                     break;
                 case 8:
-                    $this->INFONINE($sender);
+                    $this->INFONINE($player);
                     break;
                 case 9:
-                    $this->INFOTEN($sender);
+                    $this->INFOTEN($player);
                     break;
             }
         });
     }
 
-    public function MagicCoreMenu(Player $sender): void
+    public function INFOONE(Player $player): void
     {
-        $form = new SimpleForm(function (Player $sender, $data) {
+        $form = new SimpleForm(function (Player $player, $data) {
             if ($data === null) {
                 return;
             }
@@ -77,60 +78,20 @@ class InformationForm extends MenuForm
                 case 0:
                     break;
                 case 1:
-                    $this->INFOONE($sender);
-                    break;
-                case 2:
-                    $this->INFOTWO($sender);
-                    break;
-                case 3:
-                    $this->INFOTHREE($sender);
-                    break;
-                case 4:
-                    $this->INFOFOR($sender);
-                    break;
-                case 5:
-                    $this->INFOFIVE($sender);
-                    break;
-                case 6:
-                    $this->INFOSIX($sender);
-                    break;
-                case 7:
-                    $this->INFOSEVEN($sender);
-                    break;
-                case 8:
-                    $this->INFOEIGHT($sender);
-                    break;
-                case 9:
-                    $this->INFONINE($sender);
-                    break;
-                case 10:
-                    $this->INFOTEN($sender);
-                    break;
-                case 11:
-                    $this->comingsoon($sender);
+                    $player->sendForm(new InformationForm());
                     break;
             }
         });
-        $form->setTitle(MagicCore::getInstance()->getConfig()->get("TITLE-MENU"));
-        $form->setContent(MagicCore::getInstance()->getConfig()->get("CONTENT-MENU"));
-        $form->addButton(MagicCore::getInstance()->getConfig()->get("EXIT-BTN"), 0, "textures/ui/cancel");
-        $form->addButton(MagicCore::getInstance()->getConfig()->get("INFO-BTN-ONE"), 0, "textures/ui/copy");
-        $form->addButton(MagicCore::getInstance()->getConfig()->get("INFO-BTN-TWO"), 0, "textures/ui/copy");
-        $form->addButton(MagicCore::getInstance()->getConfig()->get("INFO-BTN-THREE"), 0, "textures/ui/copy");
-        $form->addButton(MagicCore::getInstance()->getConfig()->get("INFO-BTN-FOR"), 0, "textures/ui/copy");
-        $form->addButton(MagicCore::getInstance()->getConfig()->get("INFO-BTN-FIVE"), 0, "textures/ui/copy");
-        $form->addButton(MagicCore::getInstance()->getConfig()->get("INFO-BTN-SIX"), 0, "textures/ui/copy");
-        $form->addButton(MagicCore::getInstance()->getConfig()->get("INFO-BTN-SEVEN"), 0, "textures/ui/copy");
-        $form->addButton(MagicCore::getInstance()->getConfig()->get("INFO-BTN-EIGHT"), 0, "textures/ui/copy");
-        $form->addButton(MagicCore::getInstance()->getConfig()->get("INFO-BTN-NINE"), 0, "textures/ui/copy");
-        $form->addButton(MagicCore::getInstance()->getConfig()->get("INFO-BTN-TEN"), 0, "textures/ui/copy");
-        $form->addButton("§0§lCOMING SOON\n§r§cMORE FEATURES CMNG SOON!", 0, "textures/blocks/barrier");
-        $sender->sendForm($form);
+        $form->setTitle("§b§lABOUT §r§8(( MagicGames))");
+        $form->setContent("§bHey you, do you know §eMagic§6Games§b? Let me introduce it to you!\n§eMagic§6Games§b is a Minecraft: Bedrock Edition Server With Skyblock, Survival and Minigames!\n\n§bAbove you can find:\n§b- Survival\n§b- Minigames\n§b- Skyblock\n§b- Do Adventure With Your Friends\n§b- Fair Gameplay\n§b- Voting Crate, Get Keys Through Voting\n§b- Get Ranks And Perks\n§b- Buy Ranks With Ingame Money\n§b- No Pay To Win\n\n§bYou now have enough to get as much happiness as possible\n§bSo I convinced you? §bJoin us quickly!\n\n§eDiscord: https://discord.gg/32xh5mqe7F\n§eVote: https://bitly.com/vote-magic\n\n§eServer Ip: play.magicgamesmc.net\n§ePort: 19132\n\n§bTo support us:\n§bVote Our Server\n§bAnd Dont Forget To Join Our Discord Too!");
+        $form->addButton("§c§lEXIT\n§r§8Tap to exit", 0, "textures/ui/cancel");
+        $form->addButton("§6§lBACK\n§r§8Tap to go back", 0, "textures/ui/icon_import");
+        $player->sendForm($form);
     }
 
-    public function INFOONE(Player $sender): void
+    public function INFOTWO(Player $player): void
     {
-        $form = new SimpleForm(function (Player $sender, $data) {
+        $form = new SimpleForm(function (Player $player, $data) {
             if ($data === null) {
                 return;
             }
@@ -138,20 +99,20 @@ class InformationForm extends MenuForm
                 case 0:
                     break;
                 case 1:
-                    $sender->sendForm(new InformationForm());
+                    $player->sendForm(new InformationForm());
                     break;
             }
         });
-        $form->setTitle(MagicCore::getInstance()->getConfig()->get("TITLE-ABOUT"));
-        $form->setContent(MagicCore::getInstance()->getConfig()->get("CONTENT-ABOUT"));
-        $form->addButton(MagicCore::getInstance()->getConfig()->get("EXIT-BTN"), 0, "textures/ui/cancel");
-        $form->addButton(MagicCore::getInstance()->getConfig()->get("BACK-BTN"), 0, "textures/ui/icon_import");
-        $sender->sendForm($form);
+        $form->setTitle("§a§lCHANGELOG §r§8(( MagicGames ))");
+        $form->setContent(":)");
+        $form->addButton("§c§lEXIT\n§r§8Tap to exit", 0, "textures/ui/cancel");
+        $form->addButton("§6§lBACK\n§r§8Tap to go back", 0, "textures/ui/icon_import");
+        $player->sendForm($form);
     }
 
-    public function INFOTWO(Player $sender): void
+    public function INFOTHREE(Player $player): void
     {
-        $form = new SimpleForm(function (Player $sender, $data) {
+        $form = new SimpleForm(function (Player $player, $data) {
             if ($data === null) {
                 return;
             }
@@ -159,20 +120,20 @@ class InformationForm extends MenuForm
                 case 0:
                     break;
                 case 1:
-                    $sender->sendForm(new InformationForm());
+                    $player->sendForm(new InformationForm());
                     break;
             }
         });
-        $form->setTitle(MagicCore::getInstance()->getConfig()->get("TITLE-CHANGELOG"));
-        $form->setContent(MagicCore::getInstance()->getConfig()->get("CONTENT-CHANGELOG"));
-        $form->addButton(MagicCore::getInstance()->getConfig()->get("EXIT-BTN"), 0, "textures/ui/cancel");
-        $form->addButton(MagicCore::getInstance()->getConfig()->get("BACK-BTN"), 0, "textures/ui/icon_import");
-        $sender->sendForm($form);
+        $form->setTitle("§3§lFEATURES\n§r§8Tap to check");
+        $form->setContent("§aThis server is nice ;)!");
+        $form->addButton("§c§lEXIT\n§r§8Tap to exit", 0, "textures/ui/cancel");
+        $form->addButton("§6§lBACK\n§r§8Tap to go back", 0, "textures/ui/icon_import");
+        $player->sendForm($form);
     }
 
-    public function INFOTHREE(Player $sender): void
+    public function INFOFOR(Player $player): void
     {
-        $form = new SimpleForm(function (Player $sender, $data) {
+        $form = new SimpleForm(function (Player $player, $data) {
             if ($data === null) {
                 return;
             }
@@ -180,20 +141,20 @@ class InformationForm extends MenuForm
                 case 0:
                     break;
                 case 1:
-                    $sender->sendForm(new InformationForm());
+                    $player->sendForm(new InformationForm());
                     break;
             }
         });
-        $form->setTitle(MagicCore::getInstance()->getConfig()->get("TITLE-FEATURES"));
-        $form->setContent(MagicCore::getInstance()->getConfig()->get("CONTENT-FEATURES"));
-        $form->addButton(MagicCore::getInstance()->getConfig()->get("EXIT-BTN"), 0, "textures/ui/cancel");
-        $form->addButton(MagicCore::getInstance()->getConfig()->get("BACK-BTN"), 0, "textures/ui/icon_import");
-        $sender->sendForm($form);
+        $form->setTitle("§c§lRULES §r§8(( MagicGames ))");
+        $form->setContent("§cTreat others with respect.\n§cHacking is not tolerated.\n§cOffensive content is not allowed.\n§cKeep chat family friendly.\n§cAdvertising is not allowed.\n§cSpamming is not allowed.");
+        $form->addButton("§c§lEXIT\n§r§8Tap to exit", 0, "textures/ui/cancel");
+        $form->addButton("§6§lBACK\n§r§8Tap to go back", 0, "textures/ui/icon_import");
+        $player->sendForm($form);
     }
 
-    public function INFOFOR(Player $sender): void
+    public function INFOFIVE(Player $player): void
     {
-        $form = new SimpleForm(function (Player $sender, $data) {
+        $form = new SimpleForm(function (Player $player, $data) {
             if ($data === null) {
                 return;
             }
@@ -201,20 +162,20 @@ class InformationForm extends MenuForm
                 case 0:
                     break;
                 case 1:
-                    $sender->sendForm(new InformationForm());
+                    $player->sendForm(new InformationForm());
                     break;
             }
         });
-        $form->setTitle(MagicCore::getInstance()->getConfig()->get("TITLE-RULES"));
-        $form->setContent(MagicCore::getInstance()->getConfig()->get("CONTENT-RULES"));
-        $form->addButton(MagicCore::getInstance()->getConfig()->get("EXIT-BTN"), 0, "textures/ui/cancel");
-        $form->addButton(MagicCore::getInstance()->getConfig()->get("BACK-BTN"), 0, "textures/ui/icon_import");
-        $sender->sendForm($form);
+        $form->setTitle("§5§lSTAFF-LIST");
+        $form->setContent(":)");
+        $form->addButton("§c§lEXIT\n§r§8Tap to exit", 0, "textures/ui/cancel");
+        $form->addButton("§6§lBACK\n§r§8Tap to go back", 0, "textures/ui/icon_import");
+        $player->sendForm($form);
     }
 
-    public function INFOFIVE(Player $sender): void
+    public function INFOSIX(Player $player): void
     {
-        $form = new SimpleForm(function (Player $sender, $data) {
+        $form = new SimpleForm(function (Player $player, $data) {
             if ($data === null) {
                 return;
             }
@@ -222,20 +183,28 @@ class InformationForm extends MenuForm
                 case 0:
                     break;
                 case 1:
-                    $sender->sendForm(new InformationForm());
+                    $player->sendForm(new InformationForm());
+                    break;
+                default:
+                    $this->INFOSIX($player);
                     break;
             }
         });
-        $form->setTitle(MagicCore::getInstance()->getConfig()->get("TITLE-STAFFLIST"));
-        $form->setContent(MagicCore::getInstance()->getConfig()->get("CONTENT-STAFFLIST"));
-        $form->addButton(MagicCore::getInstance()->getConfig()->get("EXIT-BTN"), 0, "textures/ui/cancel");
-        $form->addButton(MagicCore::getInstance()->getConfig()->get("BACK-BTN"), 0, "textures/ui/icon_import");
-        $sender->sendForm($form);
+        $form->setTitle("§6§lTUTORIAL");
+        $form->setContent("§eSelect the tutorial listed down below:");
+        $form->addButton("§c§lEXIT\n§r§8Tap to exit", 0, "textures/ui/cancel");
+        $form->addButton("§6§lBACK\n§r§8Tap to go back", 0, "textures/ui/icon_import");
+        $form->addButton("§6§lTUTORIAL §a#1\n§r§8Tap to check", 0, "textures/ui/icon_crafting");
+        $form->addButton("§6§lTUTORIAL §a#2\n§r§8Tap to check", 0, "textures/ui/icon_crafting");
+        $form->addButton("§6§lTUTORIAL §a#3\n§r§8Tap to check", 0, "textures/ui/icon_crafting");
+        $form->addButton("§6§lTUTORIAL §a#4\n§r§8Tap to check", 0, "textures/ui/icon_crafting");
+        $form->addButton("§6§lTUTORIAL §a#5\n§r§8Tap to check", 0, "textures/ui/icon_crafting");
+        $player->sendForm($form);
     }
 
-    public function INFOSIX(Player $sender): void
+    public function RLONE(Player $player): void
     {
-        $form = new SimpleForm(function (Player $sender, $data) {
+        $form = new SimpleForm(function (Player $player, $data) {
             if ($data === null) {
                 return;
             }
@@ -243,40 +212,20 @@ class InformationForm extends MenuForm
                 case 0:
                     break;
                 case 1:
-                    $sender->sendForm(new InformationForm());
-                    break;
-                case 2:
-                    $this->TutorialONE($sender);
-                    break;
-                case 3:
-                    $this->TutorialTWO($sender);
-                    break;
-                case 4:
-                    $this->TutorialTHREE($sender);
-                    break;
-                case 5:
-                    $this->TutorialFOR($sender);
-                    break;
-                case 6:
-                    $this->TutorialFIVE($sender);
+                    $this->INFOSEVEN($player);
                     break;
             }
         });
-        $form->setTitle(MagicCore::getInstance()->getConfig()->get("TUTORIAL-TITLE-MENU"));
-        $form->setContent(MagicCore::getInstance()->getConfig()->get("TUTORIAL-CONTENT-MENU"));
-        $form->addButton(MagicCore::getInstance()->getConfig()->get("EXIT-BTN"), 0, "textures/ui/cancel");
-        $form->addButton(MagicCore::getInstance()->getConfig()->get("BACK-BTN"), 0, "textures/ui/icon_import");
-        $form->addButton(MagicCore::getInstance()->getConfig()->get("TUTORIAL-ONE-BTN"), 0, "textures/ui/icon_crafting");
-        $form->addButton(MagicCore::getInstance()->getConfig()->get("TUTORIAL-TWO-BTN"), 0, "textures/ui/icon_crafting");
-        $form->addButton(MagicCore::getInstance()->getConfig()->get("TUTORIAL-THREE-BTN"), 0, "textures/ui/icon_crafting");
-        $form->addButton(MagicCore::getInstance()->getConfig()->get("TUTORIAL-FOR-BTN"), 0, "textures/ui/icon_crafting");
-        $form->addButton(MagicCore::getInstance()->getConfig()->get("TUTORIAL-FIVE-BTN"), 0, "textures/ui/icon_crafting");
-        $sender->sendForm($form);
+        $form->setTitle("§eVIP");
+        $form->setContent("§aVIP Rank Features §eMagic§6Games\n§a» §e/fly\n§a» §e/heal\n§a» §e/feed\n§a» §e/cape\n\n§cBonus\n§a» PlayerVaults 1-2\n§a» Access To MEMBER KIT\n§a» Access To VIP KIT\n\n§aWant To Buy Rank?\n§aJoin In Discord And Make Ticket\n§a» §bhttps://discord.io/magicgames\n\n§ePrice\n§a» §e300k OwO\n§a» §e$1");
+        $form->addButton("§c§lEXIT\n§r§8Tap to exit", 0, "textures/ui/cancel");
+        $form->addButton("§6§lBACK\n§r§8Tap to go back", 0, "textures/ui/icon_import");
+        $player->sendForm($form);
     }
 
-    public function TutorialONE(Player $sender): void
+    public function RLTWO(Player $player): void
     {
-        $form = new SimpleForm(function (Player $sender, $data) {
+        $form = new SimpleForm(function (Player $player, $data) {
             if ($data === null) {
                 return;
             }
@@ -284,20 +233,20 @@ class InformationForm extends MenuForm
                 case 0:
                     break;
                 case 1:
-                    $this->INFOSIX($sender);
+                    $this->INFOSEVEN($player);
                     break;
             }
         });
-        $form->setTitle(MagicCore::getInstance()->getConfig()->get("TUTORIAL-ONE-TITLE"));
-        $form->setContent(MagicCore::getInstance()->getConfig()->get("TUTORIAL-ONE-CONTENT"));
-        $form->addButton(MagicCore::getInstance()->getConfig()->get("EXIT-BTN"), 0, "textures/ui/cancel");
-        $form->addButton(MagicCore::getInstance()->getConfig()->get("BACK-BTN"), 0, "textures/ui/icon_import");
-        $sender->sendForm($form);
+        $form->setTitle("§eVIP §a+");
+        $form->setContent("§aVIP§c+ §aRank Features §eMagic§6Games\n§a» §e/fly\n§a» §e/heal\n§a» §e/feed\n§a» §e/feed\n§a» §e/cape\n§a» §e/me\n\n§cBonus\n§a» PlayerVaults 1-4\n§a» Access To MEMBER KIT\n§a» Access To VIP KIT\n§a» Access To VIP§c+§aKIT\n\n§aWant To Buy Rank?\n§aJoin In Discord And Make Ticket\n§a» §bhttps://discord.io/magicgames\n\n§ePrice\n§a» §e400k OwO\n§a» §e$2");
+        $form->addButton("§c§lEXIT\n§r§8Tap to exit", 0, "textures/ui/cancel");
+        $form->addButton("§6§lBACK\n§r§8Tap to go back", 0, "textures/ui/icon_import");
+        $player->sendForm($form);
     }
 
-    public function TutorialTWO(Player $sender): void
+    public function RLTHREE(Player $player): void
     {
-        $form = new SimpleForm(function (Player $sender, $data) {
+        $form = new SimpleForm(function (Player $player, $data) {
             if ($data === null) {
                 return;
             }
@@ -305,20 +254,20 @@ class InformationForm extends MenuForm
                 case 0:
                     break;
                 case 1:
-                    $this->INFOSIX($sender);
+                    $this->INFOSEVEN($player);
                     break;
             }
         });
-        $form->setTitle(MagicCore::getInstance()->getConfig()->get("TUTORIAL-TWO-TITLE"));
-        $form->setContent(MagicCore::getInstance()->getConfig()->get("TUTORIAL-TWO-CONTENT"));
-        $form->addButton(MagicCore::getInstance()->getConfig()->get("EXIT-BTN"), 0, "textures/ui/cancel");
-        $form->addButton(MagicCore::getInstance()->getConfig()->get("BACK-BTN"), 0, "textures/ui/icon_import");
-        $sender->sendForm($form);
+        $form->setTitle("§bMVP");
+        $form->setContent("§bMVP §aRank Features §eMagic§6Games\n§a» §e/fly\n§a» §e/heal\n§a» §e/feed\n§a» §e/feed\n§a» §e/cape\n§a» §e/vision\n§a» §e/me\n§a» §e/skin\n§a» §e/say\n\n§cBonus\n§a» PlayerVaults 1-6\n§a» Access To MEMBER KIT\n§a» Access To VIP KIT\n§a» Access To MEMBER KIT\n§a» Access To §bVIP+§a KIT\n\n§aWant To Buy Rank?\n§aJoin In Discord And Make Ticket\n§a» §bhttps://discord.io/magicgames\n\n§ePrice\n§a» §e600k OwO\n§a» §e$3");
+        $form->addButton("§c§lEXIT\n§r§8Tap to exit", 0, "textures/ui/cancel");
+        $form->addButton("§6§lBACK\n§r§8Tap to go back", 0, "textures/ui/icon_import");
+        $player->sendForm($form);
     }
 
-    public function TutorialTHREE(Player $sender): void
+    public function RLFOR(Player $player): void
     {
-        $form = new SimpleForm(function (Player $sender, $data) {
+        $form = new SimpleForm(function (Player $player, $data) {
             if ($data === null) {
                 return;
             }
@@ -326,20 +275,20 @@ class InformationForm extends MenuForm
                 case 0:
                     break;
                 case 1:
-                    $this->INFOSIX($sender);
+                    $this->INFOSEVEN($player);
                     break;
             }
         });
-        $form->setTitle(MagicCore::getInstance()->getConfig()->get("TUTORIAL-THREE-TITLE"));
-        $form->setContent(MagicCore::getInstance()->getConfig()->get("TUTORIAL-THREE-CONTENT"));
-        $form->addButton(MagicCore::getInstance()->getConfig()->get("EXIT-BTN"), 0, "textures/ui/cancel");
-        $form->addButton(MagicCore::getInstance()->getConfig()->get("BACK-BTN"), 0, "textures/ui/icon_import");
-        $sender->sendForm($form);
+        $form->setTitle("§bMVP §c+");
+        $form->setContent("§bMVP§c+ §aRank Features §eMagic§6Games\n§a» §e/fly\n§a» §e/heal\n§a» §e/feed\n§a» §e/feed\n§a» §e/cape\n§a» §e/me\n§a» §e/vision\n§a» §e/skin\n§a» §e/say\n§a» §e/god\n§a» §e/size\n§a» §e/repair\n\n§cBonus\n§a» PlayerVaults 1-8\n§a» Access To MEMBER KIT\n§a» Access To VIP KIT\n§a» Access To VIP+ KIT\n§a» Access To MVP KIT\n§a» Access To §bMVP§c+§a KIT\n\n§aWant To Buy Rank?\n§aJoin In Discord And Make Ticket\n§a» §bhttps://discord.io/magicgames\n\n§ePrice\n§a» §e800k OwO\n§a» §e$4");
+        $form->addButton("§c§lEXIT\n§r§8Tap to exit", 0, "textures/ui/cancel");
+        $form->addButton("§6§lBACK\n§r§8Tap to go back", 0, "textures/ui/icon_import");
+        $player->sendForm($form);
     }
 
-    public function TutorialFOR(Player $sender): void
+    public function RLFIVE(Player $player): void
     {
-        $form = new SimpleForm(function (Player $sender, $data) {
+        $form = new SimpleForm(function (Player $player, $data) {
             if ($data === null) {
                 return;
             }
@@ -347,20 +296,20 @@ class InformationForm extends MenuForm
                 case 0:
                     break;
                 case 1:
-                    $this->INFOSIX($sender);
+                    $this->INFOSEVEN($player);
                     break;
             }
         });
-        $form->setTitle(MagicCore::getInstance()->getConfig()->get("TUTORIAL-FOR-TITLE"));
-        $form->setContent(MagicCore::getInstance()->getConfig()->get("TUTORIAL-FOR-CONTENT"));
-        $form->addButton(MagicCore::getInstance()->getConfig()->get("EXIT-BTN"), 0, "textures/ui/cancel");
-        $form->addButton(MagicCore::getInstance()->getConfig()->get("BACK-BTN"), 0, "textures/ui/icon_import");
-        $sender->sendForm($form);
+        $form->setTitle("§bMVP §c++");
+        $form->setContent("§bMVP§e+§c+ §aRank Features §eMagic§6Games\n§a» §e/fly\n§a» §e/heal\n§a» §e/feed\n§a» §e/feed\n§a» §e/cape\n§a» §e/me\n§a» §e/skin\n§a» §e/say\n§a» §e/god\n§a» §e/size\n§a» §e/repair\n§a» §e/tp\n§a» §e/nick\n§a» §e/vision\n§a» §e/speed\n§a» §e/pets\n§a» §e/vanish\n\n§cBonus\n§a» PlayerVaults 1-10\n§a» Access To MEMBER KIT\n§a» Access To VIP KIT\n§a» Access To VIP+ KIT\n§a» Access To MVP KIT\n§a» Access To MVP+ KIT\n§a» Access To §bMVP§e+§c+§a KIT\n\n§aWant To Buy Rank?\n§aJoin In Discord And Make Ticket\n§a» §bhttps://discord.io/magicgames\n\n§ePrice\n§a» §e1M OwO\n§a» §e$5");
+        $form->addButton("§c§lEXIT\n§r§8Tap to exit", 0, "textures/ui/cancel");
+        $form->addButton("§6§lBACK\n§r§8Tap to go back", 0, "textures/ui/icon_import");
+        $player->sendForm($form);
     }
 
-    public function TutorialFIVE(Player $sender): void
+    public function RLSIX(Player $player): void
     {
-        $form = new SimpleForm(function (Player $sender, $data) {
+        $form = new SimpleForm(function (Player $player, $data) {
             if ($data === null) {
                 return;
             }
@@ -368,15 +317,15 @@ class InformationForm extends MenuForm
                 case 0:
                     break;
                 case 1:
-                    $this->INFOSIX($sender);
+                    $this->INFOSEVEN($player);
                     break;
             }
         });
-        $form->setTitle(MagicCore::getInstance()->getConfig()->get("TUTORIAL-FIVE-TITLE"));
-        $form->setContent(MagicCore::getInstance()->getConfig()->get("TUTORIAL-FIVE-CONTENT"));
-        $form->addButton(MagicCore::getInstance()->getConfig()->get("EXIT-BTN"), 0, "textures/ui/cancel");
-        $form->addButton(MagicCore::getInstance()->getConfig()->get("BACK-BTN"), 0, "textures/ui/icon_import");
-        $sender->sendForm($form);
+        $form->setTitle("§cYOUTUBE");
+        $form->setContent("§cYOUTUBE §aRank Features §eMagic§6Games\n§a» §e/fly\n§a» §e/heal\n§a» §e/feed\n§a» §e/feed\n§a» §e/cape\n§a» §e/me\n§a» §e/skin\n§a» §e/say\n§a» §e/vanish\n§a» §e/vision\n§a» §e/pets\n§a» §e/repair\n\n§cBonus\n§a» PlayerVaults 1-8\n§a» Access To MEMBER KIT\n§a» Access To VIP KIT\n§a» Access To VIP+ KIT\n§a» Access To §cYOUTUBE§a KIT\n\n§d» Special Joining Message\n\n§aWant To Get This Rank?\n§aJoin In Discord And Make Ticket\n§a» §bhttps://discord.gg/magicgames\n\n§eRequirement:\n§a» §e300subs\n§a» §eMust Make 1 Video On Server");
+        $form->addButton("§c§lEXIT\n§r§8Tap to exit", 0, "textures/ui/cancel");
+        $form->addButton("§6§lBACK\n§r§8Tap to go back", 0, "textures/ui/icon_import");
+        $player->sendForm($form);
     }
 
     public function INFOSEVEN(Player $sender): void
@@ -411,22 +360,22 @@ class InformationForm extends MenuForm
                     break;
             }
         });
-        $form->setTitle(MagicCore::getInstance()->getConfig()->get("RL-TITLE-MENU"));
-        $form->setContent(MagicCore::getInstance()->getConfig()->get("RL-CONTENT-MENU"));
-        $form->addButton(MagicCore::getInstance()->getConfig()->get("EXIT-BTN"), 0, "textures/ui/cancel");
-        $form->addButton(MagicCore::getInstance()->getConfig()->get("BACK-BTN"), 0, "textures/ui/icon_import");
-        $form->addButton(MagicCore::getInstance()->getConfig()->get("RL-BTN-ONE"), 0, "textures/ui/icon_deals");
-        $form->addButton(MagicCore::getInstance()->getConfig()->get("RL-BTN-TWO"), 0, "textures/ui/icon_deals");
-        $form->addButton(MagicCore::getInstance()->getConfig()->get("RL-BTN-THREE"), 0, "textures/ui/icon_deals");
-        $form->addButton(MagicCore::getInstance()->getConfig()->get("RL-BTN-FOR"), 0, "textures/ui/icon_deals");
-        $form->addButton(MagicCore::getInstance()->getConfig()->get("RL-BTN-FIVE"), 0, "textures/ui/icon_deals");
-        $form->addButton(MagicCore::getInstance()->getConfig()->get("RL-BTN-SIX"), 0, "textures/ui/icon_deals");
+        $form->setTitle("§1§lRANK-LIST");
+        $form->setContent("§cSelect the rank below:");
+        $form->addButton("§c§lEXIT\n§r§8Tap to exit", 0, "textures/ui/cancel");
+        $form->addButton("§6§lBACK\n§r§8Tap to go back", 0, "textures/ui/icon_import");
+        $form->addButton("§eVIP\n§r§8Tap to check", 0, "textures/ui/icon_deals");
+        $form->addButton("§eVIP§a+\n§r§8Tap to check", 0, "textures/ui/icon_deals");
+        $form->addButton("§bMVP\n§r§8Tap to check", 0, "textures/ui/icon_deals");
+        $form->addButton("§bMVP§c+\n§r§8Tap to check", 0, "textures/ui/icon_deals");
+        $form->addButton("§bMVP§c++\n§r§8Tap to check", 0, "textures/ui/icon_deals");
+        $form->addButton("§cYOUTUBE\n§r§8Tap to check", 0, "textures/ui/icon_deals");
         $sender->sendForm($form);
     }
 
-    public function RLONE(Player $sender): void
+    public function INFOEIGHT(Player $player): void
     {
-        $form = new SimpleForm(function (Player $sender, $data) {
+        $form = new SimpleForm(function (Player $player, $data) {
             if ($data === null) {
                 return;
             }
@@ -434,166 +383,40 @@ class InformationForm extends MenuForm
                 case 0:
                     break;
                 case 1:
-                    $this->INFOSEVEN($sender);
-                    break;
-            }
-        });
-        $form->setTitle(MagicCore::getInstance()->getConfig()->get("RL-ONE-TITLE"));
-        $form->setContent(MagicCore::getInstance()->getConfig()->get("RL-ONE-CONTENT"));
-        $form->addButton(MagicCore::getInstance()->getConfig()->get("EXIT-BTN"), 0, "textures/ui/cancel");
-        $form->addButton(MagicCore::getInstance()->getConfig()->get("BACK-BTN"), 0, "textures/ui/icon_import");
-        $sender->sendForm($form);
-    }
-
-    public function RLTWO(Player $sender): void
-    {
-        $form = new SimpleForm(function (Player $sender, $data) {
-            if ($data === null) {
-                return;
-            }
-            switch ($data) {
-                case 0:
-                    break;
-                case 1:
-                    $this->INFOSEVEN($sender);
-                    break;
-            }
-        });
-        $form->setTitle(MagicCore::getInstance()->getConfig()->get("RL-TWO-TITLE"));
-        $form->setContent(MagicCore::getInstance()->getConfig()->get("RL-TWO-CONTENT"));
-        $form->addButton(MagicCore::getInstance()->getConfig()->get("EXIT-BTN"), 0, "textures/ui/cancel");
-        $form->addButton(MagicCore::getInstance()->getConfig()->get("BACK-BTN"), 0, "textures/ui/icon_import");
-        $sender->sendForm($form);
-    }
-
-    public function RLTHREE(Player $sender): void
-    {
-        $form = new SimpleForm(function (Player $sender, $data) {
-            if ($data === null) {
-                return;
-            }
-            switch ($data) {
-                case 0:
-                    break;
-                case 1:
-                    $this->INFOSEVEN($sender);
-                    break;
-            }
-        });
-        $form->setTitle(MagicCore::getInstance()->getConfig()->get("RL-THREE-TITLE"));
-        $form->setContent(MagicCore::getInstance()->getConfig()->get("RL-THREE-CONTENT"));
-        $form->addButton(MagicCore::getInstance()->getConfig()->get("EXIT-BTN"), 0, "textures/ui/cancel");
-        $form->addButton(MagicCore::getInstance()->getConfig()->get("BACK-BTN"), 0, "textures/ui/icon_import");
-        $sender->sendForm($form);
-    }
-
-    public function RLFOR(Player $sender): void
-    {
-        $form = new SimpleForm(function (Player $sender, $data) {
-            if ($data === null) {
-                return;
-            }
-            switch ($data) {
-                case 0:
-                    break;
-                case 1:
-                    $this->INFOSEVEN($sender);
-                    break;
-            }
-        });
-        $form->setTitle(MagicCore::getInstance()->getConfig()->get("RL-FOR-TITLE"));
-        $form->setContent(MagicCore::getInstance()->getConfig()->get("RL-FOR-CONTENT"));
-        $form->addButton(MagicCore::getInstance()->getConfig()->get("EXIT-BTN"), 0, "textures/ui/cancel");
-        $form->addButton(MagicCore::getInstance()->getConfig()->get("BACK-BTN"), 0, "textures/ui/icon_import");
-        $sender->sendForm($form);
-    }
-
-    public function RLFIVE(Player $sender): void
-    {
-        $form = new SimpleForm(function (Player $sender, $data) {
-            if ($data === null) {
-                return;
-            }
-            switch ($data) {
-                case 0:
-                    break;
-                case 1:
-                    $this->INFOSEVEN($sender);
-                    break;
-            }
-        });
-        $form->setTitle(MagicCore::getInstance()->getConfig()->get("RL-FIVE-TITLE"));
-        $form->setContent(MagicCore::getInstance()->getConfig()->get("RL-FIVE-CONTENT"));
-        $form->addButton(MagicCore::getInstance()->getConfig()->get("EXIT-BTN"), 0, "textures/ui/cancel");
-        $form->addButton(MagicCore::getInstance()->getConfig()->get("BACK-BTN"), 0, "textures/ui/icon_import");
-        $sender->sendForm($form);
-    }
-
-    public function RLSIX(Player $sender): void
-    {
-        $form = new SimpleForm(function (Player $sender, $data) {
-            if ($data === null) {
-                return;
-            }
-            switch ($data) {
-                case 0:
-                    break;
-                case 1:
-                    $this->INFOSEVEN($sender);
-                    break;
-            }
-        });
-        $form->setTitle(MagicCore::getInstance()->getConfig()->get("RL-SIX-TITLE"));
-        $form->setContent(MagicCore::getInstance()->getConfig()->get("RL-SIX-CONTENT"));
-        $form->addButton(MagicCore::getInstance()->getConfig()->get("EXIT-BTN"), 0, "textures/ui/cancel");
-        $form->addButton(MagicCore::getInstance()->getConfig()->get("BACK-BTN"), 0, "textures/ui/icon_import");
-        $sender->sendForm($form);
-    }
-
-    public function INFOEIGHT(Player $sender): void
-    {
-        $form = new SimpleForm(function (Player $sender, $data) {
-            if ($data === null) {
-                return;
-            }
-            switch ($data) {
-                case 0:
-                    break;
-                case 1:
-                    $sender->sendForm(new InformationForm());
+                    $player->sendForm(new InformationForm());
                     break;
                 case 2:
-                    $this->SMONE($sender);
+                    $this->SMONE($player);
                     break;
                 case 3:
-                    $this->SMTWO($sender);
+                    $this->SMTWO($player);
                     break;
                 case 4:
-                    $this->SMTHREE($sender);
+                    $this->SMTHREE($player);
                     break;
                 case 5:
-                    $this->SMFOR($sender);
+                    $this->SMFOR($player);
                     break;
                 case 6:
-                    $this->SMFIVE($sender);
+                    $this->SMFIVE($player);
                     break;
             }
         });
-        $form->setTitle(MagicCore::getInstance()->getConfig()->get("SM-TITLE-MENU"));
-        $form->setContent(MagicCore::getInstance()->getConfig()->get("SM-CONTENT-MENU"));
-        $form->addButton(MagicCore::getInstance()->getConfig()->get("EXIT-BTN"), 0, "textures/ui/cancel");
-        $form->addButton(MagicCore::getInstance()->getConfig()->get("BACK-BTN"), 0, "textures/ui/icon_import");
-        $form->addButton(MagicCore::getInstance()->getConfig()->get("SM-BTN-ONE"), 0, "textures/ui/book_cover");
-        $form->addButton(MagicCore::getInstance()->getConfig()->get("SM-BTN-TWO"), 0, "textures/ui/book_cover");
-        $form->addButton(MagicCore::getInstance()->getConfig()->get("SM-BTN-THREE"), 0, "textures/ui/book_cover");
-        $form->addButton(MagicCore::getInstance()->getConfig()->get("SM-BTN-FOR"), 0, "textures/ui/book_cover");
-        $form->addButton(MagicCore::getInstance()->getConfig()->get("SM-BTN-FIVE"), 0, "textures/ui/book_cover");
-        $sender->sendForm($form);
+        $form->setTitle("§9§lSOCIAL MEDIA");
+        $form->setContent("§aMagicGames Social Media");
+        $form->addButton("§c§lEXIT\n§r§8Tap to exit", 0, "textures/ui/cancel");
+        $form->addButton("§6§lBACK\n§r§8Tap to go back", 0, "textures/ui/icon_import");
+        $form->addButton("§1§lDISCORD\n§r§8Tap to check", 0, "textures/ui/book_cover");
+        $form->addButton("§b§lTWITTER\n§r§8Tap to check", 0, "textures/ui/book_cover");
+        $form->addButton("§a§lWEBSITE\n§r§8Tap to check", 0, "textures/ui/book_cover");
+        $form->addButton("§d§lINSTAGRAM\n§r§8Tap to check", 0, "textures/ui/book_cover");
+        $form->addButton("§4§lYOUTUBE\n§r§8Tap to check", 0, "textures/ui/book_cover");
+        $player->sendForm($form);
     }
 
-    public function SMONE(Player $sender): void
+    public function SMONE(Player $player): void
     {
-        $form = new SimpleForm(function (Player $sender, $data) {
+        $form = new SimpleForm(function (Player $player, $data) {
             if ($data === null) {
                 return;
             }
@@ -601,20 +424,20 @@ class InformationForm extends MenuForm
                 case 0:
                     break;
                 case 1:
-                    $this->INFOEIGHT($sender);
+                    $this->INFOEIGHT($player);
                     break;
             }
         });
-        $form->setTitle(MagicCore::getInstance()->getConfig()->get("SM-ONE-TITLE"));
-        $form->setContent(MagicCore::getInstance()->getConfig()->get("SM-ONE-CONTENT"));
-        $form->addButton(MagicCore::getInstance()->getConfig()->get("EXIT-BTN"), 0, "textures/ui/cancel");
-        $form->addButton(MagicCore::getInstance()->getConfig()->get("BACK-BTN"), 0, "textures/ui/icon_import");
-        $sender->sendForm($form);
+        $form->setTitle("§1§lDISCORD");
+        $form->setContent("https://discord.gg/32xh5mqe7F");
+        $form->addButton("§c§lEXIT\n§r§8Tap to exit", 0, "textures/ui/cancel");
+        $form->addButton("§6§lBACK\n§r§8Tap to go back", 0, "textures/ui/icon_import");
+        $player->sendForm($form);
     }
 
-    public function SMTWO(Player $sender): void
+    public function SMTWO(Player $player): void
     {
-        $form = new SimpleForm(function (Player $sender, $data) {
+        $form = new SimpleForm(function (Player $player, $data) {
             if ($data === null) {
                 return;
             }
@@ -622,20 +445,20 @@ class InformationForm extends MenuForm
                 case 0:
                     break;
                 case 1:
-                    $this->INFOEIGHT($sender);
+                    $this->INFOEIGHT($player);
                     break;
             }
         });
-        $form->setTitle(MagicCore::getInstance()->getConfig()->get("SM-TWO-TITLE"));
-        $form->setContent(MagicCore::getInstance()->getConfig()->get("SM-TWO-CONTENT"));
-        $form->addButton(MagicCore::getInstance()->getConfig()->get("EXIT-BTN"), 0, "textures/ui/cancel");
-        $form->addButton(MagicCore::getInstance()->getConfig()->get("BACK-BTN"), 0, "textures/ui/icon_import");
-        $sender->sendForm($form);
+        $form->setTitle("§b§lTWITTER");
+        $form->setContent("");
+        $form->addButton("§c§lEXIT\n§r§8Tap to exit", 0, "textures/ui/cancel");
+        $form->addButton("§6§lBACK\n§r§8Tap to go back", 0, "textures/ui/icon_import");
+        $player->sendForm($form);
     }
 
-    public function SMTHREE(Player $sender): void
+    public function SMTHREE(Player $player): void
     {
-        $form = new SimpleForm(function (Player $sender, $data) {
+        $form = new SimpleForm(function (Player $player, $data) {
             if ($data === null) {
                 return;
             }
@@ -643,20 +466,20 @@ class InformationForm extends MenuForm
                 case 0:
                     break;
                 case 1:
-                    $this->INFOEIGHT($sender);
+                    $this->INFOEIGHT($player);
                     break;
             }
         });
-        $form->setTitle(MagicCore::getInstance()->getConfig()->get("SM-THREE-TITLE"));
-        $form->setContent(MagicCore::getInstance()->getConfig()->get("SM-THREE-CONTENT"));
-        $form->addButton(MagicCore::getInstance()->getConfig()->get("EXIT-BTN"), 0, "textures/ui/cancel");
-        $form->addButton(MagicCore::getInstance()->getConfig()->get("BACK-BTN"), 0, "textures/ui/icon_import");
-        $sender->sendForm($form);
+        $form->setTitle("§a§lWEBSITE");
+        $form->setContent("§7§oCOMMING SOON");
+        $form->addButton("§c§lEXIT\n§r§8Tap to exit", 0, "textures/ui/cancel");
+        $form->addButton("§6§lBACK\n§r§8Tap to go back", 0, "textures/ui/icon_import");
+        $player->sendForm($form);
     }
 
-    public function SMFOR(Player $sender): void
+    public function SMFOR(Player $player): void
     {
-        $form = new SimpleForm(function (Player $sender, $data) {
+        $form = new SimpleForm(function (Player $player, $data) {
             if ($data === null) {
                 return;
             }
@@ -664,20 +487,20 @@ class InformationForm extends MenuForm
                 case 0:
                     break;
                 case 1:
-                    $this->INFOEIGHT($sender);
+                    $this->INFOEIGHT($player);
                     break;
             }
         });
-        $form->setTitle(MagicCore::getInstance()->getConfig()->get("SM-FOR-TITLE"));
-        $form->setContent(MagicCore::getInstance()->getConfig()->get("SM-FOR-CONTENT"));
-        $form->addButton(MagicCore::getInstance()->getConfig()->get("EXIT-BTN"), 0, "textures/ui/cancel");
-        $form->addButton(MagicCore::getInstance()->getConfig()->get("BACK-BTN"), 0, "textures/ui/icon_import");
-        $sender->sendForm($form);
+        $form->setTitle("§d§lINSTAGRAM");
+        $form->setContent("");
+        $form->addButton("§c§lEXIT\n§r§8Tap to exit", 0, "textures/ui/cancel");
+        $form->addButton("§6§lBACK\n§r§8Tap to go back", 0, "textures/ui/icon_import");
+        $player->sendForm($form);
     }
 
-    public function SMFIVE(Player $sender): void
+    public function SMFIVE(Player $player): void
     {
-        $form = new SimpleForm(function (Player $sender, $data) {
+        $form = new SimpleForm(function (Player $player, $data) {
             if ($data === null) {
                 return;
             }
@@ -685,20 +508,20 @@ class InformationForm extends MenuForm
                 case 0:
                     break;
                 case 1:
-                    $this->INFOEIGHT($sender);
+                    $this->INFOEIGHT($player);
                     break;
             }
         });
-        $form->setTitle(MagicCore::getInstance()->getConfig()->get("SM-FIVE-TITLE"));
-        $form->setContent(MagicCore::getInstance()->getConfig()->get("SM-FIVE-CONTENT"));
-        $form->addButton(MagicCore::getInstance()->getConfig()->get("EXIT-BTN"), 0, "textures/ui/cancel");
-        $form->addButton(MagicCore::getInstance()->getConfig()->get("BACK-BTN"), 0, "textures/ui/icon_import");
-        $sender->sendForm($form);
+        $form->setTitle("§4§lYOUTUBE");
+        $form->setContent("§bhttps://tinyurl.com/magic-games-yt");
+        $form->addButton("§c§lEXIT\n§r§8Tap to exit", 0, "textures/ui/cancel");
+        $form->addButton("§6§lBACK\n§r§8Tap to go back", 0, "textures/ui/icon_import");
+        $player->sendForm($form);
     }
 
-    public function INFONINE(Player $sender): void
+    public function INFONINE(Player $player): void
     {
-        $form = new SimpleForm(function (Player $sender, $data) {
+        $form = new SimpleForm(function (Player $player, $data) {
             if ($data === null) {
                 return;
             }
@@ -706,20 +529,20 @@ class InformationForm extends MenuForm
                 case 0:
                     break;
                 case 1:
-                    $sender->sendForm(new InformationForm());
+                    $player->sendForm(new InformationForm());
                     break;
             }
         });
-        $form->setTitle(MagicCore::getInstance()->getConfig()->get("TITLE-ANNOUNCEMENT"));
-        $form->setContent(MagicCore::getInstance()->getConfig()->get("CONTENT-ANNOUNCEMENT"));
-        $form->addButton(MagicCore::getInstance()->getConfig()->get("EXIT-BTN"), 0, "textures/ui/cancel");
-        $form->addButton(MagicCore::getInstance()->getConfig()->get("BACK-BTN"), 0, "textures/ui/icon_import");
-        $sender->sendForm($form);
+        $form->setTitle("§6§lANNOUNCEMENT §r§8(( MagicGames ))");
+        $form->setContent("§eNo Announcement Today!");
+        $form->addButton("§c§lEXIT\n§r§8Tap to exit", 0, "textures/ui/cancel");
+        $form->addButton("§6§lBACK\n§r§8Tap to go back", 0, "textures/ui/icon_import");
+        $player->sendForm($form);
     }
 
-    public function INFOTEN(Player $sender): void
+    public function INFOTEN(Player $player): void
     {
-        $form = new SimpleForm(function (Player $sender, $data) {
+        $form = new SimpleForm(function (Player $player, $data) {
             if ($data === null) {
                 return;
             }
@@ -727,39 +550,39 @@ class InformationForm extends MenuForm
                 case 0:
                     break;
                 case 1:
-                    $sender->sendForm(new InformationForm());
+                    $player->sendForm(new InformationForm());
                     break;
             }
         });
-        $form->setTitle(MagicCore::getInstance()->getConfig()->get("TITLE-EVENT"));
-        $form->setContent(MagicCore::getInstance()->getConfig()->get("CONTENT-EVENT"));
-        $form->addButton(MagicCore::getInstance()->getConfig()->get("EXIT-BTN"), 0, "textures/ui/cancel");
-        $form->addButton(MagicCore::getInstance()->getConfig()->get("BACK-BTN"), 0, "textures/ui/icon_import");
-        $sender->sendForm($form);
+        $form->setTitle("§5§lEVENT §r§8(( MagicGames ))");
+        $form->setContent("§5§lEVENT LIST:\n§r§bEvent: §r\n§7No Event Today!");
+        $form->addButton("§c§lEXIT\n§r§8Tap to exit", 0, "textures/ui/cancel");
+        $form->addButton("§6§lBACK\n§r§8Tap to go back", 0, "textures/ui/icon_import");
+        $player->sendForm($form);
     }
 
-    public function comingsoon(Player $sender): void
+    public function comingsoon(Player $player): void
     {
-        $form = new SimpleForm(function (Player $sender, $data) {
+        $form = new SimpleForm(function (Player $player, $data) {
             if ($data === null) {
                 return;
             }
             switch ($data) {
                 case 0:
-                    $sender->sendMessage("\n§8§lCOMING SOON!\n§r§7Pushkar will add more features to this plugin just be patient because this plugin is still not §a100%§7 perfect\n");
-                    $sender->sendTitle("§8§lCOMING SOON!", "§cMore features will be added!");
+                    $player->sendMessage("\n§8§lCOMING SOON!\n§r§7Pushkar will add more features to this plugin just be patient because this plugin is still not §a100%§7 perfect\n");
+                    $player->sendTitle("§8§lCOMING SOON!", "§cMore features will be added!");
                     break;
             }
         });
         $form->setTitle("§8§lCOMING SOON");
         $form->setContent("§c§lWARNING!\n§r§7you are not allowed to eSM-BTN-ONEdit this message on the config also u cant edit this page!\n\n§b§lINFO:\n§r§7report any bug/error to ItzFabn the creator of this plugin also please apologize if this plugin still bugging/error...");
         $form->addButton("§8§lCOMING SOON\n§r§8Tap for more info");
-        $sender->sendForm($form);
+        $player->sendForm($form);
     }
 
-    public function emojis(Player $sender): void
+    public function emojis(Player $player): void
     {
-        $form = new SimpleForm(function (Player $sender, $data) {
+        $form = new SimpleForm(function (Player $player, $data) {
             if ($data === null) {
                 return;
             }
@@ -769,9 +592,9 @@ class InformationForm extends MenuForm
             }
         });
         $form->setTitle("§l§bEMOJIS");
-        $form->setContent("§dHello §e" . $sender->getName() . "\n§dWelcome To MagicGames Emojis\n§dAvailability: §aFree For All Right Now\n\n§b:sword: = \n\n§b:skull: = \n\n§b:earth: = \n\n§b:portal: = \n\n§b:dice: = \n\n§b:candy: = \n\n§b:crown: = \n\n§b:star: = \n\n§b:diamond: \n\n§b:bruh: = \n\n§b:hehe: = \n\n§b:ooo: = \n\n§b:cry: = \n\n§b:stare: = \n\n§b:happy: = \n\n§b:angry: = \n\n§b:hmm: = \n\n§b:sus: = ");
+        $form->setContent("§dHello §e" . $player->getName() . "\n§dWelcome To MagicGames Emojis\n§dAvailability: §aFree For All Right Now\n\n§b:sword: = \n\n§b:skull: = \n\n§b:earth: = \n\n§b:portal: = \n\n§b:dice: = \n\n§b:candy: = \n\n§b:crown: = \n\n§b:star: = \n\n§b:diamond: \n\n§b:bruh: = \n\n§b:hehe: = \n\n§b:ooo: = \n\n§b:cry: = \n\n§b:stare: = \n\n§b:happy: = \n\n§b:angry: = \n\n§b:hmm: = \n\n§b:sus: = ");
         $form->addButton("§l§cEXIT\n§l§9»» §r§oTap To Exit", 1, "https://cdn-icons-png.flaticon.com/128/929/929416.png");
-        $sender->sendForm($form);
+        $player->sendForm($form);
     }
 
     public function profile(Player $player): void
@@ -788,7 +611,7 @@ class InformationForm extends MenuForm
                     break;
             }
         });
-        /** @var \_64FF00\PurePerms\PurePerms $purePerms */
+        /** @var PurePerms $purePerms */
         $purePerms = Server::getInstance()->getPluginManager()->getPlugin("PurePerms");
         $item = $player->getInventory()->getItemInHand();
         $damage = ($player instanceof MagicPlayer ? $player->getDamage() : 0) + $item->getAttackPoints();

@@ -36,10 +36,14 @@ class Main extends PluginBase implements Listener
                 $event->cancel();
                 return;
             }
-            if (in_array($msg, $this->profanities)) {
-                $player->sendMessage(" §cYou Can't Abuse In Chat!");
-                $event->cancel();
-                return;
+
+            $words = explode(" ", $msg);
+            foreach ($words as $word) {
+                if (in_array($word, $this->profanities)) {
+                    $player->sendMessage(" §cYou Can't Abuse In Chat!");
+                    $event->cancel();
+                    return;
+                }
             }
 
             $playerChat = $this->getConfig()->get("NonAdminChat");
@@ -48,7 +52,7 @@ class Main extends PluginBase implements Listener
                 $event->setMessage($message);
             }
         }
-        
+
         if ($player->hasPermission("emoji.chat")) {
             $textReplacer = $this->getConfig()->get("Emoji");
             foreach ($textReplacer as $var) {

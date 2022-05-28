@@ -21,7 +21,7 @@ final class ExoBlockEventHandler implements Listener
 	{
 		$block = $event->getBlock();
 		$exo_block = ExoBlockFactory::get($block);
-		if ($exo_block !== null && $exo_block->update($block)) {
+		if ($exo_block !== null && !$exo_block instanceof NetherPortalFrameExoBlock && $exo_block->update($block)) {
 			$event->cancel();
 		}
 	}
