@@ -361,6 +361,7 @@ function shuffle_statements($stmts)
     $n = count($stmts);
     if ($n < (2 * $chunk_size)) return $stmts;
 
+    /** @var Scrambler */
     $scrambler = $t_scrambler['label'];
     $label_name_prev = $scrambler->scramble($scrambler->generate_label_name());
     $first_goto = new PhpParser\Node\Stmt\Goto_($label_name_prev);
