@@ -39,8 +39,8 @@ class TransactionForm
 
         $form->setTitle("§6» §r§l" . $bankName . " §r§6«");
         $form->setContent($content);
-        $form->addButton("§cBack", 1, "textures/blocks/barrier");
-        $form->addButton("§l§cEXIT\n§r§dClick to close...", 1, "textures/ui/cancel");
+        $form->addButton("§6§lBACK\n§r§8Tap to go back", 0, "textures/ui/icon_import");
+        $form->addButton("§c§lEXIT\n§r§8Tap to exit", 0, "textures/ui/cancel");
 
         return $form;
     }

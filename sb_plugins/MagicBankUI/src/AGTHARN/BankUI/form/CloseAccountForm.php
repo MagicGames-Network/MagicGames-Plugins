@@ -28,7 +28,7 @@ class CloseAccountForm
         $form->setTitle("§6» §r§l" . $bankName . " §r§6«");
         $form->setContent("§cAre you sure you want to close your account? This cannot be undone! You will lose all your money in the bank!");
         $form->addButton("§6» §cYes, Close Account §6«\n§8Click To Close Account", 1, "https://cdn-icons-png.flaticon.com/512/3572/3572255.png");
-        $form->addButton("§l§cEXIT\n§r§dClick to close...", 1, "textures/ui/cancel");
+        $form->addButton("§c§lEXIT\n§r§8Tap to exit", 0, "textures/ui/cancel");
 
         return $form;
     }
@@ -53,7 +53,7 @@ class CloseAccountForm
         $form->setTitle("§6» §r§l" . $bankName . " §r§6«");
         $form->setContent("§cyo fr tho why are you closing your account? you sure you wanna do this?");
         $form->addButton("§6» §cobviously i am §6«\n§8(yo we arent going to recover it)", 1, "https://cdn-icons-png.flaticon.com/512/742/742752.png");
-        $form->addButton("§l§cEXIT\n§r§dClick to close...", 1, "textures/ui/cancel");
+        $form->addButton("§c§lEXIT\n§r§8Tap to exit", 0, "textures/ui/cancel");
 
         return $form;
     }
@@ -79,7 +79,7 @@ class CloseAccountForm
         $form->setTitle("§6» §r§l" . $bankName . " §r§6«");
         $form->setContent("§calright fine.... this is the last prompt.");
         $form->addButton("§6» §cyes, i h8 you 2 goodbye §6«\n§8Click To Close Account", 1, "https://cdn-icons-png.flaticon.com/512/260/260222.png");
-        $form->addButton("§l§cEXIT\n§r§dClick to close...", 1, "textures/ui/cancel");
+        $form->addButton("§c§lEXIT\n§r§8Tap to exit", 0, "textures/ui/cancel");
 
         return $form;
     }

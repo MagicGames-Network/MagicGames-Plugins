@@ -43,7 +43,7 @@ class NoteForm
         $form->addButton("§6» §aConvert All §6«\n§8Convert $coinsAtBank", 1, "https://cdn-icons-png.flaticon.com/128/2535/2535077.png");
         $form->addButton("§6» §aConvert Half §6«\n§8Convert " . ($coinsAtBank / 2), 1, "https://cdn-icons-png.flaticon.com/128/2535/2535077.png");
         $form->addButton("§6» §aConvert Custom §6«\n§8Convert Any", 1, "https://cdn-icons-png.flaticon.com/128/2535/2535077.png");
-        $form->addButton("§cBack", 1, "textures/blocks/barrier");
+        $form->addButton("§6§lBACK\n§r§8Tap to go back", 0, "textures/ui/icon_import");
 
         return $form;
     }

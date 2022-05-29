@@ -389,17 +389,8 @@ class Scrambler
         $this->r = str_shuffle(md5($c2 . $s . md5($this->r))); // 32 chars random hex number derived from $s and lot of pepper and salt
 
         $s = $c1;
-        switch ($this->scramble_mode) {
-            case 'numeric':
-                for ($i = 0, $l = $this->scramble_length - 1; $i < $l; ++$i) $s .= $this->t_chars[base_convert(substr($this->r, $i, 2), 16, 10) % ($this->l2 + 1)];
-                break;
-            case 'hexa':
-                for ($i = 0, $l = $this->scramble_length - 1; $i < $l; ++$i) $s .= substr($this->r, $i, 1);
-                break;
-            case 'identifier':
-            default:
-                for ($i = 0, $l = $this->scramble_length - 1; $i < $l; ++$i) $s .= $this->t_chars[base_convert(substr($this->r, 2 * $i, 2), 16, 10) % ($this->l2 + 1)];
-        }
+        for ($i = 0, $l = $this->scramble_length - 1; $i < $l; ++$i) $s .= $this->t_chars[base_convert(substr($this->r, $i, 2), 16, 10) % ($this->l2 + 1)];
+        for ($i = 0, $l = $this->scramble_length - 1; $i < $l; ++$i) $s .= substr($this->r, $i, 1);
         return $s;
     }
 

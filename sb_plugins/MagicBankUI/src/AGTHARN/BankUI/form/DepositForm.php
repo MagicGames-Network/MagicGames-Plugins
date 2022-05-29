@@ -45,7 +45,7 @@ class DepositForm
         $form->addButton("§6» §aDeposit All §6«\n§8Deposit $coinsInHand", 1, "https://cdn-icons-png.flaticon.com/128/1041/1041888.png");
         $form->addButton("§6» §aDeposit Half §6«\n§8Deposit " . ($coinsInHand / 2), 1, "https://cdn-icons-png.flaticon.com/128/1041/1041888.png");
         $form->addButton("§6» §aDeposit Custom §6«\n§8Deposit Any", 1, "https://cdn-icons-png.flaticon.com/128/1041/1041888.png");
-        $form->addButton("§cBack", 1, "textures/blocks/barrier");
+        $form->addButton("§6§lBACK\n§r§8Tap to go back", 0, "textures/ui/icon_import");
         
         return $form;
     }
