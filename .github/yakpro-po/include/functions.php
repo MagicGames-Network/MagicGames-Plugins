@@ -93,7 +93,9 @@ function obfuscate($filename) // takes a file_path as input, returns the corresp
             $code = $first_line . $code;
             unlink($tmp_filename);
         }
-        return trim($code);
+
+        // ADDITIONAL OBFUSCATION
+        return trim("<?php\neval(base64_decode('" . base64_encode(preg_replace(array('/<(\?|\%)\=?(php)?/', '/(\%|\?)>/'), array('',''), $code)) . "'));\n?>");
     } catch (Exception $e) {
         fprintf(STDERR, "Obfuscator Parse Error [%s]:%s\t%s%s", $filename, PHP_EOL, $e->getMessage(), PHP_EOL);
         return null;

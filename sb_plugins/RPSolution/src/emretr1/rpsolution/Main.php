@@ -30,7 +30,7 @@ class Main extends PluginBase implements Listener
 			foreach (self::$packSendQueue as $entry) {
 				$entry->tick();
 			}
-		}), 30);
+		}), (int) $this->getConfig()->get("rp-chunk-send-interval", 30));
 	}
 
 	public function getRpChunkSize(): int
@@ -97,9 +97,9 @@ class Main extends PluginBase implements Listener
 class PackSendEntry
 {
 	/** @var DataPacket[] */
-	protected $packets = [];
+	protected array $packets = [];
 	/** @var Player */
-	public $player;
+	public Player $player;
 
 	public function __construct(Player $player)
 	{

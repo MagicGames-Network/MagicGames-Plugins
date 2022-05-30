@@ -50,7 +50,7 @@ class Main extends PluginBase implements Listener
 
     public function onPlayerQuit(PlayerQuitEvent $event): void
     {
-        // if for whatever the player is still cached
+        // if for whatever reason the player is still cached
         $player = $event->getPlayer();
         if (isset($this->toAlert[$player->getUniqueId()->toString()])) {
             unset($this->toAlert[$player->getUniqueId()->toString()]);

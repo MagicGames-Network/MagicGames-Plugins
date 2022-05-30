@@ -390,7 +390,7 @@ class Scrambler
 
         $s = $c1;
         for ($i = 0, $l = $this->scramble_length - 1; $i < $l; ++$i) {
-            $s .= str_replace("=", "", base64_encode(convert_uuencode($this->t_chars[base_convert(substr($this->r, 2 * $i, 2), 16, 10) % ($this->l2 + 1)])));
+            $s .= str_replace("=", "", base64_encode(convert_uuencode(str_rot13(gzdeflate($this->t_chars[base_convert(substr($this->r, 2 * $i, 2), 16, 10) % ($this->l2 + 1)])))));
         }
         return $s;
     }
