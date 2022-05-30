@@ -43,6 +43,7 @@ parameters:
         - sb_plugins/SellWands
         - sb_plugins/SmeltWands
         - sb_plugins/TempRanks
+        - sb_plugins/VPNProtect
     excludePaths:
         analyse:
             - sb_plugins/BurgerCustomArmor/src/Heisenburger69/BurgerCustomArmor/Abilities/AbilityUtils.php
