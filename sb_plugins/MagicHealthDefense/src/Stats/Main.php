@@ -6,9 +6,8 @@ use pocketmine\utils\Config;
 use Stats\player\MagicPlayer;
 use Stats\task\ActionbarTask;
 use pocketmine\event\Listener;
-use pocketmine\command\Command;
+use Stats\command\PlayerCommand;
 use pocketmine\plugin\PluginBase;
-use pocketmine\command\CommandSender;
 use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\event\player\PlayerQuitEvent;
 use pocketmine\event\entity\EntityDamageEvent;
@@ -27,8 +26,9 @@ class Main extends PluginBase implements Listener
     public function onEnable(): void
     {
         $this->getServer()->getPluginManager()->registerEvents($this, $this);
-        $this->getScheduler()->scheduleRepeatingTask(new ActionbarTask(), 100);
+        $this->getScheduler()->scheduleRepeatingTask(new ActionbarTask(), 30);
         self::$instance = $this;
+        $this->getServer()->getCommandMap()->register("player", new PlayerCommand());
         if (!file_exists($this->getDataFolder() . "data")) {
             mkdir($this->getDataFolder() . "data", 0777);
         }

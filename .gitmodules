@@ -35,3 +35,6 @@
 [submodule ".github/yakpro-po/PHP-Parser"]
 	path = .github/yakpro-po/PHP-Parser
 	url = https://github.com/nikic/PHP-Parser
+[submodule ".github/yakpro-po/bitter-gourd"]
+	path = .github/yakpro-po/bitter-gourd
+	url = https://github.com/76428778FADA/bitter-gourd

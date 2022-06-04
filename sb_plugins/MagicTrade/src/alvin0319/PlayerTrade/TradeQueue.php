@@ -18,7 +18,6 @@ use muqsit\invmenu\transaction\InvMenuTransactionResult;
 
 final class TradeQueue
 {
-
 	public const SENDER_SLOTS = [
 		0, 1, 2, 3, 9, 10, 11, 12, 18, 19, 20, 21, 27, 28, 29, 30, 36, 37, 38, 39, 46, 47, 48
 	];
@@ -35,17 +34,13 @@ final class TradeQueue
 
 	public const RECEIVER_DONE_SLOT = 53;
 
-	/** @var Player */
 	protected Player $sender, $receiver;
-	/** @var InvMenu */
 	protected InvMenu $senderMenu, $receiverMenu;
-	/** @var bool */
+	
 	protected bool $isSenderDone = false, $isReceiverDone = false;
-	/** @var bool */
 	protected bool $isSenderConfirmed = false, $isReceiverConfirmed = false;
-	/** @var bool */
 	protected bool $done = false;
-	/** @var TaskHandler|null */
+
 	protected ?TaskHandler $handler = null;
 
 	public function __construct(Player $sender, Player $receiver)

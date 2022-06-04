@@ -18,7 +18,7 @@ use PhpParser\Node\Scalar\EncapsedStringPart;
 
 class myPrettyprinter extends Standard
 {
-    private function obfuscate_string($str)
+    public function obfuscate_string($str)
     {
         $l = strlen($str);
         $result = '';

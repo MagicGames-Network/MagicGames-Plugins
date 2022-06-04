@@ -1,12 +1,9 @@
 ---
-name: CosmicSpawners
+name: BurgerSpawners
 main: Heisenburger69\BurgerSpawners\Main
 version: 1.0.1
 api: 4.0.0
-authors:
-  - Heisenburger69
-  - cosmicnebula200
-  - AGTHARN
+authors: [Heisenburger69, AGTHARN]
 description: Plugin implementing Every Mob and a Stackable Spawner System for PMMP4 <3
 
 permissions:

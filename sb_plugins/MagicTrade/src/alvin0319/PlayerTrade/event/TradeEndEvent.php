@@ -8,15 +8,10 @@ use pocketmine\player\Player;
 
 final class TradeEndEvent extends TradeEvent
 {
-
 	public const REASON_SUCCESS = 0;
-
 	public const REASON_SENDER_QUIT = 1;
-
 	public const REASON_RECEIVER_QUIT = 2;
-
 	public const REASON_SENDER_CANCEL = 3;
-
 	public const REASON_RECEIVER_CANCEL = 4;
 
 	protected int $reason = self::REASON_SUCCESS;

@@ -48,10 +48,10 @@ class Main extends PluginBase
         self::$instance = $this;
         $this->saveDefaultConfig();
         $this->getServer()->getPluginManager()->registerEvents(new EventListener($this), $this);
-        $this->getServer()->getCommandMap()->register("CosmicSpawners", new SpawnerCommand($this));
-        $this->getServer()->getCommandMap()->register("CosmicSpawners", new SpawnEggCommand($this));
+        $this->getServer()->getCommandMap()->register("BurgerSpawners", new SpawnerCommand($this));
+        $this->getServer()->getCommandMap()->register("BurgerSpawners", new SpawnEggCommand($this));
 
-        TileFactory::getInstance()->register(MobSpawnerTile::class, ['MobSpawner', "CosmicSpawners"]);
+        TileFactory::getInstance()->register(MobSpawnerTile::class, ['MobSpawner', "BurgerSpawners"]);
         $oldSpawner = VanillaBlocks::MONSTER_SPAWNER();
         BlockFactory::getInstance()->register(new SpawnerBlock(new BlockIdentifier($oldSpawner->getId(), 0, ItemIds::MONSTER_SPAWNER, MobSpawnerTile::class), $oldSpawner->getName(), $oldSpawner->getBreakInfo()), true);
 

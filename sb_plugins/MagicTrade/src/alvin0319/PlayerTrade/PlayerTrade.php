@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace alvin0319\PlayerTrade;
 
-use function time;
-use function file_exists;
-use function spl_object_id;
 use pocketmine\player\Player;
 use pocketmine\event\Listener;
 use pocketmine\plugin\PluginBase;
@@ -25,11 +22,10 @@ final class PlayerTrade extends PluginBase implements Listener
 
 	/** @var TradeQueue[] */
 	protected array $queues = [], $player2queue = [];
-	/** @var array */
 	protected array $requests = [];
-	/** @var BaseLang */
+
 	protected BaseLang $lang;
-	/** @var int */
+	
 	protected int $expireTime = 45;
 
 	public function onLoad(): void

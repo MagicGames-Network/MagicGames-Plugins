@@ -1,5 +1,9 @@
 name: MagicHealthDefense
-Autor: Pushkar
+Autor: ["Pushkar", "AGTHARN"]
 main: Stats\Main
 api: 4.0.0
-version: 2
+version: 3.0.0
+
+permissions:
+  player.cmd:
+    default: op

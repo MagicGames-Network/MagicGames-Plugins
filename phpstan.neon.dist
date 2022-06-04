@@ -19,7 +19,7 @@ parameters:
     paths:
         - sb_plugins/BlankFix
         - sb_plugins/BurgerCustomArmor
-        - sb_plugins/CosmicSpawners
+        - sb_plugins/BurgerSpawners
         - sb_plugins/GrapplingHook
         - sb_plugins/MagicBankUI
         - sb_plugins/MagicBookShop

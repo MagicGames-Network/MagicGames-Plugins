@@ -126,10 +126,9 @@ class Config
         $this->comment .= " *    See the License for the specific language governing permissions and" . PHP_EOL;
         $this->comment .= " *    limitations under the License." . PHP_EOL;
         $this->comment .= " * " . PHP_EOL;
-        $this->comment .= " * " . PHP_EOL;
-        $this->comment .= " * This is a project from MagicGames. Obfuscated with YAK Pro with multiple modifications." . PHP_EOL;
-        $this->comment .= " * Other projects by MagicGames can be found on our GitHub organisation." . PHP_EOL;
-        $this->comment .= " * No support will be provided." . PHP_EOL;
+        $this->comment .= " * This is a project of MagicGames. Obfuscation done by MagicObfuscator." . PHP_EOL;
+        $this->comment .= " * Other projects by MagicGames can be found on our GitHub organization." . PHP_EOL;
+        $this->comment .= " * Be careful when using this. No warranty is provided." . PHP_EOL;
         $this->comment .= " * " . PHP_EOL;
         $this->comment .= " * GitHub: https://github.com/MagicGames-Network" . PHP_EOL;
         $this->comment .= " * Discord: https://discord.gg/32xh5mqe7F" . PHP_EOL;

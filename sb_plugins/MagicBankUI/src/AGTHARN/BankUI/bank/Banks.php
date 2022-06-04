@@ -9,7 +9,7 @@ final class Banks
     public const TRANSACTION_TYPE_TRANSFER = "TRANSFER";
     public const TRANSACTION_TYPE_CONVERT = "CONVERT";
 
-    public const MONEY_LIMIT = 5000000000.00;
+    public const MONEY_LIMIT = 90000000000.00;
 
     /** NOTE: I WILL NOT USE BANK NAME AS THE KEY FOR A REASON! */
     public const BANKS = [
@@ -49,7 +49,7 @@ final class Banks
         [
             "name" => "AGTHARN Inc.",
             "description" => "No fees, no taxes, no problems! ",
-            "logo" => "https://cdn-icons-png.flaticon.com/128/584/584011.png",
+            "logo" => "https://cdn-icons-png.flaticon.com/512/4334/4334638.png",
             "approvalSeconds" => 30 * 60,
             "interestRate" => 0.001,
             "depositTax" => 0,

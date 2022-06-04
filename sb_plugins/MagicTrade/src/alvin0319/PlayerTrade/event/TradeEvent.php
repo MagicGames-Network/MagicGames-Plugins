@@ -9,10 +9,7 @@ use pocketmine\player\Player;
 
 abstract class TradeEvent extends Event
 {
-
-	protected Player $sender;
-
-	protected Player $receiver;
+	protected Player $sender, $receiver;
 
 	public function __construct(Player $sender, Player $receiver)
 	{

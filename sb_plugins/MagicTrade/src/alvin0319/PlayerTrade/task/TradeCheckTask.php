@@ -9,7 +9,6 @@ use alvin0319\PlayerTrade\PlayerTrade;
 
 final class TradeCheckTask extends Task
 {
-
 	public function onRun(): void
 	{
 		PlayerTrade::getInstance()->checkRequests();

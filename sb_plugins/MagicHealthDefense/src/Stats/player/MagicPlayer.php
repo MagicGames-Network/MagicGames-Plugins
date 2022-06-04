@@ -2,11 +2,7 @@
 
 namespace Stats\player;
 
-use pocketmine\Server;
-use pocketmine\world\World;
 use pocketmine\player\Player;
-use pocketmine\event\player\PlayerDeathEvent;
-use pocketmine\network\mcpe\protocol\RespawnPacket;
 use pocketmine\event\entity\EntityRegainHealthEvent;
 
 class MagicPlayer extends Player

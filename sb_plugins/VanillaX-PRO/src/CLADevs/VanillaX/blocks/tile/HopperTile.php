@@ -6,6 +6,7 @@ use pocketmine\block\Block;
 use pocketmine\world\World;
 use pocketmine\item\ItemIds;
 use pocketmine\math\Vector3;
+use pocketmine\block\tile\Tile;
 use pocketmine\block\tile\Chest;
 use pocketmine\block\tile\Furnace;
 use pocketmine\nbt\tag\CompoundTag;
@@ -52,8 +53,12 @@ class HopperTile extends Spawnable implements Container
         $block = $this->getFacingBlock();
 
         if (in_array($block->getId(), [BlockLegacyIds::HOPPER_BLOCK, BlockLegacyIds::FURNACE, BlockLegacyIds::BREWING_STAND_BLOCK, BlockLegacyIds::CHEST])) {
-            /** @var HopperTile|Furnace|BrewingStandTile|Chest $tile */
             $tile = $this->getPosition()->getWorld()->getTile($block->getPosition());
+            if (!$tile instanceof Tile) {
+                return;
+            }
+
+            /** @var HopperTile|Furnace|BrewingStandTile|Chest $tile */
             $inventory = $tile->getInventory();
 
             if ($tile instanceof HopperTile && $tile->getFacingBlock()->getPosition()->equals($this->getPosition())) {

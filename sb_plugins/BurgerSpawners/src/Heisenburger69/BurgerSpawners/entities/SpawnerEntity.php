@@ -58,12 +58,12 @@ class SpawnerEntity extends Living
 
     public static function getNetworkTypeId(): string
     {
-        return "cosmicspawner:default";
+        return "burgerspawners:default";
     }
 
     public function getName(): string
     {
-        return "CosmicMob";
+        return "BurgerMob";
     }
 
     public function canBeMovedByCurrents(): bool
